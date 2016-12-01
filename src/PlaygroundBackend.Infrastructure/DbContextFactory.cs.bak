@@ -1,0 +1,28 @@
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace PlaygroundBackend.Infrastructure
+{
+    public class DbContextFactory : IDbContextFactory<PlaygroundContext>
+    {
+        private IHostingEnvironment env;
+
+        public DbContextFactory(IHostingEnvironment env)
+        {
+            this.env = env;
+        }
+
+        public PlaygroundContext Create(DbContextFactoryOptions options)
+        {
+            var builder = new DbContextOptionsBuilder<PlaygroundContext>();
+            builder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+
+            return new PlaygroundContext(builder.Options);
+        }
+    }
+}
