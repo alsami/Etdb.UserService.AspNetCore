@@ -11,6 +11,9 @@ using PlaygroundBackend.Model;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using PlaygroundBackend.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using PlaygroundBackend.Infrastructure.Abstractions;
 
 namespace PlaygroundBackend.API
 {
@@ -32,19 +35,35 @@ namespace PlaygroundBackend.API
 
         public IConfigurationRoot Configuration { get; }
 
+        public IContainer ApplicationContainer { get; set; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            // add entityframework and register the context
+            // based on the environment we'll use different database connections
             services.AddEntityFramework()
                 .AddDbContext<PlaygroundContext>(options =>
                 {
-                    Console.WriteLine(this.env.IsDevelopment().ToString(), this);
                     if (this.env.IsDevelopment())
                         options.UseSqlServer(this.Configuration.GetConnectionString("Development"));
                     else
                         options.UseSqlServer(this.Configuration.GetConnectionString("Production"));
                 });
             services.AddMvc();
+
+            // build the application container for dependencies
+            var builder = new ContainerBuilder();
+
+            // register the DataRepository as generic
+            // everytime an datarepository is called it will automatically be created with the necessary type
+            // for instance IDataRepository<T> where T is of Type IPersistedData
+            builder.RegisterGeneric(typeof(DataRepository<>))
+                .As(typeof(IDataRepository<>))
+                .InstancePerRequest();
+            this.ApplicationContainer = builder.Build();
+
+            return new AutofacServiceProvider(this.ApplicationContainer);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

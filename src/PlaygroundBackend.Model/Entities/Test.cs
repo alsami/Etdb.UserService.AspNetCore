@@ -9,5 +9,7 @@ namespace PlaygroundBackend.Model.Entities
     public class Test : IPersistedData
     {
         public int Id { get; set; }
+
+        public string Name { get; set; }
     }
 }
