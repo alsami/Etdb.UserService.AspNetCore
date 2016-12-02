@@ -11,9 +11,11 @@ namespace PlaygroundBackend.API.Controllers
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        private IDataRepository<Test> dataRepository;
+
         public ValuesController(IDataRepository<Test> dataRepository)
         {
-                
+            this.dataRepository = dataRepository;
         }
 
 
