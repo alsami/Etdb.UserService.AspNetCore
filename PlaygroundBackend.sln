@@ -16,6 +16,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PlaygroundBackend.Infrastru
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PlaygroundBackend.Model", "src\PlaygroundBackend.Model\PlaygroundBackend.Model.xproj", "{5EC2EA54-E16E-43F2-BAEA-2C5227EE13A2}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "PlaygroundBackend.Persistency", "src\PlaygroundBackend.Persistency\PlaygroundBackend.Persistency.xproj", "{C333A675-D740-4611-BB50-834D0AEEDC86}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,6 +36,10 @@ Global
 		{5EC2EA54-E16E-43F2-BAEA-2C5227EE13A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EC2EA54-E16E-43F2-BAEA-2C5227EE13A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EC2EA54-E16E-43F2-BAEA-2C5227EE13A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C333A675-D740-4611-BB50-834D0AEEDC86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C333A675-D740-4611-BB50-834D0AEEDC86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C333A675-D740-4611-BB50-834D0AEEDC86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C333A675-D740-4611-BB50-834D0AEEDC86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,5 +48,6 @@ Global
 		{CF891880-643A-4B2E-9891-1B194F58E0C8} = {F7D7D1F2-7337-4EED-B5DC-1248564E32C9}
 		{949E417F-F6C7-41CB-A6B2-E35BB7587EF3} = {F7D7D1F2-7337-4EED-B5DC-1248564E32C9}
 		{5EC2EA54-E16E-43F2-BAEA-2C5227EE13A2} = {F7D7D1F2-7337-4EED-B5DC-1248564E32C9}
+		{C333A675-D740-4611-BB50-834D0AEEDC86} = {F7D7D1F2-7337-4EED-B5DC-1248564E32C9}
 	EndGlobalSection
 EndGlobal

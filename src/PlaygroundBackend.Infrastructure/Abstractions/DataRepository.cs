@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using PlaygroundBackend.Infrastructure;
+using PlaygroundBackend.Persistency;
 
 namespace PlaygroundBackend.Infrastructure.Abstractions
 {
     public class DataRepository<T> : IDataRepository<T> where T: class, IPersistedData, new()
     {
-        private PlaygroundContext context;
+        private readonly PlaygroundContext context;
 
         public DataRepository(PlaygroundContext context)
         {
@@ -53,8 +53,7 @@ namespace PlaygroundBackend.Infrastructure.Abstractions
         {
             return this.context
                 .Set<T>()
-                .Where(data => data.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefault(data => data.Id == id);
         }
 
         public T Get(Expression<Func<T, bool>> predicate)

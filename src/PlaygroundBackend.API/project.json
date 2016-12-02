@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "Autofac.Extensions.DependencyInjection": "4.0.0",
+    "Microsoft.AspNetCore.Diagnostics": "1.0.0",
+    "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "1.0.0",
     "Microsoft.AspNetCore.Mvc": "1.1.0",
     "Microsoft.AspNetCore.Routing": "1.1.0",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
@@ -17,7 +19,8 @@
       "type": "platform",
       "version": "1.1.0"
     },
-    "PlaygroundBackend.Infrastructure": "1.0.0-*"
+    "PlaygroundBackend.Infrastructure": "1.0.0-*",
+    "PlaygroundBackend.Persistency": "1.0.0-*"
   },
   "tools": {
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": {
