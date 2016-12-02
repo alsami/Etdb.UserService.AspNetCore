@@ -10,6 +10,10 @@ namespace PlaygroundBackend.Infrastructure
 {
     public class PlaygroundContext : DbContext
     {
+        public PlaygroundContext()
+        {
+
+        }
 
         public PlaygroundContext(DbContextOptions<PlaygroundContext> options) : base(options){}
 

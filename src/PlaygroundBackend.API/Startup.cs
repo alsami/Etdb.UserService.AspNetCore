@@ -43,6 +43,7 @@ namespace PlaygroundBackend.API
             // add entityframework and register the context
             // based on the environment we'll use different database connections
             services.AddEntityFramework()
+                .AddEntityFrameworkSqlServer()
                 .AddDbContext<PlaygroundContext>(options =>
                 {
                     if (this.env.IsDevelopment())
