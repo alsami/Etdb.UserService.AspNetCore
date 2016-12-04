@@ -70,10 +70,7 @@ namespace PlaygroundBackend.Infrastructure.Abstractions
                 .Set<T>()
                 .AsQueryable();
 
-            foreach (var include in includes)
-            {
-                query = query.Include(include);
-            }
+            query = includes.Aggregate(query, (current, include) => current.Include(include));
 
             return query
                 .Where(predicate)
@@ -86,14 +83,10 @@ namespace PlaygroundBackend.Infrastructure.Abstractions
                 .Set<T>()
                 .AsQueryable();
 
-            foreach (var include in includes)
-            {
-                query = query.Include(include);
-            }
+            query = includes.Aggregate(query, (current, include) => current.Include(include));
 
             return query
-                .Where(data => data.Id == id)
-                .FirstOrDefault();
+                .FirstOrDefault(data => data.Id == id);
         }
 
         public IEnumerable<T> GetAll()
@@ -109,10 +102,7 @@ namespace PlaygroundBackend.Infrastructure.Abstractions
                 .Set<T>()
                 .AsQueryable();
 
-            foreach (var include in includes)
-            {
-                query.Include(include);
-            }
+            query = includes.Aggregate(query, (current, include) => current.Include(include));
 
             return query.AsEnumerable();
         }
