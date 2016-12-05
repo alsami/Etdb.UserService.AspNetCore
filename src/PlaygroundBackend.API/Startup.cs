@@ -85,21 +85,22 @@ namespace PlaygroundBackend.API
             // register the assemblies of type Profile
             // this will register all available mapping profiles
             // TODO: make this work
-            builder.RegisterAssemblyTypes()
+            builder.RegisterAssemblyTypes(Assembly.Load(new AssemblyName("PlaygroundBackend.Model")))
+                .AssignableTo(typeof(Profile))
                 .AsClosedTypesOf(typeof(Profile))
-                .As<IEnumerable<Profile>>();
+                .InstancePerLifetimeScope();
 
             // create the mapping config and register it as single instance
             builder.Register(ctx => new MapperConfiguration(config =>
                 {
-                    //foreach (var profile in ctx.Resolve<IEnumerable<Profile>>())
-                    //{
-                    //    config.AddProfile(profile);
-                    //}
+                    foreach (var profile in ctx.Resolve<IEnumerable<Profile>>())
+                    {
+                        config.AddProfile(profile);
+                    }
 
                     // workaround for now
-                    config.AddProfile(typeof(DomainToViewModelMapping));
-                    config.AddProfile(typeof(ViewModelToDomainMapping));
+                    //config.AddProfile(typeof(DomainToViewModelMapping));
+                    //config.AddProfile(typeof(ViewModelToDomainMapping));
                 }))
                 .AsSelf()
                 .SingleInstance();
