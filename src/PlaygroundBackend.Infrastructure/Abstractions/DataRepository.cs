@@ -19,25 +19,25 @@ namespace PlaygroundBackend.Infrastructure.Abstractions
             this.context = context;
         }
 
-        public void Add(T data)
+        public virtual void Add(T data)
         {
             EntityEntry entry = this.context.Entry(data);
             this.context.Set<T>().Add(data);
         }
 
-        public void Delete(T data)
+        public virtual void Delete(T data)
         {
             EntityEntry entry = this.context.Entry(data);
             entry.State = EntityState.Deleted;
         }
 
-        public void Edit(T data)
+        public virtual void Edit(T data)
         {
             EntityEntry entry = this.context.Entry(data);
             entry.State = EntityState.Modified;
         }
 
-        public void EnsureChanges()
+        public virtual void EnsureChanges()
         {
             try
             {
@@ -49,14 +49,14 @@ namespace PlaygroundBackend.Infrastructure.Abstractions
             }
         }
 
-        public T Get(int id)
+        public virtual T Get(int id)
         {
             return this.context
                 .Set<T>()
                 .FirstOrDefault(data => data.Id == id);
         }
 
-        public T Get(Expression<Func<T, bool>> predicate)
+        public virtual T Get(Expression<Func<T, bool>> predicate)
         {
             return this.context
                 .Set<T>()
@@ -64,7 +64,21 @@ namespace PlaygroundBackend.Infrastructure.Abstractions
                 .FirstOrDefault();
         }
 
-        public T GetIncluding(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+        public virtual T GetIncluding(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+        {
+            var query = this.context
+                .Set<T>()
+                .AsQueryable();
+
+            query = includes
+                .Aggregate(query, (current, include) => current.Include(include));
+
+            return query
+                .Where(predicate)
+                .FirstOrDefault();
+        }
+
+        public virtual T GetIncluding(int id, params Expression<Func<T, object>>[] includes)
         {
             var query = this.context
                 .Set<T>()
@@ -73,30 +87,17 @@ namespace PlaygroundBackend.Infrastructure.Abstractions
             query = includes.Aggregate(query, (current, include) => current.Include(include));
 
             return query
-                .Where(predicate)
-                .FirstOrDefault();
-        }
-
-        public T GetIncluding(int id, params Expression<Func<T, object>>[] includes)
-        {
-            var query = this.context
-                .Set<T>()
-                .AsQueryable();
-
-            query = includes.Aggregate(query, (current, include) => current.Include(include));
-
-            return query
                 .FirstOrDefault(data => data.Id == id);
         }
 
-        public IEnumerable<T> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
             return this.context
                 .Set<T>()
                 .AsEnumerable();
         }
 
-        public IEnumerable<T> GetAllIncluding(params Expression<Func<T, object>>[] includes)
+        public virtual IEnumerable<T> GetAllIncluding(params Expression<Func<T, object>>[] includes)
         {
             var query = this.context
                 .Set<T>()
@@ -107,7 +108,7 @@ namespace PlaygroundBackend.Infrastructure.Abstractions
             return query.AsEnumerable();
         }
 
-        public IQueryable<T> GetQueryable()
+        public virtual IQueryable<T> GetQueryable()
         {
             return this.context
                 .Set<T>()

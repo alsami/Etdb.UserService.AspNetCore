@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using PlaygroundBackend.Model.Abstractions;
 
-namespace PlaygroundBackend.Model.Entities
+namespace PlaygroundBackend.Model.ViewModels
 {
-    public class TodoItem : IPersistedData
+    public class TodoItemViewModel : IViewModel
     {
         public int Id { get; set; }
 
@@ -15,10 +18,10 @@ namespace PlaygroundBackend.Model.Entities
 
         public int TodoListId { get; set; }
 
-        public TodoList TodoList  { get; set; }
+        public TodoListViewModel TodoList { get; set; }
 
         public int TodoPriorityId { get; set; }
 
-        public TodoPriority TodoPriority { get; set; }
+        public TodoPriorityViewModel TodoPriority { get; set; }
     }
 }

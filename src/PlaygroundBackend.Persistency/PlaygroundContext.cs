@@ -24,9 +24,11 @@ namespace PlaygroundBackend.Persistency
             //this.Configuration = configurationBuilder.Build();
         }
 
-        public IConfigurationRoot Configuration { get; }
+        // public IConfigurationRoot Configuration { get; }
 
-        public DbSet<Test> Tests { get; set; }
+        public DbSet<TodoList> TodoLists { get; set; }
+        public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<TodoPriority> TodoPriorities { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -41,6 +43,23 @@ namespace PlaygroundBackend.Persistency
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<TodoList>()
+                .HasMany(tdl => tdl.TodoItems)
+                .WithOne(tdi => tdi.TodoList)
+                .HasForeignKey(tdi => tdi.TodoListId);
+
+            modelBuilder.Entity<TodoItem>()
+                .HasOne(tdi => tdi.TodoPriority)
+                .WithMany();
+            modelBuilder.Entity<TodoItem>()
+                .HasIndex(tdi => new { tdi.Task, tdi.TodoPriorityId })
+                .IsUnique();
+
+            modelBuilder.Entity<TodoPriority>()
+                .HasIndex(tdp => tdp.Designation)
+                .IsUnique();
+
             
             // supress cascade delete
             foreach (var relation in modelBuilder.Model.GetEntityTypes().SelectMany(entity => entity.GetForeignKeys()))

@@ -8,9 +8,10 @@ using PlaygroundBackend.Persistency;
 namespace PlaygroundBackend.Persistency.Migrations
 {
     [DbContext(typeof(PlaygroundContext))]
-    partial class PlaygroundContextModelSnapshot : ModelSnapshot
+    [Migration("20161207153506_AddUniqueIndexes")]
+    partial class AddUniqueIndexes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")

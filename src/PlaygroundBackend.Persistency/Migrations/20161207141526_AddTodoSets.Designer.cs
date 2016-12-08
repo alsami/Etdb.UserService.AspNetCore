@@ -8,9 +8,10 @@ using PlaygroundBackend.Persistency;
 namespace PlaygroundBackend.Persistency.Migrations
 {
     [DbContext(typeof(PlaygroundContext))]
-    partial class PlaygroundContextModelSnapshot : ModelSnapshot
+    [Migration("20161207141526_AddTodoSets")]
+    partial class AddTodoSets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -37,9 +38,6 @@ namespace PlaygroundBackend.Persistency.Migrations
 
                     b.HasIndex("TodoPriorityId");
 
-                    b.HasIndex("Task", "TodoPriorityId")
-                        .IsUnique();
-
                     b.ToTable("TodoItems");
                 });
 
@@ -65,9 +63,6 @@ namespace PlaygroundBackend.Persistency.Migrations
                     b.Property<short>("Prio");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Designation")
-                        .IsUnique();
 
                     b.ToTable("TodoPriorities");
                 });

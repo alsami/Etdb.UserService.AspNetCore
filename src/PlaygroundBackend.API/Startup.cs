@@ -21,7 +21,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Cors;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using PlaygroundBackend.Infrastructure.Abstractions;
-using PlaygroundBackend.Model.Mapping;
+using PlaygroundBackend.Model.Mappings;
+using PlaygroundBackend.Model.Modules;
 using PlaygroundBackend.Persistency;
 
 namespace PlaygroundBackend.API
@@ -87,30 +88,35 @@ namespace PlaygroundBackend.API
             // TODO: make this work
             builder.RegisterAssemblyTypes(Assembly.Load(new AssemblyName("PlaygroundBackend.Model")))
                 .AssignableTo(typeof(Profile))
-                .AsClosedTypesOf(typeof(Profile))
+                .As<Profile>()
                 .InstancePerLifetimeScope();
 
             // create the mapping config and register it as single instance
-            builder.Register(ctx => new MapperConfiguration(config =>
+            builder.Register(componentContext => new MapperConfiguration(config =>
                 {
-                    foreach (var profile in ctx.Resolve<IEnumerable<Profile>>())
+                    if (componentContext.Resolve<IEnumerable<Profile>>().ToList().Count > 0)
                     {
-                        config.AddProfile(profile);
+                        foreach (var profile in componentContext.Resolve<IEnumerable<Profile>>())
+                        {
+                            config.AddProfile(profile);
+                        }
                     }
-
-                    // workaround for now
-                    //config.AddProfile(typeof(DomainToViewModelMapping));
-                    //config.AddProfile(typeof(ViewModelToDomainMapping));
+                    else
+                    {
+                        // workaround for now
+                        config.AddProfile(typeof(DomainToViewModelMapping));
+                        config.AddProfile(typeof(ViewModelToDomainMapping));
+                    }
                 }))
                 .AsSelf()
                 .SingleInstance();
 
-            // resolve the created mapper configuration
+            // resolve the created mapper configuration once for the life time of the instance
             builder.Register(ctx => ctx.Resolve<MapperConfiguration>()
                 .CreateMapper(ctx.Resolve))
                 .As<IMapper>()
                 .InstancePerLifetimeScope();
-            
+
 
             // register the DataRepository as generic
             // everytime an datarepository is called it will automatically be created with the necessary type
@@ -123,6 +129,8 @@ namespace PlaygroundBackend.API
                     (pi, ctx) => pi.ParameterType == typeof(DbContext),
                     (pi, ctx) => ctx.Resolve<PlaygroundContext>()))
                 .InstancePerLifetimeScope();
+
+            //builder.RegisterModule(new AutoMapperModule());
 
             // populate the service and build the ApplicationContainer
             builder.Populate(services);

@@ -3,7 +3,8 @@
 
   "dependencies": {
     "NETStandard.Library": "1.6.1",
-    "AutoMapper": "5.2.0"
+    "AutoMapper": "5.2.0",
+    "Autofac": "4.2.1"
   },
 
   "frameworks": {
