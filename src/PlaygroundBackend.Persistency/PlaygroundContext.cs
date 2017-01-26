@@ -33,15 +33,9 @@ namespace PlaygroundBackend.Persistency
         {
             base.OnConfiguring(optionsBuilder);
 
-            if (this.environment.IsDevelopment())
-            {
-                optionsBuilder.UseSqlServer(this.configurationRoot.GetConnectionString(PlaygroundContext.Development));
-            }
-            else
-            {
-                optionsBuilder.UseSqlServer(this.configurationRoot.GetConnectionString(PlaygroundContext.Production));
-            }
-
+            optionsBuilder.UseSqlServer(this.environment.IsDevelopment()
+                ? this.configurationRoot.GetConnectionString(PlaygroundContext.Development)
+                : this.configurationRoot.GetConnectionString(PlaygroundContext.Production));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
