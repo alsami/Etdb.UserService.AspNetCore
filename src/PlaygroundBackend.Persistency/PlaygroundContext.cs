@@ -43,26 +43,29 @@ namespace PlaygroundBackend.Persistency
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<TodoList>()
-                .HasIndex(tdl => tdl.Designation)
+                .HasIndex(todoList => todoList.Designation)
                 .IsUnique();
             modelBuilder.Entity<TodoList>()
-                .HasMany(tdl => tdl.TodoItems)
-                .WithOne(tdi => tdi.TodoList)
+                .HasMany(todoList => todoList.TodoItems)
+                .WithOne(todoList => todoList.TodoList)
                 .HasForeignKey(tdi => tdi.TodoListId);
 
             modelBuilder.Entity<TodoItem>()
-                .HasOne(tdi => tdi.TodoPriority)
+                .HasOne(todoItem => todoItem.TodoPriority)
                 .WithMany();
             modelBuilder.Entity<TodoItem>()
-                .HasIndex(tdi => new { tdi.Task, tdi.TodoPriorityId })
+                .HasIndex(todoItem => new {
+                    todoItem.Task,
+                    todoItem.TodoPriorityId
+                })
                 .IsUnique();
 
             modelBuilder.Entity<TodoPriority>()
-                .HasIndex(tdp => tdp.Designation)
+                .HasIndex(todoPriority => todoPriority.Designation)
                 .IsUnique();
 
 
-            // supress cascade delete
+            // supress cascade delete for all tables
             foreach (var relation in modelBuilder.Model.GetEntityTypes().SelectMany(entity => entity.GetForeignKeys()))
             {
                 relation.DeleteBehavior = DeleteBehavior.Restrict;
