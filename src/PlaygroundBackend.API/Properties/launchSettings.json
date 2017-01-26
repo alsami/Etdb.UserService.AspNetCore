@@ -10,8 +10,6 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "api/tests",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

@@ -14,17 +14,16 @@ namespace PlaygroundBackend.Persistency
 {
     public class PlaygroundContext : DbContext
     {
+        private readonly IConfigurationRoot configurationRoot;
+        private readonly IHostingEnvironment environment;
+        private const string Production = "Production";
+        private const string Development = "Development";
 
-        public PlaygroundContext()
+        public PlaygroundContext(IConfigurationRoot configurationRoot, IHostingEnvironment environment)
         {
-            //var configurationBuilder = new ConfigurationBuilder()
-            //    .SetBasePath(Assembly.)
-            //    .AddJsonFile("settings.json");
-
-            //this.Configuration = configurationBuilder.Build();
+            this.configurationRoot = configurationRoot;
+            this.environment = environment;
         }
-
-        // public IConfigurationRoot Configuration { get; }
 
         public DbSet<TodoList> TodoLists { get; set; }
         public DbSet<TodoItem> TodoItems { get; set; }
@@ -34,16 +33,24 @@ namespace PlaygroundBackend.Persistency
         {
             base.OnConfiguring(optionsBuilder);
 
-            // optionsBuilder.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
-            // temporary workaround since options for constructor aren't available yet
-            optionsBuilder.UseSqlServer(
-                "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=PlaygroundBackend;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            if (this.environment.IsDevelopment())
+            {
+                optionsBuilder.UseSqlServer(this.configurationRoot.GetConnectionString(PlaygroundContext.Development));
+            }
+            else
+            {
+                optionsBuilder.UseSqlServer(this.configurationRoot.GetConnectionString(PlaygroundContext.Production));
+            }
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<TodoList>()
+                .HasIndex(tdl => tdl.Designation)
+                .IsUnique();
             modelBuilder.Entity<TodoList>()
                 .HasMany(tdl => tdl.TodoItems)
                 .WithOne(tdi => tdi.TodoList)
@@ -60,7 +67,7 @@ namespace PlaygroundBackend.Persistency
                 .HasIndex(tdp => tdp.Designation)
                 .IsUnique();
 
-            
+
             // supress cascade delete
             foreach (var relation in modelBuilder.Model.GetEntityTypes().SelectMany(entity => entity.GetForeignKeys()))
             {

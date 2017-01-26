@@ -21,7 +21,8 @@
       "version": "1.1.0"
     },
     "PlaygroundBackend.Infrastructure": "1.0.0-*",
-    "PlaygroundBackend.Persistency": "1.0.0-*"
+    "PlaygroundBackend.Persistency": "1.0.0-*",
+    "Microsoft.VisualStudio.Web.CodeGeneration.Utils": "1.0.0-preview2-final"
   },
   "tools": {
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": {
