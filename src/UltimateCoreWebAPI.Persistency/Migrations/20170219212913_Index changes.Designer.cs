@@ -7,9 +7,9 @@ using UltimateCoreWebAPI.Persistency;
 
 namespace UltimateCoreWebAPI.Persistency.Migrations
 {
-    [DbContext(typeof(PlaygroundContext))]
-    [Migration("20170117093424_UniqueIndex_For_TodoList_Designation")]
-    partial class UniqueIndex_For_TodoList_Designation
+    [DbContext(typeof(CoreWebAPIContext))]
+    [Migration("20170219212913_Index changes")]
+    partial class Indexchanges
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -17,10 +17,11 @@ namespace UltimateCoreWebAPI.Persistency.Migrations
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("PlaygroundBackend.Model.Entities.TodoItem", b =>
+            modelBuilder.Entity("UltimateCoreWebAPI.Model.Entities.Todo", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:DefaultValueSql", "newid()");
 
                     b.Property<DateTime?>("CompletedAt");
 
@@ -28,26 +29,25 @@ namespace UltimateCoreWebAPI.Persistency.Migrations
 
                     b.Property<string>("Task");
 
-                    b.Property<int>("TodoListId");
+                    b.Property<Guid>("TodoListId");
 
-                    b.Property<int>("TodoPriorityId");
+                    b.Property<Guid>("TodoPriorityId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TodoListId");
-
                     b.HasIndex("TodoPriorityId");
 
-                    b.HasIndex("Task", "TodoPriorityId")
+                    b.HasIndex("TodoListId", "Task")
                         .IsUnique();
 
-                    b.ToTable("TodoItems");
+                    b.ToTable("Todos");
                 });
 
-            modelBuilder.Entity("PlaygroundBackend.Model.Entities.TodoList", b =>
+            modelBuilder.Entity("UltimateCoreWebAPI.Model.Entities.TodoList", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:DefaultValueSql", "newid()");
 
                     b.Property<string>("Designation");
 
@@ -59,10 +59,11 @@ namespace UltimateCoreWebAPI.Persistency.Migrations
                     b.ToTable("TodoLists");
                 });
 
-            modelBuilder.Entity("PlaygroundBackend.Model.Entities.TodoPriority", b =>
+            modelBuilder.Entity("UltimateCoreWebAPI.Model.Entities.TodoPriority", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:DefaultValueSql", "newid()");
 
                     b.Property<string>("Designation");
 
@@ -76,13 +77,13 @@ namespace UltimateCoreWebAPI.Persistency.Migrations
                     b.ToTable("TodoPriorities");
                 });
 
-            modelBuilder.Entity("PlaygroundBackend.Model.Entities.TodoItem", b =>
+            modelBuilder.Entity("UltimateCoreWebAPI.Model.Entities.Todo", b =>
                 {
-                    b.HasOne("PlaygroundBackend.Model.Entities.TodoList", "TodoList")
+                    b.HasOne("UltimateCoreWebAPI.Model.Entities.TodoList", "TodoList")
                         .WithMany("TodoItems")
                         .HasForeignKey("TodoListId");
 
-                    b.HasOne("PlaygroundBackend.Model.Entities.TodoPriority", "TodoPriority")
+                    b.HasOne("UltimateCoreWebAPI.Model.Entities.TodoPriority", "TodoPriority")
                         .WithMany()
                         .HasForeignKey("TodoPriorityId");
                 });

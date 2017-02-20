@@ -10,13 +10,14 @@ namespace UltimateCoreWebAPI.Model.ViewModels
     {
         public TodoListViewModel()
         {
-            this.TodoItems = new List<TodoItemViewModel>();
+            this.Todos = new List<TodoViewModel>();
         }
 
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Designation { get; set; }
 
-        public virtual ICollection<TodoItemViewModel> TodoItems { get; private set; }
+        public virtual ICollection<TodoViewModel> Todos { get; private set; }
+
     }
 }

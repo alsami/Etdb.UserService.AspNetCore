@@ -10,46 +10,40 @@ using UltimateCoreWebAPI.Persistency;
 
 namespace UltimateCoreWebAPI.Infrastructure.Abstractions
 {
-    public class DataRepository<T> : IDataRepository<T> where T: class, IPersistedData, new()
+    public class EntityRepository<T> : IEntityRepository<T> where T: class, IEntity, new()
     {
-        private readonly PlaygroundContext context;
+        private readonly CoreWebAPIContext context;
 
-        public DataRepository(PlaygroundContext context)
+        public EntityRepository(CoreWebAPIContext context)
         {
             this.context = context;
         }
 
-        public virtual void Add(T data)
+        public virtual void Add(T entity)
         {
-            EntityEntry entry = this.context.Entry(data);
-            this.context.Set<T>().Add(data);
+            EntityEntry entry = this.context.Entry(entity);
+            this.context.Set<T>().Add(entity);
         }
 
-        public virtual void Delete(T data)
+        public virtual void Delete(T entity)
         {
-            EntityEntry entry = this.context.Entry(data);
+            EntityEntry entry = this.context.Entry(entity);
             entry.State = EntityState.Deleted;
         }
 
-        public virtual void Edit(T data)
+        public virtual void Edit(T entity)
         {
-            EntityEntry entry = this.context.Entry(data);
+            EntityEntry entry = this.context.Entry(entity);
             entry.State = EntityState.Modified;
         }
 
         public virtual void EnsureChanges()
         {
-            try
-            {
-                this.context.SaveChanges();
-            }
-            catch (DbUpdateException)
-            {
-                throw;
-            }
+            this.context.SaveChanges();
         }
 
-        public virtual T Get(int id)
+
+        public virtual T Get(Guid id)
         {
             return this.context
                 .Set<T>()
@@ -78,7 +72,7 @@ namespace UltimateCoreWebAPI.Infrastructure.Abstractions
                 .FirstOrDefault();
         }
 
-        public virtual T GetIncluding(int id, params Expression<Func<T, object>>[] includes)
+        public virtual T GetIncluding(Guid id, params Expression<Func<T, object>>[] includes)
         {
             var query = this.context
                 .Set<T>()
@@ -108,11 +102,35 @@ namespace UltimateCoreWebAPI.Infrastructure.Abstractions
             return query.AsEnumerable();
         }
 
+        public IEnumerable<T> GetAllIncluding(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+        {
+            var query = this.context
+                .Set<T>()
+                .AsQueryable();
+
+            query = includes.Aggregate(query, (current, include) => current.Include(include));
+
+            return query
+                .Where(predicate)
+                .AsEnumerable();
+        }
+
         public virtual IQueryable<T> GetQueryable()
         {
             return this.context
                 .Set<T>()
                 .AsQueryable();
+        }
+
+        private IQueryable<T> BuildQueryWithIncludes(params Expression<Func<T, object>>[] includes)
+        {
+            var query = this.context
+                .Set<T>()
+                .AsQueryable();
+
+            query = includes.Aggregate(query, (current, include) => current.Include(include));
+
+            return includes.Aggregate(query, (current, include) => current.Include(include));
         }
     }
 }

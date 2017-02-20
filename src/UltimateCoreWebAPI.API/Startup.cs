@@ -78,7 +78,7 @@ namespace UltimateCoreWebAPI.API
             // based on the environment we'll use different database connections
             services.AddEntityFramework()
                 .AddEntityFrameworkSqlServer()
-                .AddDbContext<PlaygroundContext>();
+                .AddDbContext<CoreWebAPIContext>();
             services.AddMvc()
                 .AddJsonOptions(optionsBuilder =>
                 {
@@ -98,12 +98,12 @@ namespace UltimateCoreWebAPI.API
             // everytime an datarepository is called it will automatically be created with the necessary type
             // for instance IDataRepository<T> where T is of Type IPersistedData
             // resolve inner dependency of the repository
-            builder.RegisterGeneric(typeof(DataRepository<>))
-                .As(typeof(IDataRepository<>))
+            builder.RegisterGeneric(typeof(EntityRepository<>))
+                .As(typeof(IEntityRepository<>))
                 .InstancePerRequest()
                 .WithParameter(new ResolvedParameter(
                     (pi, ctx) => pi.ParameterType == typeof(DbContext),
-                    (pi, ctx) => ctx.Resolve<PlaygroundContext>()))
+                    (pi, ctx) => ctx.Resolve<CoreWebAPIContext>()))
                 .InstancePerLifetimeScope();
 
             // register configuration and environment to make it injectable for other libraries

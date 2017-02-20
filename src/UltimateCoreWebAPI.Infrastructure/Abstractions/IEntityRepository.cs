@@ -7,18 +7,19 @@ using UltimateCoreWebAPI.Model.Abstractions;
 
 namespace UltimateCoreWebAPI.Infrastructure.Abstractions
 {
-    public interface IDataRepository<T> where T: class, IPersistedData, new()
+    public interface IEntityRepository<T> where T: class, IEntity, new()
     {
         IEnumerable<T> GetAll();
         IEnumerable<T> GetAllIncluding(params Expression<Func<T, object>>[] includes);
-        T Get(int id);
+        IEnumerable<T> GetAllIncluding(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
+        T Get(Guid id);
         T Get(Expression<Func<T, bool>> predicate);
-        T GetIncluding(int id, params Expression<Func<T, object>>[] includes);
+        T GetIncluding(Guid id, params Expression<Func<T, object>>[] includes);
         T GetIncluding(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
         IQueryable<T> GetQueryable();
-        void Add(T data);
-        void Edit(T data);
-        void Delete(T data);
+        void Add(T entity);
+        void Edit(T entity);
+        void Delete(T entity);
         void EnsureChanges();
     }
 }

@@ -12,21 +12,21 @@ using UltimateCoreWebAPI.Model.Entities;
 
 namespace UltimateCoreWebAPI.Persistency
 {
-    public class PlaygroundContext : DbContext
+    public class CoreWebAPIContext : DbContext
     {
         private readonly IConfigurationRoot configurationRoot;
         private readonly IHostingEnvironment environment;
         private const string Production = "Production";
         private const string Development = "Development";
 
-        public PlaygroundContext(IConfigurationRoot configurationRoot, IHostingEnvironment environment)
+        public CoreWebAPIContext(IConfigurationRoot configurationRoot, IHostingEnvironment environment)
         {
             this.configurationRoot = configurationRoot;
             this.environment = environment;
         }
 
         public DbSet<TodoList> TodoLists { get; set; }
-        public DbSet<TodoItem> TodoItems { get; set; }
+        public DbSet<Todo> Todos { get; set; }
         public DbSet<TodoPriority> TodoPriorities { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -34,35 +34,48 @@ namespace UltimateCoreWebAPI.Persistency
             base.OnConfiguring(optionsBuilder);
 
             optionsBuilder.UseSqlServer(this.environment.IsDevelopment()
-                ? this.configurationRoot.GetConnectionString(PlaygroundContext.Development)
-                : this.configurationRoot.GetConnectionString(PlaygroundContext.Production));
+                ? this.configurationRoot.GetConnectionString(CoreWebAPIContext.Development)
+                : this.configurationRoot.GetConnectionString(CoreWebAPIContext.Production));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<TodoList>()
-                .HasIndex(todoList => todoList.Designation)
-                .IsUnique();
-            modelBuilder.Entity<TodoList>()
-                .HasMany(todoList => todoList.TodoItems)
+            modelBuilder.Entity<TodoList>(builder =>
+            {
+                builder.Property(todoList => todoList.Id)
+                    .ForSqlServerHasDefaultValueSql("newid()");
+                builder.HasIndex(todoList => todoList.Designation)
+                    .IsUnique();
+                builder.HasMany(todoList => todoList.TodoItems)
                 .WithOne(todoList => todoList.TodoList)
                 .HasForeignKey(tdi => tdi.TodoListId);
+            });
 
-            modelBuilder.Entity<TodoItem>()
-                .HasOne(todoItem => todoItem.TodoPriority)
-                .WithMany();
-            modelBuilder.Entity<TodoItem>()
-                .HasIndex(todoItem => new {
-                    todoItem.Task,
-                    todoItem.TodoPriorityId
+            modelBuilder.Entity<Todo>(builder =>
+            {
+                builder.Property(todoList => todoList.Id)
+                    .ForSqlServerHasDefaultValueSql("newid()");
+                builder
+                    .HasOne(todo => todo.TodoPriority)
+                    .WithMany();
+                builder.HasIndex(todo => new
+                {
+                    todo.TodoListId,
+                    todo.Task
                 })
                 .IsUnique();
+            });
 
-            modelBuilder.Entity<TodoPriority>()
-                .HasIndex(todoPriority => todoPriority.Designation)
-                .IsUnique();
+            modelBuilder.Entity<TodoPriority>(builder =>
+            {
+                builder.Property(todoPriority => todoPriority.Id)
+                    .ForSqlServerHasDefaultValueSql("newid()");
+                builder
+                    .HasIndex(todoPriority => todoPriority.Designation)
+                    .IsUnique();
+            });
 
 
             // supress cascade delete for all tables

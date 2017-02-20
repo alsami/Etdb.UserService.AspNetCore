@@ -3,9 +3,9 @@ using UltimateCoreWebAPI.Model.Abstractions;
 
 namespace UltimateCoreWebAPI.Model.Entities
 {
-    public class TodoItem : IPersistedData
+    public class Todo : IEntity
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Task { get; set; }
 
@@ -13,11 +13,11 @@ namespace UltimateCoreWebAPI.Model.Entities
 
         public DateTime? CompletedAt { get; set; }
 
-        public int TodoListId { get; set; }
+        public Guid TodoListId { get; set; }
 
         public TodoList TodoList  { get; set; }
 
-        public int TodoPriorityId { get; set; }
+        public Guid TodoPriorityId { get; set; }
 
         public TodoPriority TodoPriority { get; set; }
     }

@@ -6,9 +6,9 @@ using UltimateCoreWebAPI.Model.Abstractions;
 
 namespace UltimateCoreWebAPI.Model.ViewModels
 {
-    public class TodoItemViewModel : IViewModel
+    public class TodoViewModel : IViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public string Task { get; set; }
 
@@ -16,12 +16,12 @@ namespace UltimateCoreWebAPI.Model.ViewModels
 
         public DateTime? CompletedAt { get; set; }
 
-        public int TodoListId { get; set; }
+        public Guid TodoListId { get; set; }
 
-        public TodoListViewModel TodoList { get; set; }
+        public Guid TodoPriorityId { get; set; }
 
-        public int TodoPriorityId { get; set; }
+        public short TodoPriorityPrio { get; set; }
 
-        public TodoPriorityViewModel TodoPriority { get; set; }
+        public string TodoPriorityDesignation { get; set; }
     }
 }

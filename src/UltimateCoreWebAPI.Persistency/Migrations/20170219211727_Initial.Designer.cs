@@ -7,9 +7,9 @@ using UltimateCoreWebAPI.Persistency;
 
 namespace UltimateCoreWebAPI.Persistency.Migrations
 {
-    [DbContext(typeof(PlaygroundContext))]
-    [Migration("20161207141526_AddTodoSets")]
-    partial class AddTodoSets
+    [DbContext(typeof(CoreWebAPIContext))]
+    [Migration("20170219211727_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -17,10 +17,11 @@ namespace UltimateCoreWebAPI.Persistency.Migrations
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("PlaygroundBackend.Model.Entities.TodoItem", b =>
+            modelBuilder.Entity("UltimateCoreWebAPI.Model.Entities.Todo", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:DefaultValueSql", "newid()");
 
                     b.Property<DateTime?>("CompletedAt");
 
@@ -28,9 +29,9 @@ namespace UltimateCoreWebAPI.Persistency.Migrations
 
                     b.Property<string>("Task");
 
-                    b.Property<int>("TodoListId");
+                    b.Property<Guid>("TodoListId");
 
-                    b.Property<int>("TodoPriorityId");
+                    b.Property<Guid>("TodoPriorityId");
 
                     b.HasKey("Id");
 
@@ -38,25 +39,33 @@ namespace UltimateCoreWebAPI.Persistency.Migrations
 
                     b.HasIndex("TodoPriorityId");
 
-                    b.ToTable("TodoItems");
+                    b.HasIndex("Task", "TodoPriorityId")
+                        .IsUnique();
+
+                    b.ToTable("Todos");
                 });
 
-            modelBuilder.Entity("PlaygroundBackend.Model.Entities.TodoList", b =>
+            modelBuilder.Entity("UltimateCoreWebAPI.Model.Entities.TodoList", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:DefaultValueSql", "newid()");
 
                     b.Property<string>("Designation");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Designation")
+                        .IsUnique();
+
                     b.ToTable("TodoLists");
                 });
 
-            modelBuilder.Entity("PlaygroundBackend.Model.Entities.TodoPriority", b =>
+            modelBuilder.Entity("UltimateCoreWebAPI.Model.Entities.TodoPriority", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:DefaultValueSql", "newid()");
 
                     b.Property<string>("Designation");
 
@@ -64,16 +73,19 @@ namespace UltimateCoreWebAPI.Persistency.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Designation")
+                        .IsUnique();
+
                     b.ToTable("TodoPriorities");
                 });
 
-            modelBuilder.Entity("PlaygroundBackend.Model.Entities.TodoItem", b =>
+            modelBuilder.Entity("UltimateCoreWebAPI.Model.Entities.Todo", b =>
                 {
-                    b.HasOne("PlaygroundBackend.Model.Entities.TodoList", "TodoList")
+                    b.HasOne("UltimateCoreWebAPI.Model.Entities.TodoList", "TodoList")
                         .WithMany("TodoItems")
                         .HasForeignKey("TodoListId");
 
-                    b.HasOne("PlaygroundBackend.Model.Entities.TodoPriority", "TodoPriority")
+                    b.HasOne("UltimateCoreWebAPI.Model.Entities.TodoPriority", "TodoPriority")
                         .WithMany()
                         .HasForeignKey("TodoPriorityId");
                 });

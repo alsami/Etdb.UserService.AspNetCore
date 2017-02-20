@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace UltimateCoreWebAPI.Model.Abstractions
+namespace UltimateCoreWebAPI.Model.Enums
 {
-    public interface IPersistedData
+    public enum TodoPriorityType
     {
-        int Id { get; set; }
+        Normal = 1,
+        Important = 2
     }
 }

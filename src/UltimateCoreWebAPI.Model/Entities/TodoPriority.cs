@@ -6,9 +6,9 @@ using UltimateCoreWebAPI.Model.Abstractions;
 
 namespace UltimateCoreWebAPI.Model.Entities
 {
-    public class TodoPriority : IPersistedData
+    public class TodoPriority : IEntity
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         public short Prio { get; set; }
 

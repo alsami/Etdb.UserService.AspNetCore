@@ -8,8 +8,7 @@ namespace UltimateCoreWebAPI.Model.ViewModels
 {
     public class TodoPriorityViewModel : IViewModel
     {
-        public int Id { get; set; }
-
+        public Guid Id { get; set; }
         public string Designation { get; set; }
     }
 }
