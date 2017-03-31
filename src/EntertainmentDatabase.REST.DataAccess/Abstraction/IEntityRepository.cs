@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using EntertainmentDatabase.REST.Domain.Abstraction;
 
-namespace EntertainmentDatabase.Rest.DataAccess.Abstractions
+namespace EntertainmentDatabase.Rest.DataAccess.Abstraction
 {
     public interface IEntityRepository<T> where T: class, IEntity, new()
     {

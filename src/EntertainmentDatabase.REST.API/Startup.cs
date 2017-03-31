@@ -5,7 +5,6 @@ using System.Reflection;
 using Autofac;
 using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
-using EntertainmentDatabase.Rest.DataAccess.Abstractions;
 using EntertainmentDatabase.Rest.DataAccess.Facade;
 using EntertainmentDatabase.REST.API.DatabaseContext;
 using EntertainmentDatabase.REST.Infrastructure.Builder;
@@ -49,31 +48,27 @@ namespace EntertainmentDatabase.REST.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            var assemblies = new List<Assembly>();
-            Assembly.GetEntryAssembly()
-                .GetReferencedAssemblies()
-                .Where(assemblyName => assemblyName.FullName.StartsWith("EntertainmentDatabase.REST"))
-                .ToList()
-                .ForEach(assemblyName => assemblies.Add(Assembly.Load(assemblyName)));
-
             var containerBuilder = new IoCBuilder(services, "EntertainmentDatabase.REST")
                 .RegisterConfiguration(this.configurationRoot)
                 .RegisterEnvironment(this.environment)
-                .AddAutoMapper(assemblies)
+                .AddAutoMapper()
                 .AddEntityFramework(this.environment.IsDevelopment()
                     ? this.configurationRoot.GetConnectionString(Startup.Development)
                     : this.configurationRoot.GetConnectionString(Startup.Production))
-                    .UseDefaultPersistency()
+                    .UseGenericRepositoryPattern()
                 .ConfigureCores("AllowAll", true)
                 .UseDefaultJSONOptions();
-            
+
             this.applicationContainer = containerBuilder.Build();
 
             return new AutofacServiceProvider(this.applicationContainer);
         }
 
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, 
+            IHostingEnvironment env, 
+            ILoggerFactory loggerFactory,
+            IContainer container)
         {
             loggerFactory.AddConsole(this.configurationRoot.GetSection("Logging"));
             loggerFactory.AddDebug();

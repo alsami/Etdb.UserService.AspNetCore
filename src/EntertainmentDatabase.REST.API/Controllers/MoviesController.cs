@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using EntertainmentDatabase.Rest.DataAccess.Abstractions;
+using EntertainmentDatabase.Rest.DataAccess.Abstraction;
 using EntertainmentDatabase.REST.API.DataTransferObjects;
 using EntertainmentDatabase.REST.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;

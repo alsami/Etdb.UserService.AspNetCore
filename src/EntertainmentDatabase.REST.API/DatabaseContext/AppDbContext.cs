@@ -15,26 +15,8 @@ namespace EntertainmentDatabase.REST.API.DatabaseContext
     {
         private readonly IConfigurationRoot configurationRoot;
         private readonly IHostingEnvironment environment;
-        private const string Production = "Production";
-        private const string Development = "Development";
 
         public DbSet<Movie> Movies;
-
-        //public AppDbContext(IConfigurationRoot configurationRoot, IHostingEnvironment environment)
-        //{
-        //    this.configurationRoot = configurationRoot;
-        //    this.environment = environment;
-        //}
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(
-                "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EntertainmentDatabaseDEV;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
-            //optionsBuilder.UseSqlServer(this.environment.IsDevelopment()
-            //    ? this.configurationRoot.GetConnectionString(AppDbContext.Development)
-            //    : this.configurationRoot.GetConnectionString(AppDbContext.Production));
-        }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

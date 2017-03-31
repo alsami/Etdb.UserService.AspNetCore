@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using AutoMapper.Configuration;
-using EntertainmentDatabase.Rest.DataAccess.Abstractions;
+using EntertainmentDatabase.Rest.DataAccess.Abstraction;
 using EntertainmentDatabase.Rest.DataAccess.Facade;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using System.Diagnostics;
+using System.Reflection.Metadata;
+using Remotion.Linq.Clauses;
+using Microsoft.Extensions.DependencyModel;
 
 namespace EntertainmentDatabase.REST.Infrastructure.Builder
 {
@@ -82,20 +87,22 @@ namespace EntertainmentDatabase.REST.Infrastructure.Builder
             return this;
         }
 
-        public IoCBuilder AddAutoMapper(IEnumerable<Assembly> assemblies)
+        public IoCBuilder AddAutoMapper()
         {
-            //var assemblies = new List<Assembly>();
-            //Assembly.GetEntryAssembly()
-            //    .GetReferencedAssemblies()
-            //    .Where(assemblyName => assemblyName.FullName.StartsWith(projectName))
-            //    .ToList()
-            //    .ForEach(assemblyName => assemblies.Add(Assembly.Load(assemblyName)));
+            var assemblyNames = DependencyContext
+                .Default
+                .CompileLibraries
+                .SelectMany(compileLib => compileLib.Assemblies)
+                .Where(assemblyName => 
+                    assemblyName.StartsWith(this.projectName, StringComparison.OrdinalIgnoreCase));
+
+
 
             // register the assemblies of type Profile
             // this will register all available mapping profiles
-            foreach (var assembly in assemblies)
+            foreach (var assemblyName in assemblyNames)
             {
-                this.containerBuilder.RegisterAssemblyTypes(assembly)
+                this.containerBuilder.RegisterAssemblyTypes(Assembly.Load(new AssemblyName(assemblyName.Replace(".dll", ""))))
                     .Where(type => type.IsAssignableTo<Profile>())
                     .As<Profile>()
                     .SingleInstance();
@@ -141,9 +148,10 @@ namespace EntertainmentDatabase.REST.Infrastructure.Builder
 
         public IoCBuilder AddEntityFramework(string connectionString)
         {
+            
             this.serviceCollection.AddEntityFramework()
                 .AddEntityFrameworkSqlServer()
-                .AddDbContext<DbContext>();
+                .AddDbContext<DbContext>(dbContextOptionsBuilder => dbContextOptionsBuilder.UseSqlServer(connectionString));
 
             return this;
         }
@@ -151,7 +159,14 @@ namespace EntertainmentDatabase.REST.Infrastructure.Builder
         public IContainer Build()
         {
             this.containerBuilder.Populate(this.serviceCollection);
-            return this.containerBuilder.Build();
+            var container = this.containerBuilder.Build();
+
+            this.containerBuilder.RegisterInstance(container)
+                .As<IContainer>()
+                .AsSelf()
+                .AutoActivate();
+
+            return container;
         }
 
         public IoCBuilder UseDefaultJSONOptions()
@@ -164,10 +179,15 @@ namespace EntertainmentDatabase.REST.Infrastructure.Builder
                     optionsBuilder.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     optionsBuilder.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
+
             return this;
         }
 
-        public IoCBuilder UseDefaultPersistency()
+        /// <summary>
+        /// Requires your entities to be implemented
+        /// </summary>
+        /// <returns></returns>
+        public IoCBuilder UseGenericRepositoryPattern()
         {    
             // register the DataRepository as generic
             // everytime an datarepository is called it will automatically be created with the necessary type

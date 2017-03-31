@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using EntertainmentDatabase.Rest.DataAccess.Abstractions;
+using EntertainmentDatabase.Rest.DataAccess.Abstraction;
 using EntertainmentDatabase.REST.Domain.Abstraction;
 using Microsoft.EntityFrameworkCore;
 
