@@ -25,6 +25,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Diagnostics;
 using System.Reflection.Metadata;
+using Autofac.Core.Registration;
 using Remotion.Linq.Clauses;
 using Microsoft.Extensions.DependencyModel;
 
@@ -43,15 +44,22 @@ namespace EntertainmentDatabase.REST.Infrastructure.Builder
             this.containerBuilder = new ContainerBuilder();
         }
 
-        public IoCBuilder RegisterConfiguration(IConfigurationRoot configurationRoot)
+        public IoCBuilder UseConfiguration(IConfigurationRoot configurationRoot)
         {
             this.containerBuilder.RegisterInstance(configurationRoot);
             return this;
         }
 
-        public IoCBuilder RegisterEnvironment(IHostingEnvironment hostingEnvironment)
+        public IoCBuilder UseEnvironment(IHostingEnvironment hostingEnvironment)
         {
             this.containerBuilder.RegisterInstance(hostingEnvironment);
+            return this;
+        }
+
+        public IoCBuilder UseDbContext<T>() where T : DbContext
+        {
+            this.containerBuilder
+                .RegisterType<T>();
             return this;
         }
 
@@ -163,8 +171,7 @@ namespace EntertainmentDatabase.REST.Infrastructure.Builder
 
             this.containerBuilder.RegisterInstance(container)
                 .As<IContainer>()
-                .AsSelf()
-                .AutoActivate();
+                .SingleInstance();
 
             return container;
         }

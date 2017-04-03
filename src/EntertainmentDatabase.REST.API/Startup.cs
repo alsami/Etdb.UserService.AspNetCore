@@ -49,13 +49,14 @@ namespace EntertainmentDatabase.REST.API
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             var containerBuilder = new IoCBuilder(services, "EntertainmentDatabase.REST")
-                .RegisterConfiguration(this.configurationRoot)
-                .RegisterEnvironment(this.environment)
+                .UseConfiguration(this.configurationRoot)
+                .UseEnvironment(this.environment)
                 .AddAutoMapper()
                 .AddEntityFramework(this.environment.IsDevelopment()
                     ? this.configurationRoot.GetConnectionString(Startup.Development)
                     : this.configurationRoot.GetConnectionString(Startup.Production))
-                    .UseGenericRepositoryPattern()
+                .UseDbContext<AppDbContext>()
+                .UseGenericRepositoryPattern()
                 .ConfigureCores("AllowAll", true)
                 .UseDefaultJSONOptions();
 
@@ -67,8 +68,7 @@ namespace EntertainmentDatabase.REST.API
 
         public void Configure(IApplicationBuilder app, 
             IHostingEnvironment env, 
-            ILoggerFactory loggerFactory,
-            IContainer container)
+            ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(this.configurationRoot.GetSection("Logging"));
             loggerFactory.AddDebug();
