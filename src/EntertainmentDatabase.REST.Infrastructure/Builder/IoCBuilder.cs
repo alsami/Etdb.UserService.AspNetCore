@@ -63,7 +63,6 @@ namespace EntertainmentDatabase.REST.Infrastructure.Builder
             return this;
         }
 
-        // TODO: implement 
         public IoCBuilder ConfigureCores(string policyName, bool registerGlobally = false, string[] origins = null, HttpMethod[] methods = null)
         {
             // add cors to allow cross site origin
@@ -154,12 +153,13 @@ namespace EntertainmentDatabase.REST.Infrastructure.Builder
             return this;
         }
 
-        public IoCBuilder AddEntityFramework(string connectionString)
+        public IoCBuilder AddEntityFramework<T>() where T : DbContext
         {
-            
+            //this.containerBuilder.RegisterType<T>();
+
             this.serviceCollection.AddEntityFramework()
                 .AddEntityFrameworkSqlServer()
-                .AddDbContext<DbContext>(dbContextOptionsBuilder => dbContextOptionsBuilder.UseSqlServer(connectionString));
+                .AddDbContext<T>();
 
             return this;
         }
@@ -190,11 +190,7 @@ namespace EntertainmentDatabase.REST.Infrastructure.Builder
             return this;
         }
 
-        /// <summary>
-        /// Requires your entities to be implemented
-        /// </summary>
-        /// <returns></returns>
-        public IoCBuilder UseGenericRepositoryPattern()
+        public IoCBuilder UseGenericRepositoryPattern<T>() where T : DbContext
         {    
             // register the DataRepository as generic
             // everytime an datarepository is called it will automatically be created with the necessary type
@@ -205,7 +201,7 @@ namespace EntertainmentDatabase.REST.Infrastructure.Builder
                 .InstancePerRequest()
                 .WithParameter(new ResolvedParameter(
                     (parameterInfo, componentContext) => parameterInfo.ParameterType == typeof(DbContext),
-                    (parameterInfo, componentContext) => componentContext.Resolve<DbContext>()))
+                    (parameterInfo, componentContext) => componentContext.Resolve<T>()))
                 .InstancePerLifetimeScope();
 
             return this;

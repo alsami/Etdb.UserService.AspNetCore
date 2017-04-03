@@ -28,8 +28,6 @@ namespace EntertainmentDatabase.REST.API
         private readonly IHostingEnvironment environment;
         private readonly IConfigurationRoot configurationRoot;
         private IContainer applicationContainer;
-        private const string Production = "Production";
-        private const string Development = "Development";
 
         public Startup(IHostingEnvironment environment)
         {
@@ -52,11 +50,8 @@ namespace EntertainmentDatabase.REST.API
                 .UseConfiguration(this.configurationRoot)
                 .UseEnvironment(this.environment)
                 .AddAutoMapper()
-                .AddEntityFramework(this.environment.IsDevelopment()
-                    ? this.configurationRoot.GetConnectionString(Startup.Development)
-                    : this.configurationRoot.GetConnectionString(Startup.Production))
-                .UseDbContext<AppDbContext>()
-                .UseGenericRepositoryPattern()
+                .AddEntityFramework<AppDbContext>()
+                .UseGenericRepositoryPattern<AppDbContext>()
                 .ConfigureCores("AllowAll", true)
                 .UseDefaultJSONOptions();
 

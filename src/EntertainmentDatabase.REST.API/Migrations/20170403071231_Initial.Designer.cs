@@ -8,7 +8,7 @@ using EntertainmentDatabase.REST.API.DatabaseContext;
 namespace EntertainmentDatabase.REST.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20170313090522_Initial")]
+    [Migration("20170403071231_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,8 +20,8 @@ namespace EntertainmentDatabase.REST.API.Migrations
             modelBuilder.Entity("EntertainmentDatabase.REST.Domain.Entities.Movie", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasAnnotation("SqlServer:ComputedColumnSql", "newid()");
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:DefaultValueSql", "newid()");
 
                     b.HasKey("Id");
 

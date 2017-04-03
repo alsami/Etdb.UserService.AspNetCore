@@ -19,8 +19,8 @@ namespace EntertainmentDatabase.REST.API.Migrations
             modelBuilder.Entity("EntertainmentDatabase.REST.Domain.Entities.Movie", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasAnnotation("SqlServer:ComputedColumnSql", "newid()");
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:DefaultValueSql", "newid()");
 
                     b.HasKey("Id");
 

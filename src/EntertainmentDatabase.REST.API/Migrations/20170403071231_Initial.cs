@@ -12,7 +12,7 @@ namespace EntertainmentDatabase.REST.API.Migrations
                 name: "Movie",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false, computedColumnSql: "newid()")
+                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "newid()")
                 },
                 constraints: table =>
                 {
