@@ -167,13 +167,7 @@ namespace EntertainmentDatabase.REST.Infrastructure.Builder
         public IContainer Build()
         {
             this.containerBuilder.Populate(this.serviceCollection);
-            var container = this.containerBuilder.Build();
-
-            this.containerBuilder.RegisterInstance(container)
-                .As<IContainer>()
-                .SingleInstance();
-
-            return container;
+            return this.containerBuilder.Build();
         }
 
         public IoCBuilder UseDefaultJSONOptions()
