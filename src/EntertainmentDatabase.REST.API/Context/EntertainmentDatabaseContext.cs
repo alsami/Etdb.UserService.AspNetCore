@@ -24,7 +24,6 @@ namespace EntertainmentDatabase.REST.API.Context
         }
 
         public DbSet<Movie> Movies;
-        public DbSet<Test> Tests;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -35,14 +34,11 @@ namespace EntertainmentDatabase.REST.API.Context
                     : this.configurationRoot.GetConnectionString(EntertainmentDatabaseContext.Production));
         }
 
-        protected override void OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             new MovieEntityMappingConfiguration()
-                .Map(modelBuilder);
-
-            new TestEntityMappingConfiguration()
                 .Map(modelBuilder);
 
             modelBuilder.SupressCascadeDelete();
