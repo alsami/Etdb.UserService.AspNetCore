@@ -8,7 +8,7 @@ namespace EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions
     {
         protected abstract void Map(EntityTypeBuilder<T> builder);
 
-        public void Map(ModelBuilder builder)
+        public virtual void Map(ModelBuilder builder)
         {
             builder.SetGuidAsPrimaryKey<T>();
             this.Map(builder.Entity<T>());
