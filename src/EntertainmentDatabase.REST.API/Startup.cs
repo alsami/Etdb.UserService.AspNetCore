@@ -5,7 +5,7 @@ using System.Reflection;
 using Autofac;
 using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
-using EntertainmentDatabase.REST.API.DatabaseContext;
+using EntertainmentDatabase.REST.API.Context;
 using EntertainmentDatabase.REST.ServiceBase.Builder;
 using EntertainmentDatabase.REST.ServiceBase.Configuration;
 using Microsoft.AspNetCore.Builder;
@@ -47,13 +47,16 @@ namespace EntertainmentDatabase.REST.API
                 .UseConfiguration(this.configurationRoot)
                 .UseEnvironment(this.environment)
                 .AddAutoMapper()
-                .AddEntityFramework<AppDbContext>()
-                .UseGenericRepositoryPattern<AppDbContext>()
-                .UseCors(new CorsPolicyConfiguration
+                .AddEntityFramework<EntertainmentDatabaseContext>()
+                .UseGenericRepositoryPattern<EntertainmentDatabaseContext>()
+                .UseCors("AllowAll", builder =>
                 {
-                    Name = "AllowAll",
-                    RegisterGlobally = true
-                })
+                    builder
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowAnyOrigin()
+                        .AllowCredentials();
+                }, true)
                 .UseDefaultJSONOptions();
 
             this.applicationContainer = containerBuilder.Build();

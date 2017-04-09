@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using EntertainmentDatabase.REST.API.DataTransferObjects;
 using EntertainmentDatabase.REST.API.Entities;
+using EntertainmentDatabase.REST.API.Entities.ConsumerMedia;
 
 namespace EntertainmentDatabase.REST.API.Mappings
 {

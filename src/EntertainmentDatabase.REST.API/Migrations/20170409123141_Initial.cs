@@ -13,6 +13,8 @@ namespace EntertainmentDatabase.REST.API.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false, defaultValueSql: "newid()"),
+                    ConsumerMediaType = table.Column<int>(nullable: false),
+                    ReleasedOn = table.Column<DateTime>(nullable: true),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
                     Title = table.Column<string>(nullable: false)
                 },

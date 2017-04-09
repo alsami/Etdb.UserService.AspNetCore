@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstraction;
 
 namespace EntertainmentDatabase.REST.ServiceBase.DataAccess.Abstraction
@@ -19,6 +20,7 @@ namespace EntertainmentDatabase.REST.ServiceBase.DataAccess.Abstraction
         void Add(T entity);
         void Edit(T entity);
         void Delete(T entity);
-        void EnsureChanges();
+        int EnsureChanges();
+        Task<int> EnsureChangesAsync();
     }
 }

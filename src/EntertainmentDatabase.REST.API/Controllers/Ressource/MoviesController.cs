@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using EntertainmentDatabase.REST.API.DataTransferObjects;
 using EntertainmentDatabase.REST.API.Entities;
+using EntertainmentDatabase.REST.API.Entities.ConsumerMedia;
 using EntertainmentDatabase.REST.ServiceBase.DataAccess.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EntertainmentDatabase.REST.API.Controllers
+namespace EntertainmentDatabase.REST.API.Controllers.Ressource
 {
     [Route("api/[controller]")]
     public class MoviesController : Controller

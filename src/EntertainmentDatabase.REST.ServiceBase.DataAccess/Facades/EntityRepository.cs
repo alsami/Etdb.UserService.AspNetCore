@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using EntertainmentDatabase.REST.ServiceBase.DataAccess.Abstraction;
 using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstraction;
 using Microsoft.EntityFrameworkCore;
 
-namespace EntertainmentDatabase.REST.ServiceBase.DataAccess.Facade
+namespace EntertainmentDatabase.REST.ServiceBase.DataAccess.Facades
 {
     public class EntityRepository<T> : IEntityRepository<T> where T: class, IEntity, new()
     {
@@ -35,9 +36,14 @@ namespace EntertainmentDatabase.REST.ServiceBase.DataAccess.Facade
             entry.State = EntityState.Modified;
         }
 
-        public virtual void EnsureChanges()
+        public virtual int EnsureChanges()
         {
-            this.context.SaveChanges();
+            return this.context.SaveChanges();
+        }
+
+        public async Task<int> EnsureChangesAsync()
+        {
+            return await this.context.SaveChangesAsync();
         }
 
         public virtual T Get(Guid id)

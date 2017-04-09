@@ -8,7 +8,8 @@ using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using EntertainmentDatabase.REST.ServiceBase.Configuration;
 using EntertainmentDatabase.REST.ServiceBase.DataAccess.Abstraction;
-using EntertainmentDatabase.REST.ServiceBase.DataAccess.Facade;
+using EntertainmentDatabase.REST.ServiceBase.DataAccess.Facades;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
@@ -92,6 +93,26 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
                 {
                     options.Filters.Add(new CorsAuthorizationFilterFactory(corsPolicy.Name));
                 });
+            }
+
+            return this;
+        }
+
+        public ServiceContainerBuilder UseCors(string corsPolicyName, Action<CorsPolicyBuilder> corsPolicyBuilder, bool registerGlobally = false)
+        {
+            // add cors to allow cross site origin
+            this.serviceCollection.AddCors(corsOptions =>
+            {
+                corsOptions.AddPolicy(corsPolicyName, corsPolicyBuilder);
+            });
+
+            if (registerGlobally)
+            {
+                //// apply cors globally
+                //// u can also apply them per controller / action
+                //// see https://docs.microsoft.com/en-us/aspnet/core/security/cors
+                //// for more information on this topic
+                this.serviceCollection.Configure<MvcOptions>(options => options.Filters.Add(new CorsAuthorizationFilterFactory(corsPolicyName)));
             }
 
             return this;
