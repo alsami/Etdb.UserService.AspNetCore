@@ -31,7 +31,6 @@
     },
     "Microsoft.VisualStudio.Web.CodeGeneration.Utils": "1.0.0-preview2-final",
     "EntertainmentDatabase.REST.ServiceBase": "1.0.0-*",
-    "EntertainmentDatabase.REST.ServiceBase.DataStructure": "1.0.0-*",
     "EntertainmentDatabase.REST.ServiceBase.Generics": "1.0.0-*"
   },
   "tools": {
