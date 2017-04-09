@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstraction;
+using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace EntertainmentDatabase.REST.ServiceBase.DataAccess.Extensions
+namespace EntertainmentDatabase.REST.ServiceBase.Generics.Extensions
 {
     public static class ModelBuilderExtension
     {

@@ -3,7 +3,7 @@ using AutoMapper;
 using EntertainmentDatabase.REST.API.DataTransferObjects;
 using EntertainmentDatabase.REST.API.Entities;
 using EntertainmentDatabase.REST.API.Entities.ConsumerMedia;
-using EntertainmentDatabase.REST.ServiceBase.DataAccess.Abstraction;
+using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EntertainmentDatabase.REST.API.Controllers.Ressource
@@ -21,7 +21,7 @@ namespace EntertainmentDatabase.REST.API.Controllers.Ressource
         }
 
         [HttpGet]
-        public IEnumerable<MovieDTO> Get()
+        public IEnumerable<MovieDTO> GetAll()
         {
             return this.mapper.Map<IEnumerable<Movie>, IEnumerable<MovieDTO>>(this.movieRepository.GetAll());
         }

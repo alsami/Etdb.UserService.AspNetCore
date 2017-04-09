@@ -7,7 +7,7 @@
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>921c740c-ed4a-4f92-9c9a-4cbe55929592</ProjectGuid>
-    <RootNamespace>EntertainmentDatabase.REST.ServiceBase.DataAccess</RootNamespace>
+    <RootNamespace>EntertainmentDatabase.REST.ServiceBase.Generics</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>

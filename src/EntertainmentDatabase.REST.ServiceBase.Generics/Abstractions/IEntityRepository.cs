@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstraction;
+using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstractions;
 
-namespace EntertainmentDatabase.REST.ServiceBase.DataAccess.Abstraction
+namespace EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions
 {
     public interface IEntityRepository<T> where T: class, IEntity, new()
     {

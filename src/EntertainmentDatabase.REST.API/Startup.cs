@@ -44,10 +44,10 @@ namespace EntertainmentDatabase.REST.API
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             var containerBuilder = new ServiceContainerBuilder(services, "EntertainmentDatabase.REST")
-                .UseConfiguration(this.configurationRoot)
-                .UseEnvironment(this.environment)
                 .AddAutoMapper()
                 .AddEntityFramework<EntertainmentDatabaseContext>()
+                .UseConfiguration(this.configurationRoot)
+                .UseEnvironment(this.environment)
                 .UseGenericRepositoryPattern<EntertainmentDatabaseContext>()
                 .UseCors("AllowAll", builder =>
                 {

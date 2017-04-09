@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using EntertainmentDatabase.REST.ServiceBase.DataAccess.Abstraction;
-using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstraction;
+using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstractions;
+using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
-namespace EntertainmentDatabase.REST.ServiceBase.DataAccess.Facades
+namespace EntertainmentDatabase.REST.ServiceBase.Generics.Facades
 {
     public class EntityRepository<T> : IEntityRepository<T> where T: class, IEntity, new()
     {

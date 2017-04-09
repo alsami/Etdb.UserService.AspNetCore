@@ -1,7 +1,8 @@
 ﻿using System.Linq;
+using EntertainmentDatabase.REST.API.Context.Mappings;
+using EntertainmentDatabase.REST.API.Entities;
 using EntertainmentDatabase.REST.API.Entities.ConsumerMedia;
-using EntertainmentDatabase.REST.ServiceBase.DataAccess.Extensions;
-using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstraction;
+using EntertainmentDatabase.REST.ServiceBase.Generics.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
@@ -16,13 +17,14 @@ namespace EntertainmentDatabase.REST.API.Context
         private readonly IConfigurationRoot configurationRoot;
         private readonly IHostingEnvironment hostingEnvironment;
 
-        public DbSet<Movie> Movies;
-
         public EntertainmentDatabaseContext(IConfigurationRoot configurationRoot, IHostingEnvironment hostingEnvironment)
         {
             this.configurationRoot = configurationRoot;
             this.hostingEnvironment = hostingEnvironment;
         }
+
+        public DbSet<Movie> Movies;
+        public DbSet<Test> Tests;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -33,31 +35,17 @@ namespace EntertainmentDatabase.REST.API.Context
                     : this.configurationRoot.GetConnectionString(EntertainmentDatabaseContext.Production));
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
             new MovieEntityMappingConfiguration()
+                .Map(modelBuilder);
+
+            new TestEntityMappingConfiguration()
                 .Map(modelBuilder);
 
             modelBuilder.SupressCascadeDelete();
         }
-
-        //private void SetMovieDefinition(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Movie>(builder =>
-        //    {
-        //        modelBuilder.SetGuidAsPrimaryKey<Movie>();
-
-        //        builder.Property(movie => movie.RowVersion)
-        //            .ValueGeneratedOnAddOrUpdate()
-        //            .IsConcurrencyToken();
-
-        //        builder.HasIndex(movie => movie.Title)
-        //            .IsUnique();
-
-        //        builder.Property(movie => movie.Title)
-        //            .IsRequired();
-        //    });
-        //}
     }
 }
