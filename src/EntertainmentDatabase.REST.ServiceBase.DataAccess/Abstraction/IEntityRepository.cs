@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using EntertainmentDatabase.REST.Domain.Abstraction;
+using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstraction;
 
-namespace EntertainmentDatabase.Rest.DataAccess.Abstraction
+namespace EntertainmentDatabase.REST.ServiceBase.DataAccess.Abstraction
 {
     public interface IEntityRepository<T> where T: class, IEntity, new()
     {

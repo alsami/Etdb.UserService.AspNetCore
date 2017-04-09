@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using EntertainmentDatabase.Rest.DataAccess.Abstraction;
 using EntertainmentDatabase.REST.API.DataTransferObjects;
-using EntertainmentDatabase.REST.Domain.Entities;
+using EntertainmentDatabase.REST.API.Entities;
+using EntertainmentDatabase.REST.ServiceBase.DataAccess.Abstraction;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EntertainmentDatabase.REST.API.Controllers

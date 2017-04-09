@@ -6,8 +6,19 @@ using EntertainmentDatabase.REST.API.Abstraction;
 
 namespace EntertainmentDatabase.REST.API.DataTransferObjects
 {
-    public class MovieDTO : IDTO
+    public class MovieDTO : IDataTransferObject
     {
-        public Guid Id { get; set; }
+        public byte[] ConcurrencyToken
+        {
+            get;
+            set;
+        }
+
+        public Guid Id
+        {
+            get;
+            set;
+        }
     }
 }
+    

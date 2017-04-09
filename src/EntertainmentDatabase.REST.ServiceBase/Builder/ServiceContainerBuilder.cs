@@ -1,85 +1,88 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Reflection;
-using System.Runtime.Loader;
-using System.Threading.Tasks;
 using Autofac;
 using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
-using AutoMapper.Configuration;
-using EntertainmentDatabase.Rest.DataAccess.Abstraction;
-using EntertainmentDatabase.Rest.DataAccess.Facade;
-using Microsoft.AspNetCore.Cors.Infrastructure;
+using EntertainmentDatabase.REST.ServiceBase.Configuration;
+using EntertainmentDatabase.REST.ServiceBase.DataAccess.Abstraction;
+using EntertainmentDatabase.REST.ServiceBase.DataAccess.Facade;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Builder.Extensions;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Cors.Internal;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System.Diagnostics;
-using System.Reflection.Metadata;
-using Autofac.Core.Registration;
-using Remotion.Linq.Clauses;
-using Microsoft.Extensions.DependencyModel;
 
-namespace EntertainmentDatabase.REST.Infrastructure.Builder
+namespace EntertainmentDatabase.REST.ServiceBase.Builder
 {
-    public class IoCBuilder
+    public class ServiceContainerBuilder
     {
         private readonly IServiceCollection serviceCollection;
         private readonly ContainerBuilder containerBuilder;
         private readonly string projectName;
 
-        public IoCBuilder(IServiceCollection serviceCollection, string projectName)
+        public ServiceContainerBuilder(IServiceCollection serviceCollection, string projectName)
         {
             this.serviceCollection = serviceCollection;
             this.projectName = projectName;
             this.containerBuilder = new ContainerBuilder();
         }
 
-        public IoCBuilder UseConfiguration(IConfigurationRoot configurationRoot)
+        public ServiceContainerBuilder UseConfiguration(IConfigurationRoot configurationRoot)
         {
             this.containerBuilder.RegisterInstance(configurationRoot);
             return this;
         }
 
-        public IoCBuilder UseEnvironment(IHostingEnvironment hostingEnvironment)
+        public ServiceContainerBuilder UseEnvironment(IHostingEnvironment hostingEnvironment)
         {
             this.containerBuilder.RegisterInstance(hostingEnvironment);
             return this;
         }
 
-        public IoCBuilder UseDbContext<T>() where T : DbContext
+        public ServiceContainerBuilder UseDbContext<T>() where T : DbContext
         {
             this.containerBuilder
                 .RegisterType<T>();
             return this;
         }
 
-        public IoCBuilder ConfigureCores(string policyName, bool registerGlobally = false, string[] origins = null, HttpMethod[] methods = null)
+        public ServiceContainerBuilder UseCors(CorsPolicyConfiguration corsPolicy)
         {
             // add cors to allow cross site origin
             this.serviceCollection.AddCors(corsOptions =>
             {
-                corsOptions.AddPolicy(policyName, policyBuilder =>
+                corsOptions.AddPolicy(corsPolicy.Name, policyBuilder =>
                 {
-                    // you can define special origin by using 
-                    //policyBuilder.WithOrigins(origins);
-                    policyBuilder.AllowAnyOrigin();
-                    policyBuilder.AllowAnyHeader();
-                    policyBuilder.AllowAnyMethod();
-                    policyBuilder.AllowCredentials();
+                    if(corsPolicy.AllowedOrigins == null)
+                        policyBuilder.AllowAnyOrigin();
+                    else
+                        policyBuilder.WithOrigins(corsPolicy.AllowedOrigins);
+
+                    if (corsPolicy.AllowedHeaders == null)
+                        policyBuilder.AllowAnyHeader();
+                    else
+                        policyBuilder.WithHeaders(corsPolicy.AllowedHeaders);
+
+
+                    if (corsPolicy.AllowedMethods == null)
+                        policyBuilder.AllowAnyMethod();
+                    else
+                        policyBuilder.WithMethods(corsPolicy.AllowedMethods);
+
+                    if(corsPolicy.AllowCredentials)
+                        policyBuilder.AllowCredentials();
                 });
             });
 
-            if (registerGlobally)
+            if (corsPolicy.RegisterGlobally)
             {
                 //// apply cors globally
                 //// u can also apply them per controller / action
@@ -87,14 +90,14 @@ namespace EntertainmentDatabase.REST.Infrastructure.Builder
                 //// for more information on this topic
                 this.serviceCollection.Configure<MvcOptions>(options =>
                 {
-                    options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAll"));
+                    options.Filters.Add(new CorsAuthorizationFilterFactory(corsPolicy.Name));
                 });
             }
 
             return this;
         }
 
-        public IoCBuilder AddAutoMapper()
+        public ServiceContainerBuilder AddAutoMapper()
         {
             var assemblyNames = DependencyContext
                 .Default
@@ -153,7 +156,7 @@ namespace EntertainmentDatabase.REST.Infrastructure.Builder
             return this;
         }
 
-        public IoCBuilder AddEntityFramework<T>() where T : DbContext
+        public ServiceContainerBuilder AddEntityFramework<T>() where T : DbContext
         {
             //this.containerBuilder.RegisterType<T>();
 
@@ -170,7 +173,7 @@ namespace EntertainmentDatabase.REST.Infrastructure.Builder
             return this.containerBuilder.Build();
         }
 
-        public IoCBuilder UseDefaultJSONOptions()
+        public ServiceContainerBuilder UseDefaultJSONOptions()
         {
             this.serviceCollection.AddMvc()
                 .AddJsonOptions(optionsBuilder =>
@@ -184,7 +187,7 @@ namespace EntertainmentDatabase.REST.Infrastructure.Builder
             return this;
         }
 
-        public IoCBuilder UseGenericRepositoryPattern<T>() where T : DbContext
+        public ServiceContainerBuilder UseGenericRepositoryPattern<T>() where T : DbContext
         {    
             // register the DataRepository as generic
             // everytime an datarepository is called it will automatically be created with the necessary type

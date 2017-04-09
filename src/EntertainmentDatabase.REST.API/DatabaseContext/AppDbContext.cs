@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using Autofac.Core.Activators;
-using EntertainmentDatabase.REST.Domain.Abstraction;
-using EntertainmentDatabase.REST.Domain.Entities;
+using EntertainmentDatabase.REST.API.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EntertainmentDatabase.REST.API.DatabaseContext
 {
@@ -38,53 +38,32 @@ namespace EntertainmentDatabase.REST.API.DatabaseContext
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Movie>(builder =>
-            {
-                builder.Property(movie => movie.Id)
-                    .ForSqlServerHasDefaultValueSql("newid()");
-            });
-
-            //modelBuilder.Entity<TodoList>(builder =>
-            //{
-            //    builder.Property(todoList => todoList.Id)
-            //        .ForSqlServerHasDefaultValueSql("newid()");
-            //    builder.HasIndex(todoList => todoList.Designation)
-            //        .IsUnique();
-            //    builder.HasMany(todoList => todoList.Todos)
-            //    .WithOne(todoList => todoList.TodoList)
-            //    .HasForeignKey(tdi => tdi.TodoListId);
-            //});
-
-            //modelBuilder.Entity<Todo>(builder =>
-            //{
-            //    builder.Property(todoList => todoList.Id)
-            //        .ForSqlServerHasDefaultValueSql("newid()");
-            //    builder
-            //        .HasOne(todo => todo.TodoPriority)
-            //        .WithMany();
-            //    builder.HasIndex(todo => new
-            //    {
-            //        todo.TodoListId,
-            //        todo.Task
-            //    })
-            //    .IsUnique();
-            //});
-
-            //modelBuilder.Entity<TodoPriority>(builder =>
-            //{
-            //    builder.Property(todoPriority => todoPriority.Id)
-            //        .ForSqlServerHasDefaultValueSql("newid()");
-            //    builder
-            //        .HasIndex(todoPriority => todoPriority.Designation)
-            //        .IsUnique();
-            //});
-
+            this.BuildMovieTable(modelBuilder);
 
             // supress cascade delete for all tables
             foreach (var relation in modelBuilder.Model.GetEntityTypes().SelectMany(entity => entity.GetForeignKeys()))
             {
                 relation.DeleteBehavior = DeleteBehavior.Restrict;
             }
+        }
+
+        private void BuildMovieTable(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Movie>(builder =>
+            {
+                builder.Property(movie => movie.Id)
+                    .ForSqlServerHasDefaultValueSql("newid()");
+
+                builder.Property(movie => movie.RowVersion)
+                    .ValueGeneratedOnAddOrUpdate()
+                    .IsConcurrencyToken();
+
+                builder.HasIndex(movie => movie.Title)
+                    .IsUnique();
+
+                builder.Property(movie => movie.Title)
+                    .IsRequired();
+            });
         }
     }
 }

@@ -22,7 +22,17 @@ namespace EntertainmentDatabase.REST.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:DefaultValueSql", "newid()");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate();
+
+                    b.Property<string>("Title")
+                        .IsRequired();
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Title")
+                        .IsUnique();
 
                     b.ToTable("Movie");
                 });

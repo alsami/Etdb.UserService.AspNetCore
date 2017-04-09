@@ -14,7 +14,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "PlaygroundBackend.API": {
+    "EntertainmentDatabase.REST.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "http://localhost:5000/api/tests",

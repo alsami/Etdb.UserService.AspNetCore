@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using EntertainmentDatabase.Rest.DataAccess.Abstraction;
-using EntertainmentDatabase.REST.Domain.Abstraction;
+using EntertainmentDatabase.REST.ServiceBase.DataAccess.Abstraction;
+using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstraction;
 using Microsoft.EntityFrameworkCore;
 
-namespace EntertainmentDatabase.Rest.DataAccess.Facade
+namespace EntertainmentDatabase.REST.ServiceBase.DataAccess.Facade
 {
     public class EntityRepository<T> : IEntityRepository<T> where T: class, IEntity, new()
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using EntertainmentDatabase.REST.API.DataTransferObjects;
-using EntertainmentDatabase.REST.Domain.Entities;
+using EntertainmentDatabase.REST.API.Entities;
 
 namespace EntertainmentDatabase.REST.API.Mappings
 {
@@ -13,6 +13,7 @@ namespace EntertainmentDatabase.REST.API.Mappings
         public MovieMapping()
         {
             this.CreateMap<Movie, MovieDTO>()
+                .ForMember(destination => destination.ConcurrencyToken, option => option.MapFrom(source => source.RowVersion))
                 .ReverseMap();
         }
     }

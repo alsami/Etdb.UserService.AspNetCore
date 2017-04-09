@@ -5,9 +5,9 @@ using System.Reflection;
 using Autofac;
 using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
-using EntertainmentDatabase.Rest.DataAccess.Facade;
 using EntertainmentDatabase.REST.API.DatabaseContext;
-using EntertainmentDatabase.REST.Infrastructure.Builder;
+using EntertainmentDatabase.REST.ServiceBase.Builder;
+using EntertainmentDatabase.REST.ServiceBase.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Builder.Extensions;
 using Microsoft.AspNetCore.Hosting;
@@ -41,18 +41,19 @@ namespace EntertainmentDatabase.REST.API
             this.environment = environment;
         }
 
-        public IContainer ApplicationContainer { get; set; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            var containerBuilder = new IoCBuilder(services, "EntertainmentDatabase.REST")
+            var containerBuilder = new ServiceContainerBuilder(services, "EntertainmentDatabase.REST")
                 .UseConfiguration(this.configurationRoot)
                 .UseEnvironment(this.environment)
                 .AddAutoMapper()
                 .AddEntityFramework<AppDbContext>()
                 .UseGenericRepositoryPattern<AppDbContext>()
-                .ConfigureCores("AllowAll", true)
+                .UseCors(new CorsPolicyConfiguration
+                {
+                    Name = "AllowAll",
+                    RegisterGlobally = true
+                })
                 .UseDefaultJSONOptions();
 
             this.applicationContainer = containerBuilder.Build();

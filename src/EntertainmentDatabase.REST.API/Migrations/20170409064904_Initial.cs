@@ -12,12 +12,20 @@ namespace EntertainmentDatabase.REST.API.Migrations
                 name: "Movie",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "newid()")
+                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "newid()"),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    Title = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Movie", x => x.Id);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Movie_Title",
+                table: "Movie",
+                column: "Title",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

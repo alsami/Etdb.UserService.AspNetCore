@@ -2,8 +2,10 @@
 
 namespace EntertainmentDatabase.REST.API.Abstraction
 {
-    public interface IDTO
+    public interface IDataTransferObject
     {
         Guid Id { get; set; }
+
+        byte[] ConcurrencyToken { get; set; }
     }
 }
