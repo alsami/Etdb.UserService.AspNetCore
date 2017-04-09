@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using IEntity = EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions.IEntity;

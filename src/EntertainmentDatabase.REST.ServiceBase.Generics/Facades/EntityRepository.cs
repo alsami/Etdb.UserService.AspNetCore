@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstractions;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using IEntity = EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions.IEntity;

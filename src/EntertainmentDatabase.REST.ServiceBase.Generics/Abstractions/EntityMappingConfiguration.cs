@@ -1,5 +1,4 @@
-﻿using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstractions;
-using EntertainmentDatabase.REST.ServiceBase.Generics.Extensions;
+﻿using EntertainmentDatabase.REST.ServiceBase.Generics.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
