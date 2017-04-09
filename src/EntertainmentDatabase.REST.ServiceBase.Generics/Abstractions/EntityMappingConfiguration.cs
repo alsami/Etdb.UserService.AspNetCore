@@ -6,12 +6,13 @@ namespace EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions
 {
     public abstract class EntityMappingConfiguration<T> : IEntityMappingConfiguration where T : class, IEntity, new()
     {
-        protected abstract void Map(EntityTypeBuilder<T> builder);
+        protected abstract void Configure(EntityTypeBuilder<T> builder);
 
-        public virtual void Map(ModelBuilder builder)
+        public virtual void Configure(ModelBuilder builder)
         {
-            builder.SetGuidAsPrimaryKey<T>();
-            this.Map(builder.Entity<T>());
+            builder.UseGuidPrimaryKey<T>();
+            builder.UseConccurencyToken<T>();
+            this.Configure(builder.Entity<T>());
         }
     }
 }

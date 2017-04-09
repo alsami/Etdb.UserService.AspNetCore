@@ -1,7 +1,6 @@
 ﻿using System.Linq;
-using EntertainmentDatabase.REST.API.Context.Mappings;
+using EntertainmentDatabase.REST.API.Context.Configuration;
 using EntertainmentDatabase.REST.API.Entities;
-using EntertainmentDatabase.REST.API.Entities.ConsumerMedia;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +24,10 @@ namespace EntertainmentDatabase.REST.API.Context
 
         public DbSet<Movie> Movies;
 
+        public DbSet<Actor> Actors;
+
+        public DbSet<ActorMovie> ActorMovies;
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -38,10 +41,16 @@ namespace EntertainmentDatabase.REST.API.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            new MovieEntityMappingConfiguration()
-                .Map(modelBuilder);
+            new MovieConfiguration()
+                .Configure(modelBuilder);
 
-            modelBuilder.SupressCascadeDelete();
+            new ActorConfiguration()
+                .Configure(modelBuilder);
+
+            new ActorMovieConfiguration()
+                .Configure(modelBuilder);
+
+            modelBuilder.DisableCascadeDelete();
         }
     }
 }

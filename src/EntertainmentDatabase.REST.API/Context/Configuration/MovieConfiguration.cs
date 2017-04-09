@@ -1,12 +1,12 @@
-﻿using EntertainmentDatabase.REST.API.Entities.ConsumerMedia;
+﻿using EntertainmentDatabase.REST.API.Entities;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EntertainmentDatabase.REST.API.Context.Mappings
+namespace EntertainmentDatabase.REST.API.Context.Configuration
 {
-    public class MovieEntityMappingConfiguration : EntityMappingConfiguration<Movie>
+    public class MovieConfiguration : EntityMappingConfiguration<Movie>
     {
-        protected override void Map(EntityTypeBuilder<Movie> builder)
+        protected override void Configure(EntityTypeBuilder<Movie> builder)
         {
             builder.Property(movie => movie.RowVersion)
                 .ValueGeneratedOnAddOrUpdate()

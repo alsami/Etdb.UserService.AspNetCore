@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using EntertainmentDatabase.REST.API.Entities.ConsumerMedia;
+using EntertainmentDatabase.REST.API.Entities;
 
 namespace EntertainmentDatabase.REST.API.DataTransferObjects.Mappings
 {
@@ -8,7 +8,8 @@ namespace EntertainmentDatabase.REST.API.DataTransferObjects.Mappings
         public MovieDTOMapping()
         {
             this.CreateMap<Movie, MovieDTO>()
-                .ForMember(destination => destination.ConcurrencyToken, option => option.MapFrom(source => source.RowVersion))
+                .ForMember(destination => destination.ConcurrencyToken, 
+                    option => option.MapFrom(source => source.RowVersion))
                 .ReverseMap();
         }
     }

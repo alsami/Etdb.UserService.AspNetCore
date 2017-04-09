@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using EntertainmentDatabase.REST.API.Abstractions;
-using EntertainmentDatabase.REST.API.Enums;
+using System.Linq;
+using System.Threading.Tasks;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
 
 namespace EntertainmentDatabase.REST.API.Entities
 {
-    public class Movie : IEntity, IConsumerMedia
+    public class ActorMovie : IEntity
     {
-        public Movie()
-        {
-            this.ActorMovies = new List<ActorMovie>();
-        }
-
         public Guid Id
         {
             get;
@@ -25,25 +20,25 @@ namespace EntertainmentDatabase.REST.API.Entities
             set;
         }
 
-        public string Title
+        public Guid ActorId
         {
             get;
             set;
         }
 
-        public ConsumerMediaType ConsumerMediaType
+        public Guid MovieId
         {
             get;
             set;
         }
 
-        public DateTime? ReleasedOn
+        public Actor Actor
         {
             get;
             set;
         }
 
-        public ICollection<ActorMovie> ActorMovies
+        public Movie Movie
         {
             get;
             set;

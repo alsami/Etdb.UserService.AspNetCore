@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using EntertainmentDatabase.REST.API.DataTransferObjects;
 using EntertainmentDatabase.REST.API.Entities;
-using EntertainmentDatabase.REST.API.Entities.ConsumerMedia;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EntertainmentDatabase.REST.API.Controllers.Ressource
+namespace EntertainmentDatabase.REST.API.Controllers
 {
     [Route("api/[controller]")]
     public class MoviesController : Controller
@@ -24,6 +25,25 @@ namespace EntertainmentDatabase.REST.API.Controllers.Ressource
         public IEnumerable<MovieDTO> GetAll()
         {
             return this.mapper.Map<IEnumerable<Movie>, IEnumerable<MovieDTO>>(this.movieRepository.GetAll());
+        }
+
+        [HttpPost]
+        public MovieDTO Post([FromBody] MovieDTO movieDTO)
+        {
+            var movie = this.mapper.Map<Movie>(movieDTO);
+            this.movieRepository.Add(movie);
+
+            return this.mapper.Map<MovieDTO>(movie);
+        }
+
+        [HttpPut("{id:Guid}")]
+        public async Task<IActionResult> Delete(Guid id, [FromBody] MovieDTO movieDTO)
+        {
+            var movie = this.movieRepository.Get(id);
+            this.mapper.Map(movieDTO, movie);
+            await this.movieRepository.EnsureChangesAsync();
+
+            return Ok();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using EntertainmentDatabase.REST.API.Enums;
 
-namespace EntertainmentDatabase.REST.API.Abstractions.ConsumerMedia
+namespace EntertainmentDatabase.REST.API.Abstractions
 {
     public interface IConsumerMedia
     {
