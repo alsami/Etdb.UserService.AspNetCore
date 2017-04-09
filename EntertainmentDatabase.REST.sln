@@ -21,8 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8BDD7B81-E
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EntertainmentDatabase.REST.ServiceBase.Generics", "src\EntertainmentDatabase.REST.ServiceBase.Generics\EntertainmentDatabase.REST.ServiceBase.Generics.xproj", "{921C740C-ED4A-4F92-9C9A-4CBE55929592}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EntertainmentDatabase.REST.ServiceBase.DataStructure", "src\EntertainmentDatabase.REST.ServiceBase.DataStructure\EntertainmentDatabase.REST.ServiceBase.DataStructure.xproj", "{58FE2294-78BE-49AD-A892-9514FD590F56}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,10 +39,6 @@ Global
 		{921C740C-ED4A-4F92-9C9A-4CBE55929592}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{921C740C-ED4A-4F92-9C9A-4CBE55929592}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{921C740C-ED4A-4F92-9C9A-4CBE55929592}.Release|Any CPU.Build.0 = Release|Any CPU
-		{58FE2294-78BE-49AD-A892-9514FD590F56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{58FE2294-78BE-49AD-A892-9514FD590F56}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{58FE2294-78BE-49AD-A892-9514FD590F56}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{58FE2294-78BE-49AD-A892-9514FD590F56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -53,6 +47,5 @@ Global
 		{CF891880-643A-4B2E-9891-1B194F58E0C8} = {F7D7D1F2-7337-4EED-B5DC-1248564E32C9}
 		{949E417F-F6C7-41CB-A6B2-E35BB7587EF3} = {F7D7D1F2-7337-4EED-B5DC-1248564E32C9}
 		{921C740C-ED4A-4F92-9C9A-4CBE55929592} = {F7D7D1F2-7337-4EED-B5DC-1248564E32C9}
-		{58FE2294-78BE-49AD-A892-9514FD590F56} = {F7D7D1F2-7337-4EED-B5DC-1248564E32C9}
 	EndGlobalSection
 EndGlobal

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstractions;
+using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
 
 namespace EntertainmentDatabase.REST.API.Entities
 {

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstractions;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using IEntity = EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions.IEntity;
 
 namespace EntertainmentDatabase.REST.ServiceBase.Generics.Facades
 {
@@ -41,7 +42,7 @@ namespace EntertainmentDatabase.REST.ServiceBase.Generics.Facades
             return this.context.SaveChanges();
         }
 
-        public async Task<int> EnsureChangesAsync()
+        public virtual async Task<int> EnsureChangesAsync()
         {
             return await this.context.SaveChangesAsync();
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using EntertainmentDatabase.REST.API.Abstractions.ConsumerMedia;
 using EntertainmentDatabase.REST.API.Enums;
-using EntertainmentDatabase.REST.ServiceBase.DataStructure.Abstractions;
+using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
 
 namespace EntertainmentDatabase.REST.API.Entities.ConsumerMedia
 {
