@@ -4,12 +4,5 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EntertainmentDatabase.REST.API.ContextConfiguration
 {
-    public class MovieFileConfiguration : MediaMappingConfiguration<MovieFile>
-    {
-        protected override void Configure(EntityTypeBuilder<MovieFile> builder)
-        {
-            base.Configure(builder);
-            // ddsad
-        }
-    }
+    public class MovieFileConfiguration : MediaMappingConfiguration<MovieFile>{}
 }

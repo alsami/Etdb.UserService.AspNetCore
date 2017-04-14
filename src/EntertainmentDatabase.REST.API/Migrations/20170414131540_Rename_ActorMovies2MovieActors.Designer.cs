@@ -9,9 +9,10 @@ using EntertainmentDatabase.REST.ServiceBase.Generics.Enums;
 namespace EntertainmentDatabase.REST.API.Migrations
 {
     [DbContext(typeof(EntertainmentDatabaseContext))]
-    partial class EntertainmentDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170414131540_Rename_ActorMovies2MovieActors")]
+    partial class Rename_ActorMovies2MovieActors
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
@@ -101,8 +102,6 @@ namespace EntertainmentDatabase.REST.API.Migrations
                         .IsRequired()
                         .HasMaxLength(16);
 
-                    b.Property<byte[]>("File");
-
                     b.Property<bool>("IsCover");
 
                     b.Property<int>("MediaType");
@@ -117,7 +116,7 @@ namespace EntertainmentDatabase.REST.API.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate();
 
-                    b.Property<Guid>("UniqueName");
+                    b.Property<string>("UniqueName");
 
                     b.HasKey("Id");
 

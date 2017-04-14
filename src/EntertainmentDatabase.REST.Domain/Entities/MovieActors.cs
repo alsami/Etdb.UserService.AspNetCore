@@ -3,7 +3,7 @@ using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
 
 namespace EntertainmentDatabase.REST.Domain.Entities
 {
-    public class ActorMovies : IEntity
+    public class MovieActors : IEntity
     {
         public Guid Id
         {

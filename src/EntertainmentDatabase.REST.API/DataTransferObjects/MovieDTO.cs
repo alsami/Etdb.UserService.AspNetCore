@@ -36,6 +36,12 @@ namespace EntertainmentDatabase.REST.API.DataTransferObjects
             get;
             set;
         }
+
+        public ICollection<MovieFileDTO> MovieFiles
+        {
+            get;
+            set;
+        }
     }
 }
     

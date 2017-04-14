@@ -95,11 +95,7 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
 
             if (registerGlobally)
             {
-                //// apply cors globally
-                //// u can also apply them per controller / action
-                //// see https://docs.microsoft.com/en-us/aspnet/core/security/cors
-                //// for more information on this topic
-                this.serviceCollection.Configure<MvcOptions>(options => options.Filters.Add(new CorsAuthorizationFilterFactory(corsPolicyName)));
+                this.RegisterCorsPolicyGlobally(corsPolicyName);
             }
 
             return this;
@@ -220,6 +216,15 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
                     .CreateMapper(componentContext.Resolve))
                 .As<IMapper>()
                 .InstancePerLifetimeScope();
+        }
+
+        private void RegisterCorsPolicyGlobally(string corsPolicyName)
+        {
+            //// apply cors globally
+            //// u can also apply them per controller / action
+            //// see https://docs.microsoft.com/en-us/aspnet/core/security/cors
+            //// for more information on this topic
+            this.serviceCollection.Configure<MvcOptions>(options => options.Filters.Add(new CorsAuthorizationFilterFactory(corsPolicyName)));
         }
     }
 }

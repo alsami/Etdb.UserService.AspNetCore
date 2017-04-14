@@ -10,7 +10,8 @@ namespace EntertainmentDatabase.REST.Domain.Entities
     {
         public Movie()
         {
-            this.ActorMovies = new List<ActorMovies>();
+            this.MovieFiles = new List<MovieFile>();
+            this.ActorMovies = new List<MovieActors>();
         }
 
         public Guid Id
@@ -55,7 +56,7 @@ namespace EntertainmentDatabase.REST.Domain.Entities
             set;
         }
 
-        public ICollection<ActorMovies> ActorMovies
+        public ICollection<MovieActors> ActorMovies
         {
             get;
             set;

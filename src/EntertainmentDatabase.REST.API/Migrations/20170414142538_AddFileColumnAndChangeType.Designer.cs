@@ -9,9 +9,10 @@ using EntertainmentDatabase.REST.ServiceBase.Generics.Enums;
 namespace EntertainmentDatabase.REST.API.Migrations
 {
     [DbContext(typeof(EntertainmentDatabaseContext))]
-    partial class EntertainmentDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170414142538_AddFileColumnAndChangeType")]
+    partial class AddFileColumnAndChangeType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")

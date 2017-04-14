@@ -6,7 +6,7 @@ namespace EntertainmentDatabase.REST.Domain.Entities
 {
     public class MovieFile : IMediaEntity
     {
-        public int MovieId
+        public Guid MovieId
         {
             get;
             set;
@@ -42,13 +42,19 @@ namespace EntertainmentDatabase.REST.Domain.Entities
             set;
         }
 
-        public string UniqueName
+        public Guid UniqueName
         {
             get;
             set;
         }
 
         public MediaType MediaType
+        {
+            get;
+            set;
+        }
+
+        public byte[] File
         {
             get;
             set;

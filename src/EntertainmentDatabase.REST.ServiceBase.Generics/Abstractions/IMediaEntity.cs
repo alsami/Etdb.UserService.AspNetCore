@@ -21,13 +21,19 @@ namespace EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions
             set;
         }
 
-        string UniqueName
+        Guid UniqueName
         {
             get;
             set;
         }
 
         MediaType MediaType
+        {
+            get;
+            set;
+        }
+
+        byte[] File
         {
             get;
             set;

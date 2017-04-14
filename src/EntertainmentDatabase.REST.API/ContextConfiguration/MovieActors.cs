@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EntertainmentDatabase.REST.API.ContextConfiguration
 {
-    public class ActorMovieConfiguration : EntityMappingConfiguration<ActorMovies>
+    public class MovieActors : EntityMappingConfiguration<Domain.Entities.MovieActors>
     {
-        protected override void Configure(EntityTypeBuilder<ActorMovies> builder)
+        protected override void Configure(EntityTypeBuilder<Domain.Entities.MovieActors> builder)
         {
             builder.HasIndex(actorMovie => new {actorMovie.ActorId, actorMovie.MovieId})
                 .IsUnique();

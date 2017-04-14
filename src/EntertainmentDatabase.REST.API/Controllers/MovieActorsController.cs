@@ -10,12 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace EntertainmentDatabase.REST.API.Controllers
 {
     [Route("api/[controller]")]
-    public class ActorMoviesController : Controller
+    public class MovieActorsController : Controller
     {
         private readonly IMapper mapper;
-        private readonly IEntityRepository<ActorMovies> actorMovieRepository;
+        private readonly IEntityRepository<MovieActors> actorMovieRepository;
 
-        public ActorMoviesController(IMapper mapper, IEntityRepository<ActorMovies> actorMovieRepository)
+        public MovieActorsController(IMapper mapper, IEntityRepository<MovieActors> actorMovieRepository)
         {
             this.mapper = mapper;
             this.actorMovieRepository = actorMovieRepository;
