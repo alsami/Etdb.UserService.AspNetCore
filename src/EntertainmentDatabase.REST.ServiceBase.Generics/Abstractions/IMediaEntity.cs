@@ -1,41 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using EntertainmentDatabase.REST.ServiceBase.Generics.Enums;
 
-namespace EntertainmentDatabase.REST.API.DataTransferObjects
+namespace EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions
 {
-    public class MovieDTO : IDataTransferObject
+    public interface IMediaEntity : IEntity
     {
-        public byte[] ConcurrencyToken
+        string Name
         {
             get;
             set;
         }
 
-        public Guid Id
+        string Extension
         {
             get;
             set;
         }
 
-        public string Title
+        string UniqueName
         {
             get;
             set;
         }
 
-        public string Description
-        {
-            get;
-            set;
-        }
-
-        public DateTime? ReleasesOn
+        MediaType MediaType
         {
             get;
             set;
         }
     }
 }
-    

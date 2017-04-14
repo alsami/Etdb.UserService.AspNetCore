@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using EntertainmentDatabase.REST.API.Context;
-using EntertainmentDatabase.REST.API.Enums;
 
 namespace EntertainmentDatabase.REST.API.Migrations
 {

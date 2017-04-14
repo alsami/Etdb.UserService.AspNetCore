@@ -7,8 +7,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EntertainmentDatabase.REST.API.Migrations
 {
     [DbContext(typeof(EntertainmentDatabaseContext))]
-    [Migration("20170409143215_AddMovieAndActor_And_MappingTable")]
-    partial class AddMovieAndActor_And_MappingTable
+    [Migration("20170409221326_AddDescriptionFieldToMovieEntity")]
+    partial class AddDescriptionFieldToMovieEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,9 +23,11 @@ namespace EntertainmentDatabase.REST.API.Migrations
                         .HasAnnotation("SqlServer:DefaultValueSql", "newid()");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasMaxLength(128);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(128);
 
                     b.Property<byte[]>("RowVersion")
@@ -68,6 +70,8 @@ namespace EntertainmentDatabase.REST.API.Migrations
                         .HasAnnotation("SqlServer:DefaultValueSql", "newid()");
 
                     b.Property<int>("ConsumerMediaType");
+
+                    b.Property<string>("Description");
 
                     b.Property<DateTime?>("ReleasedOn");
 

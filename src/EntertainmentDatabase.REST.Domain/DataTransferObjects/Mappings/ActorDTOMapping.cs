@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using EntertainmentDatabase.REST.Domain.Entities;
 
-namespace EntertainmentDatabase.REST.API.DataTransferObjects.Mappings
+namespace EntertainmentDatabase.REST.Domain.DataTransferObjects.Mappings
 {
     public class ActorDTOMapping : Profile
     {

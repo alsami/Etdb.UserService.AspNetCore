@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using EntertainmentDatabase.REST.API.Context;
-using EntertainmentDatabase.REST.API.Enums;
 
 namespace EntertainmentDatabase.REST.API.Migrations
 {
@@ -71,6 +69,8 @@ namespace EntertainmentDatabase.REST.API.Migrations
                         .HasAnnotation("SqlServer:DefaultValueSql", "newid()");
 
                     b.Property<int>("ConsumerMediaType");
+
+                    b.Property<string>("Description");
 
                     b.Property<DateTime?>("ReleasedOn");
 

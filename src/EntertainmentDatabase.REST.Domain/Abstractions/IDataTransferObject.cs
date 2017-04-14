@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EntertainmentDatabase.REST.API.Abstractions
+namespace EntertainmentDatabase.REST.Domain.Abstractions
 {
     public interface IDataTransferObject
     {

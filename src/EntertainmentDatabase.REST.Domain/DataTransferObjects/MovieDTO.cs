@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using EntertainmentDatabase.REST.Domain.Abstractions;
 
-namespace EntertainmentDatabase.REST.API.DataTransferObjects
+namespace EntertainmentDatabase.REST.Domain.DataTransferObjects
 {
     public class MovieDTO : IDataTransferObject
     {

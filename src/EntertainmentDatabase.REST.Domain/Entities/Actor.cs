@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
 
-namespace EntertainmentDatabase.REST.API.Entities
+namespace EntertainmentDatabase.REST.Domain.Entities
 {
     public class Actor : IEntity
     {
         public Actor()
         {
-            this.ActorMovies = new List<ActorMovie>();
+            this.ActorMovies = new List<ActorMovies>();
         }
 
         public Guid Id
@@ -38,7 +35,7 @@ namespace EntertainmentDatabase.REST.API.Entities
             set;
         }
 
-        public ICollection<ActorMovie> ActorMovies
+        public ICollection<ActorMovies> ActorMovies
         {
             get;
             set;

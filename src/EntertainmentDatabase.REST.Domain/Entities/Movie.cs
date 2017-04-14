@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using EntertainmentDatabase.REST.API.Abstractions;
-using EntertainmentDatabase.REST.API.Enums;
+using EntertainmentDatabase.REST.Domain.Abstractions;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
+using EntertainmentDatabase.REST.ServiceBase.Generics.Enums;
 
-namespace EntertainmentDatabase.REST.API.Entities
+namespace EntertainmentDatabase.REST.Domain.Entities
 {
     public class Movie : IEntity, IConsumerMedia
     {
         public Movie()
         {
-            this.ActorMovies = new List<ActorMovie>();
+            this.ActorMovies = new List<ActorMovies>();
         }
 
         public Guid Id
@@ -31,6 +31,12 @@ namespace EntertainmentDatabase.REST.API.Entities
             set;
         }
 
+        public string Description
+        {
+            get;
+            set;
+        }
+
         public ConsumerMediaType ConsumerMediaType
         {
             get;
@@ -43,7 +49,13 @@ namespace EntertainmentDatabase.REST.API.Entities
             set;
         }
 
-        public ICollection<ActorMovie> ActorMovies
+        public ICollection<MovieFile> MovieFiles
+        {
+            get;
+            set;
+        }
+
+        public ICollection<ActorMovies> ActorMovies
         {
             get;
             set;

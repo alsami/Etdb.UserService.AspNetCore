@@ -1,13 +1,11 @@
-﻿using System.Linq;
-using EntertainmentDatabase.REST.API.Context.Configuration;
-using EntertainmentDatabase.REST.API.Entities;
+﻿using EntertainmentDatabase.REST.API.ContextConfiguration;
+using EntertainmentDatabase.REST.Domain.Entities;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
-namespace EntertainmentDatabase.REST.API.Context
+namespace EntertainmentDatabase.REST.API
 {
     public class EntertainmentDatabaseContext : DbContext
     {
@@ -26,7 +24,7 @@ namespace EntertainmentDatabase.REST.API.Context
 
         public DbSet<Actor> Actors;
 
-        public DbSet<ActorMovie> ActorMovies;
+        public DbSet<ActorMovies> ActorMovies;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

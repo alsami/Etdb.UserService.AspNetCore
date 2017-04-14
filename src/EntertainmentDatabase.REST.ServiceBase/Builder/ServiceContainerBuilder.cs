@@ -62,22 +62,9 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
             {
                 corsOptions.AddPolicy(corsPolicy.Name, policyBuilder =>
                 {
-                    if(corsPolicy.AllowedOrigins == null)
-                        policyBuilder.AllowAnyOrigin();
-                    else
-                        policyBuilder.WithOrigins(corsPolicy.AllowedOrigins);
-
-                    if (corsPolicy.AllowedHeaders == null)
-                        policyBuilder.AllowAnyHeader();
-                    else
-                        policyBuilder.WithHeaders(corsPolicy.AllowedHeaders);
-
-
-                    if (corsPolicy.AllowedMethods == null)
-                        policyBuilder.AllowAnyMethod();
-                    else
-                        policyBuilder.WithMethods(corsPolicy.AllowedMethods);
-
+                    policyBuilder.WithOrigins(corsPolicy.AllowedOrigins);
+                    policyBuilder.WithHeaders(corsPolicy.AllowedHeaders);
+                    policyBuilder.WithMethods(corsPolicy.AllowedMethods);
                     if(corsPolicy.AllowCredentials)
                         policyBuilder.AllowCredentials();
                 });
@@ -120,67 +107,14 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
 
         public ServiceContainerBuilder AddAutoMapper()
         {
-            var assemblyNames = DependencyContext
-                .Default
-                .CompileLibraries
-                .SelectMany(compileLib => compileLib.Assemblies)
-                .Where(assemblyName => 
-                    assemblyName.StartsWith(this.projectName, StringComparison.OrdinalIgnoreCase));
-
-
-
-            // register the assemblies of type Profile
-            // this will register all available mapping profiles
-            foreach (var assemblyName in assemblyNames)
-            {
-                this.containerBuilder.RegisterAssemblyTypes(Assembly.Load(new AssemblyName(assemblyName.Replace(".dll", ""))))
-                    .Where(type => type.IsAssignableTo<Profile>())
-                    .As<Profile>()
-                    .SingleInstance();
-            }
-
-            // register all AutoMapper profiles
-            // create the mapperconfiguration and register it as single instance
-            this.containerBuilder.Register(componentContext =>
-            {
-                var config = new MapperConfiguration(mapperConfigurationExpression =>
-                {
-                    foreach (var profile in componentContext.Resolve<IEnumerable<Profile>>())
-                    {
-                        mapperConfigurationExpression.AddProfile(profile);
-                    }
-                });
-
-                return config;
-            }).SingleInstance()
-            .AutoActivate()
-            .AsSelf();
-
-            // resolve the mapperconfiguration and create the mapper
-            // register it as singleinstance
-            this.containerBuilder.Register(componentContext =>
-            {
-                return componentContext
-                    .Resolve<IComponentContext>()
-                    .Resolve<MapperConfiguration>()
-                    .CreateMapper(type => componentContext.Resolve<IComponentContext>()
-                    .Resolve(type));
-            })
-            .As<IMapper>()
-            .SingleInstance();
-
-            this.containerBuilder.Register(componentContext => componentContext.Resolve<MapperConfiguration>()
-                .CreateMapper(componentContext.Resolve))
-                .As<IMapper>()
-                .InstancePerLifetimeScope();
-
+            this.RegisterProjectAssemblies();
+            this.RegisterAutomapperProfiles();
+            this.RegisterAutoMapper();
             return this;
         }
 
         public ServiceContainerBuilder AddEntityFramework<T>() where T : DbContext
         {
-            //this.containerBuilder.RegisterType<T>();
-
             this.serviceCollection.AddEntityFramework()
                 .AddEntityFrameworkSqlServer()
                 .AddDbContext<T>();
@@ -223,6 +157,69 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
                 .InstancePerLifetimeScope();
 
             return this;
+        }
+
+        private void RegisterProjectAssemblies()
+        {
+            var assemblyNames = DependencyContext
+                .Default
+                .CompileLibraries
+                .SelectMany(compileLib => compileLib.Assemblies)
+                .Where(assemblyName =>
+                    assemblyName.StartsWith(this.projectName, StringComparison.OrdinalIgnoreCase));
+
+
+
+            // register the assemblies of type Profile
+            // this will register all available mapping profiles
+            foreach (var assemblyName in assemblyNames)
+            {
+                this.containerBuilder.RegisterAssemblyTypes(Assembly.Load(new AssemblyName(assemblyName.Replace(".dll", ""))))
+                    .Where(type => type.IsAssignableTo<Profile>())
+                    .As<Profile>()
+                    .SingleInstance();
+            }
+        }
+
+        private void RegisterAutomapperProfiles()
+        {
+            // register all AutoMapper profiles
+            // create the mapperconfiguration and register it as single instance
+            this.containerBuilder.Register(componentContext =>
+                {
+                    var config = new MapperConfiguration(mapperConfigurationExpression =>
+                    {
+                        foreach (var profile in componentContext.Resolve<IEnumerable<Profile>>())
+                        {
+                            mapperConfigurationExpression.AddProfile(profile);
+                        }
+                    });
+
+                    return config;
+                }).SingleInstance()
+                .AutoActivate()
+                .AsSelf();
+        }
+
+        private void RegisterAutoMapper()
+        {
+            // resolve the mapperconfiguration and create the mapper
+            // register it as singleinstance
+            this.containerBuilder.Register(componentContext =>
+                {
+                    return componentContext
+                        .Resolve<IComponentContext>()
+                        .Resolve<MapperConfiguration>()
+                        .CreateMapper(type => componentContext.Resolve<IComponentContext>()
+                            .Resolve(type));
+                })
+                .As<IMapper>()
+                .SingleInstance();
+
+            this.containerBuilder.Register(componentContext => componentContext.Resolve<MapperConfiguration>()
+                    .CreateMapper(componentContext.Resolve))
+                .As<IMapper>()
+                .InstancePerLifetimeScope();
         }
     }
 }

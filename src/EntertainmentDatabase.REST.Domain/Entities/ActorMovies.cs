@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
 
-namespace EntertainmentDatabase.REST.API.Entities
+namespace EntertainmentDatabase.REST.Domain.Entities
 {
-    public class ActorMovie : IEntity
+    public class ActorMovies : IEntity
     {
         public Guid Id
         {
