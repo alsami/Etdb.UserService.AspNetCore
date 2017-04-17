@@ -10,6 +10,7 @@ using EntertainmentDatabase.REST.API.DataTransferObjects;
 using EntertainmentDatabase.REST.Domain.Entities;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Enums;
+using Microsoft.Net.Http.Headers;
 
 namespace EntertainmentDatabase.REST.API.Controllers
 {
@@ -17,14 +18,17 @@ namespace EntertainmentDatabase.REST.API.Controllers
     public class MovieFilesController : Controller
     {
         private readonly IMapper mapper;
+        private readonly IHttpContextAccessor contextAccessor;
         private readonly IEntityRepository<Movie> movieRepository;
         private readonly IEntityRepository<MovieFile> movieFileRepository;
 
-        public MovieFilesController(IMapper mapper, 
+        public MovieFilesController(IMapper mapper,
+            IHttpContextAccessor contextAccessor, 
             IEntityRepository<Movie> movieRepository, 
             IEntityRepository<MovieFile> movieFileRepository)
         {
             this.mapper = mapper;
+            this.contextAccessor = contextAccessor;
             this.movieRepository = movieRepository;
             this.movieFileRepository = movieFileRepository;
         }
@@ -43,7 +47,7 @@ namespace EntertainmentDatabase.REST.API.Controllers
                     Name = file.FileName,
                 };
 
-                using (var memoryStream = new MemoryStream())
+                using (var memoryStream = new MemoryStream(1024))
                 {
                     await file.CopyToAsync(memoryStream);
                     movieFile.File = memoryStream.ToArray();
@@ -53,5 +57,19 @@ namespace EntertainmentDatabase.REST.API.Controllers
             }
             return this.mapper.Map<MovieFileDTO>(movieFile);
         }
+
+        [HttpGet("{movieFileId:Guid}/download")]
+        public IActionResult Download(Guid movieId, Guid movieFileId)
+        {
+            var movieFile = this.movieFileRepository.Get(movieFileId);
+            var fileResult =
+                new FileContentResult(movieFile.File, new MediaTypeHeaderValue("application/octet"))
+                {
+                    FileDownloadName = movieFile.Name
+                };
+
+            return fileResult;
+        }
     }
 }
+

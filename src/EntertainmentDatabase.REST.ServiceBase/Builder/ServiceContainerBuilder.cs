@@ -11,6 +11,7 @@ using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Facades;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,7 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
             this.serviceCollection = serviceCollection;
             this.projectName = projectName;
             this.containerBuilder = new ContainerBuilder();
+            this.Initialize();
         }
 
         public ServiceContainerBuilder UseConfiguration(IConfigurationRoot configurationRoot)
@@ -225,6 +227,18 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
             //// see https://docs.microsoft.com/en-us/aspnet/core/security/cors
             //// for more information on this topic
             this.serviceCollection.Configure<MvcOptions>(options => options.Filters.Add(new CorsAuthorizationFilterFactory(corsPolicyName)));
+        }
+
+        private void RegisterHttpAccessor()
+        {
+            this.containerBuilder.RegisterType<HttpContextAccessor>()
+                .As<IHttpContextAccessor>()
+                .SingleInstance();
+        }
+
+        private void Initialize()
+        {
+            this.RegisterHttpAccessor();
         }
     }
 }

@@ -37,13 +37,13 @@ namespace EntertainmentDatabase.REST.API.Controllers
         }
 
         [HttpPut("{id:Guid}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody] MovieDTO movieDTO)
+        public async Task<MovieDTO> Put(Guid id, [FromBody] MovieDTO movieDTO)
         {
             var movie = this.movieRepository.Get(id);
             this.mapper.Map(movieDTO, movie);
             await this.movieRepository.EnsureChangesAsync();
 
-            return Ok();
+            return this.mapper.Map<MovieDTO>(movie);
         }
 
         [HttpDelete("{id:Guid}")]
