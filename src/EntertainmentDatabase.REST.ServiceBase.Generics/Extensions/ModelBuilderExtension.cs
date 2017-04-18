@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using IEntity = EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions.IEntity;
+using IEntity = EntertainmentDatabase.REST.ServiceBase.Generics.Base.IEntity;
 
 namespace EntertainmentDatabase.REST.ServiceBase.Generics.Extensions
 {

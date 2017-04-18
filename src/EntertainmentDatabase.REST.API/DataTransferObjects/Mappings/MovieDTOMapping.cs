@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using EntertainmentDatabase.REST.Domain.Entities;
+using EntertainmentDatabase.REST.API.Domain.Entities;
 
 namespace EntertainmentDatabase.REST.API.DataTransferObjects.Mappings
 {
@@ -11,6 +11,8 @@ namespace EntertainmentDatabase.REST.API.DataTransferObjects.Mappings
                 .ForMember(destination => destination.ConcurrencyToken,
                     option => option.MapFrom(source => source.RowVersion))
                 .ReverseMap();
+            //.ForMember(destination => destination.ConsumerMediaType, option => option.MapFrom(source => source.));
+            //.ReverseMap();
         }
     }
 }

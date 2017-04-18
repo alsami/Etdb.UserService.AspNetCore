@@ -5,6 +5,7 @@ using System.Reflection;
 using Autofac;
 using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
+using EntertainmentDatabase.REST.API.Core;
 using EntertainmentDatabase.REST.ServiceBase.Builder;
 using EntertainmentDatabase.REST.ServiceBase.Configuration;
 using Microsoft.AspNetCore.Builder;

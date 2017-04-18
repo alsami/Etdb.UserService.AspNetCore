@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "NETStandard.Library": "1.6.1",
+    "AutoMapper": "6.0.2",
+    "EntertainmentDatabase.REST.ServiceBase.Generics": "1.0.0-*",
+    "Microsoft.AspNetCore.Mvc.Core": "1.1.0"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    }
+  }
+}

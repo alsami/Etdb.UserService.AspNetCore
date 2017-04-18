@@ -9,9 +9,10 @@ using EntertainmentDatabase.REST.API.Domain.Enums;
 namespace EntertainmentDatabase.REST.API.Migrations
 {
     [DbContext(typeof(EntertainmentDatabaseContext))]
-    partial class EntertainmentDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170418205330_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")

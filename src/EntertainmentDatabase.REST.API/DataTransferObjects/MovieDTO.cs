@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EntertainmentDatabase.REST.API.DataTransferObjects
 {
-    public class MovieDTO : IDataTransferObject
+    public class MovieDTO : Domain.Base.IDataTransferObject
     {
         public byte[] ConcurrencyToken
         {
@@ -32,12 +29,6 @@ namespace EntertainmentDatabase.REST.API.DataTransferObjects
         }
 
         public DateTime? ReleasesOn
-        {
-            get;
-            set;
-        }
-
-        public ICollection<MovieFileDTO> MovieFiles
         {
             get;
             set;

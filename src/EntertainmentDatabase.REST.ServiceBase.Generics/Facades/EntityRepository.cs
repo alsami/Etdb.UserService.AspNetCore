@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
+using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
 using Microsoft.EntityFrameworkCore;
-using IEntity = EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions.IEntity;
+using IEntity = EntertainmentDatabase.REST.ServiceBase.Generics.Base.IEntity;
 
 namespace EntertainmentDatabase.REST.ServiceBase.Generics.Facades
 {

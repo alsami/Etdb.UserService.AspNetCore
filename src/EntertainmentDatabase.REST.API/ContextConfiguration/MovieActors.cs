@@ -1,5 +1,5 @@
-﻿using EntertainmentDatabase.REST.Domain.Entities;
-using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
+﻿using EntertainmentDatabase.REST.API.Domain.Entities;
+using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EntertainmentDatabase.REST.API.ContextConfiguration

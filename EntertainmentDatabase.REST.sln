@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8BDD7B81-E
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EntertainmentDatabase.REST.ServiceBase.Generics", "src\EntertainmentDatabase.REST.ServiceBase.Generics\EntertainmentDatabase.REST.ServiceBase.Generics.xproj", "{921C740C-ED4A-4F92-9C9A-4CBE55929592}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EntertainmentDatabase.REST.Domain", "src\EntertainmentDatabase.REST.Domain\EntertainmentDatabase.REST.Domain.xproj", "{37C2DEA8-FF4F-43A4-9808-C283E535C0B8}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EntertainmentDatabase.REST.API.Domain", "src\EntertainmentDatabase.REST.API.Domain\EntertainmentDatabase.REST.API.Domain.xproj", "{37C2DEA8-FF4F-43A4-9808-C283E535C0B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

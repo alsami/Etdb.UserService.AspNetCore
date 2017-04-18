@@ -7,7 +7,7 @@ using Autofac.Core;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using EntertainmentDatabase.REST.ServiceBase.Configuration;
-using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
+using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Facades;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
@@ -74,14 +74,7 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
 
             if (corsPolicy.RegisterGlobally)
             {
-                //// apply cors globally
-                //// u can also apply them per controller / action
-                //// see https://docs.microsoft.com/en-us/aspnet/core/security/cors
-                //// for more information on this topic
-                this.serviceCollection.Configure<MvcOptions>(options =>
-                {
-                    options.Filters.Add(new CorsAuthorizationFilterFactory(corsPolicy.Name));
-                });
+                this.RegisterCorsPolicyGlobally(corsPolicy.Name);
             }
 
             return this;
@@ -89,7 +82,6 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
 
         public ServiceContainerBuilder UseCors(string corsPolicyName, Action<CorsPolicyBuilder> corsPolicyBuilder, bool registerGlobally = false)
         {
-            // add cors to allow cross site origin
             this.serviceCollection.AddCors(corsOptions =>
             {
                 corsOptions.AddPolicy(corsPolicyName, corsPolicyBuilder);
@@ -131,7 +123,7 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
             this.serviceCollection.AddMvc()
                 .AddJsonOptions(optionsBuilder =>
                 {
-                    // make sure that the properties are resolved based on CamelCase-Rules
+                    // make sure that the properties are serialized based on CamelCase-Rules
                     // returns lowercamelcase properties when sending data, when receiving data uppercamelcase properties
                     optionsBuilder.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     optionsBuilder.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

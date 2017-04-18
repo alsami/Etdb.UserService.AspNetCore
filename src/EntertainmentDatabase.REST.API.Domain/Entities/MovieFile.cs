@@ -1,0 +1,63 @@
+﻿using System;
+using EntertainmentDatabase.REST.API.Domain.Base;
+using EntertainmentDatabase.REST.API.Domain.Enums;
+
+namespace EntertainmentDatabase.REST.API.Domain.Entities
+{
+    public class MovieFile : IMediaFile
+    {
+        public Guid MovieId
+        {
+            get;
+            set;
+        }
+
+        public Movie Movie
+        {
+            get;
+            set;
+        }
+
+        public Guid Id
+        {
+            get;
+            set;
+        }
+
+        public byte[] RowVersion
+        {
+            get;
+            set;
+        }
+
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public string Extension
+        {
+            get;
+            set;
+        }
+
+        public MediaFileType MediaFileType
+        {
+            get;
+            set;
+        }
+
+        public byte[] File
+        {
+            get;
+            set;
+        }
+
+        public bool IsCover
+        {
+            get;
+            set;
+        }
+    }
+}

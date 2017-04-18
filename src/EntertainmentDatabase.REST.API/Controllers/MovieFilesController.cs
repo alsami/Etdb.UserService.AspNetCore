@@ -7,9 +7,9 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using EntertainmentDatabase.REST.API.DataTransferObjects;
-using EntertainmentDatabase.REST.Domain.Entities;
-using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
-using EntertainmentDatabase.REST.ServiceBase.Generics.Enums;
+using EntertainmentDatabase.REST.API.Domain.Entities;
+using EntertainmentDatabase.REST.API.Domain.Enums;
+using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
 using Microsoft.Net.Http.Headers;
 
 namespace EntertainmentDatabase.REST.API.Controllers
@@ -41,7 +41,7 @@ namespace EntertainmentDatabase.REST.API.Controllers
                 movieFile = new MovieFile
                 {
                     MovieId = movieId,
-                    MediaType = MediaType.Game,
+                    MediaFileType = MediaFileType.Game,
                     Extension = "jpg",
                     IsCover = false,
                     Name = file.FileName,

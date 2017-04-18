@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using EntertainmentDatabase.REST.Domain.Entities;
-using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
+using EntertainmentDatabase.REST.API.Domain.Entities;
+using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EntertainmentDatabase.REST.API.Controllers

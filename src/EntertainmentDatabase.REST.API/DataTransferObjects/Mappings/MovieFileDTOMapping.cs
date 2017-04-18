@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using EntertainmentDatabase.REST.Domain.Entities;
+using EntertainmentDatabase.REST.API.Domain.Entities;
 
 namespace EntertainmentDatabase.REST.API.DataTransferObjects.Mappings
 {

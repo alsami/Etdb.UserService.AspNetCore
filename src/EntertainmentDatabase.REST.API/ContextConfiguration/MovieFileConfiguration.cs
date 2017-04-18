@@ -1,8 +1,8 @@
-﻿using EntertainmentDatabase.REST.Domain.Entities;
-using EntertainmentDatabase.REST.ServiceBase.Generics.Abstractions;
+﻿using EntertainmentDatabase.REST.API.ContextConfiguration.Base;
+using EntertainmentDatabase.REST.API.Domain.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EntertainmentDatabase.REST.API.ContextConfiguration
 {
-    public class MovieFileConfiguration : MediaMappingConfiguration<MovieFile>{}
+    public class MovieFileConfiguration : MediaFileMediaMappingConfiguration<MovieFile>{}
 }
