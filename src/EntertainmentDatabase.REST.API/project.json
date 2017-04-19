@@ -1,5 +1,9 @@
 {
   "dependencies": {
+    "EntertainmentDatabase.REST.API.Domain": "1.0.0-*",
+    "EntertainmentDatabase.REST.ServiceBase": "1.0.0-*",
+    "EntertainmentDatabase.REST.API.Context": "1.0.0-*",
+    "EntertainmentDatabase.REST.ServiceBase.Generics": "1.0.0-*",
     "Microsoft.AspNetCore.Hosting.Abstractions": "1.1.0",
     "Autofac.Extensions.DependencyInjection": "4.0.0",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
@@ -25,22 +29,14 @@
     "Microsoft.Extensions.Configuration": "1.1.0",
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
     "NETStandard.Library": "1.6.1",
-    "Microsoft.EntityFrameworkCore.Tools": {
-      "type": "build",
-      "version": "1.1.0-preview4-final"
-    },
     "Microsoft.VisualStudio.Web.CodeGeneration.Utils": "1.0.0-preview2-final",
-    "EntertainmentDatabase.REST.ServiceBase.Generics": "1.0.0-*",
-    "EntertainmentDatabase.REST.API.Domain": "1.0.0-*",
-    "EntertainmentDatabase.REST.ServiceBase": "1.0.0-*",
     "Microsoft.AspNetCore.StaticFiles": "1.1.0"
   },
   "tools": {
     "Microsoft.AspNetCore.Server.IISIntegration.Tools": {
       "version": "1.1.0-preview4-final",
       "imports": "portable-net45+win8+dnxcore50"
-    },
-    "Microsoft.EntityFrameworkCore.Tools": "1.1.0-preview4-final"
+    }
   },
 
   "frameworks": {

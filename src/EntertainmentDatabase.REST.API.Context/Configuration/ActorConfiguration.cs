@@ -2,7 +2,7 @@
 using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EntertainmentDatabase.REST.API.ContextConfiguration
+namespace EntertainmentDatbase.REST.API.Context.Configuration
 {
     public class ActorConfiguration : EntityMappingConfiguration<Actor>
     {

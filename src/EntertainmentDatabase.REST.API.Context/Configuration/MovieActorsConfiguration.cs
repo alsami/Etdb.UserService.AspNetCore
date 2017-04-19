@@ -1,12 +1,11 @@
-﻿using EntertainmentDatabase.REST.API.Domain.Entities;
-using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
+﻿using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EntertainmentDatabase.REST.API.ContextConfiguration
+namespace EntertainmentDatbase.REST.API.Context.Configuration
 {
-    public class MovieActors : EntityMappingConfiguration<Domain.Entities.MovieActors>
+    public class MovieActorsConfiguration : EntityMappingConfiguration<EntertainmentDatabase.REST.API.Domain.Entities.MovieActors>
     {
-        protected override void Configure(EntityTypeBuilder<Domain.Entities.MovieActors> builder)
+        protected override void Configure(EntityTypeBuilder<EntertainmentDatabase.REST.API.Domain.Entities.MovieActors> builder)
         {
             builder.HasIndex(actorMovie => new {actorMovie.ActorId, actorMovie.MovieId})
                 .IsUnique();

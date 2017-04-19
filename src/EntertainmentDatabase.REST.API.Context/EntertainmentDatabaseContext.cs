@@ -1,12 +1,11 @@
-﻿using EntertainmentDatabase.REST.API.ContextConfiguration;
-using EntertainmentDatabase.REST.API.Domain.Entities;
+﻿using EntertainmentDatabase.REST.API.Domain.Entities;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Extensions;
+using EntertainmentDatbase.REST.API.Context.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using MovieActors = EntertainmentDatabase.REST.API.ContextConfiguration.MovieActors;
 
-namespace EntertainmentDatabase.REST.API.Core
+namespace EntertainmentDatbase.REST.API.Context
 {
     public class EntertainmentDatabaseContext : DbContext
     {
@@ -25,7 +24,7 @@ namespace EntertainmentDatabase.REST.API.Core
 
         public DbSet<Actor> Actors;
 
-        public DbSet<Domain.Entities.MovieActors> ActorMovies;
+        public DbSet<EntertainmentDatabase.REST.API.Domain.Entities.MovieActors> ActorMovies;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -49,7 +48,7 @@ namespace EntertainmentDatabase.REST.API.Core
             new ActorConfiguration()
                 .Configure(modelBuilder);
 
-            new MovieActors()
+            new MovieActorsConfiguration()
                 .Configure(modelBuilder);
 
             modelBuilder.DisableCascadeDelete();
