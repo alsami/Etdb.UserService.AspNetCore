@@ -2,7 +2,7 @@
 using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace EntertainmentDatbase.REST.API.Context.Configuration.Base
+namespace EntertainmentDatabase.REST.API.Context.Configuration.Base
 {
     public abstract class MediaFileMediaMappingConfiguration<T> : EntityMappingConfiguration<T> where T : class, IMediaFile, new()
     {

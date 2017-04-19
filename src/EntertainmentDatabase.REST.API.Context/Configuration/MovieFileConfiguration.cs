@@ -1,7 +1,7 @@
-﻿using EntertainmentDatabase.REST.API.Domain.Entities;
-using EntertainmentDatbase.REST.API.Context.Configuration.Base;
+﻿using EntertainmentDatabase.REST.API.Context.Configuration.Base;
+using EntertainmentDatabase.REST.API.Domain.Entities;
 
-namespace EntertainmentDatbase.REST.API.Context.Configuration
+namespace EntertainmentDatabase.REST.API.Context.Configuration
 {
     public class MovieFileConfiguration : MediaFileMediaMappingConfiguration<MovieFile>{}
 }

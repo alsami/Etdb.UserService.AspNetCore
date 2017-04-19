@@ -1,11 +1,11 @@
-﻿using EntertainmentDatabase.REST.API.Domain.Entities;
+﻿using EntertainmentDatabase.REST.API.Context.Configuration;
+using EntertainmentDatabase.REST.API.Domain.Entities;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Extensions;
-using EntertainmentDatbase.REST.API.Context.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace EntertainmentDatbase.REST.API.Context
+namespace EntertainmentDatabase.REST.API.Context
 {
     public class EntertainmentDatabaseContext : DbContext
     {
