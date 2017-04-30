@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
-namespace EntertainmentDatabase.REST.API.Admin.Controllers
+namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
 {
     [Route("api/movies/{movieId:Guid}/[controller]")]
     public class MovieFilesController : Controller

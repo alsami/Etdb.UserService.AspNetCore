@@ -7,7 +7,7 @@ using EntertainmentDatabase.REST.API.Domain.Entities;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EntertainmentDatabase.REST.API.Admin.Controllers
+namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
 {
     [Route("api/[controller]")]
     public class MoviesController : Controller

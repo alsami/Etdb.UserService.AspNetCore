@@ -3,17 +3,19 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using EntertainmentDatabase.REST.API.DataAccess;
+using EntertainmentDatabase.REST.API.Domain.Enums;
 
 namespace EntertainmentDatabase.REST.API.DataAccess.Migrations
 {
     [DbContext(typeof(EntertainmentDatabaseContext))]
-    [Migration("20170419064107_Initial")]
+    [Migration("20170430111732_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
+                .HasAnnotation("ProductVersion", "1.1.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("EntertainmentDatabase.REST.API.Domain.Entities.Actor", b =>

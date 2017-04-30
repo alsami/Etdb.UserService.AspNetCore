@@ -2,6 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+using EntertainmentDatabase.REST.API.DataAccess;
+using EntertainmentDatabase.REST.API.Domain.Enums;
 
 namespace EntertainmentDatabase.REST.API.DataAccess.Migrations
 {
@@ -11,7 +14,7 @@ namespace EntertainmentDatabase.REST.API.DataAccess.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
-                .HasAnnotation("ProductVersion", "1.1.0-rtm-22752")
+                .HasAnnotation("ProductVersion", "1.1.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("EntertainmentDatabase.REST.API.Domain.Entities.Actor", b =>

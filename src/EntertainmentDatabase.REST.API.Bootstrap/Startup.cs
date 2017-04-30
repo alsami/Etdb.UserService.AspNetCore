@@ -8,8 +8,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
-namespace EntertainmentDatabase.REST.API.Admin
+namespace EntertainmentDatabase.REST.API.Bootstrap
 {
     public class Startup
     {
@@ -32,6 +34,10 @@ namespace EntertainmentDatabase.REST.API.Admin
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             var containerBuilder = new ServiceContainerBuilder(services, "EntertainmentDatabase.REST")
+                .AddCoreServiceRequirement(options => {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                })
                 .AddAutoMapper()
                 .AddEntityFramework<EntertainmentDatabaseContext>()
                 .UseConfiguration(this.configurationRoot)
@@ -44,8 +50,8 @@ namespace EntertainmentDatabase.REST.API.Admin
                         .AllowAnyMethod()
                         .AllowAnyOrigin()
                         .AllowCredentials();
-                }, true)
-                .UseDefaultJSONOptions();
+                }, true);
+
 
             this.applicationContainer = containerBuilder.Build();
 
@@ -53,8 +59,8 @@ namespace EntertainmentDatabase.REST.API.Admin
         }
 
 
-        public void Configure(IApplicationBuilder app, 
-            IHostingEnvironment env, 
+        public void Configure(IApplicationBuilder app,
+            IHostingEnvironment env,
             ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(this.configurationRoot.GetSection("Logging"));
@@ -66,8 +72,8 @@ namespace EntertainmentDatabase.REST.API.Admin
                 app.UseDatabaseErrorPage();
             }
 
-            app.UseStaticFiles();
-            app.UseDefaultFiles();
+            //app.UseStaticFiles();
+            //app.UseDefaultFiles();
 
             app.UseMvc();
         }

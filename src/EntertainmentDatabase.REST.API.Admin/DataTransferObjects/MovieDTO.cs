@@ -2,7 +2,7 @@
 
 namespace EntertainmentDatabase.REST.API.Admin.DataTransferObjects
 {
-    public class MovieDTO : Domain.Base.IDataTransferObject
+    public class MovieDTO : Base.IDataTransferObject
     {
         public byte[] ConcurrencyToken
         {

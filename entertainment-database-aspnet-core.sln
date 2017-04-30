@@ -13,9 +13,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.ServiceBase.Generics", "src\EntertainmentDatabase.REST.ServiceBase.Generics\EntertainmentDatabase.REST.ServiceBase.Generics.csproj", "{2F2D4958-42CE-4BE1-A181-2664FCCF14A3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.Admin", "src\EntertainmentDatabase.REST.API.Admin\EntertainmentDatabase.REST.API.Admin.csproj", "{837CFD71-C1FA-490B-BB03-413A3991E5EB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.DataAccess", "src\EntertainmentDatabase.REST.API.DataAccess\EntertainmentDatabase.REST.API.DataAccess.csproj", "{1C88F87E-B7FB-4969-A49F-17FEA80198B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.API.Bootstrap", "src\EntertainmentDatabase.REST.API.Bootstrap\EntertainmentDatabase.REST.API.Bootstrap.csproj", "{F92E686D-6BB4-4805-B14F-35C865197A09}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.API.Admin", "src\EntertainmentDatabase.REST.API.Admin\EntertainmentDatabase.REST.API.Admin.csproj", "{710723B1-E821-4B9B-AFCF-CA870CA8C0B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.API.Main", "src\EntertainmentDatabase.REST.API.Main.Old\EntertainmentDatabase.REST.API.Main\EntertainmentDatabase.REST.API.Main.csproj", "{1FCA97D2-E624-49D1-BB7B-A6E77D3D5ED2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,14 +39,22 @@ Global
 		{2F2D4958-42CE-4BE1-A181-2664FCCF14A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F2D4958-42CE-4BE1-A181-2664FCCF14A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F2D4958-42CE-4BE1-A181-2664FCCF14A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{837CFD71-C1FA-490B-BB03-413A3991E5EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{837CFD71-C1FA-490B-BB03-413A3991E5EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{837CFD71-C1FA-490B-BB03-413A3991E5EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{837CFD71-C1FA-490B-BB03-413A3991E5EB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1C88F87E-B7FB-4969-A49F-17FEA80198B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1C88F87E-B7FB-4969-A49F-17FEA80198B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C88F87E-B7FB-4969-A49F-17FEA80198B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C88F87E-B7FB-4969-A49F-17FEA80198B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F92E686D-6BB4-4805-B14F-35C865197A09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F92E686D-6BB4-4805-B14F-35C865197A09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F92E686D-6BB4-4805-B14F-35C865197A09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F92E686D-6BB4-4805-B14F-35C865197A09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{710723B1-E821-4B9B-AFCF-CA870CA8C0B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{710723B1-E821-4B9B-AFCF-CA870CA8C0B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{710723B1-E821-4B9B-AFCF-CA870CA8C0B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{710723B1-E821-4B9B-AFCF-CA870CA8C0B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FCA97D2-E624-49D1-BB7B-A6E77D3D5ED2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FCA97D2-E624-49D1-BB7B-A6E77D3D5ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FCA97D2-E624-49D1-BB7B-A6E77D3D5ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FCA97D2-E624-49D1-BB7B-A6E77D3D5ED2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,7 +63,9 @@ Global
 		{173CCD4D-CCC8-4AE6-9A77-C1003CD579A9} = {6E347105-EE31-40D1-A119-04DB80223845}
 		{E38104BE-52CD-42A3-A8B0-385633DEE491} = {6E347105-EE31-40D1-A119-04DB80223845}
 		{2F2D4958-42CE-4BE1-A181-2664FCCF14A3} = {6E347105-EE31-40D1-A119-04DB80223845}
-		{837CFD71-C1FA-490B-BB03-413A3991E5EB} = {6E347105-EE31-40D1-A119-04DB80223845}
 		{1C88F87E-B7FB-4969-A49F-17FEA80198B1} = {6E347105-EE31-40D1-A119-04DB80223845}
+		{F92E686D-6BB4-4805-B14F-35C865197A09} = {6E347105-EE31-40D1-A119-04DB80223845}
+		{710723B1-E821-4B9B-AFCF-CA870CA8C0B2} = {6E347105-EE31-40D1-A119-04DB80223845}
+		{1FCA97D2-E624-49D1-BB7B-A6E77D3D5ED2} = {6E347105-EE31-40D1-A119-04DB80223845}
 	EndGlobalSection
 EndGlobal

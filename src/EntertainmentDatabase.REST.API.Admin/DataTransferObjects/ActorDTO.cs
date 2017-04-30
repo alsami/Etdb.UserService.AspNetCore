@@ -2,7 +2,7 @@
 
 namespace EntertainmentDatabase.REST.API.Admin.DataTransferObjects
 {
-    public class ActorDTO : Domain.Base.IDataTransferObject
+    public class ActorDTO : Base.IDataTransferObject
     {
         public Guid Id
         {

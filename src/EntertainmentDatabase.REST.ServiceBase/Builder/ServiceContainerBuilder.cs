@@ -19,8 +19,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace EntertainmentDatabase.REST.ServiceBase.Builder
 {
@@ -47,13 +45,6 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
         public ServiceContainerBuilder UseEnvironment(IHostingEnvironment hostingEnvironment)
         {
             this.containerBuilder.RegisterInstance(hostingEnvironment);
-            return this;
-        }
-
-        public ServiceContainerBuilder UseDbContext<T>() where T : DbContext
-        {
-            this.containerBuilder
-                .RegisterType<T>();
             return this;
         }
 
@@ -112,22 +103,19 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
             return this;
         }
 
-        public IContainer Build()
+        public ServiceContainerBuilder AddCoreServiceRequirement()
         {
-            this.containerBuilder.Populate(this.serviceCollection);
-            return this.containerBuilder.Build();
+            this.serviceCollection
+                .AddMvc();
+
+            return this;
         }
 
-        public ServiceContainerBuilder UseDefaultJSONOptions()
+        public ServiceContainerBuilder AddCoreServiceRequirement(Action<MvcJsonOptions> jsonAction)
         {
-            this.serviceCollection.AddMvc()
-                .AddJsonOptions(optionsBuilder =>
-                {
-                    // make sure that the properties are serialized based on CamelCase-Rules
-                    // returns lowercamelcase properties when sending data, when receiving data uppercamelcase properties
-                    optionsBuilder.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    optionsBuilder.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                });
+            this.serviceCollection
+                .AddMvc()
+                .AddJsonOptions(jsonAction);
 
             return this;
         }
@@ -147,6 +135,12 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
                 .InstancePerLifetimeScope();
 
             return this;
+        }
+
+        public IContainer Build()
+        {
+            this.containerBuilder.Populate(this.serviceCollection);
+            return this.containerBuilder.Build();
         }
 
         private void RegisterProjectAssemblies()
