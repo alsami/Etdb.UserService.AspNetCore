@@ -24,7 +24,7 @@ namespace EntertainmentDatabase.REST.API.Context
 
         public DbSet<Actor> Actors;
 
-        public DbSet<EntertainmentDatabase.REST.API.Domain.Entities.MovieActors> ActorMovies;
+        public DbSet<MovieActors> ActorMovies;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
