@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EntertainmentDatabase.REST.API.DataAccess.Configuration.Base
 {
-    public abstract class MediaFileMappingConfiguration<T> : EntityMappingConfiguration<T> where T : class, IMediaFile, new()
+    internal abstract class MediaFileMappingConfiguration<T> : EntityMappingConfiguration<T> where T : class, IMediaFile, new()
     {
         protected override void Configure(EntityTypeBuilder<T> builder)
         {

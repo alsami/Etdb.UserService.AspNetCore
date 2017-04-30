@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EntertainmentDatabase.REST.API.DataAccess.Configuration
 {
-    public class MovieConfiguration : EntityMappingConfiguration<Movie>
+    internal class MovieConfiguration : EntityMappingConfiguration<Movie>
     {
         public MovieConfiguration(ModelBuilder modelBuilder) : base(modelBuilder){}
 

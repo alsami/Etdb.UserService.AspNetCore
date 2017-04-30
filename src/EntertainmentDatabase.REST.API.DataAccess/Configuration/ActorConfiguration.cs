@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EntertainmentDatabase.REST.API.DataAccess.Configuration
 {
-    public class ActorConfiguration : EntityMappingConfiguration<Actor>
+    internal class ActorConfiguration : EntityMappingConfiguration<Actor>
     {
         protected override void Configure(EntityTypeBuilder<Actor> builder)
         {

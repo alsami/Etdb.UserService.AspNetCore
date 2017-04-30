@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EntertainmentDatabase.REST.API.DataAccess.Configuration
 {
-    public class MovieFileConfiguration : MediaFileMappingConfiguration<MovieFile>{
+    internal class MovieFileConfiguration : MediaFileMappingConfiguration<MovieFile>{
         public MovieFileConfiguration(ModelBuilder modelBuilder) : base(modelBuilder){}
     }
 }

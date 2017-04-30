@@ -1,9 +1,10 @@
 ﻿using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EntertainmentDatabase.REST.API.Domain.Base
 {
-    public abstract class MediaMappingConfiguration<T> : EntityMappingConfiguration<T> where T : class, IMediaFile, new()
+    internal abstract class MediaMappingConfiguration<T> : EntityMappingConfiguration<T> where T : class, IMediaFile, new()
     {
         protected override void Configure(EntityTypeBuilder<T> builder)
         {
@@ -15,5 +16,7 @@ namespace EntertainmentDatabase.REST.API.Domain.Base
                 .IsRequired()
                 .HasMaxLength(16);
         }
+
+        protected MediaMappingConfiguration(ModelBuilder modelBuilder) : base(modelBuilder){}
     }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EntertainmentDatabase.REST.API.DataAccess.Configuration
 {
-    public class MovieActorsConfiguration : EntityMappingConfiguration<EntertainmentDatabase.REST.API.Domain.Entities.MovieActors>
+    internal class MovieActorsConfiguration : EntityMappingConfiguration<EntertainmentDatabase.REST.API.Domain.Entities.MovieActors>
     {
         public MovieActorsConfiguration(ModelBuilder modelBuilder) : base(modelBuilder){}
 
