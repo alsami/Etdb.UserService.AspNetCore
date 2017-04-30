@@ -21,7 +21,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-// TODO: Add proper namespaces!!!
 namespace EntertainmentDatabase.REST.API
 {
     public class Startup

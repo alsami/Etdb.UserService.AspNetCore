@@ -42,8 +42,7 @@ namespace EntertainmentDatabase.REST.API.Controllers
                 {
                     MovieId = movieId,
                     MediaFileType = MediaFileType.Game,
-                    Extension = "jpg",
-                    IsCover = false,
+                    Extension = new FileInfo(file.FileName).Extension,
                     Name = file.FileName,
                 };
 
@@ -51,9 +50,9 @@ namespace EntertainmentDatabase.REST.API.Controllers
                 {
                     await file.CopyToAsync(memoryStream);
                     movieFile.File = memoryStream.ToArray();
-                    this.movieFileRepository.Add(movieFile);
-                    this.movieFileRepository.EnsureChanges();
                 }
+                this.movieFileRepository.Add(movieFile);
+                this.movieFileRepository.EnsureChanges();
             }
             return this.mapper.Map<MovieFileDTO>(movieFile);
         }

@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API", "src\EntertainmentDatabase.REST.API\EntertainmentDatabase.REST.API.csproj", "{44815136-DBE3-4166-B4A6-E01B9640EB38}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6E347105-EE31-40D1-A119-04DB80223845}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8B7D93EC-12C3-4FAE-976D-D0801AFFB934}"
@@ -17,16 +15,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.ServiceBase.Generics", "src\EntertainmentDatabase.REST.ServiceBase.Generics\EntertainmentDatabase.REST.ServiceBase.Generics.csproj", "{2F2D4958-42CE-4BE1-A181-2664FCCF14A3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.Admin.API", "src\EntertainmentDatabase.REST.Admin.API\EntertainmentDatabase.REST.Admin.API.csproj", "{97A35760-0D23-4D4C-BB5D-EA0EA03FCDFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{44815136-DBE3-4166-B4A6-E01B9640EB38}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44815136-DBE3-4166-B4A6-E01B9640EB38}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44815136-DBE3-4166-B4A6-E01B9640EB38}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44815136-DBE3-4166-B4A6-E01B9640EB38}.Release|Any CPU.Build.0 = Release|Any CPU
 		{287306A3-AA1C-4634-83B9-B88A443AE59F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{287306A3-AA1C-4634-83B9-B88A443AE59F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{287306A3-AA1C-4634-83B9-B88A443AE59F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -43,15 +39,19 @@ Global
 		{2F2D4958-42CE-4BE1-A181-2664FCCF14A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F2D4958-42CE-4BE1-A181-2664FCCF14A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F2D4958-42CE-4BE1-A181-2664FCCF14A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97A35760-0D23-4D4C-BB5D-EA0EA03FCDFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97A35760-0D23-4D4C-BB5D-EA0EA03FCDFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97A35760-0D23-4D4C-BB5D-EA0EA03FCDFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97A35760-0D23-4D4C-BB5D-EA0EA03FCDFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{44815136-DBE3-4166-B4A6-E01B9640EB38} = {6E347105-EE31-40D1-A119-04DB80223845}
 		{287306A3-AA1C-4634-83B9-B88A443AE59F} = {6E347105-EE31-40D1-A119-04DB80223845}
 		{173CCD4D-CCC8-4AE6-9A77-C1003CD579A9} = {6E347105-EE31-40D1-A119-04DB80223845}
 		{E38104BE-52CD-42A3-A8B0-385633DEE491} = {6E347105-EE31-40D1-A119-04DB80223845}
 		{2F2D4958-42CE-4BE1-A181-2664FCCF14A3} = {6E347105-EE31-40D1-A119-04DB80223845}
+		{97A35760-0D23-4D4C-BB5D-EA0EA03FCDFE} = {6E347105-EE31-40D1-A119-04DB80223845}
 	EndGlobalSection
 EndGlobal
