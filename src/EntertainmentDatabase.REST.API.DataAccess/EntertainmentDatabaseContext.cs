@@ -1,8 +1,10 @@
-﻿using EntertainmentDatabase.REST.API.DataAccess.Configuration;
+﻿using System.Linq;
+using EntertainmentDatabase.REST.API.DataAccess.Configuration;
 using EntertainmentDatabase.REST.API.Domain.Entities;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
 namespace EntertainmentDatabase.REST.API.DataAccess
@@ -39,19 +41,27 @@ namespace EntertainmentDatabase.REST.API.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
-            new MovieConfiguration()
-                .Configure(modelBuilder);
+            new MovieConfiguration(modelBuilder)
+                .ConfigureEntity();
 
-            new MovieFileConfiguration()
-                .Configure(modelBuilder);
+            new MovieFileConfiguration(modelBuilder)
+                .ConfigureEntity();
 
-            new ActorConfiguration()
-                .Configure(modelBuilder);
+            new ActorConfiguration(modelBuilder)
+                .ConfigureEntity();
 
-            new MovieActorsConfiguration()
-                .Configure(modelBuilder);
+            new MovieActorsConfiguration(modelBuilder)
+                .ConfigureEntity();
 
-            modelBuilder.DisableCascadeDelete();
+            this.DisableCascadeDelete(modelBuilder);
+        }
+
+        private void DisableCascadeDelete(ModelBuilder modelBuilder)
+        {
+            foreach (var relation in modelBuilder.Model.GetEntityTypes().SelectMany(entity => entity.GetForeignKeys()))
+            {
+                relation.DeleteBehavior = DeleteBehavior.Restrict;
+            }
         }
     }
 }

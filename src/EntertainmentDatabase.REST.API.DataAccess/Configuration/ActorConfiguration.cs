@@ -1,5 +1,6 @@
 ﻿using EntertainmentDatabase.REST.API.Domain.Entities;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EntertainmentDatabase.REST.API.DataAccess.Configuration
@@ -16,5 +17,7 @@ namespace EntertainmentDatabase.REST.API.DataAccess.Configuration
                 .HasMaxLength(128)
                 .IsRequired();
         }
+
+        public ActorConfiguration(ModelBuilder modelBuilder) : base(modelBuilder){}
     }
 }

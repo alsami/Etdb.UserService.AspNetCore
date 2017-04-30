@@ -1,5 +1,6 @@
 ﻿using EntertainmentDatabase.REST.API.Domain.Base;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EntertainmentDatabase.REST.API.DataAccess.Configuration.Base
@@ -16,5 +17,7 @@ namespace EntertainmentDatabase.REST.API.DataAccess.Configuration.Base
                 .IsRequired()
                 .HasMaxLength(16);
         }
+
+        protected MediaFileMappingConfiguration(ModelBuilder modelBuilder) : base(modelBuilder){}
     }
 }

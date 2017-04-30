@@ -1,10 +1,13 @@
 ﻿using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EntertainmentDatabase.REST.API.DataAccess.Configuration
 {
     public class MovieActorsConfiguration : EntityMappingConfiguration<EntertainmentDatabase.REST.API.Domain.Entities.MovieActors>
     {
+        public MovieActorsConfiguration(ModelBuilder modelBuilder) : base(modelBuilder){}
+
         protected override void Configure(EntityTypeBuilder<EntertainmentDatabase.REST.API.Domain.Entities.MovieActors> builder)
         {
             builder.HasIndex(actorMovie => new {actorMovie.ActorId, actorMovie.MovieId})
