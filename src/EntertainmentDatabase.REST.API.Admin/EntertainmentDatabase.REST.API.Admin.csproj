@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EntertainmentDatabase.REST.API.Domain\EntertainmentDatabase.REST.API.Domain.csproj" />
     <ProjectReference Include="..\EntertainmentDatabase.REST.API.Misc\EntertainmentDatabase.REST.API.Misc.csproj" />
+    <ProjectReference Include="..\EntertainmentDatabase.REST.API.Presentation\EntertainmentDatabase.REST.API.Presentation.csproj" />
     <ProjectReference Include="..\EntertainmentDatabase.REST.ServiceBase.Generics\EntertainmentDatabase.REST.ServiceBase.Generics.csproj" />
   </ItemGroup>
 
