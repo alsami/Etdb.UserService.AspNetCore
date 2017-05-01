@@ -111,10 +111,10 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
             return this;
         }
 
-        public ServiceContainerBuilder AddCoreServiceRequirement(Action<MvcJsonOptions> jsonAction)
+        public ServiceContainerBuilder AddCoreServiceRequirement(Action<MvcOptions> mvcOptionsAction, Action<MvcJsonOptions> jsonAction)
         {
             this.serviceCollection
-                .AddMvc()
+                .AddMvc(mvcOptionsAction)
                 .AddJsonOptions(jsonAction);
 
             return this;
@@ -207,7 +207,7 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
         }
 
         private void RegisterCorsPolicyGlobally(string corsPolicyName)
-        {
+        {   
             //// apply cors globally
             //// u can also apply them per controller / action
             //// see https://docs.microsoft.com/en-us/aspnet/core/security/cors

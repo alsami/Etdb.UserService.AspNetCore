@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
-using EntertainmentDatabase.REST.API.Admin.DataTransferObjects;
 using EntertainmentDatabase.REST.API.Domain.Entities;
+using EntertainmentDatabase.REST.API.Presentation.DataTransferObjects;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
 {
-    [Route("api/[controller]")]
+    [Route("api/admin/v1/[controller]")]
     public class ActorsController : Controller
     {
         private readonly IMapper mapper;

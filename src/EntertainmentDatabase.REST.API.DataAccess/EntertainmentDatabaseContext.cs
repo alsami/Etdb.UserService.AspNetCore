@@ -41,6 +41,12 @@ namespace EntertainmentDatabase.REST.API.DataAccess
         {
             base.OnModelCreating(modelBuilder);
 
+            new ActionLogConfiguration(modelBuilder)
+                .ConfigureEntity();
+
+            new ErrorLogConfiguration(modelBuilder)
+                .ConfigureEntity();
+
             new MovieConfiguration(modelBuilder)
                 .ConfigureEntity();
 

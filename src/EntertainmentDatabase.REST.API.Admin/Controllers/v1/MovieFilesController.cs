@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
-using EntertainmentDatabase.REST.API.Admin.DataTransferObjects;
 using EntertainmentDatabase.REST.API.Domain.Entities;
 using EntertainmentDatabase.REST.API.Domain.Enums;
+using EntertainmentDatabase.REST.API.Presentation.DataTransferObjects;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +13,7 @@ using Microsoft.Net.Http.Headers;
 
 namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
 {
-    [Route("api/movies/{movieId:Guid}/[controller]")]
+    [Route("api/admin/v1/movies/{movieId:Guid}/[controller]")]
     public class MovieFilesController : Controller
     {
         private readonly IMapper mapper;

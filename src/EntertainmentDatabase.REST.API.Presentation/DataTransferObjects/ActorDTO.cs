@@ -1,8 +1,9 @@
 ﻿using System;
+using EntertainmentDatabase.REST.API.Presentation.Base;
 
-namespace EntertainmentDatabase.REST.API.Admin.DataTransferObjects
+namespace EntertainmentDatabase.REST.API.Presentation.DataTransferObjects
 {
-    public class ActorDTO : Base.IDataTransferObject
+    public class ActorDTO : IDataTransferObject
     {
         public Guid Id
         {

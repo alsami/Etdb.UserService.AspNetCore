@@ -9,41 +9,14 @@ using EntertainmentDatabase.REST.API.Domain.Enums;
 namespace EntertainmentDatabase.REST.API.DataAccess.Migrations
 {
     [DbContext(typeof(EntertainmentDatabaseContext))]
-    partial class EntertainmentDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170430221058_ErrorLogEntity")]
+    partial class ErrorLogEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("EntertainmentDatabase.REST.API.Domain.Entities.ActionLog", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:DefaultValueSql", "newid()");
-
-                    b.Property<string>("HttpMethod")
-                        .IsRequired();
-
-                    b.Property<string>("Path")
-                        .IsRequired();
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate();
-
-                    b.Property<DateTime>("TraceEnd");
-
-                    b.Property<string>("TraceId")
-                        .IsRequired();
-
-                    b.Property<DateTime>("TraceStart");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ActionLog");
-                });
 
             modelBuilder.Entity("EntertainmentDatabase.REST.API.Domain.Entities.Actor", b =>
                 {
@@ -82,9 +55,6 @@ namespace EntertainmentDatabase.REST.API.DataAccess.Migrations
                         .HasMaxLength(4096);
 
                     b.Property<DateTime>("Occurrence");
-
-                    b.Property<string>("Path")
-                        .IsRequired();
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
 {
-    [Route("api/[controller]")]
+    [Route("api/admin/v1/[controller]")]
     public class MovieActorsController : Controller
     {
         private readonly IMapper mapper;

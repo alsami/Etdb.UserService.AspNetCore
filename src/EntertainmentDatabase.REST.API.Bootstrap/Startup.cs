@@ -1,6 +1,7 @@
 ﻿using System;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using EntertainmentDatabase.REST.API.Bootstrap.Filters;
 using EntertainmentDatabase.REST.API.DataAccess;
 using EntertainmentDatabase.REST.ServiceBase.Builder;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace EntertainmentDatabase.REST.API.Bootstrap
 {
@@ -34,9 +36,15 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             var containerBuilder = new ServiceContainerBuilder(services, "EntertainmentDatabase.REST")
-                .AddCoreServiceRequirement(options => {
-                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                .AddCoreServiceRequirement(mvcOptionsAction =>
+                    {
+                        mvcOptionsAction.Filters.Add(typeof(RessourceNotFoundExceptionFilter));
+                        mvcOptionsAction.Filters.Add(typeof(ActionLogFilter));
+                        mvcOptionsAction.Filters.Add(typeof(ErrorLogFilter));
+                    }, 
+                    options => {
+                        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 })
                 .AddAutoMapper()
                 .AddEntityFramework<EntertainmentDatabaseContext>()
@@ -72,10 +80,11 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
                 app.UseDatabaseErrorPage();
             }
 
-            //app.UseStaticFiles();
-            //app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseDefaultFiles();
 
             app.UseMvc();
         }
+
     }
 }
