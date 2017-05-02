@@ -19,17 +19,15 @@ namespace EntertainmentDatabase.REST.API.Bootstrap.Filters
         {
             try
             {
-                lock (this) { 
-                    this.errorLogRepository.Add(new ErrorLog
-                    {
-                        Occurrence = DateTime.UtcNow,
-                        HttpMethod = context.HttpContext.Request.Method,
-                        Message = context.Exception.Message,
-                        TraceId = context.HttpContext.TraceIdentifier,
-                        Path = context.HttpContext.Request.Path
-                    });
-                    this.errorLogRepository.EnsureChanges();
-                }
+                this.errorLogRepository.Add(new ErrorLog
+                {
+                    Occurrence = DateTime.UtcNow,
+                    HttpMethod = context.HttpContext.Request.Method,
+                    Message = context.Exception.Message,
+                    TraceId = context.HttpContext.TraceIdentifier,
+                    Path = context.HttpContext.Request.Path
+                });
+                this.errorLogRepository.EnsureChanges();
             }
             catch (Exception exception)
             {

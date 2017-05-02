@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EntertainmentDatabase.REST.API.Main.Controllers.v1
 {
-    [Route("api/main/v1/movies")]
+    [Route("api/main/v1/[controller]")]
     public class MoviesController
     {
         private readonly IMapper mapper;

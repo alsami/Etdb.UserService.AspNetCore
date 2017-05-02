@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace EntertainmentDatabase.REST.API.Bootstrap.Filters
 {
-    public class ActionLogFilter : IActionFilter
+    public class ActionLogFilter : IActionFilter, IDisposable
     {
         private readonly IEntityRepository<ActionLog> actionLogRepository;
         private DateTime traceStart;
@@ -47,6 +47,14 @@ namespace EntertainmentDatabase.REST.API.Bootstrap.Filters
             catch (Exception exception)
             {
                 Debug.WriteLine(exception);
+            }
+        }
+
+        public void Dispose()
+        {
+            if (this.stopwatch.IsRunning)
+            {
+                this.stopwatch.Stop();
             }
         }
     }

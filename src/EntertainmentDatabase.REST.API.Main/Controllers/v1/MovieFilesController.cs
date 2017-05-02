@@ -26,12 +26,10 @@ namespace EntertainmentDatabase.REST.API.Main.Controllers.v1
         public IActionResult Download(Guid movieId, Guid movieFileId)
         {
             var movieFile = this.movieFileRepository.Get(movieFileId);
-            var fileResult = new FileContentResult(movieFile.File, new MediaTypeHeaderValue("application/octet"))
+            return new FileContentResult(movieFile.File, new MediaTypeHeaderValue("application/octet"))
             {
                 FileDownloadName = movieFile.Name
             };
-
-            return fileResult;
         }
     }
 }
