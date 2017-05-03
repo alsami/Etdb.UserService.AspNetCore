@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace EntertainmentDatabase.REST.API.Bootstrap.Filters
 {
-    public class RessourceNotFoundExceptionFilter : IExceptionFilter
+    public class RessourceNotFoundFilter : IExceptionFilter
     {
         public void OnException(ExceptionContext context)
         {

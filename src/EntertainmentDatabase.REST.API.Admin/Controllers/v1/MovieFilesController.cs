@@ -14,7 +14,7 @@ using Microsoft.Net.Http.Headers;
 namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
 {
     [Route("api/admin/v1/movies/{movieId:Guid}/[controller]")]
-    public class MovieFilesController : Controller
+    public class MovieFilesController : Controller 
     {
         private readonly IMapper mapper;
         private readonly IHttpContextAccessor contextAccessor;

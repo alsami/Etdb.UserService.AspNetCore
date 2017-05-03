@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using AutoMapper;
 using EntertainmentDatabase.REST.API.Domain.Entities;
 using EntertainmentDatabase.REST.API.Presentation.DataTransferObjects;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
 {
@@ -13,11 +17,15 @@ namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
     public class MoviesController : Controller
     {
         private readonly IMapper mapper;
+        private readonly ILogger<MoviesController> logger;
         private readonly IEntityRepository<Movie> movieRepository;
 
-        public MoviesController(IMapper mapper, IEntityRepository<Movie> movieRepository)
+        public MoviesController(IMapper mapper, 
+            ILogger<MoviesController> logger, 
+            IEntityRepository<Movie> movieRepository)
         {
             this.mapper = mapper;
+            this.logger = logger;
             this.movieRepository = movieRepository;
         }
 
@@ -50,3 +58,4 @@ namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
         }
     }
 }
+

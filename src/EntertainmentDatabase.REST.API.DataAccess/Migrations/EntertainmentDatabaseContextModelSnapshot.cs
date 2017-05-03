@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using EntertainmentDatabase.REST.API.DataAccess;
-using EntertainmentDatabase.REST.API.Domain.Enums;
 
 namespace EntertainmentDatabase.REST.API.DataAccess.Migrations
 {

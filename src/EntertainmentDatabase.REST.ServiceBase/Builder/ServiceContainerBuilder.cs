@@ -30,21 +30,24 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
 
         public ServiceContainerBuilder(IServiceCollection serviceCollection, string projectName)
         {
-            this.serviceCollection = serviceCollection;
-            this.projectName = projectName;
+            this.serviceCollection = serviceCollection ?? throw new ArgumentNullException(nameof(serviceCollection));
+            this.projectName = projectName ?? throw new ArgumentNullException(nameof(projectName));
             this.containerBuilder = new ContainerBuilder();
-            this.Initialize();
         }
 
         public ServiceContainerBuilder UseConfiguration(IConfigurationRoot configurationRoot)
         {
-            this.containerBuilder.RegisterInstance(configurationRoot);
+            this.containerBuilder
+                .RegisterInstance(configurationRoot)
+                .SingleInstance();
             return this;
         }
 
         public ServiceContainerBuilder UseEnvironment(IHostingEnvironment hostingEnvironment)
         {
-            this.containerBuilder.RegisterInstance(hostingEnvironment);
+            this.containerBuilder
+                .RegisterInstance(hostingEnvironment)
+                .SingleInstance();
             return this;
         }
 
@@ -137,6 +140,16 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
             return this;
         }
 
+        public ServiceContainerBuilder RegisterTypeAsSingleton<TImplementation, TInterface>()
+        {
+            this.containerBuilder.RegisterType<TImplementation>()
+                .As<TInterface>()
+                .AsSelf()
+                .SingleInstance();
+
+            return this;
+        }
+
         public IContainer Build()
         {
             this.containerBuilder.Populate(this.serviceCollection);
@@ -213,18 +226,6 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
             //// see https://docs.microsoft.com/en-us/aspnet/core/security/cors
             //// for more information on this topic
             this.serviceCollection.Configure<MvcOptions>(options => options.Filters.Add(new CorsAuthorizationFilterFactory(corsPolicyName)));
-        }
-
-        private void RegisterHttpAccessor()
-        {
-            this.containerBuilder.RegisterType<HttpContextAccessor>()
-                .As<IHttpContextAccessor>()
-                .SingleInstance();
-        }
-
-        private void Initialize()
-        {
-            this.RegisterHttpAccessor();
         }
     }
 }
