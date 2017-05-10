@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using EntertainmentDatabase.REST.API.DataAccess.Configuration;
 using EntertainmentDatabase.REST.API.Domain.Entities;
-using EntertainmentDatabase.REST.ServiceBase.Generics.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;

@@ -4,7 +4,6 @@ using System.Text;
 using EntertainmentDatabase.REST.API.DataAccess.Configuration.Base;
 using EntertainmentDatabase.REST.API.Domain.Entities;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
-using EntertainmentDatabase.REST.ServiceBase.Generics.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

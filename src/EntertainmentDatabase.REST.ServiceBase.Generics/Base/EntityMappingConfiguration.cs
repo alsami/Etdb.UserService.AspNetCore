@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using EntertainmentDatabase.REST.ServiceBase.Generics.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
