@@ -16,6 +16,8 @@ using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
 using Serilog.Configuration;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle;
 
 namespace EntertainmentDatabase.REST.API.Bootstrap
 {
@@ -46,6 +48,12 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc();
+            services.AddSwaggerGen(action =>
+            {
+
+            });
+
             var containerBuilder = new ServiceContainerBuilder(services, "EntertainmentDatabase.REST")
                 .AddCoreServiceRequirement(mvcOptionsAction =>
                     {

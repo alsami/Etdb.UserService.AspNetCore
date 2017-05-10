@@ -19,7 +19,7 @@ namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
             this.configurationRoot = configurationRoot;
         }
 
-        [HttpGet("reset")]
+        [HttpGet("settings-reload")]
         public IActionResult ReloadAppSettings()
         {
             this.logger.LogInformation("Reloading app settings!");
