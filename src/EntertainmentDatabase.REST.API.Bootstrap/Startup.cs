@@ -2,7 +2,6 @@
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using EntertainmentDatabase.REST.API.Bootstrap.Filters;
 using EntertainmentDatabase.REST.API.DataAccess;
 using EntertainmentDatabase.REST.ServiceBase.Builder;
 using Microsoft.AspNetCore.Builder;
@@ -18,6 +17,9 @@ using Serilog;
 using Serilog.Configuration;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using EntertainmentDatabase.REST.API.Misc.Filters;
 
 namespace EntertainmentDatabase.REST.API.Bootstrap
 {
@@ -26,6 +28,7 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
         private readonly IHostingEnvironment environment;
         private readonly IConfigurationRoot configurationRoot;
         private IContainer applicationContainer;
+        private readonly Stopwatch stopWatch;
 
         public Startup(IHostingEnvironment environment)
         {
@@ -44,15 +47,16 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
                 .WriteTo.RollingFile($"Logs/{Assembly.GetEntryAssembly().GetName().Name}.log")
                 .WriteTo.Seq("http://localhost:5341")
                 .CreateLogger();
+
+            this.stopWatch = new Stopwatch();
+            stopWatch.Start();
+            Log.Information("Starting Service");
         }
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-            services.AddSwaggerGen(action =>
-            {
-
-            });
+            Log.Information("Configuring Service Dependencies");
+            Log.Information($"Elapsed time {stopWatch.ElapsedMilliseconds.ToString()}");
 
             var containerBuilder = new ServiceContainerBuilder(services, "EntertainmentDatabase.REST")
                 .AddCoreServiceRequirement(mvcOptionsAction =>
@@ -81,13 +85,22 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
                 .RegisterTypeAsSingleton<HttpContextAccessor, IHttpContextAccessor>();
 
 
+            services.AddSwaggerGen(action =>
+            {
+                action.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
+
             this.applicationContainer = containerBuilder.Build();
+
+
+            Log.Information("Configuring service dependencies done");
+            Log.Information($"Elapsed time {stopWatch.ElapsedMilliseconds.ToString()}");
 
             return new AutofacServiceProvider(this.applicationContainer);
         }
 
 
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IHttpContextAccessor httpContextAccessor)
         {
             if (this.environment.IsDevelopment())
             {
@@ -105,6 +118,15 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
             app.UseDefaultFiles();
 
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(action =>
+            {
+                action.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+
+            //app.Run(async (context) => {
+            //    await context.Response.WriteAsync("<h1>Service running!</h1>");
+            //});
         }
     }
 }

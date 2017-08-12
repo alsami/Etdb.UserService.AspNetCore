@@ -116,6 +116,9 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
 
         public ServiceContainerBuilder AddCoreServiceRequirement(Action<MvcOptions> mvcOptionsAction, Action<MvcJsonOptions> jsonAction)
         {
+            this.serviceCollection.AddMvcCore()
+                .AddApiExplorer();
+
             this.serviceCollection
                 .AddMvc(mvcOptionsAction)
                 .AddJsonOptions(jsonAction);

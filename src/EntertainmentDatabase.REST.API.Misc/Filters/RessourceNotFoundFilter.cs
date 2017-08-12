@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace EntertainmentDatabase.REST.API.Bootstrap.Filters
+namespace EntertainmentDatabase.REST.API.Misc.Filters
 {
     public class RessourceNotFoundFilter : IExceptionFilter
     {

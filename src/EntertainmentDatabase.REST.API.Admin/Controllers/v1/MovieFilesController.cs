@@ -32,6 +32,7 @@ namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
             this.movieFileRepository = movieFileRepository;
         }
 
+        //[HttpPost]
         public async Task<MovieFileDTO> Post(Guid movieId, IEnumerable<IFormFile> files)
         {
             MovieFile movieFile = null;
@@ -51,22 +52,9 @@ namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
                     movieFile.File = memoryStream.ToArray();
                 }
                 this.movieFileRepository.Add(movieFile);
-                this.movieFileRepository.EnsureChanges();
+                var saved = this.movieFileRepository.EnsureChanges();
             }
             return this.mapper.Map<MovieFileDTO>(movieFile);
-        }
-
-        [HttpGet("{movieFileId:Guid}/download")]
-        public IActionResult Download(Guid movieId, Guid movieFileId)
-        {
-            var movieFile = this.movieFileRepository.Get(movieFileId);
-            var fileResult =
-                new FileContentResult(movieFile.File, new MediaTypeHeaderValue("application/octet"))
-                {
-                    FileDownloadName = movieFile.Name
-                };
-
-            return fileResult;
         }
     }
 }

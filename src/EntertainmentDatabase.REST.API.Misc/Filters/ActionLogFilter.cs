@@ -8,7 +8,7 @@ using EntertainmentDatabase.REST.API.Domain.Entities;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace EntertainmentDatabase.REST.API.Bootstrap.Filters
+namespace EntertainmentDatabase.REST.API.Misc.Filters
 {
     public class ActionLogFilter : IActionFilter, IDisposable
     {
