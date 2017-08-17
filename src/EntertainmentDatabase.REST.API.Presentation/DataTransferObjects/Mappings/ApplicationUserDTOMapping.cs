@@ -3,11 +3,11 @@ using EntertainmentDatabase.REST.API.Domain.Entities;
 
 namespace EntertainmentDatabase.REST.API.Presentation.DataTransferObjects.Mappings
 {
-    public class MovieDTOMapping : Profile
+    public class ApplicationUserDTOMapping : Profile
     {
-        public MovieDTOMapping()
+        public ApplicationUserDTOMapping()
         {
-            this.CreateMap<Movie, MovieDTO>()
+            this.CreateMap<ApplicationUser, ApplicationUserDTO>()
                 .ForMember(destination => destination.ConcurrencyToken,
                     option => option.MapFrom(source => source.RowVersion))
                 .ReverseMap();

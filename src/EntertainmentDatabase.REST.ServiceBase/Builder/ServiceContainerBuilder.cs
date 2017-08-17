@@ -19,6 +19,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace EntertainmentDatabase.REST.ServiceBase.Builder
 {
@@ -89,6 +91,16 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
             return this;
         }
 
+        public ServiceContainerBuilder AddSwaggerGen(Action<SwaggerGenOptions> options)
+        {
+            this.serviceCollection.AddMvcCore()
+                .AddApiExplorer();
+
+            this.serviceCollection.AddSwaggerGen(options);
+
+            return this;
+        }
+
         public ServiceContainerBuilder AddAutoMapper()
         {
             this.RegisterProjectAssemblies();
@@ -99,7 +111,7 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
 
         public ServiceContainerBuilder AddEntityFramework<T>() where T : DbContext
         {
-            this.serviceCollection.AddEntityFramework()
+            this.serviceCollection
                 .AddEntityFrameworkSqlServer()
                 .AddDbContext<T>();
 
@@ -116,9 +128,6 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
 
         public ServiceContainerBuilder AddCoreServiceRequirement(Action<MvcOptions> mvcOptionsAction, Action<MvcJsonOptions> jsonAction)
         {
-            this.serviceCollection.AddMvcCore()
-                .AddApiExplorer();
-
             this.serviceCollection
                 .AddMvc(mvcOptionsAction)
                 .AddJsonOptions(jsonAction);

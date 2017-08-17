@@ -21,11 +21,15 @@ namespace EntertainmentDatabase.REST.API.DataAccess
             this.hostingEnvironment = hostingEnvironment;
         }
 
+        public DbSet<ApplicationUser> ApplicationUsers;
+
         public DbSet<Movie> Movies;
 
         public DbSet<Actor> Actors;
 
         public DbSet<MovieActors> ActorMovies;
+
+        public DbSet<MovieFile> MovieFiles;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -39,6 +43,9 @@ namespace EntertainmentDatabase.REST.API.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            new ApplicationUserConfiguration(modelBuilder)
+                .ConfigureEntity();
 
             new ActionLogConfiguration(modelBuilder)
                 .ConfigureEntity();

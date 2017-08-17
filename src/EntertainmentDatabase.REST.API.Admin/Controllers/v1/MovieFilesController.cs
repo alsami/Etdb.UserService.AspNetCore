@@ -32,10 +32,13 @@ namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
             this.movieFileRepository = movieFileRepository;
         }
 
-        //[HttpPost]
-        public async Task<MovieFileDTO> Post(Guid movieId, IEnumerable<IFormFile> files)
+        [HttpPost]
+        public async Task<IEnumerable<MovieFileDTO>> Post(Guid movieId, IEnumerable<IFormFile> files)
         {
             MovieFile movieFile = null;
+            List<MovieFile> generatedFiles = new List<MovieFile>();
+
+
             foreach (var file in files)
             {
                 movieFile = new MovieFile
@@ -53,8 +56,10 @@ namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
                 }
                 this.movieFileRepository.Add(movieFile);
                 var saved = this.movieFileRepository.EnsureChanges();
+                generatedFiles.Add(movieFile);
             }
-            return this.mapper.Map<MovieFileDTO>(movieFile);
+
+            return this.mapper.Map<IEnumerable<MovieFileDTO>>(generatedFiles);
         }
     }
 }

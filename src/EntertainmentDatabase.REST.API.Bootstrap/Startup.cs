@@ -20,6 +20,8 @@ using Swashbuckle;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using EntertainmentDatabase.REST.API.Misc.Filters;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace EntertainmentDatabase.REST.API.Bootstrap
 {
@@ -28,7 +30,10 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
         private readonly IHostingEnvironment environment;
         private readonly IConfigurationRoot configurationRoot;
         private IContainer applicationContainer;
-        private readonly Stopwatch stopWatch;
+
+        private const string CorsName = "AllowAll";
+        private readonly string logPath = $"Logs/{Assembly.GetEntryAssembly().GetName().Name}.log";
+        private readonly string seqPath = "http://localhost:5341";
 
         public Startup(IHostingEnvironment environment)
         {
@@ -44,37 +49,44 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .Enrich.FromLogContext()
-                .WriteTo.RollingFile($"Logs/{Assembly.GetEntryAssembly().GetName().Name}.log")
-                .WriteTo.Seq("http://localhost:5341")
+                .WriteTo.RollingFile(this.logPath)
+                .WriteTo.Seq(this.seqPath)
                 .CreateLogger();
-
-            this.stopWatch = new Stopwatch();
-            stopWatch.Start();
-            Log.Information("Starting Service");
         }
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            Log.Information("Configuring Service Dependencies");
-            Log.Information($"Elapsed time {stopWatch.ElapsedMilliseconds.ToString()}");
+            services.AddOptions();
 
             var containerBuilder = new ServiceContainerBuilder(services, "EntertainmentDatabase.REST")
                 .AddCoreServiceRequirement(mvcOptionsAction =>
-                    {
-                        mvcOptionsAction.Filters.Add(typeof(RessourceNotFoundFilter));
-                        mvcOptionsAction.Filters.Add(typeof(ActionLogFilter));
-                        mvcOptionsAction.Filters.Add(typeof(ErrorLogFilter));
-                    }, 
+                {
+                    mvcOptionsAction.Filters.Add(typeof(RessourceNotFoundFilter));
+                    mvcOptionsAction.Filters.Add(typeof(ActionLogFilter));
+                    mvcOptionsAction.Filters.Add(typeof(ErrorLogFilter));
+
+                    mvcOptionsAction.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build()));
+                }, 
                     options => {
                         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 })
                 .AddAutoMapper()
                 .AddEntityFramework<EntertainmentDatabaseContext>()
+                .AddSwaggerGen(action =>
+                {
+                    action.SwaggerDoc("v1", new Info
+                    {
+                        Title = "Entertainment-Database-REST",
+                        Version = "v1"
+                    });
+                })
                 .UseConfiguration(this.configurationRoot)
                 .UseEnvironment(this.environment)
                 .UseGenericRepositoryPattern<EntertainmentDatabaseContext>()
-                .UseCors("AllowAll", builder =>
+                .UseCors(Startup.CorsName, builder =>
                 {
                     builder
                         .AllowAnyHeader()
@@ -84,17 +96,7 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
                 }, true)
                 .RegisterTypeAsSingleton<HttpContextAccessor, IHttpContextAccessor>();
 
-
-            services.AddSwaggerGen(action =>
-            {
-                action.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
-            });
-
             this.applicationContainer = containerBuilder.Build();
-
-
-            Log.Information("Configuring service dependencies done");
-            Log.Information($"Elapsed time {stopWatch.ElapsedMilliseconds.ToString()}");
 
             return new AutofacServiceProvider(this.applicationContainer);
         }
@@ -110,8 +112,6 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-
-            //loggerFactory.AddFile($"Logs/{Assembly.GetEntryAssembly().GetName().Name}.log");
             loggerFactory.AddSerilog();
 
             app.UseStaticFiles();
@@ -121,12 +121,13 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
             app.UseSwagger();
             app.UseSwaggerUI(action =>
             {
-                action.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                action.SwaggerEndpoint("/swagger/v1/swagger.json", "Entertainment-Database-REST V1");
             });
 
-            //app.Run(async (context) => {
-            //    await context.Response.WriteAsync("<h1>Service running!</h1>");
-            //});
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync("<h1>Service running!</h1>");
+            });
         }
     }
 }
