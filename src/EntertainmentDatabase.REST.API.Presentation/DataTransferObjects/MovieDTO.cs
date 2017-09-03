@@ -1,5 +1,6 @@
 ﻿using System;
 using EntertainmentDatabase.REST.API.Presentation.Base;
+using EntertainmentDatabase.REST.API.Domain.Enums;
 
 namespace EntertainmentDatabase.REST.API.Presentation.DataTransferObjects
 {
@@ -24,6 +25,12 @@ namespace EntertainmentDatabase.REST.API.Presentation.DataTransferObjects
         }
 
         public string Description
+        {
+            get;
+            set;
+        }
+
+        public ConsumerMediaType ConsumerMediaType
         {
             get;
             set;

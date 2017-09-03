@@ -22,6 +22,7 @@ using System.Diagnostics;
 using EntertainmentDatabase.REST.API.Misc.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using EntertainmentDatabase.REST.API.Domain.Entities;
 
 namespace EntertainmentDatabase.REST.API.Bootstrap
 {
@@ -64,17 +65,14 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
                     mvcOptionsAction.Filters.Add(typeof(RessourceNotFoundFilter));
                     mvcOptionsAction.Filters.Add(typeof(ActionLogFilter));
                     mvcOptionsAction.Filters.Add(typeof(ErrorLogFilter));
-
-                    mvcOptionsAction.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder()
-                        .RequireAuthenticatedUser()
-                        .Build()));
                 }, 
                     options => {
                         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 })
                 .AddAutoMapper()
-                .AddEntityFramework<EntertainmentDatabaseContext>()
+                .AddDbContext<EntertainmentDatabaseContext>()
+                .AddIdentity<EntertainmentDatabaseContext, ApplicationUser>()
                 .AddSwaggerGen(action =>
                 {
                     action.SwaggerDoc("v1", new Info
@@ -94,6 +92,7 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
                         .AllowAnyOrigin()
                         .AllowCredentials();
                 }, true)
+                .RegisterTypeAsSingleton<DataSeeder>()
                 .RegisterTypeAsSingleton<HttpContextAccessor, IHttpContextAccessor>();
 
             this.applicationContainer = containerBuilder.Build();
@@ -102,7 +101,7 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
         }
 
 
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IHttpContextAccessor httpContextAccessor)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, DataSeeder seeder)
         {
             if (this.environment.IsDevelopment())
             {
@@ -123,6 +122,8 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
             {
                 action.SwaggerEndpoint("/swagger/v1/swagger.json", "Entertainment-Database-REST V1");
             });
+
+            seeder.SeedDatabase().Wait();
 
             app.Run(async (context) =>
             {

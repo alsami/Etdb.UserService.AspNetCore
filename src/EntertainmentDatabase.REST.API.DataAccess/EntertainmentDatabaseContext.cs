@@ -3,12 +3,12 @@ using EntertainmentDatabase.REST.API.DataAccess.Configuration;
 using EntertainmentDatabase.REST.API.Domain.Entities;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace EntertainmentDatabase.REST.API.DataAccess
 {
-    public class EntertainmentDatabaseContext : DbContext
+    public class EntertainmentDatabaseContext : IdentityDbContext<ApplicationUser>
     {
         private const string Production = "Production";
         private const string Development = "Development";
@@ -21,15 +21,29 @@ namespace EntertainmentDatabase.REST.API.DataAccess
             this.hostingEnvironment = hostingEnvironment;
         }
 
-        public DbSet<ApplicationUser> ApplicationUsers;
+        public DbSet<Movie> Movie
+        {
+            get;
+            set;
+        }
 
-        public DbSet<Movie> Movies;
+        public DbSet<MovieFile> MovieFile
+        {
+            get;
+            set;
+        }
 
-        public DbSet<Actor> Actors;
+        public DbSet<Actor> Actor
+        {
+            get;
+            set;
+        }
 
-        public DbSet<MovieActors> ActorMovies;
-
-        public DbSet<MovieFile> MovieFiles;
+        public DbSet<MovieActors> ActorMovie
+        {
+            get;
+            set;
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -43,9 +57,6 @@ namespace EntertainmentDatabase.REST.API.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            new ApplicationUserConfiguration(modelBuilder)
-                .ConfigureEntity();
 
             new ActionLogConfiguration(modelBuilder)
                 .ConfigureEntity();

@@ -30,7 +30,7 @@ namespace EntertainmentDatabase.REST.ServiceBase.Generics.Base
                 builder.HasKey(entity => entity.Id);
 
                 builder.Property(entity => entity.Id)
-                    .ForSqlServerHasDefaultValueSql("newid()");
+                    .HasDefaultValueSql("newid()");
             });
         }
 

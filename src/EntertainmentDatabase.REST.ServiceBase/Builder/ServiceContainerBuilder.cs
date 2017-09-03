@@ -21,6 +21,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace EntertainmentDatabase.REST.ServiceBase.Builder
 {
@@ -109,11 +111,21 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
             return this;
         }
 
-        public ServiceContainerBuilder AddEntityFramework<T>() where T : DbContext
+        public ServiceContainerBuilder AddDbContext<T>() where T : DbContext
         {
             this.serviceCollection
-                .AddEntityFrameworkSqlServer()
                 .AddDbContext<T>();
+
+            return this;
+        }
+
+        public ServiceContainerBuilder AddIdentity<TContext, TApplicationUser>() 
+            where TContext : IdentityDbContext<TApplicationUser> where TApplicationUser : IdentityUser
+        {
+            this.serviceCollection
+                .AddIdentity<TApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<TContext>()
+                .AddDefaultTokenProviders();
 
             return this;
         }
@@ -149,6 +161,13 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
                     (parameterInfo, componentContext) => componentContext.Resolve<T>()))
                 .InstancePerLifetimeScope();
 
+            return this;
+        }
+
+        public ServiceContainerBuilder RegisterTypeAsSingleton<TImplementation>()
+        {
+            this.containerBuilder.RegisterType<TImplementation>()
+                .SingleInstance();
             return this;
         }
 
