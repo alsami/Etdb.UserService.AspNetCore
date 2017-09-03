@@ -114,16 +114,17 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
         public ServiceContainerBuilder AddDbContext<T>() where T : DbContext
         {
             this.serviceCollection
-                .AddDbContext<T>();
+                .AddDbContext<T>()
+                .AddEntityFrameworkSqlServer();
 
             return this;
         }
 
-        public ServiceContainerBuilder AddIdentity<TContext, TApplicationUser>() 
+        public ServiceContainerBuilder AddIdentity<TContext, TApplicationUser>(Action<IdentityOptions> identityOptions) 
             where TContext : IdentityDbContext<TApplicationUser> where TApplicationUser : IdentityUser
         {
             this.serviceCollection
-                .AddIdentity<TApplicationUser, IdentityRole>()
+                .AddIdentity<TApplicationUser, IdentityRole>(identityOptions)
                 .AddEntityFrameworkStores<TContext>()
                 .AddDefaultTokenProviders();
 

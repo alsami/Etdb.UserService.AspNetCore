@@ -4,17 +4,17 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace EntertainmentDatabase.REST.API.Misc.Filters
 {
-    public class RessourceNotFoundExceptionFilter : IExceptionFilter
+    public class LoginFailedExceptionFilter : IExceptionFilter
     {
         public void OnException(ExceptionContext context)
         {
-            if (!(context.Exception is RessourceNotFoundException))
+            if (context.Exception is LoginFailedException)
             {
-                return;
+                context.Result = new BadRequestObjectResult(context.Exception);
+                context.ExceptionHandled = true;
             }
 
-            context.Result = new NotFoundObjectResult(context.Exception.Message);
-            context.ExceptionHandled = true;
+            return;
         }
     }
 }

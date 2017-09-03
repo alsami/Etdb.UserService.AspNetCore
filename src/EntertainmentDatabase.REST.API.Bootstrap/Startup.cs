@@ -62,7 +62,9 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
             var containerBuilder = new ServiceContainerBuilder(services, "EntertainmentDatabase.REST")
                 .AddCoreServiceRequirement(mvcOptionsAction =>
                 {
-                    mvcOptionsAction.Filters.Add(typeof(RessourceNotFoundFilter));
+                    mvcOptionsAction.Filters.Add(typeof(RessourceNotFoundExceptionFilter));
+                    mvcOptionsAction.Filters.Add(typeof(RegisterExceptionFilter));
+                    mvcOptionsAction.Filters.Add(typeof(LoginFailedExceptionFilter));
                     mvcOptionsAction.Filters.Add(typeof(ActionLogFilter));
                     mvcOptionsAction.Filters.Add(typeof(ErrorLogFilter));
                 }, 
@@ -72,7 +74,9 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
                 })
                 .AddAutoMapper()
                 .AddDbContext<EntertainmentDatabaseContext>()
-                .AddIdentity<EntertainmentDatabaseContext, ApplicationUser>()
+                .AddIdentity<EntertainmentDatabaseContext, ApplicationUser>(options =>
+                {
+                })
                 .AddSwaggerGen(action =>
                 {
                     action.SwaggerDoc("v1", new Info
@@ -110,20 +114,26 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
 
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+
+                // causes error when applying db update
+                // uncommenting helps for now
+                seeder.SeedDatabase().Wait();
             }
             loggerFactory.AddSerilog();
 
             app.UseStaticFiles();
             app.UseDefaultFiles();
 
-            app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(action =>
             {
                 action.SwaggerEndpoint("/swagger/v1/swagger.json", "Entertainment-Database-REST V1");
             });
 
-            seeder.SeedDatabase().Wait();
+            app.UseAuthentication();
+
+            app.UseMvc();
+
 
             app.Run(async (context) =>
             {

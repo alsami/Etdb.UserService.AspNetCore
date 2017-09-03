@@ -12,7 +12,7 @@ using System;
 namespace EntertainmentDatabase.REST.API.DataAccess.Migrations
 {
     [DbContext(typeof(EntertainmentDatabaseContext))]
-    [Migration("20170903103101_Initial")]
+    [Migration("20170903111935_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

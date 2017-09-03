@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.1.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
   </ItemGroup>
 
@@ -15,6 +16,12 @@
     <ProjectReference Include="..\EntertainmentDatabase.REST.API.Misc\EntertainmentDatabase.REST.API.Misc.csproj" />
     <ProjectReference Include="..\EntertainmentDatabase.REST.API.Presentation\EntertainmentDatabase.REST.API.Presentation.csproj" />
     <ProjectReference Include="..\EntertainmentDatabase.REST.ServiceBase.Generics\EntertainmentDatabase.REST.ServiceBase.Generics.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Identity.Core">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.identity.core\2.0.0\lib\netstandard2.0\Microsoft.Extensions.Identity.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
