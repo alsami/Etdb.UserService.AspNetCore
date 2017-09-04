@@ -74,9 +74,6 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
                 })
                 .AddAutoMapper()
                 .AddDbContext<EntertainmentDatabaseContext>()
-                .AddIdentity<EntertainmentDatabaseContext, ApplicationUser>(options =>
-                {
-                })
                 .AddSwaggerGen(action =>
                 {
                     action.SwaggerDoc("v1", new Info

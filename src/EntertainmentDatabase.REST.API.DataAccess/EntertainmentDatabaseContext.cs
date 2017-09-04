@@ -8,20 +8,18 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace EntertainmentDatabase.REST.API.DataAccess
 {
-    public class EntertainmentDatabaseContext : IdentityDbContext<ApplicationUser>
+    public class EntertainmentDatabaseContext : DbContext
     {
         private const string Production = "Production";
         private const string Development = "Development";
         private readonly IConfigurationRoot configurationRoot;
         private readonly IHostingEnvironment hostingEnvironment;
-        private DbContextOptionsBuilder<EntertainmentDatabaseContext> builder;
 
         public EntertainmentDatabaseContext(IConfigurationRoot configurationRoot, IHostingEnvironment hostingEnvironment)
         {
             this.configurationRoot = configurationRoot;
             this.hostingEnvironment = hostingEnvironment;
         }
-        //public EntertainmentDatabaseContext(DbContextOptions<EntertainmentDatabaseContext> dbContextOptions) : base(dbContextOptions){}
 
         public DbSet<Movie> Movie
         {

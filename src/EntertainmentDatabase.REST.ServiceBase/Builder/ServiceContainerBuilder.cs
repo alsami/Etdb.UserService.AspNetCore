@@ -120,17 +120,6 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
             return this;
         }
 
-        public ServiceContainerBuilder AddIdentity<TContext, TApplicationUser>(Action<IdentityOptions> identityOptions) 
-            where TContext : IdentityDbContext<TApplicationUser> where TApplicationUser : IdentityUser
-        {
-            this.serviceCollection
-                .AddIdentity<TApplicationUser, IdentityRole>(identityOptions)
-                .AddEntityFrameworkStores<TContext>()
-                .AddDefaultTokenProviders();
-
-            return this;
-        }
-
         public ServiceContainerBuilder AddCoreServiceRequirement()
         {
             this.serviceCollection
@@ -150,10 +139,6 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
 
         public ServiceContainerBuilder UseGenericRepositoryPattern<T>() where T : DbContext
         {    
-            // register the DataRepository as generic
-            // everytime an datarepository is called it will automatically be created with the necessary type
-            // for instance IDataRepository<T> where T is of Type IPersistedData
-            // resolve inner dependency of the repository
             this.containerBuilder.RegisterGeneric(typeof(EntityRepository<>))
                 .As(typeof(IEntityRepository<>))
                 .InstancePerRequest()
