@@ -8,9 +8,11 @@ using EntertainmentDatabase.REST.API.Misc.Exceptions;
 using EntertainmentDatabase.REST.API.Presentation.DataTransferObjects;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EntertainmentDatabase.REST.API.Main.Controllers.v1
 {
+    [Authorize]
     [Route("api/main/v1/[controller]")]
     public class MoviesController
     {

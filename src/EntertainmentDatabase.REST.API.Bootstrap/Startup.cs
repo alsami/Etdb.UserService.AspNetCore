@@ -23,6 +23,8 @@ using EntertainmentDatabase.REST.API.Misc.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using EntertainmentDatabase.REST.API.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using System.Net;
 
 namespace EntertainmentDatabase.REST.API.Bootstrap
 {
@@ -57,8 +59,6 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
-            services.AddOptions();
-
             var containerBuilder = new ServiceContainerBuilder(services, "EntertainmentDatabase.REST")
                 .AddCoreServiceRequirement(mvcOptionsAction =>
                 {
@@ -74,9 +74,6 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
                 })
                 .AddAutoMapper()
                 .AddDbContext<EntertainmentDatabaseContext>()
-                .AddIdentity<EntertainmentDatabaseContext, ApplicationUser>(options =>
-                {
-                })
                 .AddSwaggerGen(action =>
                 {
                     action.SwaggerDoc("v1", new Info
@@ -129,8 +126,6 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
             {
                 action.SwaggerEndpoint("/swagger/v1/swagger.json", "Entertainment-Database-REST V1");
             });
-
-            app.UseAuthentication();
 
             app.UseMvc();
 

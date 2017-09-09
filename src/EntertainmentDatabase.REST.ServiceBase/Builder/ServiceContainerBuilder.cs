@@ -23,6 +23,8 @@ using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
+using System.Net;
 
 namespace EntertainmentDatabase.REST.ServiceBase.Builder
 {
@@ -116,17 +118,6 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
             this.serviceCollection
                 .AddDbContext<T>()
                 .AddEntityFrameworkSqlServer();
-
-            return this;
-        }
-
-        public ServiceContainerBuilder AddIdentity<TContext, TApplicationUser>(Action<IdentityOptions> identityOptions) 
-            where TContext : IdentityDbContext<TApplicationUser> where TApplicationUser : IdentityUser
-        {
-            this.serviceCollection
-                .AddIdentity<TApplicationUser, IdentityRole>(identityOptions)
-                .AddEntityFrameworkStores<TContext>()
-                .AddDefaultTokenProviders();
 
             return this;
         }
