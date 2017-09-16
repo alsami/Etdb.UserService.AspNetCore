@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using EntertainmentDatabase.REST.API.Domain.Enums;
 
 namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
 {
@@ -33,7 +34,10 @@ namespace EntertainmentDatabase.REST.API.Admin.Controllers.v1
         public MovieDTO Post([FromBody] MovieDTO movieDTO)
         {
             var movie = this.mapper.Map<Movie>(movieDTO);
+            movie.ConsumerMediaType = ConsumerMediaType.Movie;
+            var type = movie.ReleasedOn.Value.Kind;
             this.movieRepository.Add(movie);
+            this.movieRepository.EnsureChanges();
 
             return this.mapper.Map<MovieDTO>(movie);
         }

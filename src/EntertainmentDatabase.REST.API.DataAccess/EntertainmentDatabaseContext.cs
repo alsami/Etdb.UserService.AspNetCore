@@ -27,6 +27,12 @@ namespace EntertainmentDatabase.REST.API.DataAccess
             set;
         }
 
+        public DbSet<MovieCoverImage> MovieCoverImage
+        {
+            get;
+            set;
+        }
+
         public DbSet<MovieFile> MovieFile
         {
             get;
@@ -65,6 +71,9 @@ namespace EntertainmentDatabase.REST.API.DataAccess
                 .ConfigureEntity();
 
             new MovieConfiguration(modelBuilder)
+                .ConfigureEntity();
+
+            new MovieCoverImageConfiguration(modelBuilder)
                 .ConfigureEntity();
 
             new MovieFileConfiguration(modelBuilder)

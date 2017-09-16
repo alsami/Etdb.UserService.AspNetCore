@@ -17,6 +17,10 @@ namespace EntertainmentDatabase.REST.API.DataAccess.Configuration
             builder.Property(movie => movie.Title)
                 .IsRequired();
 
+            builder.HasOne(movie => movie.MovieCoverImage)
+                .WithOne(movieCoverImage => movieCoverImage.Movie)
+                .HasForeignKey<MovieCoverImage>(movieCoverImage => movieCoverImage.MovieId);
+
             builder.HasMany(movie => movie.MovieFiles)
                 .WithOne(movieFIle => movieFIle.Movie)
                 .HasForeignKey(movieFile => movieFile.MovieId);

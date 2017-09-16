@@ -9,10 +9,10 @@ using EntertainmentDatabase.REST.API.Presentation.DataTransferObjects;
 using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace EntertainmentDatabase.REST.API.Main.Controllers.v1
 {
-    [Authorize]
     [Route("api/main/v1/[controller]")]
     public class MoviesController
     {
@@ -28,7 +28,20 @@ namespace EntertainmentDatabase.REST.API.Main.Controllers.v1
         [HttpGet]
         public IEnumerable<MovieDTO> GetAll()
         {
-            return this.mapper.Map<IEnumerable<MovieDTO>>(this.movieRepository.GetAll());
+            var movies = this.movieRepository.GetAll().OrderBy(movie => movie.Title);
+            return this.mapper.Map<IEnumerable<MovieDTO>>(movies);
+        }
+
+        [HttpGet("search/{searchTerm}")]
+        public IEnumerable<MovieDTO> Search(string searchTerm)
+        {
+            var movies = this.movieRepository
+                .GetAll()
+                .Where(movie => movie.Title.ToLower().Contains(searchTerm.ToLower()))
+                .OrderBy(movie => movie.Title)
+                .ThenBy(movie => movie.ReleasedOn);
+
+            return this.mapper.Map<IEnumerable<MovieDTO>>(movies);
         }
 
         [HttpGet("{movieId:Guid}")]

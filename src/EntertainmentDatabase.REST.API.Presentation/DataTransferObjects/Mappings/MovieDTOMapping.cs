@@ -10,7 +10,9 @@ namespace EntertainmentDatabase.REST.API.Presentation.DataTransferObjects.Mappin
             this.CreateMap<Movie, MovieDTO>()
                 .ForMember(destination => destination.ConcurrencyToken,
                     option => option.MapFrom(source => source.RowVersion))
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(source => source.RowVersion,
+                    option => option.MapFrom(destination => destination.ConcurrencyToken));
         }
     }
 }

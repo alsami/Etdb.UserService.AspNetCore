@@ -50,6 +50,12 @@ namespace EntertainmentDatabase.REST.API.Domain.Entities
             set;
         }
 
+        public MovieCoverImage MovieCoverImage
+        {
+            get;
+            set;
+        }
+
         public ICollection<MovieFile> MovieFiles
         {
             get;

@@ -114,7 +114,7 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
 
                 // causes error when applying db update
                 // uncommenting helps for now
-                seeder.SeedDatabase().Wait();
+                // seeder.SeedDatabase().Wait();
             }
             loggerFactory.AddSerilog();
 

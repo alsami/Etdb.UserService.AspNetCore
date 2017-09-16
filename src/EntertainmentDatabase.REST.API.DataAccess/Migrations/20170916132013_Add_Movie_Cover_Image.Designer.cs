@@ -12,9 +12,10 @@ using System;
 namespace EntertainmentDatabase.REST.API.DataAccess.Migrations
 {
     [DbContext(typeof(EntertainmentDatabaseContext))]
-    partial class EntertainmentDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170916132013_Add_Movie_Cover_Image")]
+    partial class Add_Movie_Cover_Image
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
