@@ -25,6 +25,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using EntertainmentDatabase.REST.API.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
+using AutoMapper;
 
 namespace EntertainmentDatabase.REST.API.Bootstrap
 {
@@ -67,11 +68,12 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
                     mvcOptionsAction.Filters.Add(typeof(LoginFailedExceptionFilter));
                     mvcOptionsAction.Filters.Add(typeof(ActionLogFilter));
                     mvcOptionsAction.Filters.Add(typeof(ErrorLogFilter));
-                }, 
-                    options => {
+                },
+                    options =>
+                    {
                         options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                })
+                    })
                 .AddAutoMapper()
                 .AddDbContext<EntertainmentDatabaseContext>()
                 .AddSwaggerGen(action =>
@@ -95,6 +97,7 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
                 }, true)
                 .RegisterTypeAsSingleton<DataSeeder>()
                 .RegisterTypeAsSingleton<HttpContextAccessor, IHttpContextAccessor>();
+                //.RegisterTypeAsSingleton<MovieCoverImageUrlResolver>();
 
             this.applicationContainer = containerBuilder.Build();
 

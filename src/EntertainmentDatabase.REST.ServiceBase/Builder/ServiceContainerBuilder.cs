@@ -110,6 +110,10 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
             this.RegisterProjectAssemblies();
             this.RegisterAutomapperProfiles();
             this.RegisterAutoMapper();
+            //this.serviceCollection.AddAutoMapper(action =>
+            //{
+            //    action.Add
+            //});
             return this;
         }
 
@@ -166,6 +170,11 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
                 .AsSelf()
                 .SingleInstance();
 
+            return this;
+        }
+
+        public ServiceContainerBuilder Register<TSource, TDest, TDestMember>()
+        {
             return this;
         }
 
@@ -232,10 +241,13 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
                 .As<IMapper>()
                 .SingleInstance();
 
-            this.containerBuilder.Register(componentContext => componentContext.Resolve<MapperConfiguration>()
+            this.containerBuilder.Register(componentContext => 
+                componentContext.Resolve<MapperConfiguration>()
                     .CreateMapper(componentContext.Resolve))
-                .As<IMapper>()
-                .InstancePerLifetimeScope();
+                    .As<IMapper>()
+                    .InstancePerLifetimeScope();
+
+
         }
 
         private void RegisterCorsPolicyGlobally(string corsPolicyName)

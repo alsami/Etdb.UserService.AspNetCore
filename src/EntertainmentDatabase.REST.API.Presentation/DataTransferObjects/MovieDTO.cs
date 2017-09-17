@@ -41,6 +41,12 @@ namespace EntertainmentDatabase.REST.API.Presentation.DataTransferObjects
             get;
             set;
         }
+
+        public string MovieCoverImageUrl
+        {
+            get;
+            set;
+        }
     }
 }
     

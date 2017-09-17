@@ -28,7 +28,8 @@ namespace EntertainmentDatabase.REST.API.Main.Controllers.v1
         [HttpGet]
         public IEnumerable<MovieDTO> GetAll()
         {
-            var movies = this.movieRepository.GetAll().OrderBy(movie => movie.Title);
+            var movies = this.movieRepository.GetAllIncluding(movie => movie.MovieCoverImage)
+                .OrderBy(movie => movie.Title);
             return this.mapper.Map<IEnumerable<MovieDTO>>(movies);
         }
 
@@ -48,7 +49,7 @@ namespace EntertainmentDatabase.REST.API.Main.Controllers.v1
         public MovieDTO Get(Guid movieId)
         {
             var movie = this.movieRepository
-                .Get(movieId);
+                .GetIncluding(movieId, m => m.MovieCoverImage, m => m.MovieFiles, m => m.ActorMovies);
 
             if (movie == null)
             {
