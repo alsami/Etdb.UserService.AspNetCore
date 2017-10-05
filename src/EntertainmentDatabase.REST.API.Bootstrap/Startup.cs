@@ -26,6 +26,7 @@ using EntertainmentDatabase.REST.API.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using System.Net;
 using AutoMapper;
+using EntertainmentDatabase.REST.API.Presentation.DataTransferObjects.Resolver;
 
 namespace EntertainmentDatabase.REST.API.Bootstrap
 {
@@ -96,8 +97,8 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
                         .AllowCredentials();
                 }, true)
                 .RegisterTypeAsSingleton<DataSeeder>()
-                .RegisterTypeAsSingleton<HttpContextAccessor, IHttpContextAccessor>();
-                //.RegisterTypeAsSingleton<MovieCoverImageUrlResolver>();
+                .RegisterTypeAsSingleton<HttpContextAccessor, IHttpContextAccessor>()
+                .Register<MovieCoverImageResolver>();
 
             this.applicationContainer = containerBuilder.Build();
 

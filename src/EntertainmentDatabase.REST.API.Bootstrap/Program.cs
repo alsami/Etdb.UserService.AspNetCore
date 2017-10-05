@@ -9,6 +9,7 @@ using Microsoft.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using EntertainmentDatabase.REST.API.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using Autofac.Extensions.DependencyInjection;
 
 namespace EntertainmentDatabase.REST.API.Bootstrap
 {
@@ -21,6 +22,7 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                //.ConfigureServices(services => services.AddAutofac())
                 .UseStartup<Startup>()
                 .Build();
     }
