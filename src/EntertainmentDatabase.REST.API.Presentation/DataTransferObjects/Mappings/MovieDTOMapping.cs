@@ -7,9 +7,8 @@ namespace EntertainmentDatabase.REST.API.Presentation.DataTransferObjects.Mappin
 {
     public class MovieDTOMapping : Profile
     {
-        private readonly IHttpContextAccessor httpContextAccesor;
 
-        public MovieDTOMapping(IHttpContextAccessor httpContextAccesor)
+        public MovieDTOMapping()
         {
             this.CreateMap<Movie, MovieDTO>()
                 .ForMember(destination => destination.ConcurrencyToken,
@@ -26,7 +25,6 @@ namespace EntertainmentDatabase.REST.API.Presentation.DataTransferObjects.Mappin
                 .ReverseMap()
                 .ForMember(source => source.RowVersion,
                     option => option.MapFrom(destination => destination.ConcurrencyToken));
-            this.httpContextAccesor = httpContextAccesor;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                //.ConfigureServices(services => services.AddAutofac())
+                .ConfigureServices(services => services.AddAutofac())
                 .UseStartup<Startup>()
                 .Build();
     }

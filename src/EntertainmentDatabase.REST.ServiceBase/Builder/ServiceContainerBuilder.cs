@@ -173,21 +173,6 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
             return this;
         }
 
-        public ServiceContainerBuilder Register<T>()
-        {
-            var assemblyNames = DependencyContext
-            .Default
-            .CompileLibraries
-            .SelectMany(compileLib => compileLib.Assemblies)
-            .Where(assemblyName =>
-                assemblyName.StartsWith(this.projectName, StringComparison.OrdinalIgnoreCase));
-
-            this.containerBuilder
-                .RegisterAssemblyTypes()
-
-            return this;
-        }
-
         public IContainer Build()
         {
             this.containerBuilder.Populate(this.serviceCollection);
