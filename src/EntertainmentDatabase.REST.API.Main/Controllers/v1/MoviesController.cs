@@ -13,6 +13,7 @@ using System.Linq;
 
 namespace EntertainmentDatabase.REST.API.Main.Controllers.v1
 {
+    [Authorize]
     [Route("api/main/v1/[controller]")]
     public class MoviesController
     {

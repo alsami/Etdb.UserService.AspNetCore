@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6E347105-EE31-40D1-A119-04DB80223845}"
 EndProject
@@ -9,21 +9,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{8B7D93EC-1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.Domain", "src\EntertainmentDatabase.REST.API.Domain\EntertainmentDatabase.REST.API.Domain.csproj", "{173CCD4D-CCC8-4AE6-9A77-C1003CD579A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.ServiceBase", "src\EntertainmentDatabase.REST.ServiceBase\EntertainmentDatabase.REST.ServiceBase.csproj", "{E38104BE-52CD-42A3-A8B0-385633DEE491}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.ServiceBase", "src\EntertainmentDatabase.REST.ServiceBase\EntertainmentDatabase.REST.ServiceBase.csproj", "{E38104BE-52CD-42A3-A8B0-385633DEE491}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.ServiceBase.Generics", "src\EntertainmentDatabase.REST.ServiceBase.Generics\EntertainmentDatabase.REST.ServiceBase.Generics.csproj", "{2F2D4958-42CE-4BE1-A181-2664FCCF14A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.ServiceBase.Generics", "src\EntertainmentDatabase.REST.ServiceBase.Generics\EntertainmentDatabase.REST.ServiceBase.Generics.csproj", "{2F2D4958-42CE-4BE1-A181-2664FCCF14A3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.DataAccess", "src\EntertainmentDatabase.REST.API.DataAccess\EntertainmentDatabase.REST.API.DataAccess.csproj", "{1C88F87E-B7FB-4969-A49F-17FEA80198B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.API.Bootstrap", "src\EntertainmentDatabase.REST.API.Bootstrap\EntertainmentDatabase.REST.API.Bootstrap.csproj", "{F92E686D-6BB4-4805-B14F-35C865197A09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.Bootstrap", "src\EntertainmentDatabase.REST.API.Bootstrap\EntertainmentDatabase.REST.API.Bootstrap.csproj", "{F92E686D-6BB4-4805-B14F-35C865197A09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.API.Admin", "src\EntertainmentDatabase.REST.API.Admin\EntertainmentDatabase.REST.API.Admin.csproj", "{710723B1-E821-4B9B-AFCF-CA870CA8C0B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.Admin", "src\EntertainmentDatabase.REST.API.Admin\EntertainmentDatabase.REST.API.Admin.csproj", "{710723B1-E821-4B9B-AFCF-CA870CA8C0B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.API.Main", "src\EntertainmentDatabase.REST.API.Main\EntertainmentDatabase.REST.API.Main.csproj", "{56AF2C2A-7DA5-4C4F-90C0-8838973B5A4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.Main", "src\EntertainmentDatabase.REST.API.Main\EntertainmentDatabase.REST.API.Main.csproj", "{56AF2C2A-7DA5-4C4F-90C0-8838973B5A4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.API.Misc", "src\EntertainmentDatabase.REST.API.Misc\EntertainmentDatabase.REST.API.Misc.csproj", "{729ADC09-5103-4781-AE5B-6F055A382284}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.Misc", "src\EntertainmentDatabase.REST.API.Misc\EntertainmentDatabase.REST.API.Misc.csproj", "{729ADC09-5103-4781-AE5B-6F055A382284}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.Presentation", "src\EntertainmentDatabase.REST.API.Presentation\EntertainmentDatabase.REST.API.Presentation.csproj", "{87F5AF44-A357-4EC4-93DA-31B6B3507E45}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.API.AuthServer", "src\EntertainmentDatabase.REST.API.AuthServer\EntertainmentDatabase.REST.API.AuthServer.csproj", "{DDDCEE08-D2FC-40DA-8424-281B0B894225}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{87F5AF44-A357-4EC4-93DA-31B6B3507E45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87F5AF44-A357-4EC4-93DA-31B6B3507E45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87F5AF44-A357-4EC4-93DA-31B6B3507E45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDDCEE08-D2FC-40DA-8424-281B0B894225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDDCEE08-D2FC-40DA-8424-281B0B894225}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDDCEE08-D2FC-40DA-8424-281B0B894225}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDDCEE08-D2FC-40DA-8424-281B0B894225}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,5 +87,9 @@ Global
 		{56AF2C2A-7DA5-4C4F-90C0-8838973B5A4F} = {6E347105-EE31-40D1-A119-04DB80223845}
 		{729ADC09-5103-4781-AE5B-6F055A382284} = {6E347105-EE31-40D1-A119-04DB80223845}
 		{87F5AF44-A357-4EC4-93DA-31B6B3507E45} = {6E347105-EE31-40D1-A119-04DB80223845}
+		{DDDCEE08-D2FC-40DA-8424-281B0B894225} = {6E347105-EE31-40D1-A119-04DB80223845}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6DC433F8-EA7C-40B6-8C3D-2022DF677576}
 	EndGlobalSection
 EndGlobal

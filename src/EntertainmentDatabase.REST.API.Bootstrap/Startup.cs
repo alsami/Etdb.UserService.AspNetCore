@@ -43,7 +43,7 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
     {
         private readonly IHostingEnvironment environment;
         private readonly IConfigurationRoot configurationRoot;
-        private IContainer applicationContainer;
+        //private IContainer applicationContainer;
 
         private const string CorsName = "AllowAll";
         private readonly string logPath = $"Logs/{Assembly.GetEntryAssembly().GetName().Name}.log";
@@ -116,6 +116,18 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvcCore()
+                .AddApiExplorer()
+                .AddAuthorization();
+
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = "http://localhost:5000";
+                    options.RequireHttpsMetadata = false;
+                    options.ApiName = "EntertainmentDatabase.REST.API";
+                });
+
             services.AddMvc(options =>
             {
                 options.Filters.Add(typeof(RessourceNotFoundExceptionFilter));
@@ -145,9 +157,7 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
 
             services.Configure<MvcOptions>(options => options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAll")));
 
-
-            services.AddAutoMapper(opt => {
-            }, DependencyContext
+            services.AddAutoMapper(config => { },DependencyContext
                 .Default
                 .CompileLibraries
                 .SelectMany(lib => lib.Assemblies)
@@ -198,6 +208,8 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
             //{
             //    action.SwaggerEndpoint("/swagger/v1/swagger.json", "Entertainment-Database-REST V1");
             //});
+
+            app.UseAuthentication();
 
             app.UseMvc();
 

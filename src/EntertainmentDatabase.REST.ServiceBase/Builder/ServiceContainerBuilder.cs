@@ -33,6 +33,11 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
         private readonly IServiceCollection serviceCollection;
         private readonly ContainerBuilder containerBuilder;
         private readonly string projectName;
+        public ServiceContainerBuilder(ContainerBuilder containerBuilder)
+        {
+            this.containerBuilder = containerBuilder;
+        }
+
 
         public ServiceContainerBuilder(IServiceCollection serviceCollection, string projectName)
         {
