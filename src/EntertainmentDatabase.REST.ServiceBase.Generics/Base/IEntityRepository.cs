@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace EntertainmentDatabase.REST.ServiceBase.Generics.Base
 {
-    public interface IEntityRepository<T> where T: class, IEntity, new()
+    public interface IEntityRepository<TEntity> where TEntity: class, IEntity, new()
     {
-        IEnumerable<T> GetAll();
-        IEnumerable<T> GetAllIncluding(params Expression<Func<T, object>>[] includes);
-        IEnumerable<T> GetAllIncluding(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
-        T Get(Guid id);
-        T Get(Expression<Func<T, bool>> predicate);
-        T GetIncluding(Guid id, params Expression<Func<T, object>>[] includes);
-        T GetIncluding(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
-        IQueryable<T> GetQueryable();
-        void Add(T entity);
-        void Edit(T entity);
-        void Delete(T entity);
+        IEnumerable<TEntity> GetAll();
+        IEnumerable<TEntity> GetAllIncluding(params Expression<Func<TEntity, object>>[] includes);
+        IEnumerable<TEntity> GetAllIncluding(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes);
+        TEntity Get(Guid id);
+        TEntity Get(Expression<Func<TEntity, bool>> predicate);
+        TEntity GetIncluding(Guid id, params Expression<Func<TEntity, object>>[] includes);
+        TEntity GetIncluding(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes);
+        IQueryable<TEntity> GetQueryable();
+        void Add(TEntity entity);
+        void Edit(TEntity entity);
+        void Delete(TEntity entity);
         int EnsureChanges();
         Task<int> EnsureChangesAsync();
     }

@@ -193,10 +193,6 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
 
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
-
-                // causes error when applying db update
-                // uncommenting helps for now
-                // seeder.SeedDatabase().Wait();
             }
             loggerFactory.AddSerilog();
 

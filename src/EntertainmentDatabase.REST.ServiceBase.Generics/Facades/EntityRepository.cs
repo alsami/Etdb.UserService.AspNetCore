@@ -9,7 +9,7 @@ using IEntity = EntertainmentDatabase.REST.ServiceBase.Generics.Base.IEntity;
 
 namespace EntertainmentDatabase.REST.ServiceBase.Generics.Facades
 {
-    public class EntityRepository<T> : IEntityRepository<T> where T: class, IEntity, new()
+    public class EntityRepository<TEntity> : IEntityRepository<TEntity> where TEntity: class, IEntity, new()
     {
         private readonly DbContext context;
 
@@ -18,19 +18,19 @@ namespace EntertainmentDatabase.REST.ServiceBase.Generics.Facades
             this.context = context;
         }
 
-        public virtual void Add(T entity)
+        public virtual void Add(TEntity entity)
         {
             var entry = this.context.Entry(entity);
-            this.context.Set<T>().Add(entity);
+            this.context.Set<TEntity>().Add(entity);
         }
 
-        public virtual void Delete(T entity)
+        public virtual void Delete(TEntity entity)
         {
             var entry = this.context.Entry(entity);
             entry.State = EntityState.Deleted;
         }
 
-        public virtual void Edit(T entity)
+        public virtual void Edit(TEntity entity)
         {
             var entry = this.context.Entry(entity);
             entry.State = EntityState.Modified;
@@ -46,67 +46,67 @@ namespace EntertainmentDatabase.REST.ServiceBase.Generics.Facades
             return await this.context.SaveChangesAsync();
         }
 
-        public virtual T Get(Guid id)
+        public virtual TEntity Get(Guid id)
         {
             return this.GetQuery()
                 .FirstOrDefault(entity => entity.Id == id);
         }
 
-        public virtual T Get(Expression<Func<T, bool>> predicate)
+        public virtual TEntity Get(Expression<Func<TEntity, bool>> predicate)
         {
             return this.GetQuery()
                 .FirstOrDefault(predicate);
         }
 
-        public virtual T GetIncluding(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+        public virtual TEntity GetIncluding(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes)
         {
             return this.BuildQuery(includes)
                 .Where(predicate)
                 .FirstOrDefault();
         }
 
-        public virtual T GetIncluding(Guid id, params Expression<Func<T, object>>[] includes)
+        public virtual TEntity GetIncluding(Guid id, params Expression<Func<TEntity, object>>[] includes)
         {
             return this.BuildQuery(includes)
                 .FirstOrDefault(data => data.Id == id);
         }
 
-        public virtual IEnumerable<T> GetAll()
+        public virtual IEnumerable<TEntity> GetAll()
         {
             return this.GetQuery();
         }
 
-        public virtual IEnumerable<T> GetAllIncluding(params Expression<Func<T, object>>[] includes)
+        public virtual IEnumerable<TEntity> GetAllIncluding(params Expression<Func<TEntity, object>>[] includes)
         {
             return this.BuildQuery(includes)
                 .AsEnumerable();
         }
 
-        public IEnumerable<T> GetAllIncluding(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+        public IEnumerable<TEntity> GetAllIncluding(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes)
         {
             return this.BuildQuery(includes)
                 .Where(predicate)
                 .AsEnumerable();
         }
 
-        public virtual IQueryable<T> GetQueryable()
+        public virtual IQueryable<TEntity> GetQueryable()
         {
             return this.context
-                .Set<T>()
+                .Set<TEntity>()
                 .AsQueryable();
         }
 
-        private IQueryable<T> BuildQuery(params Expression<Func<T, object>>[] includes)
+        private IQueryable<TEntity> BuildQuery(params Expression<Func<TEntity, object>>[] includes)
         {
             var query = this.GetQuery();
 
             return includes.Aggregate(query, (current, include) => current.Include(include));
         }
 
-        private IQueryable<T> GetQuery()
+        private IQueryable<TEntity> GetQuery()
         {
             return this.context
-                .Set<T>()
+                .Set<TEntity>()
                 .AsQueryable();
         }
     }
