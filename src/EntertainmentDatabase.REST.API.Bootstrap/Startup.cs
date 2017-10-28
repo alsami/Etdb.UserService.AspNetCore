@@ -157,7 +157,7 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
 
             services.Configure<MvcOptions>(options => options.Filters.Add(new CorsAuthorizationFilterFactory("AllowAll")));
 
-            services.AddAutoMapper(config => { },DependencyContext
+            services.AddAutoMapper(DependencyContext
                 .Default
                 .CompileLibraries
                 .SelectMany(lib => lib.Assemblies)
