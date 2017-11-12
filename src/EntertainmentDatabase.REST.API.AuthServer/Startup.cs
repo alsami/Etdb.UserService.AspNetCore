@@ -73,7 +73,6 @@ namespace EntertainmentDatabase.REST.API.AuthServer
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
             new ServiceContainerBuilder(containerBuilder)
-                //.AddDbContext<EntertainmentDatabaseContext>()
                 .UseEnvironment(this.hostingEnvironment)
                 .UseConfiguration(this.configurationRoot)
                 .UseGenericRepositoryPattern<EntertainmentDatabaseContext>()

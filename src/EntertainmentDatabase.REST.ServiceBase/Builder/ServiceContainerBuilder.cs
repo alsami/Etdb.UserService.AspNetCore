@@ -30,20 +30,11 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
 {
     public class ServiceContainerBuilder
     {
-        private readonly IServiceCollection serviceCollection;
         private readonly ContainerBuilder containerBuilder;
-        private readonly string projectName;
+
         public ServiceContainerBuilder(ContainerBuilder containerBuilder)
         {
             this.containerBuilder = containerBuilder;
-        }
-
-
-        public ServiceContainerBuilder(IServiceCollection serviceCollection, string projectName)
-        {
-            this.serviceCollection = serviceCollection ?? throw new ArgumentNullException(nameof(serviceCollection));
-            this.projectName = projectName ?? throw new ArgumentNullException(nameof(projectName));
-            this.containerBuilder = new ContainerBuilder();
         }
 
         public ServiceContainerBuilder UseConfiguration(IConfigurationRoot configurationRoot)
@@ -82,7 +73,7 @@ namespace EntertainmentDatabase.REST.ServiceBase.Builder
             return this;
         }
 
-        public ServiceContainerBuilder RegisterTypeAsSingleton<TImplementation, TInterface>()
+        public ServiceContainerBuilder RegisterTypeAsSingleton<TImplementation, TInterface>() where TImplementation : TInterface
         {
             this.containerBuilder.RegisterType<TImplementation>()
                 .As<TInterface>()

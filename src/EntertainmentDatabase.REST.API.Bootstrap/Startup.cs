@@ -43,7 +43,6 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
     {
         private readonly IHostingEnvironment environment;
         private readonly IConfigurationRoot configurationRoot;
-        //private IContainer applicationContainer;
 
         private const string CorsName = "AllowAll";
         private readonly string logPath = $"Logs/{Assembly.GetEntryAssembly().GetName().Name}.log";
@@ -68,57 +67,20 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
                 .CreateLogger();
         }
 
-        //public IServiceProvider ConfigureServices(IServiceCollection services)
-        //{
-        //    var containerBuilder = new ServiceContainerBuilder(services, "EntertainmentDatabase.REST")
-        //        .AddCoreServiceRequirement(mvcOptionsAction =>
-        //        {
-        //            mvcOptionsAction.Filters.Add(typeof(RessourceNotFoundExceptionFilter));
-        //            mvcOptionsAction.Filters.Add(typeof(RegisterExceptionFilter));
-        //            mvcOptionsAction.Filters.Add(typeof(LoginFailedExceptionFilter));
-        //            mvcOptionsAction.Filters.Add(typeof(ActionLogFilter));
-        //            mvcOptionsAction.Filters.Add(typeof(ErrorLogFilter));
-        //        },
-        //            options =>
-        //            {
-        //                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
-        //                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-        //            })
-        //        .AddAutoMapper()
-        //        .AddDbContext<EntertainmentDatabaseContext>()
-        //        .AddSwaggerGen(action =>
-        //        {
-        //            action.SwaggerDoc("v1", new Info
-        //            {
-        //                Title = "Entertainment-Database-REST",
-        //                Version = "v1"
-        //            });
-        //        })
-        //        .UseConfiguration(this.configurationRoot)
-        //        .UseEnvironment(this.environment)
-        //        .UseGenericRepositoryPattern<EntertainmentDatabaseContext>()
-        //        .UseCors(Startup.CorsName, builder =>
-        //        {
-        //            builder
-        //                .AllowAnyHeader()
-        //                .AllowAnyMethod()
-        //                .AllowAnyOrigin()
-        //                .AllowCredentials();
-        //        }, true)
-        //        .RegisterTypeAsSingleton<DataSeeder>()
-        //        .RegisterTypeAsSingleton<HttpContextAccessor, IHttpContextAccessor>()
-        //        .Register<MovieCoverImageResolver>();
-
-        //    this.applicationContainer = containerBuilder.Build();
-
-        //    return new AutofacServiceProvider(this.applicationContainer);
-        //}
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvcCore()
                 .AddApiExplorer()
                 .AddAuthorization();
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Info
+                {
+                    Title = "Entertainment-Database-REST",
+                    Version = "v1"
+                });
+            });
 
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
@@ -165,25 +127,6 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
                 .Select(assemblyName => Assembly.Load(assemblyName.Replace(".dll", ""))));
         }
 
-        public void ConfigureContainer(ContainerBuilder builder)
-        {
-            builder.RegisterInstance(this.environment);
-
-            builder.RegisterInstance(this.configurationRoot);
-
-            builder.RegisterType<HttpContextAccessor>()
-                .As<IHttpContextAccessor>()
-                .SingleInstance();
-
-            builder.RegisterGeneric(typeof(EntityRepository<>))
-                .As(typeof(IEntityRepository<>))
-                .InstancePerRequest()
-                .WithParameter(new ResolvedParameter(
-                    (parameterInfo, componentContext) => parameterInfo.ParameterType == typeof(DbContext),
-                    (parameterInfo, componentContext) => componentContext.Resolve<EntertainmentDatabaseContext>()))
-                .InstancePerLifetimeScope();
-        }
-
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
             if (this.environment.IsDevelopment())
@@ -199,21 +142,24 @@ namespace EntertainmentDatabase.REST.API.Bootstrap
             app.UseStaticFiles();
             app.UseDefaultFiles();
 
-            //app.UseSwagger();
-            //app.UseSwaggerUI(action =>
-            //{
-            //    action.SwaggerEndpoint("/swagger/v1/swagger.json", "Entertainment-Database-REST V1");
-            //});
+            app.UseSwagger();
+            app.UseSwaggerUI(action =>
+            {
+                action.SwaggerEndpoint("/swagger/v1/swagger.json", "Entertainment-Database-REST V1");
+            });
 
             app.UseAuthentication();
 
             app.UseMvc();
+        }
 
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("<h1>Service running!</h1>");
-            });
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            new ServiceContainerBuilder(builder)
+                .UseGenericRepositoryPattern<EntertainmentDatabaseContext>()
+                .UseEnvironment(this.environment)
+                .UseConfiguration(this.configurationRoot)
+                .RegisterTypeAsSingleton<HttpContextAccessor, IHttpContextAccessor>();
         }
     }
 }
