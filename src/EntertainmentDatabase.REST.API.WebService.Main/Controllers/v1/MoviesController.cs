@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using EntertainmentDatabase.REST.API.Misc.Exceptions;
 using EntertainmentDatabase.REST.API.ServiceBase.Generics.Base;
 using EntertainmentDatabase.REST.API.WebService.Domain.Entities;
+using EntertainmentDatabase.REST.API.WebService.Misc.Exceptions;
 using EntertainmentDatabase.REST.API.WebService.Presentation.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

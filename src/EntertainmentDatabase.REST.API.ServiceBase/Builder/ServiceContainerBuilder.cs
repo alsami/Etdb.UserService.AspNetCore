@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Autofac.Core;
 using EntertainmentDatabase.REST.API.ServiceBase.Generics.Base;
-using EntertainmentDatabase.REST.API.ServiceBase.Generics.Facades;
+using EntertainmentDatabase.REST.API.ServiceBase.Generics.Repositories;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

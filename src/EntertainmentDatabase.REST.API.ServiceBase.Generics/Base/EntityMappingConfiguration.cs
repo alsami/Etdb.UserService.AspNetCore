@@ -12,7 +12,11 @@ namespace EntertainmentDatabase.REST.API.ServiceBase.Generics.Base
             this.ModelBuilder = modelBuilder;
         }
 
-        protected abstract void Configure(EntityTypeBuilder<TEntity> builder);
+        protected virtual void Configure(EntityTypeBuilder<TEntity> builder)
+        {
+            var name = typeof(TEntity).Name;
+            builder.ToTable($"{name}s");
+        }
 
         public virtual void ConfigureEntity()
         {

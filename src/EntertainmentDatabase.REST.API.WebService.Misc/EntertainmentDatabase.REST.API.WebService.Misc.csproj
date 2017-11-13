@@ -5,16 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="6.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EntertainmentDatabase.REST.API.ServiceBase.Generics\EntertainmentDatabase.REST.API.ServiceBase.Generics.csproj" />
     <ProjectReference Include="..\EntertainmentDatabase.REST.API.WebService.Domain\EntertainmentDatabase.REST.API.WebService.Domain.csproj" />
-    <ProjectReference Include="..\EntertainmentDatabase.REST.API.WebService.Presentation\EntertainmentDatabase.REST.API.WebService.Presentation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.Identity.Core">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.identity.core\2.0.0\lib\netstandard2.0\Microsoft.Extensions.Identity.Core.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

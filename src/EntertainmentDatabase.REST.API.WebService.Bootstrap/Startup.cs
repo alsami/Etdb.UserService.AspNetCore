@@ -2,7 +2,6 @@
 using System.Reflection;
 using Autofac;
 using AutoMapper;
-using EntertainmentDatabase.REST.API.Misc.Filters;
 using EntertainmentDatabase.REST.API.ServiceBase.Builder;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,6 +17,7 @@ using Newtonsoft.Json.Serialization;
 using Serilog;
 using Swashbuckle.AspNetCore.Swagger;
 using EntertainmentDatabase.REST.API.WebService.Data;
+using EntertainmentDatabase.REST.API.WebService.Misc.Filters;
 
 namespace EntertainmentDatabase.REST.API.WebService.Bootstrap
 {

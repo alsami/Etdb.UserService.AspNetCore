@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "EntertainmentDatabase.REST.API.UserService.Scaffold": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Developments"
+      }
+    }
+  }
+}

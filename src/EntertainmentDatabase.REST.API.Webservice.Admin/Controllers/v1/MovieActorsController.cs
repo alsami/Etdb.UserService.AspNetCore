@@ -9,9 +9,9 @@ namespace EntertainmentDatabase.REST.API.WebService.Admin.Controllers.v1
     public class MovieActorsController : Controller
     {
         private readonly IMapper mapper;
-        private readonly IEntityRepository<MovieActors> actorMovieRepository;
+        private readonly IEntityRepository<MovieActor> actorMovieRepository;
 
-        public MovieActorsController(IMapper mapper, IEntityRepository<MovieActors> actorMovieRepository)
+        public MovieActorsController(IMapper mapper, IEntityRepository<MovieActor> actorMovieRepository)
         {
             this.mapper = mapper;
             this.actorMovieRepository = actorMovieRepository;

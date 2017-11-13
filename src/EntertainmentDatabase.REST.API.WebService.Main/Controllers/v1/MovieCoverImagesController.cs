@@ -17,7 +17,7 @@ namespace EntertainmentDatabase.REST.API.WebService.Main.Controllers.v1
         }
 
         [HttpGet("download/{movieCoverImageId:Guid}")]
-        public FileContentResult Download(Guid movieId, Guid movieCoverImageId)
+        public IActionResult Download(Guid movieId, Guid movieCoverImageId)
         {
             var movieCoverImage = this.movieCoverImageRepo.Get(movieCoverImageId);
             return new FileContentResult(movieCoverImage.File, new MediaTypeHeaderValue("application/octet"))

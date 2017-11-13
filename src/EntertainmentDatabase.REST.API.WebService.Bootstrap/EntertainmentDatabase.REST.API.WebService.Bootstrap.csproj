@@ -27,10 +27,10 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EntertainmentDatabase.REST.API.Data\EntertainmentDatabase.REST.API.WebService.Data.csproj" />
-    <ProjectReference Include="..\EntertainmentDatabase.REST.API.Misc\EntertainmentDatabase.REST.API.Misc.csproj" />
     <ProjectReference Include="..\EntertainmentDatabase.REST.API.ServiceBase\EntertainmentDatabase.REST.API.ServiceBase.csproj" />
+    <ProjectReference Include="..\EntertainmentDatabase.REST.API.WebService.Data\EntertainmentDatabase.REST.API.WebService.Data.csproj" />
     <ProjectReference Include="..\EntertainmentDatabase.REST.API.WebService.Main\EntertainmentDatabase.REST.API.WebService.Main.csproj" />
+    <ProjectReference Include="..\EntertainmentDatabase.REST.API.WebService.Misc\EntertainmentDatabase.REST.API.WebService.Misc.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Properties\launchSettings.json">

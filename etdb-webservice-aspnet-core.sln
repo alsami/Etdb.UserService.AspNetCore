@@ -13,13 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.WebService.Main", "src\EntertainmentDatabase.REST.API.WebService.Main\EntertainmentDatabase.REST.API.WebService.Main.csproj", "{A58B1BFF-7573-4628-9634-E55FA41F61A4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.WebService.Domain", "src\EntertainmentDatabase.REST.API.Domain\EntertainmentDatabase.REST.API.WebService.Domain.csproj", "{49CDA7FD-CF08-436F-A806-E4D0C7F41C2B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.WebService.Domain", "src\EntertainmentDatabase.REST.API.WebService.Domain\EntertainmentDatabase.REST.API.WebService.Domain.csproj", "{49CDA7FD-CF08-436F-A806-E4D0C7F41C2B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.WebService.Presentation", "src\EntertainmentDatabase.REST.API.Presentation\EntertainmentDatabase.REST.API.WebService.Presentation.csproj", "{58D17EFA-A852-4142-BBB4-97E6EC93E25B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.WebService.Presentation", "src\EntertainmentDatabase.REST.API.WebService.Presentation\EntertainmentDatabase.REST.API.WebService.Presentation.csproj", "{58D17EFA-A852-4142-BBB4-97E6EC93E25B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.Misc", "src\EntertainmentDatabase.REST.API.Misc\EntertainmentDatabase.REST.API.Misc.csproj", "{C2BE6318-D2F8-42ED-89FF-6D81D733785B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.WebService.Misc", "src\EntertainmentDatabase.REST.API.WebService.Misc\EntertainmentDatabase.REST.API.WebService.Misc.csproj", "{C2BE6318-D2F8-42ED-89FF-6D81D733785B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.WebService.Data", "src\EntertainmentDatabase.REST.API.Data\EntertainmentDatabase.REST.API.WebService.Data.csproj", "{47E8FE46-2026-4202-8E18-D3F23105CAC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.WebService.Data", "src\EntertainmentDatabase.REST.API.WebService.Data\EntertainmentDatabase.REST.API.WebService.Data.csproj", "{47E8FE46-2026-4202-8E18-D3F23105CAC2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.ServiceBase", "src\EntertainmentDatabase.REST.API.ServiceBase\EntertainmentDatabase.REST.API.ServiceBase.csproj", "{8E4F4D80-4A5A-4585-8F5F-BFEC0A0AD562}"
 EndProject

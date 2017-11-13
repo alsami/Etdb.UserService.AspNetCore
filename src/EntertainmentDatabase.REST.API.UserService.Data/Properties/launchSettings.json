@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "EntertainmentDatabase.REST.API.UserService.Data": {
+      "commandName": "Project"
+    }
+  }
+}
