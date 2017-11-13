@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EntertainmentDatabase.REST.API.Presentation.DataTransferObjects
+﻿namespace EntertainmentDatabase.REST.API.WebService.Presentation.DataTransferObjects
 {
     public class LoginUserDTO
     {

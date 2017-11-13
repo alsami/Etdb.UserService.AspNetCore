@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using EntertainmentDatabase.REST.API.Domain.Entities;
-using EntertainmentDatabase.REST.API.Presentation.DataTransferObjects.Resolver;
-using Microsoft.AspNetCore.Http;
+using EntertainmentDatabase.REST.API.WebService.Domain.Entities;
+using EntertainmentDatabase.REST.API.WebService.Presentation.DataTransferObjects.Resolver;
 
-namespace EntertainmentDatabase.REST.API.Presentation.DataTransferObjects.Mappings
+namespace EntertainmentDatabase.REST.API.WebService.Presentation.DataTransferObjects.Mappings
 {
     public class MovieDTOMapping : Profile
     {

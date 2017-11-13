@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using EntertainmentDatabase.REST.API.Domain.Entities;
-using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
+using EntertainmentDatabase.REST.API.ServiceBase.Generics.Base;
+using EntertainmentDatabase.REST.API.WebService.Domain.Entities;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace EntertainmentDatabase.REST.API.Misc.Filters

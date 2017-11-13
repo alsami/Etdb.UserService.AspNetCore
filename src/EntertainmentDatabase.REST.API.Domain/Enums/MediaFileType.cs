@@ -1,4 +1,4 @@
-﻿namespace EntertainmentDatabase.REST.API.Domain.Enums
+﻿namespace EntertainmentDatabase.REST.API.WebService.Domain.Enums
 {
     public enum MediaFileType
     {

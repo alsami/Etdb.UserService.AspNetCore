@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
+﻿using EntertainmentDatabase.REST.API.ServiceBase.Generics.Base;
 
-namespace EntertainmentDatabase.REST.API.Domain.Base
+namespace EntertainmentDatabase.REST.API.WebService.Domain.Base
 {
     public interface ILogInfo : IEntity
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using AutoMapper;
-using EntertainmentDatabase.REST.API.Domain.Entities;
+using EntertainmentDatabase.REST.API.WebService.Domain.Entities;
 
-namespace EntertainmentDatabase.REST.API.Presentation.DataTransferObjects.Mappings
+namespace EntertainmentDatabase.REST.API.WebService.Presentation.DataTransferObjects.Mappings
 {
     public class MovieFileDTOMapping : Profile
     {

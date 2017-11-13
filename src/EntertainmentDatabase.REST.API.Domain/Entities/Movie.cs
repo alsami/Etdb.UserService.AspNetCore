@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using EntertainmentDatabase.REST.API.Domain.Base;
-using EntertainmentDatabase.REST.API.Domain.Enums;
-using EntertainmentDatabase.REST.ServiceBase.Generics.Base;
+using EntertainmentDatabase.REST.API.ServiceBase.Generics.Base;
+using EntertainmentDatabase.REST.API.WebService.Domain.Base;
+using EntertainmentDatabase.REST.API.WebService.Domain.Enums;
 
-namespace EntertainmentDatabase.REST.API.Domain.Entities
+namespace EntertainmentDatabase.REST.API.WebService.Domain.Entities
 {
     public class Movie : IEntity, IConsumerMedia
     {

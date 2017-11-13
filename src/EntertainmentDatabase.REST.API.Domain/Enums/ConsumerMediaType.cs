@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace EntertainmentDatabase.REST.API.Domain.Enums
+﻿namespace EntertainmentDatabase.REST.API.WebService.Domain.Enums
 {
     public enum ConsumerMediaType
     {

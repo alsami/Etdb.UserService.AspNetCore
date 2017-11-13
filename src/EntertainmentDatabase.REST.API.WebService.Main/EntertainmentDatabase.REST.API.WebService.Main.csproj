@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EntertainmentDatabase.REST.API.Domain\EntertainmentDatabase.REST.API.WebService.Domain.csproj" />
+    <ProjectReference Include="..\EntertainmentDatabase.REST.API.Misc\EntertainmentDatabase.REST.API.Misc.csproj" />
+    <ProjectReference Include="..\EntertainmentDatabase.REST.API.Presentation\EntertainmentDatabase.REST.API.WebService.Presentation.csproj" />
+  </ItemGroup>
+
+</Project>
