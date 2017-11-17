@@ -1,29 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2008
+VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{83A52767-022B-4B6A-BE3E-D6D6CFF89B79}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{6D5EBCBA-FB78-425F-8D55-D13C11C9DCB7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.UserService.Bootstrap", "src\EntertainmentDatabase.REST.API.UserService.Bootstrap\EntertainmentDatabase.REST.API.UserService.Bootstrap.csproj", "{C2E4915D-F311-493B-98FA-0337F2198F78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETDB.API.UserService.Bootstrap", "src\ETDB.API.UserService.Bootstrap\ETDB.API.UserService.Bootstrap.csproj", "{C2E4915D-F311-493B-98FA-0337F2198F78}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.ServiceBase.Generics", "src\EntertainmentDatabase.REST.API.ServiceBase.Generics\EntertainmentDatabase.REST.API.ServiceBase.Generics.csproj", "{189D6C9E-679A-457F-A423-448830804835}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETDB.API.UserService.Data", "src\ETDB.API.UserService.Data\ETDB.API.UserService.Data.csproj", "{4C769F65-E090-462F-B8E2-6ADE65F6050D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntertainmentDatabase.REST.API.ServiceBase", "src\EntertainmentDatabase.REST.API.ServiceBase\EntertainmentDatabase.REST.API.ServiceBase.csproj", "{94881A38-5644-4DA2-B132-58399BB62102}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETDB.API.UserService.Domain", "src\ETDB.API.UserService.Domain\ETDB.API.UserService.Domain.csproj", "{55DC8ED2-ABF1-4DD6-8D10-E60B835A8997}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.API.UserService.Data", "src\EntertainmentDatabase.REST.API.UserService.Data\EntertainmentDatabase.REST.API.UserService.Data.csproj", "{4C769F65-E090-462F-B8E2-6ADE65F6050D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETDB.API.UserService.Main", "src\ETDB.API.UserService.Main\ETDB.API.UserService.Main.csproj", "{813F619F-EFE4-43A2-8DE0-CD6E4A0F4397}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.API.UserService.Domain", "src\EntertainmentDatabase.REST.API.UserService.Domain\EntertainmentDatabase.REST.API.UserService.Domain.csproj", "{55DC8ED2-ABF1-4DD6-8D10-E60B835A8997}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETDB.API.UserService.Admin", "src\ETDB.API.UserService.Admin\ETDB.API.UserService.Admin.csproj", "{B5FD3C1F-6A4B-4002-8569-3CCBA060D375}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.API.UserService.Main", "src\EntertainmentDatabase.REST.API.UserService.Main\EntertainmentDatabase.REST.API.UserService.Main.csproj", "{813F619F-EFE4-43A2-8DE0-CD6E4A0F4397}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.API.UserService.Admin", "src\EntertainmentDatabase.REST.API.UserService.Admin\EntertainmentDatabase.REST.API.UserService.Admin.csproj", "{B5FD3C1F-6A4B-4002-8569-3CCBA060D375}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.API.UserService.Scaffold", "src\EntertainmentDatabase.REST.API.UserService.Scaffold\EntertainmentDatabase.REST.API.UserService.Scaffold.csproj", "{E186CC3F-45F4-40B5-B143-9AFA3B4E3727}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntertainmentDatabase.REST.API.ServiceBase.Common", "src\EntertainmentDatabase.REST.API.ServiceBase.Common\EntertainmentDatabase.REST.API.ServiceBase.Common.csproj", "{84F3C961-12A0-46AC-9BDE-047425357139}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETDB.API.UserService.Scaffold", "src\ETDB.API.UserService.Scaffold\ETDB.API.UserService.Scaffold.csproj", "{E186CC3F-45F4-40B5-B143-9AFA3B4E3727}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,14 +29,6 @@ Global
 		{C2E4915D-F311-493B-98FA-0337F2198F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2E4915D-F311-493B-98FA-0337F2198F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2E4915D-F311-493B-98FA-0337F2198F78}.Release|Any CPU.Build.0 = Release|Any CPU
-		{189D6C9E-679A-457F-A423-448830804835}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{189D6C9E-679A-457F-A423-448830804835}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{189D6C9E-679A-457F-A423-448830804835}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{189D6C9E-679A-457F-A423-448830804835}.Release|Any CPU.Build.0 = Release|Any CPU
-		{94881A38-5644-4DA2-B132-58399BB62102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{94881A38-5644-4DA2-B132-58399BB62102}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{94881A38-5644-4DA2-B132-58399BB62102}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{94881A38-5644-4DA2-B132-58399BB62102}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C769F65-E090-462F-B8E2-6ADE65F6050D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C769F65-E090-462F-B8E2-6ADE65F6050D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C769F65-E090-462F-B8E2-6ADE65F6050D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -63,24 +49,17 @@ Global
 		{E186CC3F-45F4-40B5-B143-9AFA3B4E3727}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E186CC3F-45F4-40B5-B143-9AFA3B4E3727}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E186CC3F-45F4-40B5-B143-9AFA3B4E3727}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84F3C961-12A0-46AC-9BDE-047425357139}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84F3C961-12A0-46AC-9BDE-047425357139}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84F3C961-12A0-46AC-9BDE-047425357139}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84F3C961-12A0-46AC-9BDE-047425357139}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C2E4915D-F311-493B-98FA-0337F2198F78} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
-		{189D6C9E-679A-457F-A423-448830804835} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
-		{94881A38-5644-4DA2-B132-58399BB62102} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{4C769F65-E090-462F-B8E2-6ADE65F6050D} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{55DC8ED2-ABF1-4DD6-8D10-E60B835A8997} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{813F619F-EFE4-43A2-8DE0-CD6E4A0F4397} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{B5FD3C1F-6A4B-4002-8569-3CCBA060D375} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{E186CC3F-45F4-40B5-B143-9AFA3B4E3727} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
-		{84F3C961-12A0-46AC-9BDE-047425357139} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {39A620F8-72B1-4D11-8393-8263B92F8704}
