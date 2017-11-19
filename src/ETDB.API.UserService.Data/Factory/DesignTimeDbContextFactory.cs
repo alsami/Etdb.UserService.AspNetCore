@@ -5,9 +5,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace ETDB.API.UserService.Data.Factory
 {
-    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<EntertainmentDatabaseUserServiceContext>
+    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<UserServiceContext>
     {
-        public EntertainmentDatabaseUserServiceContext CreateDbContext(string[] args)
+        public UserServiceContext CreateDbContext(string[] args)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -17,7 +17,7 @@ namespace ETDB.API.UserService.Data.Factory
 
             var configuration = builder.Build();
 
-            var context = new EntertainmentDatabaseUserServiceContext(configuration);
+            var context = new UserServiceContext(configuration);
             return context;
         }
     }

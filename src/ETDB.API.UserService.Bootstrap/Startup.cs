@@ -1,9 +1,12 @@
 ﻿using Autofac;
 using ETDB.API.ServiceBase.Builder;
+using ETDB.API.ServiceBase.Constants;
 using ETDB.API.UserService.Bootstrap.Config;
 using ETDB.API.UserService.Bootstrap.Services;
 using ETDB.API.UserService.Bootstrap.Validators;
 using ETDB.API.UserService.Data;
+using ETDB.API.UserService.Repositories;
+using ETDB.API.UserService.Repositories.Base;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authorization;
@@ -23,6 +26,14 @@ namespace ETDB.API.UserService.Bootstrap
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IConfigurationRoot configurationRoot;
 
+        private const string SwaggerDocDescription = "ETDB " + ServiceNames.UserService + " V1";
+        private const string SwaggerDocVersion = "v1";
+        private const string SwaggerDocJsonUri = "/swagger/v1/swagger.json";
+
+        private const string CorsPolicyName = "AllowAll";
+
+        private const string AuthenticationSchema = "Bearer";
+
         public Startup(IHostingEnvironment hostingEnvironment)
         {
             this.hostingEnvironment = hostingEnvironment;
@@ -38,15 +49,22 @@ namespace ETDB.API.UserService.Bootstrap
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build()));
+            });
+
             services.AddMvcCore()
                 .AddApiExplorer();
 
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new Info
+                options.SwaggerDoc(Startup.SwaggerDocVersion, new Info
                 {
-                    Title = "Entertainment-Database-REST",
-                    Version = "v1"
+                    Title = Startup.SwaggerDocDescription,
+                    Version = Startup.SwaggerDocVersion
                 });
             });
 
@@ -56,19 +74,20 @@ namespace ETDB.API.UserService.Bootstrap
                 .AddInMemoryApiResources(new ApiResourceConfig().GetApiResource())
                 .AddInMemoryClients(new ClientConfig().GetClients());
 
-            services.AddDbContext<EntertainmentDatabaseUserServiceContext>()
-                .AddEntityFrameworkSqlServer();
+            services.AddAuthentication(Startup.AuthenticationSchema)
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = "http://localhost:5000";
+                    options.RequireHttpsMetadata = false;
+                    options.ApiName = ServiceNames.UserService;
+                });
 
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build()));
-            });
+            services.AddDbContext<UserServiceContext>()
+                .AddEntityFrameworkSqlServer();
 
             services.AddCors(options =>
             {
-                options.AddPolicy("All", opt =>
+                options.AddPolicy(Startup.CorsPolicyName, opt =>
                 {
                     opt.AllowAnyOrigin()
                         .AllowAnyHeader()
@@ -76,7 +95,8 @@ namespace ETDB.API.UserService.Bootstrap
                         .AllowCredentials();
                 });
             })
-            .Configure<MvcOptions>(options => options.Filters.Add(new CorsAuthorizationFilterFactory("All")));
+            .Configure<MvcOptions>(options => 
+                options.Filters.Add(new CorsAuthorizationFilterFactory(Startup.CorsPolicyName)));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -84,15 +104,17 @@ namespace ETDB.API.UserService.Bootstrap
             if (!env.IsProduction())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
 
             app.UseSwagger();
             app.UseSwaggerUI(action =>
             {
-                action.SwaggerEndpoint("/swagger/v1/swagger.json", "Entertainment-Database-REST V1");
+                action.SwaggerEndpoint(Startup.SwaggerDocJsonUri, Startup.SwaggerDocDescription);
             });
 
             app.UseIdentityServer();
+            app.UseMvc();
         }
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
@@ -100,9 +122,10 @@ namespace ETDB.API.UserService.Bootstrap
             new ServiceContainerBuilder(containerBuilder)
                 .UseEnvironment(this.hostingEnvironment)
                 .UseConfiguration(this.configurationRoot)
-                .UseGenericRepositoryPattern<EntertainmentDatabaseUserServiceContext>()
+                .UseGenericRepositoryPattern<UserServiceContext>()
                 .RegisterTypePerDependency<ResourceOwnerPasswordValidator, IResourceOwnerPasswordValidator>()
-                .RegisterTypePerDependency<ProfileService, IProfileService>();
+                .RegisterTypePerDependency<ProfileService, IProfileService>()
+                .RegisterTypePerDependency<UserClaimsRepository, IUserClaimsRepository>();
         }
     }
 }

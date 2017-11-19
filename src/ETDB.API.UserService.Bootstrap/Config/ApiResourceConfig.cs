@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using IdentityServer4.Models;
+using ETDB.API.ServiceBase.Constants;
+using IdentityModel;
 
 namespace ETDB.API.UserService.Bootstrap.Config
 {
@@ -9,7 +11,9 @@ namespace ETDB.API.UserService.Bootstrap.Config
         {
             return new List<ApiResource>
             {
-                new ApiResource("EntertainmentDatabase.REST.API.WebService")
+                new ApiResource(ServiceNames.UserService),
+                new ApiResource(ServiceNames.WebService),
+                new ApiResource(ServiceNames.FileService),
             };
         }
     }

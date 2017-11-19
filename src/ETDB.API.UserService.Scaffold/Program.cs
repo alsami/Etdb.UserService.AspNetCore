@@ -26,11 +26,11 @@ namespace ETDB.API.UserService.Scaffold
 
             var serviceProvider = new ServiceCollection()
                 .AddSingleton(configurationRoot)
-                .AddScoped<EntertainmentDatabaseUserServiceContext>()
+                .AddScoped<UserServiceContext>()
                 .BuildServiceProvider();
 
             var databaseContext = serviceProvider
-                .GetService<EntertainmentDatabaseUserServiceContext>();
+                .GetService<UserServiceContext>();
 
             if (databaseContext.Database.GetPendingMigrations().Any())
             {

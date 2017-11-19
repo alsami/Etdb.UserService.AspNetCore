@@ -6,13 +6,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace ETDB.API.UserService.Data
 {
-    public class EntertainmentDatabaseUserServiceContext : DbContext
+    public class UserServiceContext : DbContext
     {
         private readonly IConfigurationRoot configurationRoot;
         private const string Production = "Production";
         private const string Development = "Development";
 
-        public EntertainmentDatabaseUserServiceContext(IConfigurationRoot configurationRoot)
+        public UserServiceContext(IConfigurationRoot configurationRoot)
         {
             this.configurationRoot = configurationRoot;
         }
@@ -21,16 +21,14 @@ namespace ETDB.API.UserService.Data
         {
             base.OnConfiguring(optionsBuilder);
 
-            var environmentName = Environment
-                                      .GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ??
-                                  EntertainmentDatabaseUserServiceContext.Development;
+            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? UserServiceContext.Development;
 
             optionsBuilder.UseSqlServer(environmentName
-                .Equals(EntertainmentDatabaseUserServiceContext.Development, StringComparison.OrdinalIgnoreCase)
-                ? this.configurationRoot.GetConnectionString(EntertainmentDatabaseUserServiceContext.Development)
+                .Equals(UserServiceContext.Development, StringComparison.OrdinalIgnoreCase)
+                ? this.configurationRoot.GetConnectionString(UserServiceContext.Development)
                 : environmentName
-                    .Equals(EntertainmentDatabaseUserServiceContext.Production, StringComparison.OrdinalIgnoreCase)
-                    ? this.configurationRoot.GetConnectionString(EntertainmentDatabaseUserServiceContext.Production)
+                    .Equals(UserServiceContext.Production, StringComparison.OrdinalIgnoreCase)
+                    ? this.configurationRoot.GetConnectionString(UserServiceContext.Production)
                     : throw new ArgumentException(nameof(environmentName)));
         }
 

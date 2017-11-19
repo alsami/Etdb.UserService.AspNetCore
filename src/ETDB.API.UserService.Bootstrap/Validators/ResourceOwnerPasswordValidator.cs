@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using ETDB.API.ServiceBase.Common.Base;
 using ETDB.API.ServiceBase.Common.Factory;
 using ETDB.API.ServiceBase.Generics.Base;
-using ETDB.API.UserService.Bootstrap.Extensions;
 using ETDB.API.UserService.Domain.Entities;
+using ETDB.API.UserService.Repositories.Base;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
@@ -16,11 +16,13 @@ namespace ETDB.API.UserService.Bootstrap.Validators
     public class ResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
         private readonly IEntityRepository<User> userRepository;
+        private readonly IUserClaimsRepository userClaimsRepository;
         private readonly IHashingStrategy hasher;
 
-        public ResourceOwnerPasswordValidator(IEntityRepository<User> userRepository)
+        public ResourceOwnerPasswordValidator(IEntityRepository<User> userRepository, IUserClaimsRepository userClaimsRepository)
         {
             this.userRepository = userRepository;
+            this.userClaimsRepository = userClaimsRepository;
             this.hasher = new HasherFactory()
                 .CreateHasher(KeyDerivationPrf.HMACSHA1);
         }
@@ -28,11 +30,8 @@ namespace ETDB.API.UserService.Bootstrap.Validators
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
             var loginUser = this.userRepository
-                .GetQueryable()
-                .Include(user => user.UserSecurityroles)
-                .ThenInclude(userSercurityrole => userSercurityrole.Securityrole)
-                .FirstOrDefault(user => user.Email.Equals(context.UserName, StringComparison.OrdinalIgnoreCase) 
-                    || user.UserName.Equals(context.UserName, StringComparison.OrdinalIgnoreCase));
+                .Get(user => user.Email.Equals(context.UserName, StringComparison.OrdinalIgnoreCase)
+                             || user.UserName.Equals(context.UserName, StringComparison.OrdinalIgnoreCase));
 
             if (loginUser == null)
             {
@@ -41,14 +40,15 @@ namespace ETDB.API.UserService.Bootstrap.Validators
                 return Task.FromResult(context.Result);
             }
 
-            if (loginUser.Password == this.hasher.CreateSaltedHash(context.Password, loginUser.Salt))
+            if (loginUser.Password != this.hasher.CreateSaltedHash(context.Password, loginUser.Salt))
             {
-                context.Result = new GrantValidationResult(loginUser.Id.ToString(), 
-                    "custom", loginUser.GetClaims());
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant);
+
                 return Task.FromResult(context.Result);
             }
 
-            context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant);
+            context.Result = new GrantValidationResult(loginUser.Id.ToString(),
+                "custom", this.userClaimsRepository.GetClaims(loginUser));
 
             return Task.FromResult(context.Result);
         }

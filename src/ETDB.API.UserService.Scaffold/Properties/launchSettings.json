@@ -3,7 +3,7 @@
     "EntertainmentDatabase.REST.API.UserService.Scaffold": {
       "commandName": "Project",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Developments"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     }
   }

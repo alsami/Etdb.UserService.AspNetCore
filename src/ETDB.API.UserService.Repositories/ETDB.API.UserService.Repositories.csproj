@@ -6,6 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="ETDB.API.ServiceBase.Generics" Version="1.0.1" />
+    <PackageReference Include="IdentityModel" Version="2.16.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ETDB.API.UserService.Domain\ETDB.API.UserService.Domain.csproj" />
   </ItemGroup>
 
 </Project>

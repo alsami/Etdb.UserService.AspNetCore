@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ETDB.API.ServiceBase.Constants;
 using IdentityServer4;
 using IdentityServer4.Models;
 
@@ -24,7 +25,9 @@ namespace ETDB.API.UserService.Bootstrap.Config
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Email,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
-                        "EntertainmentDatabase.REST.API.WebService"
+                        ServiceNames.UserService,
+                        ServiceNames.WebService,
+                        ServiceNames.FileService,
                     },
                     AllowedCorsOrigins =
                     {
@@ -33,7 +36,9 @@ namespace ETDB.API.UserService.Bootstrap.Config
                     AllowOfflineAccess = true,
                     AccessTokenLifetime = 60 * 60,
                     AlwaysSendClientClaims = true,
-                    AlwaysIncludeUserClaimsInIdToken = true
+                    AlwaysIncludeUserClaimsInIdToken = true,
+                    RefreshTokenUsage = TokenUsage.OneTimeOnly,
+                    RefreshTokenExpiration = TokenExpiration.Sliding,
                 }
             };
         }
