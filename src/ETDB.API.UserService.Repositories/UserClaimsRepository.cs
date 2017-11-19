@@ -39,6 +39,7 @@ namespace ETDB.API.UserService.Repositories
 
             claims.AddRange(new[]
             {
+                new Claim(JwtClaimTypes.PreferredUserName, user.UserName),
                 new Claim(JwtClaimTypes.Name, $"{user.Name} {user.LastName}"),
                 new Claim(JwtClaimTypes.GivenName, user.Name),
                 new Claim(JwtClaimTypes.FamilyName, user.LastName),

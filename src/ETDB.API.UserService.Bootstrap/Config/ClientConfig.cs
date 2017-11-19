@@ -2,23 +2,31 @@
 using ETDB.API.ServiceBase.Constants;
 using IdentityServer4;
 using IdentityServer4.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace ETDB.API.UserService.Bootstrap.Config
 {
     public class ClientConfig
     {
-        public IEnumerable<Client> GetClients()
+        public IEnumerable<Client> GetClients(IConfigurationRoot configuration)
         {
             return new List<Client>
             {
                 new Client
                 {
-                    ClientId = "web.client",
+                    ClientId = configuration.GetSection("IdentityConfig")
+                        .GetSection("WebClient")
+                        .GetValue<string>("Name"),
+
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+
                     ClientSecrets =
                     {
-                        new Secret("secret".Sha256())
+                        new Secret(configuration.GetSection("IdentityConfig")
+                            .GetSection("WebClient")
+                            .GetValue<string>("Secret").Sha256())
                     },
+
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
@@ -29,10 +37,12 @@ namespace ETDB.API.UserService.Bootstrap.Config
                         ServiceNames.WebService,
                         ServiceNames.FileService,
                     },
+
                     AllowedCorsOrigins =
                     {
                         "http://localhost:4200"
                     },
+
                     AllowOfflineAccess = true,
                     AccessTokenLifetime = 60 * 60,
                     AlwaysSendClientClaims = true,

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using ETDB.API.ServiceBase.Generics.Base;
 using ETDB.API.UserService.Domain.Entities;
@@ -39,8 +40,8 @@ namespace ETDB.API.UserService.Bootstrap.Services
             }
 
             context.IssuedClaims = this.userClaimsRepository
-                .GetClaims(loginUser)
-                .ToList();
+                    .GetClaims(loginUser)
+                    .ToList();
 
             return Task.FromResult(0);
         }

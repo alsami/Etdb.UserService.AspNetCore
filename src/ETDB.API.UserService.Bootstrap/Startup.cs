@@ -1,4 +1,7 @@
-﻿using Autofac;
+﻿using System.Linq;
+using System.Reflection;
+using Autofac;
+using AutoMapper;
 using ETDB.API.ServiceBase.Builder;
 using ETDB.API.ServiceBase.Constants;
 using ETDB.API.UserService.Bootstrap.Config;
@@ -17,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyModel;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ETDB.API.UserService.Bootstrap
@@ -33,6 +37,8 @@ namespace ETDB.API.UserService.Bootstrap
         private const string CorsPolicyName = "AllowAll";
 
         private const string AuthenticationSchema = "Bearer";
+
+        private const string AssemblyPrefix = "ETDB.API.UserService";
 
         public Startup(IHostingEnvironment hostingEnvironment)
         {
@@ -72,7 +78,7 @@ namespace ETDB.API.UserService.Bootstrap
                 .AddDeveloperSigningCredential()
                 .AddInMemoryIdentityResources(new IdentityResourceConfig().GetIdentityResource())
                 .AddInMemoryApiResources(new ApiResourceConfig().GetApiResource())
-                .AddInMemoryClients(new ClientConfig().GetClients());
+                .AddInMemoryClients(new ClientConfig().GetClients(this.configurationRoot));
 
             services.AddAuthentication(Startup.AuthenticationSchema)
                 .AddIdentityServerAuthentication(options =>
@@ -97,6 +103,13 @@ namespace ETDB.API.UserService.Bootstrap
             })
             .Configure<MvcOptions>(options => 
                 options.Filters.Add(new CorsAuthorizationFilterFactory(Startup.CorsPolicyName)));
+
+            services.AddAutoMapper(DependencyContext
+                .Default
+                .CompileLibraries
+                .SelectMany(lib => lib.Assemblies)
+                .Where(assemblyName => assemblyName.StartsWith(Startup.AssemblyPrefix))
+                .Select(assemblyName => Assembly.Load(assemblyName.Replace(".dll", ""))));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
