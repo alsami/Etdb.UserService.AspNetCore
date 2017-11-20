@@ -2,8 +2,10 @@
 using System.Reflection;
 using Autofac;
 using AutoMapper;
+using ETDB.API.ServiceBase.Abstractions.Hasher;
 using ETDB.API.ServiceBase.Builder;
 using ETDB.API.ServiceBase.Constants;
+using ETDB.API.ServiceBase.Hasher;
 using ETDB.API.UserService.Bootstrap.Config;
 using ETDB.API.UserService.Bootstrap.Services;
 using ETDB.API.UserService.Bootstrap.Validators;
@@ -136,6 +138,7 @@ namespace ETDB.API.UserService.Bootstrap
                 .UseEnvironment(this.hostingEnvironment)
                 .UseConfiguration(this.configurationRoot)
                 .UseGenericRepositoryPattern<UserServiceContext>()
+                .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypePerDependency<ResourceOwnerPasswordValidator, IResourceOwnerPasswordValidator>()
                 .RegisterTypePerDependency<ProfileService, IProfileService>()
                 .RegisterTypePerDependency<UserClaimsRepository, IUserClaimsRepository>();

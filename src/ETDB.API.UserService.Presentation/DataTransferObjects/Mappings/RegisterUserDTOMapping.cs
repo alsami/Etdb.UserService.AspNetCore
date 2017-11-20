@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using ETDB.API.UserService.Domain.Entities;
 using ETDB.API.UserService.Presentation.DataTransferObjects.Resolver;
 

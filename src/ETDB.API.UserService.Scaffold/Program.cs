@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ETDB.API.ServiceBase.Common.Factory;
+using ETDB.API.ServiceBase.Abstractions.Hasher;
+using ETDB.API.ServiceBase.Hasher;
 using ETDB.API.UserService.Data;
 using ETDB.API.UserService.Domain.Entities;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
@@ -26,6 +27,7 @@ namespace ETDB.API.UserService.Scaffold
 
             var serviceProvider = new ServiceCollection()
                 .AddSingleton(configurationRoot)
+                .AddSingleton<IHasher, Hasher>()
                 .AddScoped<UserServiceContext>()
                 .BuildServiceProvider();
 
@@ -34,7 +36,10 @@ namespace ETDB.API.UserService.Scaffold
 
             if (databaseContext.Database.GetPendingMigrations().Any())
             {
-                Console.WriteLine("Migration(s) not applied, apply now?");
+                Console.WriteLine("Migration(s) not applied, apply now? Y = Confirm!");
+                Console.WriteLine($"Using Server { databaseContext.Database.GetDbConnection().DataSource }\n" +
+                                  $"and Database { databaseContext.Database.GetDbConnection().Database }");
+
                 if (!Console.ReadKey().KeyChar.ToString().Equals("Y", StringComparison.OrdinalIgnoreCase))
                 {
                     return;
@@ -43,8 +48,7 @@ namespace ETDB.API.UserService.Scaffold
                 databaseContext.Database.Migrate();
             }
 
-            var hasher = new HasherFactory()
-                .CreateHasher(KeyDerivationPrf.HMACSHA1);
+            var hasher = serviceProvider.GetService<IHasher>();
 
             var salt = hasher
                 .GenerateSalt();

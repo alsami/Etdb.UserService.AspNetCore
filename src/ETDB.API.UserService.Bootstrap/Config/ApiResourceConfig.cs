@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using IdentityServer4.Models;
 using ETDB.API.ServiceBase.Constants;
-using IdentityModel;
 
 namespace ETDB.API.UserService.Bootstrap.Config
 {

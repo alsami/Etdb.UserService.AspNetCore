@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-using ETDB.API.ServiceBase.Common.Base;
-using ETDB.API.ServiceBase.Common.Factory;
-using ETDB.API.ServiceBase.Generics.Base;
+using ETDB.API.ServiceBase.Abstractions.Hasher;
+using ETDB.API.ServiceBase.Abstractions.Repositories;
 using ETDB.API.UserService.Domain.Entities;
 using ETDB.API.UserService.Repositories.Base;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.EntityFrameworkCore;
 
 namespace ETDB.API.UserService.Bootstrap.Validators
 {
@@ -17,14 +14,14 @@ namespace ETDB.API.UserService.Bootstrap.Validators
     {
         private readonly IEntityRepository<User> userRepository;
         private readonly IUserClaimsRepository userClaimsRepository;
-        private readonly IHashingStrategy hasher;
+        private readonly IHasher hasher;
 
-        public ResourceOwnerPasswordValidator(IEntityRepository<User> userRepository, IUserClaimsRepository userClaimsRepository)
+        public ResourceOwnerPasswordValidator(IEntityRepository<User> userRepository, 
+            IUserClaimsRepository userClaimsRepository, IHasher hasher)
         {
             this.userRepository = userRepository;
             this.userClaimsRepository = userClaimsRepository;
-            this.hasher = new HasherFactory()
-                .CreateHasher(KeyDerivationPrf.HMACSHA1);
+            this.hasher = hasher;
         }
 
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)

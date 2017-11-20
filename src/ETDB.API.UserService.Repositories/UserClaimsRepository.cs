@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using ETDB.API.ServiceBase.Generics.Base;
+using ETDB.API.ServiceBase.Abstractions.Repositories;
 using ETDB.API.UserService.Domain.Entities;
 using ETDB.API.UserService.Repositories.Base;
 using IdentityModel;

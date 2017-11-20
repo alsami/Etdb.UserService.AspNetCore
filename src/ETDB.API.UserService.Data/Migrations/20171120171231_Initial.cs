@@ -12,10 +12,10 @@ namespace ETDB.API.UserService.Data.Migrations
                 name: "Securityroles",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Designation = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "newid()"),
+                    Description = table.Column<string>(nullable: true),
+                    Designation = table.Column<string>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,15 +26,15 @@ namespace ETDB.API.UserService.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
-                    Email = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
-                    Salt = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false)
+                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "newid()"),
+                    Email = table.Column<string>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
+                    LastName = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    Salt = table.Column<byte[]>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 16, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,10 +45,10 @@ namespace ETDB.API.UserService.Data.Migrations
                 name: "UserSecurityroles",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "newid()"),
-                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true),
-                    SecurityroleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "newid()"),
+                    RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
+                    SecurityroleId = table.Column<Guid>(nullable: false),
+                    UserId = table.Column<Guid>(nullable: false)
                 },
                 constraints: table =>
                 {

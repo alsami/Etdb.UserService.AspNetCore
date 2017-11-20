@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ETDB.API.UserService.Presentation.DataTransferObjects
+﻿namespace ETDB.API.UserService.Presentation.DataTransferObjects
 {
     public class WebClientConfigDTO
     {

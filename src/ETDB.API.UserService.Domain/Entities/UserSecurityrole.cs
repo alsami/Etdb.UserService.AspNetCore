@@ -1,5 +1,5 @@
 ﻿using System;
-using ETDB.API.ServiceBase.Generics.Base;
+using ETDB.API.ServiceBase.Abstractions.Entities;
 
 namespace ETDB.API.UserService.Domain.Entities
 {

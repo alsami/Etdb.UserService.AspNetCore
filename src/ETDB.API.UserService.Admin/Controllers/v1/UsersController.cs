@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using AutoMapper;
+using ETDB.API.ServiceBase.Abstractions.Repositories;
 using ETDB.API.ServiceBase.Constants;
-using ETDB.API.ServiceBase.Generics.Base;
 using ETDB.API.UserService.Domain.Entities;
 using ETDB.API.UserService.Presentation.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;

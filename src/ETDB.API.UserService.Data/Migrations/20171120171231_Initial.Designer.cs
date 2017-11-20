@@ -11,14 +11,14 @@ using System;
 namespace ETDB.API.UserService.Data.Migrations
 {
     [DbContext(typeof(UserServiceContext))]
-    [Migration("20171117211709_Initial")]
+    [Migration("20171120171231_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.0-rtm-26452")
+                .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("ETDB.API.UserService.Domain.Entities.Securityrole", b =>
