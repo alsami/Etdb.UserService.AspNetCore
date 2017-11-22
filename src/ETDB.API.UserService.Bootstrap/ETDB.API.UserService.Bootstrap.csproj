@@ -32,6 +32,7 @@
     <ProjectReference Include="..\ETDB.API.UserService.Data\ETDB.API.UserService.Data.csproj" />
     <ProjectReference Include="..\ETDB.API.UserService.Main\ETDB.API.UserService.Main.csproj" />
     <ProjectReference Include="..\ETDB.API.UserService.Presentation\ETDB.API.UserService.Presentation.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.Repositories.Abstractions\ETDB.API.UserService.Repositories.Abstractions.csproj" />
     <ProjectReference Include="..\ETDB.API.UserService.Repositories\ETDB.API.UserService.Repositories.csproj" />
   </ItemGroup>
 

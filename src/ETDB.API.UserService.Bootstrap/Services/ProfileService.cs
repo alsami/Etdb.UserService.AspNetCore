@@ -1,10 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using ETDB.API.ServiceBase.Abstractions.Repositories;
-using ETDB.API.UserService.Domain.Entities;
-using ETDB.API.UserService.Repositories.Base;
-using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 

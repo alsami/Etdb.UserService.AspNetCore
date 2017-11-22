@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ETDB.API.UserService.Presentation\ETDB.API.UserService.Presentation.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.Repositories.Abstractions\ETDB.API.UserService.Repositories.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

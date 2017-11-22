@@ -6,7 +6,6 @@ using ETDB.API.ServiceBase.Abstractions.Hasher;
 using ETDB.API.ServiceBase.Hasher;
 using ETDB.API.UserService.Data;
 using ETDB.API.UserService.Domain.Entities;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

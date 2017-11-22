@@ -11,7 +11,7 @@ using ETDB.API.UserService.Bootstrap.Services;
 using ETDB.API.UserService.Bootstrap.Validators;
 using ETDB.API.UserService.Data;
 using ETDB.API.UserService.Repositories;
-using ETDB.API.UserService.Repositories.Base;
+using ETDB.API.UserService.Repositories.Abstractions;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authorization;
@@ -141,7 +141,7 @@ namespace ETDB.API.UserService.Bootstrap
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypePerDependency<ResourceOwnerPasswordValidator, IResourceOwnerPasswordValidator>()
                 .RegisterTypePerDependency<ProfileService, IProfileService>()
-                .RegisterTypePerDependency<UserClaimsRepository, IUserClaimsRepository>();
+                .RegisterTypePerDependency<UserRepository, IUserRepository>();
         }
     }
 }

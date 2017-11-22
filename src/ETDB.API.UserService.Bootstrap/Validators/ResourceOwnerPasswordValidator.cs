@@ -1,34 +1,25 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using ETDB.API.ServiceBase.Abstractions.Hasher;
-using ETDB.API.ServiceBase.Abstractions.Repositories;
-using ETDB.API.UserService.Domain.Entities;
-using ETDB.API.UserService.Repositories.Base;
+using ETDB.API.UserService.Repositories.Abstractions;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace ETDB.API.UserService.Bootstrap.Validators
 {
     public class ResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
-        private readonly IEntityRepository<User> userRepository;
-        private readonly IUserClaimsRepository userClaimsRepository;
+        private readonly IUserRepository userRepository;
         private readonly IHasher hasher;
 
-        public ResourceOwnerPasswordValidator(IEntityRepository<User> userRepository, 
-            IUserClaimsRepository userClaimsRepository, IHasher hasher)
+        public ResourceOwnerPasswordValidator(IUserRepository userRepository, IHasher hasher)
         {
             this.userRepository = userRepository;
-            this.userClaimsRepository = userClaimsRepository;
             this.hasher = hasher;
         }
 
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            var loginUser = this.userRepository
-                .Get(user => user.Email.Equals(context.UserName, StringComparison.OrdinalIgnoreCase)
-                             || user.UserName.Equals(context.UserName, StringComparison.OrdinalIgnoreCase));
+            var loginUser = this.userRepository.Get(context.UserName);
 
             if (loginUser == null)
             {
@@ -45,7 +36,7 @@ namespace ETDB.API.UserService.Bootstrap.Validators
             }
 
             context.Result = new GrantValidationResult(loginUser.Id.ToString(),
-                "custom", this.userClaimsRepository.GetClaims(loginUser));
+                "custom", this.userRepository.GetClaims(loginUser));
 
             return Task.FromResult(context.Result);
         }
