@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ETDB.API.ServiceBase.Constants;
 using IdentityServer4;
 using IdentityServer4.Models;
@@ -38,10 +39,9 @@ namespace ETDB.API.UserService.Bootstrap.Config
                         ServiceNames.FileService,
                     },
 
-                    AllowedCorsOrigins =
-                    {
-                        "http://localhost:4200"
-                    },
+                    AllowedCorsOrigins = configuration.GetSection("IdentityConfig")
+                        .GetSection("Origins")
+                        .Get<string[]>(),
 
                     AllowOfflineAccess = true,
                     AccessTokenLifetime = 60 * 60,
