@@ -5,13 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ETDB.API.UserService.Data.Configuration
 {
-    internal class UserSecurityroleMappingConfiguration : EntityMappingConfiguration<UserSecurityrole>
+    internal class UserSecurityroleMap : EntityMapBase<UserSecurityrole>
     {
-        public UserSecurityroleMappingConfiguration(ModelBuilder modelBuilder) : base(modelBuilder)
-        {
-        }
-
-        protected override void Configure(EntityTypeBuilder<UserSecurityrole> builder)
+        public override void Configure(EntityTypeBuilder<UserSecurityrole> builder)
         {
             base.Configure(builder);
 

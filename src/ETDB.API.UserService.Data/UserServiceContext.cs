@@ -36,14 +36,11 @@ namespace ETDB.API.UserService.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            new UserMappingConfiguration(modelBuilder)
-                .ConfigureEntity();
+            modelBuilder.ApplyConfiguration(new UserMap());
 
-            new SecurityroleMappingConfiguration(modelBuilder)
-                .ConfigureEntity();
+            modelBuilder.ApplyConfiguration(new SecurityroleMap());
 
-            new UserSecurityroleMappingConfiguration(modelBuilder)
-                .ConfigureEntity();
+            modelBuilder.ApplyConfiguration(new UserSecurityroleMap());
 
             this.DisableCascadeDelete(modelBuilder);
         }

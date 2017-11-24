@@ -5,13 +5,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ETDB.API.UserService.Data.Configuration
 {
-    internal class UserMappingConfiguration : EntityMappingConfiguration<User>
+    internal class UserMap : EntityMapBase<User>
     {
-        public UserMappingConfiguration(ModelBuilder modelBuilder) : base(modelBuilder)
-        {
-        }
-
-        protected override void Configure(EntityTypeBuilder<User> builder)
+        public override void Configure(EntityTypeBuilder<User> builder)
         {
             base.Configure(builder);
 
