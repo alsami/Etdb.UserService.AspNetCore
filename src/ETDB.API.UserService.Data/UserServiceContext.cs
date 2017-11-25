@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using ETDB.API.ServiceBase.ContextBase;
 using ETDB.API.ServiceBase.Entities;
 using ETDB.API.UserService.Data.EntityMaps;
 using ETDB.API.UserService.Domain.Entities;
@@ -8,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace ETDB.API.UserService.Data
 {
-    public class UserServiceContext : DbContext
+    public class UserServiceContext : AppContextBase
     {
         private readonly IConfigurationRoot configurationRoot;
         private const string Production = "Production";
@@ -36,14 +37,6 @@ namespace ETDB.API.UserService.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new StoreEventMap());
-
-            //modelBuilder.Entity<User>();
-
-            //modelBuilder.Entity<Securityrole>();
-
-            //modelBuilder.Entity<UserSecurityrole>();
-
             modelBuilder.ApplyConfiguration(new UserMap());
 
             modelBuilder.ApplyConfiguration(new SecurityroleMap());

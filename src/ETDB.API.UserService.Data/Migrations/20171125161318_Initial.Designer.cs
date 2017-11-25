@@ -11,7 +11,7 @@ using System;
 namespace ETDB.API.UserService.Data.Migrations
 {
     [DbContext(typeof(UserServiceContext))]
-    [Migration("20171125014043_Initial")]
+    [Migration("20171125161318_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,29 +20,6 @@ namespace ETDB.API.UserService.Data.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("ETDB.API.ServiceBase.Domain.Abstractions.Events.StoredEvent", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("AggregateId");
-
-                    b.Property<string>("Data");
-
-                    b.Property<string>("MessageType")
-                        .HasColumnName("Action")
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnName("CreationDate");
-
-                    b.Property<string>("User");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StoredEvents");
-                });
 
             modelBuilder.Entity("ETDB.API.UserService.Domain.Entities.Securityrole", b =>
                 {

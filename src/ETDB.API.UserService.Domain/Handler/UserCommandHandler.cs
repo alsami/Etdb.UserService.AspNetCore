@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ETDB.API.ServiceBase.Abstractions.Repositories;
 using ETDB.API.ServiceBase.Domain.Abstractions.Base;
 using ETDB.API.ServiceBase.Domain.Abstractions.Bus;
 using ETDB.API.ServiceBase.Domain.Abstractions.Notifications;
@@ -16,13 +17,15 @@ namespace ETDB.API.UserService.Domain.Handler
     {
         private readonly IUserRepository userRepository;
         private readonly IMediatorHandler bus;
+        private readonly IEntityRepository<User> userBaseRepository;
 
         public UserCommandHandler(IUserRepository userRepository,
             IUnitOfWork unitOfWork, IMediatorHandler bus, 
-            INotificationHandler<DomainNotification> notificationsHandler) 
+            INotificationHandler<DomainNotification> notificationsHandler, IEntityRepository<User> userBaseRepository) 
             : base(unitOfWork, bus, notificationsHandler)
         {
             this.bus = bus;
+            this.userBaseRepository = userBaseRepository;
             this.userRepository = userRepository;
         }
 
@@ -37,19 +40,19 @@ namespace ETDB.API.UserService.Domain.Handler
             var user = new User(Guid.NewGuid(), notification.Name, notification.LastName, notification.Email,
                 notification.UserName, notification.Password, notification.Salt);
 
-            if (this.userRepository.Get(user.UserName, user.Email) != null)
+            if (this.userRepository.Get(user.UserName, user.Email) == null)
             {
-                bus.RaiseEvent(new DomainNotification(notification.MessageType, 
-                    "The email or username has already been taken."));
+                this.userRepository.Register(user);
+
+                if (this.Commit())
+                {
+                    this.bus.RaiseEvent(new UserRegisterEvent(user.Id, user.Name, user.LastName, user.Email, user.UserName,
+                        user.Password, user.Salt, user.RowVersion, user.UserSecurityroles));
+                }
             }
 
-            this.userRepository.Register(user);
-
-            if (this.Commit())
-            {
-                this.bus.RaiseEvent(new UserRegisterEvent(user.Id, user.Name, user.LastName, user.Email, user.UserName,
-                    user.Password, user.Salt, user.RowVersion, user.UserSecurityroles));
-            }
+            bus.RaiseEvent(new DomainNotification(notification.MessageType,
+                "The email or username has already been taken."));
         }
     }
 }

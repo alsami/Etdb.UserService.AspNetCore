@@ -31,6 +31,7 @@ using Microsoft.Extensions.DependencyModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
+using ETDB.API.UserService.EventStore;
 
 namespace ETDB.API.UserService.Bootstrap
 {
@@ -101,8 +102,9 @@ namespace ETDB.API.UserService.Bootstrap
                     options.ApiName = ServiceNames.UserService;
                 });
 
-            services.AddDbContext<UserServiceContext>()
-                .AddEntityFrameworkSqlServer();
+            services.AddScoped<UserServiceContext>();
+
+            services.AddScoped<EventStoreContext>();
 
             services.AddCors(options =>
             {
@@ -159,11 +161,12 @@ namespace ETDB.API.UserService.Bootstrap
                 .UseConfiguration(this.configurationRoot)
                 .UseGenericRepositoryPattern<UserServiceContext>()
                 .UseEventSourcing<UserServiceContext>()
+                .UseEventStore<EventStoreContext>()
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
-                .RegisterTypePerDependency<ResourceOwnerPasswordValidator, IResourceOwnerPasswordValidator>()
-                .RegisterTypePerDependency<ProfileService, IProfileService>()
-                .RegisterTypePerDependency<UserRepository, IUserRepository>()
-                .RegisterTypePerDependency<UserAppService, IUserAppService>();
+                .RegisterTypePerLifetimeScope<ResourceOwnerPasswordValidator, IResourceOwnerPasswordValidator>()
+                .RegisterTypePerLifetimeScope<ProfileService, IProfileService>()
+                .RegisterTypePerLifetimeScope<UserRepository, IUserRepository>()
+                .RegisterTypePerLifetimeScope<UserAppService, IUserAppService>();
         }
     }
 }

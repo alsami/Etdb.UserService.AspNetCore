@@ -56,16 +56,15 @@ namespace ETDB.API.UserService.Repositories
 
         public User Get(string userName)
         {
-            return this.userBaseRepo.Get(user => 
-                user.Email.Equals(userName, StringComparison.OrdinalIgnoreCase) 
-                || user.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase));
+            return this.userBaseRepo.Get(user => user.UserName == userName);
         }
 
         public User Get(string userName, string email)
         {
-            return this.userBaseRepo.Get(user =>
-                user.Email.Equals(userName, StringComparison.OrdinalIgnoreCase)
-                || user.UserName.Equals(email, StringComparison.OrdinalIgnoreCase));
+            var existingUser = this.userBaseRepo.Get(user => user.Email == email
+                || user.UserName == userName);
+
+            return existingUser;
         }
 
         public void Register(User user)

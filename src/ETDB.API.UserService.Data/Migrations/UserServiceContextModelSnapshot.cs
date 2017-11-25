@@ -20,29 +20,6 @@ namespace ETDB.API.UserService.Data.Migrations
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ETDB.API.ServiceBase.Domain.Abstractions.Events.StoredEvent", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<Guid>("AggregateId");
-
-                    b.Property<string>("Data");
-
-                    b.Property<string>("MessageType")
-                        .HasColumnName("Action")
-                        .HasColumnType("varchar(100)");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnName("CreationDate");
-
-                    b.Property<string>("User");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("StoredEvents");
-                });
-
             modelBuilder.Entity("ETDB.API.UserService.Domain.Entities.Securityrole", b =>
                 {
                     b.Property<Guid>("Id")

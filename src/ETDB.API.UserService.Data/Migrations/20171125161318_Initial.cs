@@ -24,22 +24,6 @@ namespace ETDB.API.UserService.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StoredEvents",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    AggregateId = table.Column<Guid>(nullable: false),
-                    Data = table.Column<string>(nullable: true),
-                    Action = table.Column<string>(type: "varchar(100)", nullable: true),
-                    CreationDate = table.Column<DateTime>(nullable: false),
-                    User = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StoredEvents", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -108,9 +92,6 @@ namespace ETDB.API.UserService.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "StoredEvents");
-
             migrationBuilder.DropTable(
                 name: "UserSecurityroles");
 

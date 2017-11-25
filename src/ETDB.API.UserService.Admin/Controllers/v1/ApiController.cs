@@ -28,7 +28,7 @@ namespace ETDB.API.UserService.Admin.Controllers.v1
 
         protected new IActionResult Response(object result = null)
         {
-            if (IsValidOperation())
+            if (this.IsValidOperation())
             {
                 return Ok(new
                 {
