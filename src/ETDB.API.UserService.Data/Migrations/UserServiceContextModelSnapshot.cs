@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace ETDB.API.UserService.Data.Migrations
@@ -18,16 +20,40 @@ namespace ETDB.API.UserService.Data.Migrations
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("ETDB.API.ServiceBase.Domain.Abstractions.Events.StoredEvent", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid>("AggregateId");
+
+                    b.Property<string>("Data");
+
+                    b.Property<string>("MessageType")
+                        .HasColumnName("Action")
+                        .HasColumnType("varchar(100)");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnName("CreationDate");
+
+                    b.Property<string>("User");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("StoredEvents");
+                });
+
             modelBuilder.Entity("ETDB.API.UserService.Domain.Entities.Securityrole", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("newid()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
 
                     b.Property<string>("Designation")
                         .IsRequired();
+
+                    b.Property<bool>("IsSystem");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -35,24 +61,16 @@ namespace ETDB.API.UserService.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Designation")
-                        .IsUnique();
-
                     b.ToTable("Securityroles");
                 });
 
             modelBuilder.Entity("ETDB.API.UserService.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("newid()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("Email")
                         .IsRequired();
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(true);
 
                     b.Property<string>("LastName")
                         .IsRequired();
@@ -88,8 +106,7 @@ namespace ETDB.API.UserService.Data.Migrations
             modelBuilder.Entity("ETDB.API.UserService.Domain.Entities.UserSecurityrole", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValueSql("newid()");
+                        .ValueGeneratedOnAdd();
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()

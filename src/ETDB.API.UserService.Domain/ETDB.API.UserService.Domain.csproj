@@ -5,7 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ETDB.API.ServiceBase.Abstractions" Version="1.0.2" />
+    <PackageReference Include="AutoMapper" Version="6.2.1" />
+    <PackageReference Include="ETDB.API.ServiceBase.Abstractions" Version="2.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ETDB.API.ServiceBase">
+      <HintPath>C:\Users\Sami\.nuget\packages\etdb.api.servicebase\2.0.5\lib\netstandard2.0\ETDB.API.ServiceBase.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -10,8 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ETDB.API.UserService.Presentation\ETDB.API.UserService.Presentation.csproj" />
-    <ProjectReference Include="..\ETDB.API.UserService.Repositories.Abstractions\ETDB.API.UserService.Repositories.Abstractions.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.Domain\ETDB.API.UserService.Domain.csproj" />
   </ItemGroup>
 
 </Project>

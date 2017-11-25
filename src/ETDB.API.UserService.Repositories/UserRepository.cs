@@ -4,8 +4,8 @@ using System.Linq;
 using System.Security.Claims;
 using ETDB.API.ServiceBase.Abstractions.Repositories;
 using ETDB.API.ServiceBase.Constants;
+using ETDB.API.UserService.Domain;
 using ETDB.API.UserService.Domain.Entities;
-using ETDB.API.UserService.Repositories.Abstractions;
 using IdentityModel;
 
 namespace ETDB.API.UserService.Repositories
@@ -77,7 +77,6 @@ namespace ETDB.API.UserService.Repositories
             });
 
             this.userBaseRepo.Add(user);
-            this.userBaseRepo.EnsureChanges();
         }
     }
 }

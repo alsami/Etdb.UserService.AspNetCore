@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
+using System.Collections.Generic;
 
 namespace ETDB.API.UserService.Data.Migrations
 {
@@ -11,9 +12,10 @@ namespace ETDB.API.UserService.Data.Migrations
                 name: "Securityroles",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "newid()"),
+                    Id = table.Column<Guid>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     Designation = table.Column<string>(nullable: false),
+                    IsSystem = table.Column<bool>(nullable: false),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true)
                 },
                 constraints: table =>
@@ -22,12 +24,27 @@ namespace ETDB.API.UserService.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StoredEvents",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    AggregateId = table.Column<Guid>(nullable: false),
+                    Data = table.Column<string>(nullable: true),
+                    Action = table.Column<string>(type: "varchar(100)", nullable: true),
+                    CreationDate = table.Column<DateTime>(nullable: false),
+                    User = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StoredEvents", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "newid()"),
+                    Id = table.Column<Guid>(nullable: false),
                     Email = table.Column<string>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false, defaultValue: true),
                     LastName = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Password = table.Column<string>(nullable: false),
@@ -44,7 +61,7 @@ namespace ETDB.API.UserService.Data.Migrations
                 name: "UserSecurityroles",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(nullable: false, defaultValueSql: "newid()"),
+                    Id = table.Column<Guid>(nullable: false),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
                     SecurityroleId = table.Column<Guid>(nullable: false),
                     UserId = table.Column<Guid>(nullable: false)
@@ -65,12 +82,6 @@ namespace ETDB.API.UserService.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Securityroles_Designation",
-                table: "Securityroles",
-                column: "Designation",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
@@ -97,6 +108,9 @@ namespace ETDB.API.UserService.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "StoredEvents");
+
             migrationBuilder.DropTable(
                 name: "UserSecurityroles");
 

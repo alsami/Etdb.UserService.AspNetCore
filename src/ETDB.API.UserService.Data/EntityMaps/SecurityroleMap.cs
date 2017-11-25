@@ -1,9 +1,8 @@
 ﻿using ETDB.API.ServiceBase.Entities;
 using ETDB.API.UserService.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ETDB.API.UserService.Data.Configuration
+namespace ETDB.API.UserService.Data.EntityMaps
 {
     internal class SecurityroleMap : EntityMapBase<Securityrole>
     {
@@ -13,9 +12,6 @@ namespace ETDB.API.UserService.Data.Configuration
 
             builder.Property(role => role.Designation)
                 .IsRequired();
-
-            builder.HasIndex(role => role.Designation)
-                .IsUnique();
         }
     }
 }

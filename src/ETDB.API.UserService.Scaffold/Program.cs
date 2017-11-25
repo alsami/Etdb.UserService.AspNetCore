@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using ETDB.API.ServiceBase.Abstractions.Hasher;
 using ETDB.API.ServiceBase.Hasher;
 using ETDB.API.UserService.Data;
@@ -52,15 +53,8 @@ namespace ETDB.API.UserService.Scaffold
             var salt = hasher
                 .GenerateSalt();
 
-            var admin = new User
-            {
-                UserName = "admin",
-                Salt = salt,
-                Password = hasher.CreateSaltedHash("admin", salt),
-                Email = "admin@etdb.io",
-                Name = "Admin",
-                LastName = "Admin"
-            };
+            var admin = new User(Guid.NewGuid(), "Admin", "Admin", "admin@etdb.io", "admin", 
+                hasher.CreateSaltedHash("admin", salt), salt);
 
             databaseContext.Set<User>().Add(admin);
 
@@ -68,25 +62,15 @@ namespace ETDB.API.UserService.Scaffold
 
             var securityRoles = new List<Securityrole>
             {
-                new Securityrole
-                {
-                    Designation = "Administrator"
-                },
-                new Securityrole
-                {
-                    Designation = "User"
-                }
+                new Securityrole(Guid.NewGuid(), "Administrator", null, true),
+                new Securityrole(Guid.NewGuid(), "User", null, true)
             };
 
             foreach (var role in securityRoles)
             {
                 databaseContext.Set<Securityrole>().Add(role);
                 databaseContext.SaveChanges();
-                databaseContext.Set<UserSecurityrole>().Add(new UserSecurityrole
-                {
-                    SecurityroleId = role.Id,
-                    UserId = admin.Id,
-                });
+                databaseContext.Set<UserSecurityrole>().Add(new UserSecurityrole(Guid.NewGuid(), admin.Id, role.Id));
                 databaseContext.SaveChanges();
             }
 

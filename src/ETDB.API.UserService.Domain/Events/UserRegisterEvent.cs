@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using ETDB.API.ServiceBase.Domain.Abstractions.Base;
+using System.Text;
+using ETDB.API.ServiceBase.Domain.Abstractions.Events;
+using ETDB.API.UserService.Domain.Entities;
 
-namespace ETDB.API.UserService.Domain.Entities
+namespace ETDB.API.UserService.Domain.Events
 {
-    public class User : Entity
+    public class UserRegisterEvent : Event
     {
-        public User(Guid id, string name, string lastName, string email, string userName, string password, byte[] salt)
+        public UserRegisterEvent(Guid id, string name, string lastName, string email, string userName, string password, byte[] salt)
         {
             this.Id = id;
             this.Name = name;
@@ -18,45 +20,48 @@ namespace ETDB.API.UserService.Domain.Entities
             this.UserSecurityroles = new List<UserSecurityrole>();
         }
 
-        public User()
+        public Guid Id
         {
-            this.UserSecurityroles = new List<UserSecurityrole>();
+            get;
+            set;
+        }
+
+        public byte[] RowVersion
+        {
+            get;
+            set;
         }
 
         public string Name
         {
             get;
-            private set;
+            set;
         }
 
         public string LastName
         {
             get;
-            private set;
+            set;
         }
 
         public string UserName
         {
             get;
-            private set;
         }
 
         public string Email
         {
             get;
-            private set;
         }
 
         public byte[] Salt
         {
             get;
-            private set;
         }
 
         public string Password
         {
             get;
-            private set;
         }
 
         public ICollection<UserSecurityrole> UserSecurityroles

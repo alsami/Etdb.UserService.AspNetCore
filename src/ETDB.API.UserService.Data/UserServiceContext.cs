@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
-using ETDB.API.UserService.Data.Configuration;
+using ETDB.API.ServiceBase.Entities;
+using ETDB.API.UserService.Data.EntityMaps;
+using ETDB.API.UserService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -34,7 +36,13 @@ namespace ETDB.API.UserService.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new StoreEventMap());
+
+            //modelBuilder.Entity<User>();
+
+            //modelBuilder.Entity<Securityrole>();
+
+            //modelBuilder.Entity<UserSecurityrole>();
 
             modelBuilder.ApplyConfiguration(new UserMap());
 
@@ -43,6 +51,8 @@ namespace ETDB.API.UserService.Data
             modelBuilder.ApplyConfiguration(new UserSecurityroleMap());
 
             this.DisableCascadeDelete(modelBuilder);
+
+            base.OnModelCreating(modelBuilder);
         }
 
         private void DisableCascadeDelete(ModelBuilder builder)

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using ETDB.API.ServiceBase.Constants;
 using IdentityServer4;
 using IdentityServer4.Models;

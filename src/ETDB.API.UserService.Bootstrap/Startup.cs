@@ -5,15 +5,20 @@ using AutoMapper;
 using ETDB.API.ServiceBase.Abstractions.Hasher;
 using ETDB.API.ServiceBase.Builder;
 using ETDB.API.ServiceBase.Constants;
+using ETDB.API.ServiceBase.Domain.Abstractions.Notifications;
+using ETDB.API.ServiceBase.Handler;
 using ETDB.API.ServiceBase.Hasher;
 using ETDB.API.UserService.Bootstrap.Config;
 using ETDB.API.UserService.Bootstrap.Services;
 using ETDB.API.UserService.Bootstrap.Validators;
 using ETDB.API.UserService.Data;
+using ETDB.API.UserService.Domain;
+using ETDB.API.UserService.Domain.Commands;
+using ETDB.API.UserService.Domain.Handler;
 using ETDB.API.UserService.Repositories;
-using ETDB.API.UserService.Repositories.Abstractions;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -106,12 +111,21 @@ namespace ETDB.API.UserService.Bootstrap
             .Configure<MvcOptions>(options => 
                 options.Filters.Add(new CorsAuthorizationFilterFactory(Startup.CorsPolicyName)));
 
+            services.AddMediatR(DependencyContext
+                .Default
+                .CompileLibraries
+                .SelectMany(lib => lib.Assemblies)
+                .Where(assemblyName => assemblyName.StartsWith("ETDB.API.ServiceBase"))
+                .Select(assemblyName => Assembly.Load(assemblyName.Replace(".dll", ""))));
+
             services.AddAutoMapper(DependencyContext
                 .Default
                 .CompileLibraries
                 .SelectMany(lib => lib.Assemblies)
                 .Where(assemblyName => assemblyName.StartsWith(Startup.AssemblyPrefix))
                 .Select(assemblyName => Assembly.Load(assemblyName.Replace(".dll", ""))));
+
+            services.AddScoped<INotificationHandler<RegisterUserCommand>, UserCommandHandler>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -138,10 +152,12 @@ namespace ETDB.API.UserService.Bootstrap
                 .UseEnvironment(this.hostingEnvironment)
                 .UseConfiguration(this.configurationRoot)
                 .UseGenericRepositoryPattern<UserServiceContext>()
+                .UseEventSourcing<UserServiceContext>()
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypePerDependency<ResourceOwnerPasswordValidator, IResourceOwnerPasswordValidator>()
                 .RegisterTypePerDependency<ProfileService, IProfileService>()
-                .RegisterTypePerDependency<UserRepository, IUserRepository>();
+                .RegisterTypePerDependency<UserRepository, IUserRepository>()
+                .RegisterTypePerDependency<UserAppService, IUserAppService>();
         }
     }
 }

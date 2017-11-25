@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ETDB.API.UserService.Domain.Entities;
-using ETDB.API.UserService.Presentation.DataTransferObjects.Resolver;
 
 namespace ETDB.API.UserService.Presentation.DataTransferObjects.Mappings
 {
@@ -8,9 +7,7 @@ namespace ETDB.API.UserService.Presentation.DataTransferObjects.Mappings
     {
         public RegisterUserDTOMapping()
         {
-            this.CreateMap<RegisterUserDTO, User>()
-                .ForMember(dest => dest.Salt, option => option.Ignore())
-                .ForMember(dest => dest.Password, option => option.ResolveUsing<RegisterUserPasswordResolver>());
+            this.CreateMap<RegisterUserDTO, User>();
         }
     }
 }

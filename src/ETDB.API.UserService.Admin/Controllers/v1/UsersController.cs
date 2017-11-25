@@ -1,43 +1,33 @@
 ﻿using System;
 using AutoMapper;
-using ETDB.API.ServiceBase.Abstractions.Repositories;
-using ETDB.API.ServiceBase.Constants;
+using ETDB.API.ServiceBase.Domain.Abstractions.Notifications;
+using ETDB.API.UserService.Domain;
+using ETDB.API.UserService.Domain.DTO;
 using ETDB.API.UserService.Domain.Entities;
-using ETDB.API.UserService.Presentation.DataTransferObjects;
-using ETDB.API.UserService.Repositories.Abstractions;
+using ETDB.API.UserService.Domain.Mappings;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETDB.API.UserService.Admin.Controllers.v1
 {
     [Route("api/admin/v1/[controller]")]
-    public class UsersController : Controller
+    public class UsersController : ApiController
     {
-        private readonly IMapper mapper;
-        private readonly IUserRepository userRepo;
+        private readonly IUserAppService userAppService;
 
-        public UsersController(IMapper mapper, IUserRepository userRepo)
+        public UsersController(INotificationHandler<DomainNotification> notifications, 
+            IUserAppService userAppService) : base(notifications)
         {
-            this.mapper = mapper;
-            this.userRepo = userRepo;
+            this.userAppService = userAppService;
         }
 
         [AllowAnonymous]
         [HttpPost("registration")]
         public IActionResult Registration([FromBody] RegisterUserDTO registerUserDTO)
         {
-            var existingUser = this.userRepo.Get(registerUserDTO.UserName, registerUserDTO.Email);
-
-            if (existingUser != null)
-            {
-                throw new Exception("Username or email already taken!");
-            }
-
-            var newUser = this.mapper.Map<User>(registerUserDTO);
-
-            this.userRepo.Register(newUser);
-
-            return NoContent();
+            this.userAppService.Register(registerUserDTO);
+            return Response(registerUserDTO);
         }
     }
 }

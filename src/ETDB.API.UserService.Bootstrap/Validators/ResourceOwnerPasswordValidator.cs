@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using ETDB.API.ServiceBase.Abstractions.Hasher;
-using ETDB.API.UserService.Repositories.Abstractions;
+using ETDB.API.UserService.Domain;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 

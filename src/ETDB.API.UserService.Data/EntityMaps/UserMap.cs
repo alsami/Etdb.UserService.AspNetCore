@@ -1,9 +1,8 @@
 ﻿using ETDB.API.ServiceBase.Entities;
 using ETDB.API.UserService.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ETDB.API.UserService.Data.Configuration
+namespace ETDB.API.UserService.Data.EntityMaps
 {
     internal class UserMap : EntityMapBase<User>
     {
@@ -35,9 +34,6 @@ namespace ETDB.API.UserService.Data.Configuration
 
             builder.Property(user => user.Salt)
                 .IsRequired();
-
-            builder.Property(user => user.IsActive)
-                .HasDefaultValue(true);
         }
     }
 }

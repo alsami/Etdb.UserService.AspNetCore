@@ -1,20 +1,20 @@
 ﻿using System;
-using ETDB.API.ServiceBase.Abstractions.Entities;
+using ETDB.API.ServiceBase.Domain.Abstractions.Base;
 
 namespace ETDB.API.UserService.Domain.Entities
 {
-    public class UserSecurityrole : IEntity
+    public class UserSecurityrole : Entity
     {
-        public Guid Id
+        public UserSecurityrole(Guid id, Guid userId, Guid securityroleId)
         {
-            get;
-            set;
+            this.Id = id;
+            this.UserId = userId;
+            this.SecurityroleId = securityroleId;
         }
 
-        public byte[] RowVersion
+        public UserSecurityrole()
         {
-            get;
-            set;
+            
         }
 
         public User User
@@ -26,7 +26,7 @@ namespace ETDB.API.UserService.Domain.Entities
         public Guid UserId
         {
             get;
-            set;
+            private set;
         }
 
         public Securityrole Securityrole
@@ -38,7 +38,7 @@ namespace ETDB.API.UserService.Domain.Entities
         public Guid SecurityroleId
         {
             get;
-            set;
+            private set;
         }
     }
 }
