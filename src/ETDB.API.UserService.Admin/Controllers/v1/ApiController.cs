@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using ETDB.API.ServiceBase.Domain.Abstractions.Notifications;
-using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETDB.API.UserService.Admin.Controllers.v1
 {
     public abstract class ApiController : ControllerBase
     {
-        private readonly INotificationHandler<DomainNotification> notificationHandler;
+        private readonly IDomainNotificationHandler<DomainNotification> notificationHandler;
 
-        protected ApiController(INotificationHandler<DomainNotification> notifications)
+        protected ApiController(IDomainNotificationHandler<DomainNotification> notifications)
         {
             notificationHandler = notifications;
         }
 
         protected IEnumerable<DomainNotification> Notifications 
-            => ((DomainNotificationHandler<DomainNotification>)notificationHandler).GetNotifications();
+            => notificationHandler.GetNotifications();
 
         protected bool IsValidOperation()
         {
-            return !((DomainNotificationHandler<DomainNotification>)notificationHandler).HasNotifications();
+            return !notificationHandler.HasNotifications();
         }
 
         protected new IActionResult Response(object result = null)
@@ -40,7 +36,7 @@ namespace ETDB.API.UserService.Admin.Controllers.v1
             return BadRequest(new
             {
                 success = false,
-                errors = ((DomainNotificationHandler<DomainNotification>)notificationHandler)
+                errors = notificationHandler
                     .GetNotifications().Select(n => n.Value)
             });
         }

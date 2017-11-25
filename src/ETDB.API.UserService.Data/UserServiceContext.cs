@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
 using ETDB.API.ServiceBase.ContextBase;
-using ETDB.API.ServiceBase.Entities;
 using ETDB.API.UserService.Data.EntityMaps;
-using ETDB.API.UserService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -46,14 +44,6 @@ namespace ETDB.API.UserService.Data
             this.DisableCascadeDelete(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
-        }
-
-        private void DisableCascadeDelete(ModelBuilder builder)
-        {
-            foreach (var entity in builder.Model.GetEntityTypes().SelectMany(entity => entity.GetForeignKeys()))
-            {
-                entity.DeleteBehavior = DeleteBehavior.Restrict;
-            }
         }
     }
 }

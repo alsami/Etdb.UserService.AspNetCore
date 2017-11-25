@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using ETDB.API.ServiceBase.Abstractions.Hasher;
 using ETDB.API.ServiceBase.Hasher;
 using ETDB.API.UserService.Data;

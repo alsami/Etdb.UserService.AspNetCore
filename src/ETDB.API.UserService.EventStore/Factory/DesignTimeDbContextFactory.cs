@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
-using ETDB.API.UserService.EventStore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace ETDB.API.UserService.Data.Factory
+namespace ETDB.API.UserService.EventStore.Factory
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<EventStoreContext>
     {

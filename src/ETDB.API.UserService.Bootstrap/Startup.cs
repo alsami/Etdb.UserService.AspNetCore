@@ -5,17 +5,11 @@ using AutoMapper;
 using ETDB.API.ServiceBase.Abstractions.Hasher;
 using ETDB.API.ServiceBase.Builder;
 using ETDB.API.ServiceBase.Constants;
-using ETDB.API.ServiceBase.Domain.Abstractions.Notifications;
-using ETDB.API.ServiceBase.Handler;
 using ETDB.API.ServiceBase.Hasher;
-using ETDB.API.UserService.Bootstrap.Config;
-using ETDB.API.UserService.Bootstrap.Services;
-using ETDB.API.UserService.Bootstrap.Validators;
+using ETDB.API.UserService.Application.Config;
+using ETDB.API.UserService.Application.Services;
+using ETDB.API.UserService.Application.Validators;
 using ETDB.API.UserService.Data;
-using ETDB.API.UserService.Domain;
-using ETDB.API.UserService.Domain.Commands;
-using ETDB.API.UserService.Domain.Handler;
-using ETDB.API.UserService.Repositories;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using MediatR;
@@ -32,6 +26,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 using ETDB.API.UserService.EventStore;
+using ETDB.API.UserService.Repositories;
+using ETDB.API.UserService.Repositories.Repositories;
 
 namespace ETDB.API.UserService.Bootstrap
 {
@@ -48,7 +44,13 @@ namespace ETDB.API.UserService.Bootstrap
 
         private const string AuthenticationSchema = "Bearer";
 
-        private const string AssemblyPrefix = "ETDB.API.UserService";
+        private const string ApplicationAssemblyPrefix = "ETDB.API.UserService";
+
+        private const string MediatorAssemblyPrefix = "ETDB.API.ServiceBase";
+
+        private readonly Assembly[] applicatiAssemblies;
+
+        private readonly Assembly[] mediatorAssemblies;
 
         public Startup(IHostingEnvironment hostingEnvironment)
         {
@@ -61,6 +63,22 @@ namespace ETDB.API.UserService.Bootstrap
                 .AddEnvironmentVariables();
 
             this.configurationRoot = builder.Build();
+
+            this.applicatiAssemblies = DependencyContext
+                .Default
+                .CompileLibraries
+                .SelectMany(lib => lib.Assemblies)
+                .Where(assemblyName => assemblyName.StartsWith(Startup.ApplicationAssemblyPrefix))
+                .Select(assemblyName => Assembly.Load(assemblyName.Replace(".dll", "")))
+                .ToArray();
+
+            this.mediatorAssemblies = DependencyContext
+                .Default
+                .CompileLibraries
+                .SelectMany(lib => lib.Assemblies)
+                .Where(assemblyName => assemblyName.StartsWith(Startup.MediatorAssemblyPrefix))
+                .Select(assemblyName => Assembly.Load(assemblyName.Replace(".dll", "")))
+                .ToArray();
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -119,21 +137,9 @@ namespace ETDB.API.UserService.Bootstrap
             .Configure<MvcOptions>(options => 
                 options.Filters.Add(new CorsAuthorizationFilterFactory(Startup.CorsPolicyName)));
 
-            services.AddMediatR(DependencyContext
-                .Default
-                .CompileLibraries
-                .SelectMany(lib => lib.Assemblies)
-                .Where(assemblyName => assemblyName.StartsWith("ETDB.API.ServiceBase"))
-                .Select(assemblyName => Assembly.Load(assemblyName.Replace(".dll", ""))));
+            services.AddMediatR();
 
-            services.AddAutoMapper(DependencyContext
-                .Default
-                .CompileLibraries
-                .SelectMany(lib => lib.Assemblies)
-                .Where(assemblyName => assemblyName.StartsWith(Startup.AssemblyPrefix))
-                .Select(assemblyName => Assembly.Load(assemblyName.Replace(".dll", ""))));
-
-            services.AddScoped<INotificationHandler<RegisterUserCommand>, UserCommandHandler>();
+            services.AddAutoMapper(this.applicatiAssemblies);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -160,8 +166,7 @@ namespace ETDB.API.UserService.Bootstrap
                 .UseEnvironment(this.hostingEnvironment)
                 .UseConfiguration(this.configurationRoot)
                 .UseGenericRepositoryPattern<UserServiceContext>()
-                .UseEventSourcing<UserServiceContext>()
-                .UseEventStore<EventStoreContext>()
+                .UseEventSourcing<UserServiceContext, EventStoreContext>(this.applicatiAssemblies)
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypePerLifetimeScope<ResourceOwnerPasswordValidator, IResourceOwnerPasswordValidator>()
                 .RegisterTypePerLifetimeScope<ProfileService, IProfileService>()

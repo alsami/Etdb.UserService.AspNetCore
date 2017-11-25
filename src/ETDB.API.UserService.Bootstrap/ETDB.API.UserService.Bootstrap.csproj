@@ -14,7 +14,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
-    <PackageReference Include="ETDB.API.ServiceBase" Version="2.0.27" />
+    <PackageReference Include="ETDB.API.ServiceBase" Version="2.0.43" />
     <PackageReference Include="ETDB.API.ServiceBase.Constants" Version="1.0.2" />
     <PackageReference Include="IdentityServer4" Version="2.0.4" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.1.0" />
@@ -29,11 +29,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ETDB.API.UserService.Application\ETDB.API.UserService.Application.csproj" />
     <ProjectReference Include="..\ETDB.API.UserService.Admin\ETDB.API.UserService.Admin.csproj" />
     <ProjectReference Include="..\ETDB.API.UserService.Data\ETDB.API.UserService.Data.csproj" />
     <ProjectReference Include="..\ETDB.API.UserService.EventStore\ETDB.API.UserService.EventStore.csproj" />
     <ProjectReference Include="..\ETDB.API.UserService.Main\ETDB.API.UserService.Main.csproj" />
-    <ProjectReference Include="..\ETDB.API.UserService.Repositories\ETDB.API.UserService.Repositories.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.Presentation\ETDB.API.UserService.Presentation.csproj" />
   </ItemGroup>
 
 </Project>

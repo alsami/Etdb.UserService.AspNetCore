@@ -6,11 +6,16 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.1" />
-    <PackageReference Include="ETDB.API.ServiceBase.Abstractions" Version="2.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ETDB.API.UserService.Domain\ETDB.API.UserService.Domain.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.EventSourcing\ETDB.API.UserService.EventSourcing.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ETDB.API.ServiceBase">
+      <HintPath>C:\Users\Sami\.nuget\packages\etdb.api.servicebase\2.0.5\lib\netstandard2.0\ETDB.API.ServiceBase.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

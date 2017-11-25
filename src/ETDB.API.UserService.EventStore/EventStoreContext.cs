@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using ETDB.API.ServiceBase.ContextBase;
 using ETDB.API.ServiceBase.Entities;
 using Microsoft.EntityFrameworkCore;

@@ -6,11 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="ETDB.API.ServiceBase.Constants" Version="1.0.2" />
-    <PackageReference Include="IdentityModel" Version="2.16.0" />
+    <PackageReference Include="IdentityServer4" Version="2.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ETDB.API.UserService.Domain\ETDB.API.UserService.Domain.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.Presentation\ETDB.API.UserService.Presentation.csproj" />
   </ItemGroup>
 
 </Project>

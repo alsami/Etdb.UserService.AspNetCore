@@ -1,11 +1,6 @@
-﻿using System;
-using AutoMapper;
-using ETDB.API.ServiceBase.Domain.Abstractions.Notifications;
-using ETDB.API.UserService.Domain;
-using ETDB.API.UserService.Domain.DTO;
-using ETDB.API.UserService.Domain.Entities;
-using ETDB.API.UserService.Domain.Mappings;
-using MediatR;
+﻿using ETDB.API.ServiceBase.Domain.Abstractions.Notifications;
+using ETDB.API.UserService.Application.Services;
+using ETDB.API.UserService.Presentation.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +11,7 @@ namespace ETDB.API.UserService.Admin.Controllers.v1
     {
         private readonly IUserAppService userAppService;
 
-        public UsersController(INotificationHandler<DomainNotification> notifications, 
+        public UsersController(IDomainNotificationHandler<DomainNotification> notifications, 
             IUserAppService userAppService) : base(notifications)
         {
             this.userAppService = userAppService;
