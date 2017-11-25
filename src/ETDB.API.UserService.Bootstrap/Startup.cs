@@ -28,6 +28,8 @@ using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyModel;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace ETDB.API.UserService.Bootstrap
@@ -67,6 +69,10 @@ namespace ETDB.API.UserService.Bootstrap
                 options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .Build()));
+            }).AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
 
             services.AddMvcCore()

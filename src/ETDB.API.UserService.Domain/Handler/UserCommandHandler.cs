@@ -48,7 +48,7 @@ namespace ETDB.API.UserService.Domain.Handler
             if (this.Commit())
             {
                 this.bus.RaiseEvent(new UserRegisterEvent(user.Id, user.Name, user.LastName, user.Email, user.UserName,
-                    user.Password, user.Salt));
+                    user.Password, user.Salt, user.RowVersion, user.UserSecurityroles));
             }
         }
     }

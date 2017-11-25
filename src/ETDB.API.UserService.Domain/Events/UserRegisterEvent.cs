@@ -8,7 +8,9 @@ namespace ETDB.API.UserService.Domain.Events
 {
     public class UserRegisterEvent : Event
     {
-        public UserRegisterEvent(Guid id, string name, string lastName, string email, string userName, string password, byte[] salt)
+        public UserRegisterEvent(Guid id, string name, string lastName, string email, 
+            string userName, string password, 
+            byte[] salt, byte[] rowVersion, ICollection<UserSecurityrole> userSecurityroles)
         {
             this.Id = id;
             this.Name = name;
@@ -17,7 +19,9 @@ namespace ETDB.API.UserService.Domain.Events
             this.UserName = userName;
             this.Password = password;
             this.Salt = salt;
-            this.UserSecurityroles = new List<UserSecurityrole>();
+            this.UserSecurityroles = userSecurityroles;
+            this.RowVersion = rowVersion;
+            this.AggregateId = id;
         }
 
         public Guid Id

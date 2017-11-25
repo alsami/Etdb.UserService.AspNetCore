@@ -27,7 +27,7 @@ namespace ETDB.API.UserService.Admin.Controllers.v1
         public IActionResult Registration([FromBody] RegisterUserDTO registerUserDTO)
         {
             this.userAppService.Register(registerUserDTO);
-            return Response(registerUserDTO);
+            return Response(NoContent());
         }
     }
 }
