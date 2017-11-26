@@ -17,13 +17,11 @@ namespace ETDB.API.UserService.EventSourcing.Handler
     {
         private readonly IUserRepository userRepository;
         private readonly IHasher hasher;
-        private readonly IMediatorHandler bus;
 
         public UserRegisterCommandHandler(IUserRepository userRepository, IHasher hasher,
             IUnitOfWork unitOfWork, IMediatorHandler bus, IDomainNotificationHandler<DomainNotification> notificationsHandler) 
                 : base( unitOfWork, bus, notificationsHandler)
         {
-            this.bus = bus;
             this.userRepository = userRepository;
             this.hasher = hasher;
         }
@@ -47,14 +45,14 @@ namespace ETDB.API.UserService.EventSourcing.Handler
 
                 if (this.Commit())
                 {
-                    this.bus.RaiseEvent(new UserRegisterEvent(user.Id, user.Name, user.LastName, user.Email, user.UserName,
+                    this.Bus.RaiseEvent(new UserRegisterEvent(user.Id, user.Name, user.LastName, user.Email, user.UserName,
                         user.Password, user.Salt, user.RowVersion, user.UserSecurityroles));
 
                     return;
                 }
             }
 
-            bus.RaiseEvent(new DomainNotification(notification.MessageType,
+            this.Bus.RaiseEvent(new DomainNotification(notification.MessageType,
                 "The email or username has already been taken."));
         }
     }
