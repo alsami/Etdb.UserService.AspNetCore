@@ -9,10 +9,4 @@
     <PackageReference Include="ETDB.API.ServiceBase.Domain.Abstractions" Version="3.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="ETDB.API.ServiceBase">
-      <HintPath>C:\Users\Sami\.nuget\packages\etdb.api.servicebase\2.0.5\lib\netstandard2.0\ETDB.API.ServiceBase.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

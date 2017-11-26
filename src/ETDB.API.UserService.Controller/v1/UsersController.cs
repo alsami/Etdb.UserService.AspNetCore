@@ -1,6 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using ETDB.API.ServiceBase.Abstractions.Repositories;
+using ETDB.API.ServiceBase.Controller.Abstractions;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Handler;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Notifications;
 using ETDB.API.UserService.Application.Services;
@@ -12,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace ETDB.API.UserService.Controller.v1
 {
     [Route("api/v1/[controller]")]
-    public class UsersController : ApiController
+    public class UsersController : EventSourcedController
     {
         private readonly IMapper mapper;
         private readonly IUserAppService userAppService;
@@ -48,7 +49,7 @@ namespace ETDB.API.UserService.Controller.v1
         public IActionResult Registration([FromBody] UserRegisterDTO userRegisterDTO)
         {
             this.userAppService.Register(userRegisterDTO);
-            return Response(NoContent());
+            return this.ExecuteResult();
         }
     }
 }
