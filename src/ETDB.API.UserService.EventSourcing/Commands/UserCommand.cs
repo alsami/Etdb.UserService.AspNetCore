@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ETDB.API.UserService.EventSourcing.Commands
 {
-    public class UserCommand : SourcingCommand
+    public abstract class UserCommand : SourcingCommand
     {
         public Guid Id
         {
@@ -60,12 +60,6 @@ namespace ETDB.API.UserService.EventSourcing.Commands
         {
             get;
             protected set;
-        }
-
-        public override bool IsValid()
-        {
-            // TODO: Implement fluent validators
-            return true;
         }
     }
 }

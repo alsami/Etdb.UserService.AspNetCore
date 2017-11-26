@@ -7,6 +7,7 @@ using ETDB.API.ServiceBase.Builder;
 using ETDB.API.ServiceBase.Constants;
 using ETDB.API.ServiceBase.Hasher;
 using ETDB.API.UserService.Application.Config;
+using ETDB.API.UserService.Application.ExceptionFilter;
 using ETDB.API.UserService.Application.Services;
 using ETDB.API.UserService.Application.Validators;
 using ETDB.API.UserService.Data;
@@ -88,6 +89,8 @@ namespace ETDB.API.UserService.Bootstrap
                 options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .Build()));
+
+                options.Filters.Add(new DbUpdateExceptionFilter());
             }).AddJsonOptions(options =>
             {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -120,9 +123,9 @@ namespace ETDB.API.UserService.Bootstrap
                     options.ApiName = ServiceNames.UserService;
                 });
 
-            services.AddScoped<UserServiceContext>();
+            //services.AddScoped<UserServiceContext>();
 
-            services.AddScoped<EventStoreContext>();
+            //services.AddScoped<EventStoreContext>();
 
             services.AddCors(options =>
             {

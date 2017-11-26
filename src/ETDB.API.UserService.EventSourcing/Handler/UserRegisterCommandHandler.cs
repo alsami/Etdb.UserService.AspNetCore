@@ -5,33 +5,38 @@ using ETDB.API.ServiceBase.EventSourcing.Abstractions.Base;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Bus;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Handler;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Notifications;
+using ETDB.API.ServiceBase.EventSourcing.Abstractions.Validation;
 using ETDB.API.ServiceBase.EventSourcing.Handler;
 using ETDB.API.UserService.Domain.Entities;
 using ETDB.API.UserService.EventSourcing.Commands;
 using ETDB.API.UserService.EventSourcing.Events;
+using ETDB.API.UserService.EventSourcing.Validation;
 using ETDB.API.UserService.Repositories.Repositories;
 
 namespace ETDB.API.UserService.EventSourcing.Handler
 {
     public class UserRegisterCommandHandler : CommandHandler<UserRegisterCommand>
     {
+        private readonly UserRegisterCommandValidation commandValidation;
         private readonly IUserRepository userRepository;
         private readonly IHasher hasher;
 
-        public UserRegisterCommandHandler(IUserRepository userRepository, IHasher hasher,
+        public UserRegisterCommandHandler(UserRegisterCommandValidation commandValidation,
+            IUserRepository userRepository, IHasher hasher,
             IUnitOfWork unitOfWork, IMediatorHandler bus, IDomainNotificationHandler<DomainNotification> notificationsHandler) 
                 : base( unitOfWork, bus, notificationsHandler)
         {
+            this.commandValidation = commandValidation;
             this.userRepository = userRepository;
             this.hasher = hasher;
         }
 
         public override void Handle(UserRegisterCommand notification)
         {
-            if (!notification.IsValid())
+            if (!this.commandValidation.IsValid(notification, out var validationResult))
             {
-                // TODO
-                Console.WriteLine("NOT VALID");
+                this.NotifyValidationErrors(notification, validationResult);
+                return;
             }
 
             var salt = this.hasher.GenerateSalt();
@@ -39,17 +44,14 @@ namespace ETDB.API.UserService.EventSourcing.Handler
             var user = new User(Guid.NewGuid(), notification.Name, notification.LastName, notification.Email,
                 notification.UserName, this.hasher.CreateSaltedHash(notification.Password, salt), salt);
 
-            if (this.userRepository.Get(user.UserName, user.Email) == null)
+            this.userRepository.Register(user);
+
+            if (this.Commit())
             {
-                this.userRepository.Register(user);
+                this.Bus.RaiseEvent(new UserRegisterEvent(user.Id, user.Name, user.LastName, user.Email, user.UserName,
+                    user.Password, user.Salt, user.RowVersion, user.UserSecurityroles));
 
-                if (this.Commit())
-                {
-                    this.Bus.RaiseEvent(new UserRegisterEvent(user.Id, user.Name, user.LastName, user.Email, user.UserName,
-                        user.Password, user.Salt, user.RowVersion, user.UserSecurityroles));
-
-                    return;
-                }
+                return;
             }
 
             this.Bus.RaiseEvent(new DomainNotification(notification.MessageType,
