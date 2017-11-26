@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ETDB.API.UserService.Application\ETDB.API.UserService.Application.csproj" />
-    <ProjectReference Include="..\ETDB.API.UserService.Admin\ETDB.API.UserService.Admin.csproj" />
     <ProjectReference Include="..\ETDB.API.UserService.Controller\ETDB.API.UserService.Controller.csproj" />
     <ProjectReference Include="..\ETDB.API.UserService.Data\ETDB.API.UserService.Data.csproj" />
     <ProjectReference Include="..\ETDB.API.UserService.EventStore\ETDB.API.UserService.EventStore.csproj" />
