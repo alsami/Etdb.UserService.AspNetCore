@@ -11,8 +11,8 @@ using System;
 namespace ETDB.API.UserService.Data.Migrations
 {
     [DbContext(typeof(UserServiceContext))]
-    [Migration("20171125161318_Initial")]
-    partial class Initial
+    [Migration("20171126134505_Initial_Data")]
+    partial class Initial_Data
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,6 +39,9 @@ namespace ETDB.API.UserService.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Designation")
+                        .IsUnique();
+
                     b.ToTable("Securityroles");
                 });
 
@@ -47,17 +50,13 @@ namespace ETDB.API.UserService.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Email")
-                        .IsRequired();
+                    b.Property<string>("Email");
 
-                    b.Property<string>("LastName")
-                        .IsRequired();
+                    b.Property<string>("LastName");
 
-                    b.Property<string>("Name")
-                        .IsRequired();
+                    b.Property<string>("Name");
 
-                    b.Property<string>("Password")
-                        .IsRequired();
+                    b.Property<string>("Password");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -66,17 +65,17 @@ namespace ETDB.API.UserService.Data.Migrations
                     b.Property<byte[]>("Salt")
                         .IsRequired();
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(16);
+                    b.Property<string>("UserName");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[Email] IS NOT NULL");
 
                     b.HasIndex("UserName")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[UserName] IS NOT NULL");
 
                     b.ToTable("Users");
                 });

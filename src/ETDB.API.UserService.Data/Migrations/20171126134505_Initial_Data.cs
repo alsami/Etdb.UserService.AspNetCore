@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
+using System.Collections.Generic;
 
 namespace ETDB.API.UserService.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Initial_Data : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,13 +28,13 @@ namespace ETDB.API.UserService.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Email = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    Name = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
                     RowVersion = table.Column<byte[]>(rowVersion: true, nullable: true),
                     Salt = table.Column<byte[]>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 16, nullable: false)
+                    UserName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -67,16 +68,24 @@ namespace ETDB.API.UserService.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Securityroles_Designation",
+                table: "Securityroles",
+                column: "Designation",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",
                 table: "Users",
                 column: "Email",
-                unique: true);
+                unique: true,
+                filter: "[Email] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserName",
                 table: "Users",
                 column: "UserName",
-                unique: true);
+                unique: true,
+                filter: "[UserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserSecurityroles_SecurityroleId",

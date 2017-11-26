@@ -11,8 +11,8 @@ using System;
 namespace ETDB.API.UserService.EventStore.Migrations
 {
     [DbContext(typeof(EventStoreContext))]
-    [Migration("20171125161218_Initial")]
-    partial class Initial
+    [Migration("20171126134316_Initial_EventStore")]
+    partial class Initial_EventStore
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,7 +21,7 @@ namespace ETDB.API.UserService.EventStore.Migrations
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ETDB.API.ServiceBase.Domain.Abstractions.Events.StoredEvent", b =>
+            modelBuilder.Entity("ETDB.API.ServiceBase.EventSourcing.Abstractions.Events.StoredEvent", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();

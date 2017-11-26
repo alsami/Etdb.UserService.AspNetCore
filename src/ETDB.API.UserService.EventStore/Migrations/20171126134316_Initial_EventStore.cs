@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using System;
+using System.Collections.Generic;
 
 namespace ETDB.API.UserService.EventStore.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Initial_EventStore : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

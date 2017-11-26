@@ -10,6 +10,9 @@ namespace ETDB.API.UserService.Data.EntityMaps
         {
             base.Configure(builder);
 
+            builder.HasIndex(role => role.Designation)
+                .IsUnique();
+
             builder.Property(role => role.Designation)
                 .IsRequired();
         }
