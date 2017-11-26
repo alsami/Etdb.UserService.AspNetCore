@@ -4,7 +4,7 @@ using ETDB.API.ServiceBase.EventSourcing.Abstractions.Handler;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Notifications;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ETDB.API.UserService.Admin.Controllers.v1
+namespace ETDB.API.UserService.Controller.v1
 {
     public abstract class ApiController : ControllerBase
     {

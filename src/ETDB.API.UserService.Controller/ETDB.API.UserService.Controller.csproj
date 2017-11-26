@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ETDB.API.ServiceBase.Constants" Version="1.0.2" />
     <PackageReference Include="ETDB.API.ServiceBase.EventSourcing.Abstractions" Version="1.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
   </ItemGroup>
@@ -13,11 +12,8 @@
   <ItemGroup>
     <ProjectReference Include="..\ETDB.API.UserService.Application\ETDB.API.UserService.Application.csproj" />
     <ProjectReference Include="..\ETDB.API.UserService.Domain\ETDB.API.UserService.Domain.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.EventSourcing\ETDB.API.UserService.EventSourcing.csproj" />
     <ProjectReference Include="..\ETDB.API.UserService.Presentation\ETDB.API.UserService.Presentation.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\v1\" />
   </ItemGroup>
 
 </Project>

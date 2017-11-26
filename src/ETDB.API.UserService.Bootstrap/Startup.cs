@@ -123,10 +123,6 @@ namespace ETDB.API.UserService.Bootstrap
                     options.ApiName = ServiceNames.UserService;
                 });
 
-            //services.AddScoped<UserServiceContext>();
-
-            //services.AddScoped<EventStoreContext>();
-
             services.AddCors(options =>
             {
                 options.AddPolicy(Startup.CorsPolicyName, opt =>

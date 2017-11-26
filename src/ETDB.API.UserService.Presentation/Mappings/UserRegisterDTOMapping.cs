@@ -4,9 +4,9 @@ using ETDB.API.UserService.Presentation.DTO;
 
 namespace ETDB.API.UserService.Presentation.Mappings
 {
-    public class RegisterUserDTOMapping : Profile
+    public class UserRegisterDTOMapping : Profile
     {
-        public RegisterUserDTOMapping()
+        public UserRegisterDTOMapping()
         {
             this.CreateMap<UserRegisterDTO, UserRegisterCommand>()
                 .ConstructUsing(userRegister => new UserRegisterCommand(userRegister.Name,

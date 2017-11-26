@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using ETDB.API.UserService.Presentation.DTO.Base;
+using ETDB.API.UserService.Domain.Entities;
 
 namespace ETDB.API.UserService.Presentation.DTO
 {
@@ -37,6 +40,12 @@ namespace ETDB.API.UserService.Presentation.DTO
         }
 
         public string Email
+        {
+            get;
+            set;
+        }
+
+        public ICollection<UserSecurityrole> UserSecurityroles
         {
             get;
             set;
