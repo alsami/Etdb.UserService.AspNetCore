@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using ETDB.API.ServiceBase.EventSourcing.Abstractions.Base;
 using ETDB.API.UserService.Presentation.DTO.Base;
 using ETDB.API.UserService.Domain.Entities;
 
 namespace ETDB.API.UserService.Presentation.DTO
 {
-    public class UserDTO : IDataTransferObject
+    public class UserDTO : IDataTransferObject, IEventSourcedDTO
     {
         public Guid Id
         {
