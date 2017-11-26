@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using ETDB.API.ServiceBase.Hasher;
 using ETDB.API.UserService.EventSourcing.Commands;
 using ETDB.API.UserService.Presentation.DTO;
 
@@ -9,12 +8,9 @@ namespace ETDB.API.UserService.Presentation.Mappings
     {
         public RegisterUserDTOMapping()
         {
-            var hasher = new Hasher();
-            var salt = hasher.GenerateSalt();
-            this.CreateMap<RegisterUserDTO, UserRegisterCommand>()
-                .ConstructUsing(registerUser => new UserRegisterCommand(registerUser.Name,
-                    registerUser.LastName, registerUser.Email, registerUser.UserName,
-                    hasher.CreateSaltedHash(registerUser.Password, salt), salt));
+            this.CreateMap<UserRegisterDTO, UserRegisterCommand>()
+                .ConstructUsing(userRegister => new UserRegisterCommand(userRegister.Name,
+                    userRegister.LastName, userRegister.Email, userRegister.UserName, userRegister.Password));
         }
     }
 }

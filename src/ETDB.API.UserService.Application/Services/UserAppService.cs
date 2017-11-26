@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using ETDB.API.ServiceBase.Domain.Abstractions.Bus;
+using ETDB.API.ServiceBase.EventSourcing.Abstractions.Bus;
 using ETDB.API.UserService.Application.Services;
-using ETDB.API.UserService.Domain;
 using ETDB.API.UserService.EventSourcing.Commands;
 using ETDB.API.UserService.Presentation.DTO;
 
@@ -18,9 +17,9 @@ namespace ETDB.API.UserService.Repositories
             this.bus = bus;
         }
 
-        public void Register(RegisterUserDTO registerUserDTO)
+        public void Register(UserRegisterDTO userRegisterDTO)
         {
-            var registerCommand = this.mapper.Map<UserRegisterCommand>(registerUserDTO);
+            var registerCommand = this.mapper.Map<UserRegisterCommand>(userRegisterDTO);
             this.bus.SendCommand(registerCommand);
         }
     }

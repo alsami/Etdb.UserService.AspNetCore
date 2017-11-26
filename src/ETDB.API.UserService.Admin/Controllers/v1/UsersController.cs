@@ -1,4 +1,5 @@
-﻿using ETDB.API.ServiceBase.Domain.Abstractions.Notifications;
+﻿using ETDB.API.ServiceBase.EventSourcing.Abstractions.Handler;
+using ETDB.API.ServiceBase.EventSourcing.Abstractions.Notifications;
 using ETDB.API.UserService.Application.Services;
 using ETDB.API.UserService.Presentation.DTO;
 using Microsoft.AspNetCore.Authorization;
@@ -19,9 +20,9 @@ namespace ETDB.API.UserService.Admin.Controllers.v1
 
         [AllowAnonymous]
         [HttpPost("registration")]
-        public IActionResult Registration([FromBody] RegisterUserDTO registerUserDTO)
+        public IActionResult Registration([FromBody] UserRegisterDTO userRegisterDTO)
         {
-            this.userAppService.Register(registerUserDTO);
+            this.userAppService.Register(userRegisterDTO);
             return Response(NoContent());
         }
     }

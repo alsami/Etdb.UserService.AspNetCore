@@ -137,7 +137,7 @@ namespace ETDB.API.UserService.Bootstrap
             .Configure<MvcOptions>(options => 
                 options.Filters.Add(new CorsAuthorizationFilterFactory(Startup.CorsPolicyName)));
 
-            services.AddMediatR();
+            services.AddMediatR(this.applicatiAssemblies);
 
             services.AddAutoMapper(this.applicatiAssemblies);
         }
@@ -167,7 +167,7 @@ namespace ETDB.API.UserService.Bootstrap
                 .UseConfiguration(this.configurationRoot)
                 .UseGenericRepositoryPattern<UserServiceContext>()
                 .UseEventSourcing<UserServiceContext, EventStoreContext>(this.applicatiAssemblies)
-                .RegisterTypeAsSingleton<Hasher, IHasher>()
+                .RegisterTypePerDependency<Hasher, IHasher>()
                 .RegisterTypePerLifetimeScope<ResourceOwnerPasswordValidator, IResourceOwnerPasswordValidator>()
                 .RegisterTypePerLifetimeScope<ProfileService, IProfileService>()
                 .RegisterTypePerLifetimeScope<UserRepository, IUserRepository>()

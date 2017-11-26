@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ETDB.API.ServiceBase.Domain.Abstractions.Events;
+using ETDB.API.ServiceBase.EventSourcing.Abstractions.Events;
 using ETDB.API.UserService.Domain.Entities;
 
 namespace ETDB.API.UserService.EventSourcing.Events

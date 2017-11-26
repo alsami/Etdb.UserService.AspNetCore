@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ETDB.API.ServiceBase.Domain.Abstractions.Notifications;
+using ETDB.API.ServiceBase.EventSourcing.Abstractions.Handler;
+using ETDB.API.ServiceBase.EventSourcing.Abstractions.Notifications;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETDB.API.UserService.Admin.Controllers.v1

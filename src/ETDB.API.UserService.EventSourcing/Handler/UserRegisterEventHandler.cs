@@ -1,4 +1,4 @@
-﻿using ETDB.API.ServiceBase.Abstractions.Handler;
+﻿using ETDB.API.ServiceBase.EventSourcing.Handler;
 using ETDB.API.UserService.EventSourcing.Events;
 
 namespace ETDB.API.UserService.EventSourcing.Handler

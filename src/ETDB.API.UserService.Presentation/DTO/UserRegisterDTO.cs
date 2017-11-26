@@ -1,6 +1,6 @@
 ﻿namespace ETDB.API.UserService.Presentation.DTO
 {
-    public class RegisterUserDTO
+    public class UserRegisterDTO
     {
         public string Name
         {

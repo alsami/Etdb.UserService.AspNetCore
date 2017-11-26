@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ETDB.API.ServiceBase.Domain.Abstractions" Version="2.0.11" />
+    <PackageReference Include="ETDB.API.ServiceBase.Abstractions" Version="3.0.0" />
+    <PackageReference Include="ETDB.API.ServiceBase.EventSourcing" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
