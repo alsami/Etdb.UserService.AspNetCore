@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using ETDB.API.ServiceBase.EventSourcing.Validation;
-using ETDB.API.UserService.Domain.Entities;
 using ETDB.API.UserService.EventSourcing.Commands;
 using ETDB.API.UserService.Repositories.Repositories;
 using FluentValidation;
-using FluentValidation.Internal;
 
 namespace ETDB.API.UserService.EventSourcing.Validation
 {

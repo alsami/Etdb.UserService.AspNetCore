@@ -27,7 +27,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 using ETDB.API.UserService.EventStore;
-using ETDB.API.UserService.Repositories;
 using ETDB.API.UserService.Repositories.Repositories;
 
 namespace ETDB.API.UserService.Bootstrap

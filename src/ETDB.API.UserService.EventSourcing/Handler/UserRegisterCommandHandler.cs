@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using ETDB.API.ServiceBase.Abstractions.Hasher;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Base;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Bus;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Handler;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Notifications;
-using ETDB.API.ServiceBase.EventSourcing.Abstractions.Validation;
 using ETDB.API.ServiceBase.EventSourcing.Handler;
 using ETDB.API.UserService.Domain.Entities;
 using ETDB.API.UserService.EventSourcing.Commands;
@@ -33,7 +31,7 @@ namespace ETDB.API.UserService.EventSourcing.Handler
 
         public override void Handle(UserRegisterCommand notification)
         {
-            if (!this.commandValidation.IsValid(notification, out var validationResult))
+           if (!this.commandValidation.IsValid(notification, out var validationResult))
             {
                 this.NotifyValidationErrors(notification, validationResult);
                 return;

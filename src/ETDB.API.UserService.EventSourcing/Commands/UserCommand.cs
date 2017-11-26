@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Commands;
 using ETDB.API.UserService.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace ETDB.API.UserService.EventSourcing.Commands
 {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using ETDB.API.UserService.EventSourcing.Commands;
+﻿using ETDB.API.UserService.EventSourcing.Commands;
 using ETDB.API.UserService.Repositories.Repositories;
 
 namespace ETDB.API.UserService.EventSourcing.Validation

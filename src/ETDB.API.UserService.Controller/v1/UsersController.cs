@@ -1,8 +1,7 @@
 ﻿using System;
 using AutoMapper;
 using ETDB.API.ServiceBase.Abstractions.Repositories;
-using ETDB.API.ServiceBase.Controller.Abstractions;
-using ETDB.API.ServiceBase.Controller.Abstractions.Base;
+using ETDB.API.ServiceBase.EventSourcing.Abstractions.Base;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Handler;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Notifications;
 using ETDB.API.UserService.Application.Services;

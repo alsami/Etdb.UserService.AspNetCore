@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Base;
 using ETDB.API.UserService.Presentation.DTO.Base;

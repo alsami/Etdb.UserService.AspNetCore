@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using ETDB.API.UserService.Domain.Entities;
-using ETDB.API.UserService.EventSourcing.Validation;
 
 namespace ETDB.API.UserService.EventSourcing.Commands
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
-using ETDB.API.UserService.EventSourcing.Commands;
+﻿using ETDB.API.UserService.EventSourcing.Commands;
 using ETDB.API.UserService.Repositories.Repositories;
 using FluentValidation.Results;
 

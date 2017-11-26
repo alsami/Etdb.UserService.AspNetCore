@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.1" />
-    <PackageReference Include="ETDB.API.ServiceBase.EventSourcing.Abstractions" Version="1.0.6" />
+    <PackageReference Include="ETDB.API.ServiceBase.EventSourcing.Abstractions" Version="1.0.7" />
   </ItemGroup>
 
   <ItemGroup>

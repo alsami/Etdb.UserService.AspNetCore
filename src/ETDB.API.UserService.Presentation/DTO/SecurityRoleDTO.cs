@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using ETDB.API.UserService.Presentation.DTO.Base;
 
 namespace ETDB.API.UserService.Presentation.DTO

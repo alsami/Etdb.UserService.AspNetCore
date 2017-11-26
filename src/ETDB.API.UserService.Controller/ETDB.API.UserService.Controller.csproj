@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ETDB.API.ServiceBase.Controller.Abstractions" Version="1.0.4" />
-    <PackageReference Include="ETDB.API.ServiceBase.EventSourcing.Abstractions" Version="1.0.6" />
+    <PackageReference Include="ETDB.API.ServiceBase.EventSourcing.Abstractions" Version="1.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
   </ItemGroup>
 
