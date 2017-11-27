@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ETDB.API.ServiceBase.Abstractions.Hasher;
-using ETDB.API.ServiceBase.Hasher;
+using ETDB.API.ServiceBase.General.Abstractions.Hasher;
+using ETDB.API.ServiceBase.General.Hasher;
 using ETDB.API.UserService.Data;
 using ETDB.API.UserService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;

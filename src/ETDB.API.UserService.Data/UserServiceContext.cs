@@ -1,5 +1,5 @@
 ﻿using System;
-using ETDB.API.ServiceBase.EventSourcing.ContextBase;
+using ETDB.API.ServiceBase.Repositories.Abstractions.Base;
 using ETDB.API.UserService.Data.EntityMaps;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

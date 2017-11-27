@@ -1,7 +1,7 @@
 ﻿using System;
 using ETDB.API.ServiceBase.EventSourcing.Validation;
 using ETDB.API.UserService.EventSourcing.Commands;
-using ETDB.API.UserService.Repositories.Repositories;
+using ETDB.API.UserService.Repositories.Abstractions;
 using FluentValidation;
 
 namespace ETDB.API.UserService.EventSourcing.Validation
@@ -86,7 +86,7 @@ namespace ETDB.API.UserService.EventSourcing.Validation
         private bool IsUnique(UserCommand command)
         {
             var existingUser = this.userRepository
-                .Get(command.UserName, command.Email);
+                .Find(command.UserName, command.Email);
 
             if (existingUser == null)
             {

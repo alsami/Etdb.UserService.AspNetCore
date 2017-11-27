@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.1" />
-    <PackageReference Include="ETDB.API.ServiceBase.Domain.Abstractions" Version="3.0.0" />
+    <PackageReference Include="ETDB.API.ServiceBase.Domain.Abstractions" Version="3.0.1" />
   </ItemGroup>
 
 </Project>

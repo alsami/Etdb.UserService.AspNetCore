@@ -2,10 +2,10 @@
 using System.Reflection;
 using Autofac;
 using AutoMapper;
-using ETDB.API.ServiceBase.Abstractions.Hasher;
-using ETDB.API.ServiceBase.Builder;
+using ETDB.API.ServiceBase.Builder.Builder;
 using ETDB.API.ServiceBase.Constants;
-using ETDB.API.ServiceBase.Hasher;
+using ETDB.API.ServiceBase.General.Abstractions.Hasher;
+using ETDB.API.ServiceBase.General.Hasher;
 using ETDB.API.UserService.Application.Config;
 using ETDB.API.UserService.Application.ExceptionFilter;
 using ETDB.API.UserService.Application.Services;
@@ -27,7 +27,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
 using ETDB.API.UserService.EventStore;
-using ETDB.API.UserService.Repositories.Repositories;
 
 namespace ETDB.API.UserService.Bootstrap
 {
@@ -161,15 +160,13 @@ namespace ETDB.API.UserService.Bootstrap
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
             new ServiceContainerBuilder(containerBuilder)
+                .UseEventSourcing<UserServiceContext, EventStoreContext>(this.applicatiAssemblies)
+                .UseGenericRepositoryPattern<UserServiceContext>(this.applicatiAssemblies)
                 .UseEnvironment(this.hostingEnvironment)
                 .UseConfiguration(this.configurationRoot)
-                .UseGenericRepositoryPattern<UserServiceContext>()
-                .UseEventSourcing<UserServiceContext, EventStoreContext>(this.applicatiAssemblies)
                 .RegisterTypePerDependency<Hasher, IHasher>()
                 .RegisterTypePerLifetimeScope<ResourceOwnerPasswordValidator, IResourceOwnerPasswordValidator>()
-                .RegisterTypePerLifetimeScope<ProfileService, IProfileService>()
-                .RegisterTypePerLifetimeScope<UserRepository, IUserRepository>()
-                .RegisterTypePerLifetimeScope<UserAppService, IUserAppService>();
+                .RegisterTypePerLifetimeScope<ProfileService, IProfileService>();
         }
     }
 }

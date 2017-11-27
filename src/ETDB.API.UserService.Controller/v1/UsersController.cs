@@ -1,11 +1,12 @@
 ﻿using System;
 using AutoMapper;
-using ETDB.API.ServiceBase.Abstractions.Repositories;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Base;
+using ETDB.API.ServiceBase.EventSourcing.Abstractions.Bus;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Handler;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Notifications;
-using ETDB.API.UserService.Application.Services;
+using ETDB.API.ServiceBase.Repositories.Abstractions.Generics;
 using ETDB.API.UserService.Domain.Entities;
+using ETDB.API.UserService.EventSourcing.Commands;
 using ETDB.API.UserService.Presentation.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,18 +14,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace ETDB.API.UserService.Controller.v1
 {
     [Route("api/v1/[controller]")]
-    public class UsersController : EventSourcedController
+    public class UsersController : EventSourcingController
     {
         private readonly IMapper mapper;
-        private readonly IUserAppService userAppService;
+        private readonly IMediatorHandler mediator;
         private readonly IEntityRepository<User> userBaseRepository;
 
         public UsersController(IMapper mapper,
-            IDomainNotificationHandler<DomainNotification> notifications, 
-            IUserAppService userAppService, IEntityRepository<User> userBaseRepository) : base(notifications)
+            IMediatorHandler mediator,
+            IDomainNotificationHandler<DomainNotification> notifications,
+            IEntityRepository<User> userBaseRepository) : base(notifications)
         {
             this.mapper = mapper;
-            this.userAppService = userAppService;
+            this.mediator = mediator;
             this.userBaseRepository = userBaseRepository;
         }
 
@@ -48,7 +50,8 @@ namespace ETDB.API.UserService.Controller.v1
         [HttpPost("registration")]
         public IActionResult Registration([FromBody] UserRegisterDTO userRegisterDTO)
         {
-            this.userAppService.Register(userRegisterDTO);
+            var registerCommand = this.mapper.Map<UserRegisterCommand>(userRegisterDTO);
+            this.mediator.SendCommand(registerCommand);
             return this.ExecuteResult();
         }
     }

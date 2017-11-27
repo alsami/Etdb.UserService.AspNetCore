@@ -11,8 +11,8 @@ using System;
 namespace ETDB.API.UserService.EventStore.Migrations
 {
     [DbContext(typeof(EventStoreContext))]
-    [Migration("20171126134316_Initial_EventStore")]
-    partial class Initial_EventStore
+    [Migration("20171127210644_EventStore")]
+    partial class EventStore
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

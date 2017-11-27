@@ -1,5 +1,5 @@
 ﻿using ETDB.API.UserService.EventSourcing.Commands;
-using ETDB.API.UserService.Repositories.Repositories;
+using ETDB.API.UserService.Repositories.Abstractions;
 using FluentValidation.Results;
 
 namespace ETDB.API.UserService.EventSourcing.Validation

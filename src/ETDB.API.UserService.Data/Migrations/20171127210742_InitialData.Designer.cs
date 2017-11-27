@@ -11,8 +11,8 @@ using System;
 namespace ETDB.API.UserService.Data.Migrations
 {
     [DbContext(typeof(UserServiceContext))]
-    [Migration("20171126134505_Initial_Data")]
-    partial class Initial_Data
+    [Migration("20171127210742_InitialData")]
+    partial class InitialData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

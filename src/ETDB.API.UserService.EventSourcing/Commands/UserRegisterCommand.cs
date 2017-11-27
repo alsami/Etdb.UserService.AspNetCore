@@ -14,11 +14,5 @@ namespace ETDB.API.UserService.EventSourcing.Commands
             this.Password = password;
             this.UserSecurityroles = new List<UserSecurityrole>();
         }
-
-        //public override bool IsValid()
-        //{
-        //    this.ValidationResult = new UserRegisterCommandValidation().Validate(this);
-        //    return ValidationResult.IsValid;
-        //}
     }
 }

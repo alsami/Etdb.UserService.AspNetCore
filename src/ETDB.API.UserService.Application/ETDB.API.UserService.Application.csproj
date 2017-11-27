@@ -5,9 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ETDB.API.ServiceBase.Abstractions" Version="3.0.0" />
-    <PackageReference Include="ETDB.API.ServiceBase.Constants" Version="1.0.2" />
-    <PackageReference Include="ETDB.API.ServiceBase.EventSourcing.Abstractions" Version="1.0.7" />
+    <PackageReference Include="ETDB.API.ServiceBase.Constants" Version="1.0.4" />
+    <PackageReference Include="ETDB.API.ServiceBase.General.Abstractions" Version="1.0.0" />
     <PackageReference Include="IdentityServer4" Version="2.0.4" />
   </ItemGroup>
 

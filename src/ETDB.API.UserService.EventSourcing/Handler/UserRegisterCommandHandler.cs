@@ -1,15 +1,15 @@
 ﻿using System;
-using ETDB.API.ServiceBase.Abstractions.Hasher;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Base;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Bus;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Handler;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Notifications;
 using ETDB.API.ServiceBase.EventSourcing.Handler;
+using ETDB.API.ServiceBase.General.Abstractions.Hasher;
 using ETDB.API.UserService.Domain.Entities;
 using ETDB.API.UserService.EventSourcing.Commands;
 using ETDB.API.UserService.EventSourcing.Events;
 using ETDB.API.UserService.EventSourcing.Validation;
-using ETDB.API.UserService.Repositories.Repositories;
+using ETDB.API.UserService.Repositories.Abstractions;
 
 namespace ETDB.API.UserService.EventSourcing.Handler
 {
@@ -21,8 +21,8 @@ namespace ETDB.API.UserService.EventSourcing.Handler
 
         public UserRegisterCommandHandler(UserRegisterCommandValidation commandValidation,
             IUserRepository userRepository, IHasher hasher,
-            IUnitOfWork unitOfWork, IMediatorHandler bus, IDomainNotificationHandler<DomainNotification> notificationsHandler) 
-                : base( unitOfWork, bus, notificationsHandler)
+            IUnitOfWork unitOfWork, IMediatorHandler mediator, IDomainNotificationHandler<DomainNotification> notificationsHandler) 
+                : base( unitOfWork, mediator, notificationsHandler)
         {
             this.commandValidation = commandValidation;
             this.userRepository = userRepository;
@@ -46,13 +46,13 @@ namespace ETDB.API.UserService.EventSourcing.Handler
 
             if (this.Commit())
             {
-                this.Bus.RaiseEvent(new UserRegisterEvent(user.Id, user.Name, user.LastName, user.Email, user.UserName,
+                this.Mediator.RaiseEvent(new UserRegisterEvent(user.Id, user.Name, user.LastName, user.Email, user.UserName,
                     user.Password, user.Salt, user.RowVersion, user.UserSecurityroles));
 
                 return;
             }
 
-            this.Bus.RaiseEvent(new DomainNotification(notification.MessageType,
+            this.Mediator.RaiseEvent(new DomainNotification(notification.MessageType,
                 "The email or username has already been taken."));
         }
     }

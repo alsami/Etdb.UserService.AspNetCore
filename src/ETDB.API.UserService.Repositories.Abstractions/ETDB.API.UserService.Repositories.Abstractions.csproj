@@ -5,13 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ETDB.API.ServiceBase.EventSourcing" Version="1.0.11" />
-    <PackageReference Include="ETDB.API.ServiceBase.General.Abstractions" Version="1.0.0" />
+    <PackageReference Include="ETDB.API.ServiceBase.Repositories.Abstractions" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ETDB.API.UserService.Domain\ETDB.API.UserService.Domain.csproj" />
-    <ProjectReference Include="..\ETDB.API.UserService.Repositories\ETDB.API.UserService.Repositories.csproj" />
   </ItemGroup>
 
 </Project>

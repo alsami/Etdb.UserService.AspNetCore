@@ -1,4 +1,4 @@
-﻿using ETDB.API.ServiceBase.Entities;
+﻿using ETDB.API.ServiceBase.Repositories.Abstractions.Base;
 using ETDB.API.UserService.Domain.Entities;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

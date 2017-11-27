@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using ETDB.API.ServiceBase.Abstractions.Hasher;
-using ETDB.API.UserService.Repositories.Repositories;
+using ETDB.API.ServiceBase.General.Abstractions.Hasher;
+using ETDB.API.UserService.Repositories.Abstractions;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 
@@ -19,7 +19,7 @@ namespace ETDB.API.UserService.Application.Validators
 
         public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            var loginUser = this.userRepository.Get(context.UserName);
+            var loginUser = this.userRepository.Find(context.UserName, context.UserName);
 
             if (loginUser == null)
             {
