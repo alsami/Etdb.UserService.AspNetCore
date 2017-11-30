@@ -2,7 +2,7 @@
 using ETDB.API.UserService.EventSourcing.Commands;
 using ETDB.API.UserService.Presentation.DTO;
 
-namespace ETDB.API.UserService.Presentation.Mappings
+namespace ETDB.API.UserService.Application.Mappings
 {
     public class UserRegisterDTOMapping : Profile
     {
