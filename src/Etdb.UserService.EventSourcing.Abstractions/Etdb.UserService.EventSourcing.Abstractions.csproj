@@ -5,12 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="Etdb.ServiceBase.EventSourcing" Version="1.0.15" />
     <PackageReference Include="Etdb.ServiceBase.EventSourcing.Abstractions" Version="1.0.12" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Domain\Etdb.UserService.Domain.csproj" />
+    <ProjectReference Include="..\Etdb.UserService.Repositories.Abstractions\Etdb.UserService.Repositories.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Etdb.ServiceBase.EventSourcing.Abstractions.Commands;
 using Etdb.UserService.Domain.Entities;
 
-namespace Etdb.UserService.EventSourcing.Commands
+namespace Etdb.UserService.EventSourcing.Abstractions.Commands
 {
     public abstract class UserCommand<TResponse> : TransactionCommand<TResponse> where TResponse : class
     {

@@ -44,11 +44,5 @@ namespace Etdb.UserService.Presentation.DTO
             get;
             set;
         }
-
-        public ICollection<UserSecurityrole> UserSecurityroles
-        {
-            get;
-            set;
-        }
     }
 }

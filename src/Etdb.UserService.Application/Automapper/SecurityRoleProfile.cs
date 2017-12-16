@@ -2,11 +2,11 @@
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Presentation.DTO;
 
-namespace Etdb.UserService.Application.Mappings
+namespace Etdb.UserService.Application.Automapper
 {
-    public class SecurityRoleMapping : Profile
+    public class SecurityRoleProfile : Profile
     {
-        public SecurityRoleMapping()
+        public SecurityRoleProfile()
         {
             this.CreateMap<Securityrole, SecurityRoleDTO>()
                 .ReverseMap();

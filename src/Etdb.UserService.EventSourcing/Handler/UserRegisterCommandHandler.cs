@@ -42,8 +42,6 @@ namespace Etdb.UserService.EventSourcing.Handler
         {
             if (!this.validation.IsValid(request, out var validationResult))
             {
-                this.NotifyValidationErrors(request, validationResult);
-
                 throw new CommandValidationException("Error validating user registration", 
                     validationResult.Errors.Select(error => error.ErrorMessage).ToArray());
             }

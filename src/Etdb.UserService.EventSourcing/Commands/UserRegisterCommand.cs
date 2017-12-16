@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.EventSourcing.Abstractions.Commands;
 using Etdb.UserService.Presentation.DTO;
 
 namespace Etdb.UserService.EventSourcing.Commands

@@ -14,12 +14,14 @@
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
-    <PackageReference Include="Etdb.ServiceBase.Builder" Version="1.0.4" />
+    <PackageReference Include="Etdb.ServiceBase.Builder" Version="1.0.5" />
     <PackageReference Include="Etdb.ServiceBase.General" Version="1.0.1" />
     <PackageReference Include="IdentityServer4" Version="2.0.5" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.2.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="4.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
+    <PackageReference Include="Serilog.AspNetCore" Version="2.1.0" />
+    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="1.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="1.1.0" />
   </ItemGroup>

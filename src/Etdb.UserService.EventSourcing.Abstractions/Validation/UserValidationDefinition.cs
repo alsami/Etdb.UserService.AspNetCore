@@ -1,10 +1,10 @@
 ﻿using System;
 using Etdb.ServiceBase.EventSourcing.Validation;
-using Etdb.UserService.EventSourcing.Commands;
+using Etdb.UserService.EventSourcing.Abstractions.Commands;
 using Etdb.UserService.Repositories.Abstractions;
 using FluentValidation;
 
-namespace Etdb.UserService.EventSourcing.Validation
+namespace Etdb.UserService.EventSourcing.Abstractions.Validation
 {
     public abstract class UserValidationDefinition<TTransactionCommand, TResponse> : CommandValidation<TTransactionCommand, TResponse>
         where TTransactionCommand: UserCommand<TResponse>

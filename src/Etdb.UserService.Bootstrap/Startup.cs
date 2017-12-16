@@ -4,6 +4,7 @@ using Autofac;
 using AutoMapper;
 using Etdb.ServiceBase.Builder.Builder;
 using Etdb.ServiceBase.Constants;
+using Etdb.ServiceBase.General.Abstractions.Filters;
 using Etdb.ServiceBase.General.Abstractions.Hasher;
 using Etdb.ServiceBase.General.Hasher;
 using Etdb.UserService.Application.Config;
@@ -35,7 +36,7 @@ namespace Etdb.UserService.Bootstrap
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IConfigurationRoot configurationRoot;
 
-        private const string SwaggerDocDescription = "ETDB " + ServiceNames.UserService + " V1";
+        private const string SwaggerDocDescription = "Etdb " + ServiceNames.UserService + " V1";
         private const string SwaggerDocVersion = "v1";
         private const string SwaggerDocJsonUri = "/swagger/v1/swagger.json";
 
@@ -45,11 +46,7 @@ namespace Etdb.UserService.Bootstrap
 
         private const string ApplicationAssemblyPrefix = "Etdb.UserService";
 
-        private const string MediatorAssemblyPrefix = "Etdb.ServiceBase";
-
-        private readonly Assembly[] applicatiAssemblies;
-
-        private readonly Assembly[] mediatorAssemblies;
+        private readonly Assembly[] applicationAssemblies;
 
         public Startup(IHostingEnvironment hostingEnvironment)
         {
@@ -63,19 +60,11 @@ namespace Etdb.UserService.Bootstrap
 
             this.configurationRoot = builder.Build();
 
-            this.applicatiAssemblies = DependencyContext
+            this.applicationAssemblies = DependencyContext
                 .Default
                 .CompileLibraries
                 .SelectMany(lib => lib.Assemblies)
                 .Where(assemblyName => assemblyName.StartsWith(Startup.ApplicationAssemblyPrefix))
-                .Select(assemblyName => Assembly.Load(assemblyName.Replace(".dll", "")))
-                .ToArray();
-
-            this.mediatorAssemblies = DependencyContext
-                .Default
-                .CompileLibraries
-                .SelectMany(lib => lib.Assemblies)
-                .Where(assemblyName => assemblyName.StartsWith(Startup.MediatorAssemblyPrefix))
                 .Select(assemblyName => Assembly.Load(assemblyName.Replace(".dll", "")))
                 .ToArray();
         }
@@ -88,7 +77,11 @@ namespace Etdb.UserService.Bootstrap
                     .RequireAuthenticatedUser()
                     .Build()));
 
-                options.Filters.Add(new DbUpdateExceptionFilter());
+                options.Filters.Add(typeof(GeneralExceptionFilter));
+                options.Filters.Add(typeof(CommandValidationExceptionFilter));
+                options.Filters.Add(typeof(ModelStateValidationExceptionFilter));
+                options.Filters.Add(typeof(ConcurrencyExceptionFilter));
+
             }).AddJsonOptions(options =>
             {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -134,9 +127,9 @@ namespace Etdb.UserService.Bootstrap
             .Configure<MvcOptions>(options => 
                 options.Filters.Add(new CorsAuthorizationFilterFactory(Startup.CorsPolicyName)));
 
-            services.AddMediatR(this.applicatiAssemblies);
+            services.AddMediatR(this.applicationAssemblies);
 
-            services.AddAutoMapper(this.applicatiAssemblies);
+            services.AddAutoMapper(this.applicationAssemblies);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -160,8 +153,8 @@ namespace Etdb.UserService.Bootstrap
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
             new ServiceContainerBuilder(containerBuilder)
-                .UseEventSourcing<UserServiceContext, EventStoreContext>(this.applicatiAssemblies)
-                .UseGenericRepositoryPattern<UserServiceContext>(this.applicatiAssemblies)
+                .UseEventSourcing<UserServiceContext, EventStoreContext>(this.applicationAssemblies)
+                .UseGenericRepositoryPattern<UserServiceContext>(this.applicationAssemblies)
                 .UseEnvironment(this.hostingEnvironment)
                 .UseConfiguration(this.configurationRoot)
                 .RegisterTypePerDependency<Hasher, IHasher>()

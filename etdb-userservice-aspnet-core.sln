@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Controller
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Repositories.Abstractions", "src\Etdb.UserService.Repositories.Abstractions\Etdb.UserService.Repositories.Abstractions.csproj", "{AFE591AC-69E5-4E73-993E-855B0C929D6B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.EventSourcing.Abstractions", "src\Etdb.UserService.EventSourcing.Abstractions\Etdb.UserService.EventSourcing.Abstractions.csproj", "{166A7865-9F46-4766-A02F-6396FDAE967F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{AFE591AC-69E5-4E73-993E-855B0C929D6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFE591AC-69E5-4E73-993E-855B0C929D6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFE591AC-69E5-4E73-993E-855B0C929D6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{166A7865-9F46-4766-A02F-6396FDAE967F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{166A7865-9F46-4766-A02F-6396FDAE967F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{166A7865-9F46-4766-A02F-6396FDAE967F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{166A7865-9F46-4766-A02F-6396FDAE967F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +101,7 @@ Global
 		{480E206E-478E-4666-B3FA-8989D94D4F9D} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{BE0BC116-0658-4516-B0EB-DD3C9706D65D} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{AFE591AC-69E5-4E73-993E-855B0C929D6B} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
+		{166A7865-9F46-4766-A02F-6396FDAE967F} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {39A620F8-72B1-4D11-8393-8263B92F8704}
