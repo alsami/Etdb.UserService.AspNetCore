@@ -3,15 +3,17 @@ using Etdb.UserService.Repositories.Abstractions;
 
 namespace Etdb.UserService.EventSourcing.Validation
 {
-    public abstract class UserCommandValidation : UserValidation<UserCommand>
+    public abstract class UserCommandValidation<TTransactionCommand, TResponse> : UserValidationDefinition<TTransactionCommand, TResponse>
+        where TTransactionCommand : UserCommand<TResponse>
+        where TResponse : class
     {
         protected UserCommandValidation(IUserRepository userRepository) : base(userRepository)
         {
-            this.ValidateUserName();
-            this.ValidateName();
-            this.ValidateLastName();
-            this.ValidateEmail();
-            this.ValidatePassword();
+            this.RegisterUserNameRule();
+            this.RegisterNameRule();
+            this.RegisterLastNameRule();
+            this.RegisterEmailRule();
+            this.RegisterPasswordRule();
         }
     }
 }

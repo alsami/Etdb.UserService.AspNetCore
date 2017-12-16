@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Presentation.DTO;
 
 namespace Etdb.UserService.EventSourcing.Commands
 {
-    public class UserRegisterCommand : UserCommand
+    public class UserRegisterCommand : UserCommand<UserDTO>
     {
         public UserRegisterCommand(string name, string lastName, string email, string userName, string password)
         {

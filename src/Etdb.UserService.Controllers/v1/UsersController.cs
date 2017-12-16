@@ -11,48 +11,28 @@ using Etdb.UserService.Presentation.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Etdb.UserService.Controller.v1
+namespace Etdb.UserService.Controllers.v1
 {
     [Route("api/v1/[controller]")]
-    public class UsersController : EventSourcingController
+    public class UsersController : Controller
     {
         private readonly IMapper mapper;
         private readonly IMediatorHandler mediator;
-        private readonly IEntityRepository<User> userBaseRepository;
 
         public UsersController(IMapper mapper,
-            IMediatorHandler mediator,
-            IDomainNotificationHandler<DomainNotification> notifications,
-            IEntityRepository<User> userBaseRepository) : base(notifications)
+            IMediatorHandler mediator)
         {
             this.mapper = mapper;
             this.mediator = mediator;
-            this.userBaseRepository = userBaseRepository;
-        }
-
-        [AllowAnonymous]
-        [HttpGet("{id:Guid}")]
-        public UserDTO GetUser(Guid id)
-        {
-            var requestedUser = this.userBaseRepository
-                .Get(id, user => user.UserSecurityroles);
-
-            if (requestedUser == null)
-            {
-                // TODO
-                throw new Exception("");
-            }
-
-            return this.mapper.Map<UserDTO>(requestedUser);
         }
 
         [AllowAnonymous]
         [HttpPost("registration")]
-        public IActionResult Registration([FromBody] UserRegisterDTO userRegisterDTO)
+        public UserDTO Registration([FromBody] UserRegisterDTO userRegisterDTO)
         {
             var registerCommand = this.mapper.Map<UserRegisterCommand>(userRegisterDTO);
-            this.mediator.SendCommand(registerCommand);
-            return this.ExecuteResult();
+            var task = this.mediator.SendCommand<UserRegisterCommand, UserDTO>(registerCommand);
+            return task.Result;
         }
     }
 }

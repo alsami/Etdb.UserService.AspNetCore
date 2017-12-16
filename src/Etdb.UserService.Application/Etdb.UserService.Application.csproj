@@ -6,12 +6,14 @@
 
   <ItemGroup>
     <PackageReference Include="Etdb.ServiceBase.Constants" Version="1.0.5" />
-    <PackageReference Include="Etdb.ServiceBase.General.Abstractions" Version="1.0.1" />
-    <PackageReference Include="IdentityServer4" Version="2.0.4" />
+    <PackageReference Include="Etdb.ServiceBase.General.Abstractions" Version="1.0.2" />
+    <PackageReference Include="IdentityServer4" Version="2.0.5" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Etdb.UserService.EventSourcing\Etdb.UserService.EventSourcing.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Presentation\Etdb.UserService.Presentation.csproj" />
+    <ProjectReference Include="..\Etdb.UserService.Repositories.Abstractions\Etdb.UserService.Repositories.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

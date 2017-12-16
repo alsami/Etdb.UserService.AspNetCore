@@ -6,23 +6,25 @@ using FluentValidation;
 
 namespace Etdb.UserService.EventSourcing.Validation
 {
-    public abstract class UserValidation<TCommand> : CommandValidation<TCommand> where TCommand : UserCommand
+    public abstract class UserValidationDefinition<TTransactionCommand, TResponse> : CommandValidation<TTransactionCommand, TResponse>
+        where TTransactionCommand: UserCommand<TResponse>
+        where TResponse : class
     {
         private readonly IUserRepository userRepository;
 
-        protected UserValidation(IUserRepository userRepository)
+        protected UserValidationDefinition(IUserRepository userRepository)
         {
             this.userRepository = userRepository;
         }
 
-        protected void ValidateUserNameAndEmailNotTaken()
+        protected void RegisterUserNameAndEmailNotTakenRule()
         {
             this.RuleFor(user => user)
                 .Must(this.IsUnique)
                 .WithMessage("Username or email addresss already taken!");
         }
 
-        protected void ValidateUserName()
+        protected void RegisterUserNameRule()
         {
             this.RuleFor(user => user.UserName)
                 .NotEmpty()
@@ -38,7 +40,7 @@ namespace Etdb.UserService.EventSourcing.Validation
                 .WithMessage("Username may not be longer than 32 characters");
         }
 
-        protected void ValidateEmail()
+        protected void RegisterEmailRule()
         {
             this.RuleFor(user => user.Email)
                 .NotEmpty()
@@ -49,7 +51,7 @@ namespace Etdb.UserService.EventSourcing.Validation
                 .WithMessage("Email must be valid!");
         }
 
-        protected void ValidateName()
+        protected void RegisterNameRule()
         {
             this.RuleFor(user => user.Name)
                 .NotEmpty()
@@ -57,7 +59,7 @@ namespace Etdb.UserService.EventSourcing.Validation
                 .WithMessage("Name must be given!");
         }
 
-        protected void ValidateLastName()
+        protected void RegisterLastNameRule()
         {
             this.RuleFor(user => user.LastName)
                 .NotEmpty()
@@ -65,7 +67,7 @@ namespace Etdb.UserService.EventSourcing.Validation
                 .WithMessage("Lastname must be given!");
         }
 
-        protected void ValidatePassword()
+        protected void RegisterPasswordRule()
         {
             this.RuleFor(user => user.Password)
                 .NotEmpty()
@@ -75,7 +77,7 @@ namespace Etdb.UserService.EventSourcing.Validation
                 .WithMessage("Password must have 8 to 64 characters");
         }
 
-        protected void ValidateRowVersion()
+        protected void RegisterRowVersionRule()
         {
             this.RuleFor(user => user.RowVersion)
                 .NotEmpty()
@@ -83,7 +85,7 @@ namespace Etdb.UserService.EventSourcing.Validation
                 .WithMessage("Concurrency token must be given!");
         }
 
-        private bool IsUnique(UserCommand command)
+        private bool IsUnique(UserCommand<TResponse> command)
         {
             var existingUser = this.userRepository
                 .Find(command.UserName, command.Email);
