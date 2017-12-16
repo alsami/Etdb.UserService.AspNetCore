@@ -1,7 +1,7 @@
 ﻿using System;
 using ETDB.API.ServiceBase.Domain.Abstractions.Base;
 
-namespace ETDB.API.UserService.Domain.Entities
+namespace Etdb.UserService.Domain.Entities
 {
     public class UserSecurityrole : Entity
     {

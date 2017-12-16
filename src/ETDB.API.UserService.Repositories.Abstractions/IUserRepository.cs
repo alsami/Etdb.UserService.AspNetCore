@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
+using Etdb.UserService.Domain.Entities;
 using ETDB.API.ServiceBase.Repositories.Abstractions.Generics;
-using ETDB.API.UserService.Domain.Entities;
 
-namespace ETDB.API.UserService.Repositories.Abstractions
+namespace Etdb.UserService.Repositories.Abstractions
 {
     public interface IUserRepository : IEntityRepository<User>
     {

@@ -1,4 +1,4 @@
-﻿namespace ETDB.API.UserService.Presentation.DTO
+﻿namespace Etdb.UserService.Presentation.DTO
 {
     public class UserRegisterDTO
     {

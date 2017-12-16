@@ -1,10 +1,10 @@
 ﻿using System;
+using Etdb.UserService.Data.EntityMaps;
 using ETDB.API.ServiceBase.Repositories.Abstractions.Base;
-using ETDB.API.UserService.Data.EntityMaps;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace ETDB.API.UserService.Data
+namespace Etdb.UserService.Data
 {
     public class UserServiceContext : AppContextBase
     {

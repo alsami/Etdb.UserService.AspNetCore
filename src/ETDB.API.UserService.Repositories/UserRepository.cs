@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Repositories.Abstractions;
 using ETDB.API.ServiceBase.Constants;
 using ETDB.API.ServiceBase.Repositories.Abstractions.Base;
 using ETDB.API.ServiceBase.Repositories.Generics;
-using ETDB.API.UserService.Domain.Entities;
-using ETDB.API.UserService.Repositories.Abstractions;
 using IdentityModel;
 
-namespace ETDB.API.UserService.Repositories
+namespace Etdb.UserService.Repositories
 {
     public class UserRepository : EntityRepository<User>, IUserRepository
     {

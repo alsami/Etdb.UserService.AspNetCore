@@ -1,9 +1,9 @@
-﻿using ETDB.API.ServiceBase.Repositories.Abstractions.Base;
+﻿using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Repositories.Abstractions;
+using ETDB.API.ServiceBase.Repositories.Abstractions.Base;
 using ETDB.API.ServiceBase.Repositories.Generics;
-using ETDB.API.UserService.Domain.Entities;
-using ETDB.API.UserService.Repositories.Abstractions;
 
-namespace ETDB.API.UserService.Repositories
+namespace Etdb.UserService.Repositories
 {
     public class SecurityRoleRepository : EntityRepository<Securityrole>, ISecurityRoleRepository
     {

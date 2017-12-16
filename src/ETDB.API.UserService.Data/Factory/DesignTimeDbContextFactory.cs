@@ -3,7 +3,7 @@ using System.IO;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace ETDB.API.UserService.Data.Factory
+namespace Etdb.UserService.Data.Factory
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<UserServiceContext>
     {

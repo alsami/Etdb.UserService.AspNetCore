@@ -1,10 +1,10 @@
 ﻿using System;
+using Etdb.UserService.EventSourcing.Commands;
+using Etdb.UserService.Repositories.Abstractions;
 using ETDB.API.ServiceBase.EventSourcing.Validation;
-using ETDB.API.UserService.EventSourcing.Commands;
-using ETDB.API.UserService.Repositories.Abstractions;
 using FluentValidation;
 
-namespace ETDB.API.UserService.EventSourcing.Validation
+namespace Etdb.UserService.EventSourcing.Validation
 {
     public abstract class UserValidation<TCommand> : CommandValidation<TCommand> where TCommand : UserCommand
     {

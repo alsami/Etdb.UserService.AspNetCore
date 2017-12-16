@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Etdb.UserService.Data;
+using Etdb.UserService.Domain.Entities;
 using ETDB.API.ServiceBase.General.Abstractions.Hasher;
 using ETDB.API.ServiceBase.General.Hasher;
-using ETDB.API.UserService.Data;
-using ETDB.API.UserService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ETDB.API.UserService.Scaffold
+namespace Etdb.UserService.Scaffold
 {
     public class Program
     {

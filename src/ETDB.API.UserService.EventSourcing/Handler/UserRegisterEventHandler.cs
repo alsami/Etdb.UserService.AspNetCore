@@ -1,7 +1,7 @@
-﻿using ETDB.API.ServiceBase.EventSourcing.Handler;
-using ETDB.API.UserService.EventSourcing.Events;
+﻿using Etdb.UserService.EventSourcing.Events;
+using ETDB.API.ServiceBase.EventSourcing.Handler;
 
-namespace ETDB.API.UserService.EventSourcing.Handler
+namespace Etdb.UserService.EventSourcing.Handler
 {
     public class UserRegisterEventHandler : DomainEventHandler<UserRegisterEvent>
     {

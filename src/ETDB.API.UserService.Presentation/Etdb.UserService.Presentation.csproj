@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ETDB.API.UserService.EventSourcing\ETDB.API.UserService.EventSourcing.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.EventSourcing\Etdb.UserService.EventSourcing.csproj" />
   </ItemGroup>
 
 </Project>

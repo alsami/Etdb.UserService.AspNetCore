@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
+using Etdb.UserService.Repositories.Abstractions;
 using ETDB.API.ServiceBase.General.Abstractions.Hasher;
-using ETDB.API.UserService.Repositories.Abstractions;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 
-namespace ETDB.API.UserService.Application.Validators
+namespace Etdb.UserService.Application.Validators
 {
     public class ResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {

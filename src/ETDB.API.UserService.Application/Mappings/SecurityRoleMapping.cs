@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using ETDB.API.UserService.Domain.Entities;
-using ETDB.API.UserService.Presentation.DTO;
+using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Presentation.DTO;
 
-namespace ETDB.API.UserService.Application.Mappings
+namespace Etdb.UserService.Application.Mappings
 {
     public class SecurityRoleMapping : Profile
     {

@@ -1,8 +1,8 @@
-﻿using ETDB.API.UserService.EventSourcing.Commands;
-using ETDB.API.UserService.Repositories.Abstractions;
+﻿using Etdb.UserService.EventSourcing.Commands;
+using Etdb.UserService.Repositories.Abstractions;
 using FluentValidation.Results;
 
-namespace ETDB.API.UserService.EventSourcing.Validation
+namespace Etdb.UserService.EventSourcing.Validation
 {
     public class UserRegisterCommandValidation : UserCommandValidation
     {

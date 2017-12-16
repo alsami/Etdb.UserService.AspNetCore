@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Etdb.UserService.Domain.Entities;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Commands;
-using ETDB.API.UserService.Domain.Entities;
 
-namespace ETDB.API.UserService.EventSourcing.Commands
+namespace Etdb.UserService.EventSourcing.Commands
 {
     public abstract class UserCommand : SourcingCommand
     {

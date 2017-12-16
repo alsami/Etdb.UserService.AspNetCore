@@ -1,17 +1,17 @@
 ﻿using System;
+using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.EventSourcing.Commands;
+using Etdb.UserService.EventSourcing.Events;
+using Etdb.UserService.EventSourcing.Validation;
+using Etdb.UserService.Repositories.Abstractions;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Base;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Bus;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Handler;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Notifications;
 using ETDB.API.ServiceBase.EventSourcing.Handler;
 using ETDB.API.ServiceBase.General.Abstractions.Hasher;
-using ETDB.API.UserService.Domain.Entities;
-using ETDB.API.UserService.EventSourcing.Commands;
-using ETDB.API.UserService.EventSourcing.Events;
-using ETDB.API.UserService.EventSourcing.Validation;
-using ETDB.API.UserService.Repositories.Abstractions;
 
-namespace ETDB.API.UserService.EventSourcing.Handler
+namespace Etdb.UserService.EventSourcing.Handler
 {
     public class UserRegisterCommandHandler : CommandHandler<UserRegisterCommand>
     {

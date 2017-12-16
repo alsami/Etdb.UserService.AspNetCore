@@ -1,9 +1,6 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace ETDB.API.UserService.Application.ExceptionFilter
+namespace Etdb.UserService.Application.ExceptionFilter
 {
     public class DbUpdateExceptionFilter : IExceptionFilter
     {

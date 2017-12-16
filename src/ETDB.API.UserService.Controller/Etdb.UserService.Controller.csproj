@@ -11,10 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ETDB.API.UserService.Application\ETDB.API.UserService.Application.csproj" />
-    <ProjectReference Include="..\ETDB.API.UserService.Domain\ETDB.API.UserService.Domain.csproj" />
-    <ProjectReference Include="..\ETDB.API.UserService.EventSourcing\ETDB.API.UserService.EventSourcing.csproj" />
-    <ProjectReference Include="..\ETDB.API.UserService.Presentation\ETDB.API.UserService.Presentation.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.Application\Etdb.UserService.Application.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.Domain\Etdb.UserService.Domain.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.EventSourcing\Etdb.UserService.EventSourcing.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.Presentation\Etdb.UserService.Presentation.csproj" />
   </ItemGroup>
 
 </Project>

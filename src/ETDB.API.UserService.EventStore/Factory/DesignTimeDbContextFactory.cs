@@ -3,7 +3,7 @@ using System.IO;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-namespace ETDB.API.UserService.EventStore.Factory
+namespace Etdb.UserService.EventStore.Factory
 {
     public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<EventStoreContext>
     {

@@ -1,8 +1,8 @@
-﻿using ETDB.API.ServiceBase.Repositories.Abstractions.Base;
-using ETDB.API.UserService.Domain.Entities;
+﻿using Etdb.UserService.Domain.Entities;
+using ETDB.API.ServiceBase.Repositories.Abstractions.Base;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace ETDB.API.UserService.Data.EntityMaps
+namespace Etdb.UserService.Data.EntityMaps
 {
     internal class UserSecurityroleMap : EntityMapBase<UserSecurityrole>
     {

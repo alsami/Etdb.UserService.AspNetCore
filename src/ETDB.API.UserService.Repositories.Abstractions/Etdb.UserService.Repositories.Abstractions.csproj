@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ETDB.API.UserService.Domain\ETDB.API.UserService.Domain.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.Domain\Etdb.UserService.Domain.csproj" />
   </ItemGroup>
 
 </Project>

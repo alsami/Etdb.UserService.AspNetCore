@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Presentation.DTO.Base;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Base;
-using ETDB.API.UserService.Presentation.DTO.Base;
-using ETDB.API.UserService.Domain.Entities;
 
-namespace ETDB.API.UserService.Presentation.DTO
+namespace Etdb.UserService.Presentation.DTO
 {
     public class UserDTO : IDataTransferObject, IEventSourcingDTO
     {

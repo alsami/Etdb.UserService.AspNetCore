@@ -29,11 +29,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ETDB.API.UserService.Application\ETDB.API.UserService.Application.csproj" />
-    <ProjectReference Include="..\ETDB.API.UserService.Controller\ETDB.API.UserService.Controller.csproj" />
-    <ProjectReference Include="..\ETDB.API.UserService.Data\ETDB.API.UserService.Data.csproj" />
-    <ProjectReference Include="..\ETDB.API.UserService.EventStore\ETDB.API.UserService.EventStore.csproj" />
-    <ProjectReference Include="..\ETDB.API.UserService.Presentation\ETDB.API.UserService.Presentation.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.Application\Etdb.UserService.Application.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.Controller\Etdb.UserService.Controller.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.Data\Etdb.UserService.Data.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.EventStore\Etdb.UserService.EventStore.csproj" />
+    <ProjectReference Include="..\ETDB.API.UserService.Presentation\Etdb.UserService.Presentation.csproj" />
   </ItemGroup>
 
 </Project>

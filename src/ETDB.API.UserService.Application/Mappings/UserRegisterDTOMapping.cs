@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using ETDB.API.UserService.EventSourcing.Commands;
-using ETDB.API.UserService.Presentation.DTO;
+using Etdb.UserService.EventSourcing.Commands;
+using Etdb.UserService.Presentation.DTO;
 
-namespace ETDB.API.UserService.Application.Mappings
+namespace Etdb.UserService.Application.Mappings
 {
     public class UserRegisterDTOMapping : Profile
     {

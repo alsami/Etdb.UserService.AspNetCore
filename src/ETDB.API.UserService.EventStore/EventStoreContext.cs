@@ -3,7 +3,7 @@ using ETDB.API.ServiceBase.EventSourcing.Abstractions.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace ETDB.API.UserService.EventStore
+namespace Etdb.UserService.EventStore
 {
     public class EventStoreContext : EventStoreContextBase
     {

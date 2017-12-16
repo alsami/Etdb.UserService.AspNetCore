@@ -1,7 +1,7 @@
-﻿using ETDB.API.ServiceBase.Repositories.Abstractions.Generics;
-using ETDB.API.UserService.Domain.Entities;
+﻿using Etdb.UserService.Domain.Entities;
+using ETDB.API.ServiceBase.Repositories.Abstractions.Generics;
 
-namespace ETDB.API.UserService.Repositories.Abstractions
+namespace Etdb.UserService.Repositories.Abstractions
 {
     public interface ISecurityRoleRepository : IEntityRepository<Securityrole>
     {

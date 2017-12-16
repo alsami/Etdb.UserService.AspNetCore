@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ETDB.API.UserService.Presentation.DTO.Base
+namespace Etdb.UserService.Presentation.DTO.Base
 {
     public interface IDataTransferObject
     {

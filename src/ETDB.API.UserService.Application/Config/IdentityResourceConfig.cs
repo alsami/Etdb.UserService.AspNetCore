@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using IdentityServer4.Models;
 
-namespace ETDB.API.UserService.Application.Config
+namespace Etdb.UserService.Application.Config
 {
     public class IdentityResourceConfig
     {

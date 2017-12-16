@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Etdb.UserService.Domain.Entities;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Events;
-using ETDB.API.UserService.Domain.Entities;
 
-namespace ETDB.API.UserService.EventSourcing.Events
+namespace Etdb.UserService.EventSourcing.Events
 {
     public class UserRegisterEvent : Event
     {

@@ -2,15 +2,16 @@
 using System.Reflection;
 using Autofac;
 using AutoMapper;
+using Etdb.UserService.Application.Config;
+using Etdb.UserService.Application.ExceptionFilter;
+using Etdb.UserService.Application.Services;
+using Etdb.UserService.Application.Validators;
+using Etdb.UserService.Data;
+using Etdb.UserService.EventStore;
 using ETDB.API.ServiceBase.Builder.Builder;
 using ETDB.API.ServiceBase.Constants;
 using ETDB.API.ServiceBase.General.Abstractions.Hasher;
 using ETDB.API.ServiceBase.General.Hasher;
-using ETDB.API.UserService.Application.Config;
-using ETDB.API.UserService.Application.ExceptionFilter;
-using ETDB.API.UserService.Application.Services;
-using ETDB.API.UserService.Application.Validators;
-using ETDB.API.UserService.Data;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using MediatR;
@@ -26,9 +27,8 @@ using Microsoft.Extensions.DependencyModel;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
-using ETDB.API.UserService.EventStore;
 
-namespace ETDB.API.UserService.Bootstrap
+namespace Etdb.UserService.Bootstrap
 {
     public class Startup
     {
@@ -43,9 +43,9 @@ namespace ETDB.API.UserService.Bootstrap
 
         private const string AuthenticationSchema = "Bearer";
 
-        private const string ApplicationAssemblyPrefix = "ETDB.API.UserService";
+        private const string ApplicationAssemblyPrefix = "Etdb.UserService";
 
-        private const string MediatorAssemblyPrefix = "ETDB.API.ServiceBase";
+        private const string MediatorAssemblyPrefix = "Etdb.ServiceBase";
 
         private readonly Assembly[] applicatiAssemblies;
 

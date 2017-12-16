@@ -1,7 +1,7 @@
-﻿using ETDB.API.UserService.EventSourcing.Commands;
-using ETDB.API.UserService.Repositories.Abstractions;
+﻿using Etdb.UserService.EventSourcing.Commands;
+using Etdb.UserService.Repositories.Abstractions;
 
-namespace ETDB.API.UserService.EventSourcing.Validation
+namespace Etdb.UserService.EventSourcing.Validation
 {
     public abstract class UserCommandValidation : UserValidation<UserCommand>
     {

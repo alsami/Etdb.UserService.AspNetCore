@@ -1,17 +1,17 @@
 ﻿using System;
 using AutoMapper;
+using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.EventSourcing.Commands;
+using Etdb.UserService.Presentation.DTO;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Base;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Bus;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Handler;
 using ETDB.API.ServiceBase.EventSourcing.Abstractions.Notifications;
 using ETDB.API.ServiceBase.Repositories.Abstractions.Generics;
-using ETDB.API.UserService.Domain.Entities;
-using ETDB.API.UserService.EventSourcing.Commands;
-using ETDB.API.UserService.Presentation.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ETDB.API.UserService.Controller.v1
+namespace Etdb.UserService.Controller.v1
 {
     [Route("api/v1/[controller]")]
     public class UsersController : EventSourcingController

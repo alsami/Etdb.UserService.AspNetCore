@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace ETDB.API.UserService.Bootstrap
+namespace Etdb.UserService.Bootstrap
 {
     public class Program
     {

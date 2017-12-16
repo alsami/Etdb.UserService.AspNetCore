@@ -1,7 +1,7 @@
 ﻿using System;
-using ETDB.API.UserService.Presentation.DTO.Base;
+using Etdb.UserService.Presentation.DTO.Base;
 
-namespace ETDB.API.UserService.Presentation.DTO
+namespace Etdb.UserService.Presentation.DTO
 {
     public class SecurityRoleDTO : IDataTransferObject
     {

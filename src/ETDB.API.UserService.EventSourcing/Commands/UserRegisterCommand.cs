@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using ETDB.API.UserService.Domain.Entities;
+using Etdb.UserService.Domain.Entities;
 
-namespace ETDB.API.UserService.EventSourcing.Commands
+namespace Etdb.UserService.EventSourcing.Commands
 {
     public class UserRegisterCommand : UserCommand
     {
