@@ -48,6 +48,7 @@ namespace Etdb.UserService.Application.Config
                     AlwaysIncludeUserClaimsInIdToken = true,
                     RefreshTokenUsage = TokenUsage.OneTimeOnly,
                     RefreshTokenExpiration = TokenExpiration.Sliding,
+                    
                 }
             };
         }

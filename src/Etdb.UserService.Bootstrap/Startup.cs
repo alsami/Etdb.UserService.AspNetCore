@@ -161,7 +161,7 @@ namespace Etdb.UserService.Bootstrap
                 .UseGenericRepositoryPattern<UserServiceContext>(this.applicationAssemblies)
                 .UseEnvironment(this.hostingEnvironment)
                 .UseConfiguration(this.configurationRoot)
-                .RegisterTypePerDependency<Hasher, IHasher>()
+                .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypePerLifetimeScope<ResourceOwnerPasswordValidator, IResourceOwnerPasswordValidator>()
                 .RegisterTypePerLifetimeScope<ProfileService, IProfileService>();
         }

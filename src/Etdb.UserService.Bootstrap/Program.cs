@@ -3,6 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace Etdb.UserService.Bootstrap
 {
@@ -16,6 +17,8 @@ namespace Etdb.UserService.Bootstrap
                 .MinimumLevel.Debug()
                 .Enrich.FromLogContext()
                 .WriteTo.RollingFile(LogPath)
+                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", 
+                    theme: AnsiConsoleTheme.Literate)
                 .CreateLogger();
 
             BuildWebHost(args).Run();
