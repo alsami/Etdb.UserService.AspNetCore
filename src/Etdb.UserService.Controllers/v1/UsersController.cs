@@ -49,20 +49,12 @@ namespace Etdb.UserService.Controllers.v1
         }
 
         [AllowAnonymous]
-        [HttpPut]
-        public UserDTO Update([FromBody] UserDTO userDTO)
+        [HttpPut("update")]
+        public async Task<UserDTO> Update([FromBody] UserDTO userDTO)
         {
-            var existingUser = this.userRepository.Get(userDTO.Id);
-
-            if (userDTO.ConccurencyToken != existingUser.RowVersion)
-            {
-                throw new ConcurrencyException("", this.mapper.Map<UserDTO>(existingUser));
-            }
-
-            this.mapper.Map(userDTO, existingUser);
-            this.userRepository.Edit(existingUser);
-            this.userRepository.EnsureChanges();
-            return this.mapper.Map<UserDTO>(existingUser);
+            var updateCommand = this.mapper.Map<UserUpdateCommand>(userDTO);
+            var user = await this.mediator.SendCommandAsync<UserUpdateCommand, UserDTO>(updateCommand);
+            return user;
         }
     }
 }

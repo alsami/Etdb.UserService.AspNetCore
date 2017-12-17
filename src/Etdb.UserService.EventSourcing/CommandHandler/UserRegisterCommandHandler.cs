@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Etdb.ServiceBase.EventSourcing.Abstractions.Base;
 using Etdb.ServiceBase.EventSourcing.Abstractions.Bus;
-using Etdb.ServiceBase.EventSourcing.Abstractions.Handler;
-using Etdb.ServiceBase.EventSourcing.Abstractions.Notifications;
 using Etdb.ServiceBase.EventSourcing.Handler;
 using Etdb.ServiceBase.General.Abstractions.Exceptions;
 using Etdb.ServiceBase.General.Abstractions.Hasher;
@@ -18,10 +14,8 @@ using Etdb.UserService.EventSourcing.Events;
 using Etdb.UserService.EventSourcing.Validation;
 using Etdb.UserService.Presentation.DTO;
 using Etdb.UserService.Repositories.Abstractions;
-using FluentValidation;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace Etdb.UserService.EventSourcing.Handler
+namespace Etdb.UserService.EventSourcing.CommandHandler
 {
     public class UserRegisterCommandHandler : TransactionHandler<UserRegisterCommand, UserDTO>
     {
@@ -50,8 +44,9 @@ namespace Etdb.UserService.EventSourcing.Handler
 
             var salt = this.hasher.GenerateSalt();
 
-            var user = new User(Guid.NewGuid(), request.Name, request.LastName, request.Email,
-                request.UserName, this.hasher.CreateSaltedHash(request.Password, salt), salt);
+            var user = this.mapper.Map<User>(request);
+            user.Password = this.hasher.CreateSaltedHash(request.Password, salt);
+            user.Salt = salt;
 
             this.userRepository.Register(user);
 

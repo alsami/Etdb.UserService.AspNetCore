@@ -6,7 +6,7 @@ using Etdb.UserService.Presentation.DTO.Base;
 
 namespace Etdb.UserService.Presentation.DTO
 {
-    public class UserDTO : IDataTransferObject, IEventSourcingDTO
+    public class UserDTO : IDataTransferObject
     {
         public Guid Id
         {

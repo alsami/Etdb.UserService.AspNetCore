@@ -1,10 +1,9 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.EventSourcing.Handler;
 using Etdb.UserService.EventSourcing.Events;
 
-namespace Etdb.UserService.EventSourcing.Handler
+namespace Etdb.UserService.EventSourcing.EventHandler
 {
     public class UserRegisterEventHandler : DomainEventHandler<UserRegisterEvent>
     {

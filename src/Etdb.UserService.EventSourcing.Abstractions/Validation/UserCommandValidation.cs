@@ -1,5 +1,6 @@
 ﻿using Etdb.UserService.EventSourcing.Abstractions.Commands;
 using Etdb.UserService.Repositories.Abstractions;
+using FluentValidation.Results;
 
 namespace Etdb.UserService.EventSourcing.Abstractions.Validation
 {
@@ -10,10 +11,13 @@ namespace Etdb.UserService.EventSourcing.Abstractions.Validation
         protected UserCommandValidation(IUserRepository userRepository) : base(userRepository)
         {
             this.RegisterUserNameRule();
-            this.RegisterNameRule();
-            this.RegisterLastNameRule();
             this.RegisterEmailRule();
-            this.RegisterPasswordRule();
+        }
+
+        public override bool IsValid(TTransactionCommand sourcingCommand, out ValidationResult validationResult)
+        {
+            validationResult = this.Validate(sourcingCommand);
+            return validationResult.IsValid;
         }
     }
 }

@@ -8,6 +8,7 @@ using Etdb.ServiceBase.Repositories.Generics;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Repositories.Abstractions;
 using IdentityModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace Etdb.UserService.Repositories
 {
@@ -44,13 +45,30 @@ namespace Etdb.UserService.Repositories
             claims.AddRange(new[]
             {
                 new Claim(JwtClaimTypes.PreferredUserName, user.UserName),
-                new Claim(JwtClaimTypes.Name, $"{user.Name} {user.LastName}"),
-                new Claim(JwtClaimTypes.GivenName, user.Name),
-                new Claim(JwtClaimTypes.FamilyName, user.LastName),
                 new Claim(JwtClaimTypes.Email, user.Email),
             });
 
+            if (user.Name != null && user.LastName != null)
+            {
+                claims.AddRange(new []
+                {
+                    new Claim(JwtClaimTypes.Name, $"{user.Name} {user.LastName}"),
+                    new Claim(JwtClaimTypes.GivenName, user.Name),
+                    new Claim(JwtClaimTypes.FamilyName, user.LastName),
+                });
+            }
+
             return claims;
+        }
+
+        public User FindWithIncludes(Guid id)
+        {
+            var existingUser = this.GetQueryable()
+                .Include(user => user.UserSecurityroles)
+                .ThenInclude(userSecurityRole => userSecurityRole.Securityrole)
+                .FirstOrDefault(user => user.Id == id);
+
+            return existingUser;
         }
 
         public User Find(string userName)

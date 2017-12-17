@@ -10,13 +10,8 @@ namespace Etdb.UserService.EventSourcing.Validation
     {
         public UserRegisterCommandValidation(IUserRepository userRepository) : base(userRepository)
         {
+            this.RegisterPasswordRule();
             this.RegisterUserNameAndEmailNotTakenRule();
-        }
-
-        public override bool IsValid(UserRegisterCommand sourcingCommand, out ValidationResult validationResult)
-        {
-            validationResult = this.Validate(sourcingCommand);
-            return validationResult.IsValid;
         }
     }
 }

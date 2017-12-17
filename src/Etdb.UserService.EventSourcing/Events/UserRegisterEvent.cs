@@ -2,75 +2,14 @@
 using System.Collections.Generic;
 using Etdb.ServiceBase.EventSourcing.Abstractions.Events;
 using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.EventSourcing.Abstractions.Events;
 
 namespace Etdb.UserService.EventSourcing.Events
 {
-    public class UserRegisterEvent : Event
+    public class UserRegisterEvent : UserEvent
     {
-        public UserRegisterEvent(Guid id, string name, string lastName, string email, 
-            string userName, string password, 
-            byte[] salt, byte[] rowVersion, ICollection<UserSecurityrole> userSecurityroles)
+        public UserRegisterEvent(Guid id, string name, string lastName, string email, string userName, string password, byte[] salt, byte[] rowVersion, ICollection<UserSecurityrole> userSecurityroles) : base(id, name, lastName, email, userName, password, salt, rowVersion, userSecurityroles)
         {
-            this.Id = id;
-            this.Name = name;
-            this.LastName = lastName;
-            this.Email = email;
-            this.UserName = userName;
-            this.Password = password;
-            this.Salt = salt;
-            this.UserSecurityroles = userSecurityroles;
-            this.RowVersion = rowVersion;
-            this.AggregateId = id;
-        }
-
-        public Guid Id
-        {
-            get;
-            set;
-        }
-
-        public byte[] RowVersion
-        {
-            get;
-            set;
-        }
-
-        public string Name
-        {
-            get;
-            set;
-        }
-
-        public string LastName
-        {
-            get;
-            set;
-        }
-
-        public string UserName
-        {
-            get;
-        }
-
-        public string Email
-        {
-            get;
-        }
-
-        public byte[] Salt
-        {
-            get;
-        }
-
-        public string Password
-        {
-            get;
-        }
-
-        public ICollection<UserSecurityrole> UserSecurityroles
-        {
-            get;
-            set;
         }
     }
 }
