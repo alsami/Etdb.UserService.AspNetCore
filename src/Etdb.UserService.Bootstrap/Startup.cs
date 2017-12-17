@@ -81,6 +81,7 @@ namespace Etdb.UserService.Bootstrap
                 options.Filters.Add(typeof(CommandValidationExceptionFilter));
                 options.Filters.Add(typeof(ModelStateValidationExceptionFilter));
                 options.Filters.Add(typeof(ConcurrencyExceptionFilter));
+                options.Filters.Add(typeof(SaveEventstreamExceptionFilter));
 
             }).AddJsonOptions(options =>
             {

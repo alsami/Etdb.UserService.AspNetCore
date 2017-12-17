@@ -30,7 +30,9 @@ namespace Etdb.UserService.EventSourcing.Handler
         private readonly IMapper mapper;
         private readonly UserRegisterCommandValidation validation;
 
-        public UserRegisterCommandHandler(IUnitOfWork unitOfWork, IMediatorHandler mediator, IDomainNotificationHandler<DomainNotification> notificationsHandler, IUserRepository userRepository, IHasher hasher, UserRegisterCommandValidation validation, IMapper mapper) : base(unitOfWork, mediator, notificationsHandler)
+        public UserRegisterCommandHandler(IUnitOfWork unitOfWork, IMediatorHandler mediator,
+            IUserRepository userRepository, IHasher hasher, UserRegisterCommandValidation validation, 
+            IMapper mapper) : base(unitOfWork, mediator)
         {
             this.userRepository = userRepository;
             this.hasher = hasher;
@@ -53,19 +55,15 @@ namespace Etdb.UserService.EventSourcing.Handler
 
             this.userRepository.Register(user);
 
-            if (this.CanCommit())
+            if (!this.CanCommit(out var saveEventstreamException))
             {
-                this.Mediator.RaiseEvent(new UserRegisterEvent(user.Id, user.Name, user.LastName, user.Email, user.UserName,
-                    user.Password, user.Salt, user.RowVersion, user.UserSecurityroles));
-
-                return Task.FromResult(this.mapper.Map<UserDTO>(user));
+                throw saveEventstreamException;
             }
 
-            this.Mediator.RaiseEvent(new DomainNotification(request.MessageType,
-                "The email or username has already been taken."));
+            this.Mediator.RaiseEvent(new UserRegisterEvent(user.Id, user.Name, user.LastName, user.Email, user.UserName,
+                user.Password, user.Salt, user.RowVersion, user.UserSecurityroles));
 
-            // TODO
-            throw new NotImplementedException("TODO");
+            return Task.FromResult(this.mapper.Map<UserDTO>(user));
         }
     }
 }

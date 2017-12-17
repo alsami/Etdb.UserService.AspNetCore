@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Etdb.ServiceBase.EventSourcing.Abstractions.Base;
 using Etdb.ServiceBase.EventSourcing.Abstractions.Bus;
@@ -33,7 +35,7 @@ namespace Etdb.UserService.Controllers.v1
 
         [AllowAnonymous]
         [HttpPost("registration")]
-        public UserDTO Registration([FromBody] UserRegisterDTO userRegisterDTO)
+        public async Task<UserDTO> Registration([FromBody] UserRegisterDTO userRegisterDTO)
         {
             if (!this.ModelState.IsValid)
             {
@@ -42,8 +44,8 @@ namespace Etdb.UserService.Controllers.v1
             }
 
             var registerCommand = this.mapper.Map<UserRegisterCommand>(userRegisterDTO);
-            var task = this.mediator.SendCommand<UserRegisterCommand, UserDTO>(registerCommand);
-            return task.Result;
+            var user = await this.mediator.SendCommandAsync<UserRegisterCommand, UserDTO>(registerCommand);
+            return user;
         }
 
         [AllowAnonymous]
