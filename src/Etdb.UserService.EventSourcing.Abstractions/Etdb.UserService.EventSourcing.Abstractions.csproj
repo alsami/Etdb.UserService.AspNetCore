@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Etdb.ServiceBase.EventSourcing" Version="1.0.17" />
-    <PackageReference Include="Etdb.ServiceBase.EventSourcing.Abstractions" Version="1.0.13" />
+    <PackageReference Include="Etdb.ServiceBase.EventSourcing" Version="2.0.2" />
+    <PackageReference Include="Etdb.ServiceBase.EventSourcing.Abstractions" Version="2.0.2" />
   </ItemGroup>
 
   <ItemGroup>

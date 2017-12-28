@@ -20,8 +20,7 @@ namespace Etdb.UserService.Application.Automapper.Profiles
             this.CreateMap<UserRegisterDTO, UserRegisterCommand>()
                 .ConvertUsing<UserRegisterCommandConverter>();
 
-            this.CreateMap<UserUpdateCommand, User>()
-                .ForMember(destination => destination.UserSecurityroles, options => options.Ignore());
+            this.CreateMap<UserUpdateCommand, User>();
 
             this.CreateMap<UserDTO, UserUpdateCommand>()
                 .ConvertUsing<UserUpdateCommandConverter>();

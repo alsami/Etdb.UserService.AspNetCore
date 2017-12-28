@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using Etdb.ServiceBase.EventSourcing.Abstractions.Commands;
-using Etdb.UserService.Domain.Entities;
 
 namespace Etdb.UserService.EventSourcing.Abstractions.Commands
 {
@@ -50,12 +48,6 @@ namespace Etdb.UserService.EventSourcing.Abstractions.Commands
         }
 
         public string Password
-        {
-            get;
-            protected set;
-        }
-
-        public ICollection<UserSecurityrole> UserSecurityroles
         {
             get;
             protected set;

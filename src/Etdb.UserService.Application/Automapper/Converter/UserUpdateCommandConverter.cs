@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Etdb.UserService.EventSourcing.Commands;
 using Etdb.UserService.Presentation.DTO;
 

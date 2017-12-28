@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using Etdb.UserService.EventSourcing.Commands;
 using Etdb.UserService.Presentation.DTO;
 

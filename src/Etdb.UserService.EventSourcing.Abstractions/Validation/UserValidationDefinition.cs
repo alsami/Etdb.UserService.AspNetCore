@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Etdb.ServiceBase.EventSourcing.Validation;
 using Etdb.UserService.EventSourcing.Abstractions.Commands;
 using Etdb.UserService.Repositories.Abstractions;
@@ -20,7 +21,7 @@ namespace Etdb.UserService.EventSourcing.Abstractions.Validation
         protected void RegisterUserNameAndEmailNotTakenRule()
         {
             this.RuleFor(user => user)
-                .Must(this.IsUnique)
+                .Must(user => this.IsUnique(user).Result)
                 .WithMessage("Username or email addresss already taken!");
         }
 
@@ -85,10 +86,10 @@ namespace Etdb.UserService.EventSourcing.Abstractions.Validation
                 .WithMessage("Concurrency token must be given!");
         }
 
-        private bool IsUnique(UserCommand<TResponse> command)
+        private async Task<bool> IsUnique(UserCommand<TResponse> command)
         {
-            var existingUser = this.userRepository
-                .Find(command.UserName, command.Email);
+            var existingUser = await this.userRepository
+                .FindAsync(command.UserName, command.Email);
 
             if (existingUser == null)
             {

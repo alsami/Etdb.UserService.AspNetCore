@@ -2,25 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Etdb.ServiceBase.Constants;
 using Etdb.ServiceBase.Repositories.Abstractions.Base;
 using Etdb.ServiceBase.Repositories.Generics;
 using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Domain.EntityInfos;
 using Etdb.UserService.Repositories.Abstractions;
 using IdentityModel;
-using Microsoft.EntityFrameworkCore;
 
 namespace Etdb.UserService.Repositories
 {
     public class UserRepository : EntityRepository<User>, IUserRepository
     {
-        private readonly IUserSecurityRoleRepository userSecurityroleRepo;
         private readonly ISecurityRoleRepository securityRoleRepo;
 
-        public UserRepository(AppContextBase context, IUserSecurityRoleRepository userSecurityroleRepo, 
-            ISecurityRoleRepository securityRoleRepo) : base(context)
+        public UserRepository(AppContextBase context, ISecurityRoleRepository securityRoleRepo) : base(context)
         {
-            this.userSecurityroleRepo = userSecurityroleRepo;
             this.securityRoleRepo = securityRoleRepo;
         }
 
@@ -28,18 +26,10 @@ namespace Etdb.UserService.Repositories
         {
             if (user == null) throw new ArgumentException(nameof(user));
 
-            if (!user.UserSecurityroles.Any()
-                || user.UserSecurityroles.Any(userSecurityrole => userSecurityrole?.Securityrole == null))
-            {
-                user.UserSecurityroles = this.userSecurityroleRepo
-                    .GetAll(userSecurityrole => userSecurityrole.UserId == user.Id,
-                        userSecurityrole => userSecurityrole.Securityrole)
-                    .ToList();
-            }
 
             var claims = user
-                .UserSecurityroles
-                .Select(role => new Claim(JwtClaimTypes.Role, role.Securityrole.Designation))
+                .SecurityRoles
+                .Select(role => new Claim(JwtClaimTypes.Role, role.Designation))
                 .ToList();
 
             claims.AddRange(new[]
@@ -61,39 +51,36 @@ namespace Etdb.UserService.Repositories
             return claims;
         }
 
-        public User FindWithIncludes(Guid id)
+        public async Task<User> FindAsync(string userName)
         {
-            var existingUser = this.GetQueryable()
-                .Include(user => user.UserSecurityroles)
-                .ThenInclude(userSecurityRole => userSecurityRole.Securityrole)
-                .FirstOrDefault(user => user.Id == id);
+            var existingUser = await this.GetAsync(user => user.UserName == userName);
 
             return existingUser;
         }
 
-        public User Find(string userName)
+        public async Task<User> FindAsync(string userName, string email)
         {
-            var existingUser = this.Get(user => user.UserName == userName);
+            var existingUser = await this.GetAsync(user => user.Email == email || user.UserName == userName);
 
             return existingUser;
         }
 
-        public User Find(string userName, string email)
+        public async Task RegisterAsync(User user)
         {
-            var existingUser = this.Get(user => user.Email == email || user.UserName == userName);
+            var memberRole = await this.securityRoleRepo.FindAsync(RoleNames.Member);
 
-            return existingUser;
-        }
-
-        public void Register(User user)
-        {
-            user.UserSecurityroles.Add(new UserSecurityrole
+            user.SecurityRoles.Add(new SecurityRoleInfo
             {
-                User = user,
-                Securityrole = this.securityRoleRepo.Find(RoleNames.Member)
+                Designation = memberRole.Designation,
+                Id = memberRole.Id
             });
 
-            this.Add(user);
+            var currenDate = DateTime.UtcNow;
+
+            user.CreatedAt = currenDate;
+            user.UpdatedAt = currenDate;
+
+            await this.AddAsync(user);
         }
     }
 }

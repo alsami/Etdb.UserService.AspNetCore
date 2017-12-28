@@ -53,13 +53,12 @@ namespace Etdb.UserService.Bootstrap
         {
             this.hostingEnvironment = hostingEnvironment;
 
-            var builder = new ConfigurationBuilder()
+            this.configurationRoot = new ConfigurationBuilder()
                 .SetBasePath(hostingEnvironment.ContentRootPath)
                 .AddJsonFile("appsettings.json", true, true)
                 .AddJsonFile($"appsettings.{hostingEnvironment.EnvironmentName}.json", true)
-                .AddEnvironmentVariables();
-
-            this.configurationRoot = builder.Build();
+                .AddEnvironmentVariables()
+                .Build();
 
             this.applicationAssemblies = DependencyContext
                 .Default
@@ -75,6 +74,7 @@ namespace Etdb.UserService.Bootstrap
             services.AddMvc(options =>
             {
                 options.OutputFormatters.RemoveType<XmlSerializerOutputFormatter>();
+                options.InputFormatters.RemoveType<XmlSerializerInputFormatter>();
 
                 options.Filters.Add(new AuthorizeFilter(new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
@@ -84,8 +84,6 @@ namespace Etdb.UserService.Bootstrap
                 options.Filters.Add(typeof(CommandValidationExceptionFilter));
                 options.Filters.Add(typeof(ModelStateValidationExceptionFilter));
                 options.Filters.Add(typeof(ConcurrencyExceptionFilter));
-                options.Filters.Add(typeof(SaveEventstreamExceptionFilter));
-
             }).AddJsonOptions(options =>
             {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();

@@ -1,4 +1,5 @@
-﻿using Etdb.ServiceBase.Repositories.Abstractions.Base;
+﻿using System.Threading.Tasks;
+using Etdb.ServiceBase.Repositories.Abstractions.Base;
 using Etdb.ServiceBase.Repositories.Generics;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Repositories.Abstractions;
@@ -11,9 +12,9 @@ namespace Etdb.UserService.Repositories
         {
         }
 
-        public Securityrole Find(string roleName)
+        public async Task<Securityrole> FindAsync(string roleName)
         {
-            var securityRole = this.Get(role => role.Designation == roleName);
+            var securityRole = await this.GetAsync(role => role.Designation == roleName);
 
             return securityRole;
         }

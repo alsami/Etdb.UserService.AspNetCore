@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using Etdb.ServiceBase.EventSourcing.Abstractions.Base;
-using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Presentation.DTO.Base;
 
 namespace Etdb.UserService.Presentation.DTO

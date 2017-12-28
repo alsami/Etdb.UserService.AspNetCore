@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Etdb.ServiceBase.Repositories.Abstractions" Version="1.0.1" />
+    <PackageReference Include="Etdb.ServiceBase.Repositories.Abstractions" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup>

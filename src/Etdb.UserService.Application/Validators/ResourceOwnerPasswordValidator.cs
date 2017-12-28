@@ -17,28 +17,24 @@ namespace Etdb.UserService.Application.Validators
             this.hasher = hasher;
         }
 
-        public Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
+        public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            var loginUser = this.userRepository.Find(context.UserName, context.UserName);
+            var loginUser = await this.userRepository.FindAsync(context.UserName, context.UserName);
 
             if (loginUser == null)
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant);
-
-                return Task.FromResult(context.Result);
+                return;
             }
 
             if (loginUser.Password != this.hasher.CreateSaltedHash(context.Password, loginUser.Salt))
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant);
-
-                return Task.FromResult(context.Result);
+                return;
             }
 
             context.Result = new GrantValidationResult(loginUser.Id.ToString(),
                 "custom", this.userRepository.GetClaims(loginUser));
-
-            return Task.FromResult(context.Result);
         }
     }
 }

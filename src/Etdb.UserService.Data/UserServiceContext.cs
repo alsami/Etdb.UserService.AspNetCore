@@ -1,48 +1,28 @@
-﻿using System;
-using Etdb.ServiceBase.Repositories.Abstractions.Base;
-using Etdb.UserService.Data.EntityMaps;
-using Microsoft.EntityFrameworkCore;
+﻿using Etdb.ServiceBase.Repositories.Abstractions.Base;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 
 namespace Etdb.UserService.Data
 {
     public class UserServiceContext : AppContextBase
     {
-        private readonly IConfigurationRoot configurationRoot;
-        private const string Production = "Production";
-        private const string Development = "Development";
+        public override IMongoDatabase Database { get; }
 
-        public UserServiceContext(IConfigurationRoot configurationRoot)
+        public UserServiceContext(IConfiguration configurationRoot)
         {
-            this.configurationRoot = configurationRoot;
+            var client = new MongoClient(configurationRoot.GetSection("MongoConnection:ConnectionString").Value);
+            this.Database = client.GetDatabase(configurationRoot.GetSection("MongoConnection:Database").Value);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public override IMongoCollection<TEntity> GetCollection<TEntity>()
         {
-            base.OnConfiguring(optionsBuilder);
-
-            var environmentName = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? UserServiceContext.Development;
-
-            optionsBuilder.UseSqlServer(environmentName
-                .Equals(UserServiceContext.Development, StringComparison.OrdinalIgnoreCase)
-                ? this.configurationRoot.GetConnectionString(UserServiceContext.Development)
-                : environmentName
-                    .Equals(UserServiceContext.Production, StringComparison.OrdinalIgnoreCase)
-                    ? this.configurationRoot.GetConnectionString(UserServiceContext.Production)
-                    : throw new ArgumentException(nameof(environmentName)));
+            return this.Database.GetCollection<TEntity>($"{typeof(TEntity).Name}s");
         }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        public override IMongoCollection<TEntity> GetCollection<TEntity>(string collectionName)
         {
-            modelBuilder.ApplyConfiguration(new UserMap());
-
-            modelBuilder.ApplyConfiguration(new SecurityroleMap());
-
-            modelBuilder.ApplyConfiguration(new UserSecurityroleMap());
-
-            this.DisableCascadeDelete(modelBuilder);
-
-            base.OnModelCreating(modelBuilder);
+            return this.Database.GetCollection<TEntity>(collectionName);
         }
+
     }
 }

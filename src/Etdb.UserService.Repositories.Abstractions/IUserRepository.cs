@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Etdb.ServiceBase.Repositories.Abstractions.Generics;
 using Etdb.UserService.Domain.Entities;
 
@@ -10,12 +10,10 @@ namespace Etdb.UserService.Repositories.Abstractions
     {
         IEnumerable<Claim> GetClaims(User user);
 
-        User FindWithIncludes(Guid id);
+        Task<User> FindAsync(string userName);
 
-        User Find(string userName);
+        Task<User> FindAsync(string userName, string email);
 
-        User Find(string userName, string email);
-
-        void Register(User user);
+        Task RegisterAsync(User user);
     }
 }

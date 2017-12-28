@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Data", "sr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Domain", "src\Etdb.UserService.Domain\Etdb.UserService.Domain.csproj", "{55DC8ED2-ABF1-4DD6-8D10-E60B835A8997}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.EventStore", "src\Etdb.UserService.EventStore\Etdb.UserService.EventStore.csproj", "{73A56CB9-A5F2-4407-B289-1FA1BDF7343D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.EventSourcing", "src\Etdb.UserService.EventSourcing\Etdb.UserService.EventSourcing.csproj", "{118CCEF1-002B-46C5-97B9-976DD9E607C0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Presentation", "src\Etdb.UserService.Presentation\Etdb.UserService.Presentation.csproj", "{DE1C0554-45C2-4C04-B0EF-156D2A6568B8}"
@@ -27,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Controller
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Repositories.Abstractions", "src\Etdb.UserService.Repositories.Abstractions\Etdb.UserService.Repositories.Abstractions.csproj", "{AFE591AC-69E5-4E73-993E-855B0C929D6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.EventSourcing.Abstractions", "src\Etdb.UserService.EventSourcing.Abstractions\Etdb.UserService.EventSourcing.Abstractions.csproj", "{166A7865-9F46-4766-A02F-6396FDAE967F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.EventSourcing.Abstractions", "src\Etdb.UserService.EventSourcing.Abstractions\Etdb.UserService.EventSourcing.Abstractions.csproj", "{166A7865-9F46-4766-A02F-6396FDAE967F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +45,6 @@ Global
 		{55DC8ED2-ABF1-4DD6-8D10-E60B835A8997}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55DC8ED2-ABF1-4DD6-8D10-E60B835A8997}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55DC8ED2-ABF1-4DD6-8D10-E60B835A8997}.Release|Any CPU.Build.0 = Release|Any CPU
-		{73A56CB9-A5F2-4407-B289-1FA1BDF7343D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{73A56CB9-A5F2-4407-B289-1FA1BDF7343D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{73A56CB9-A5F2-4407-B289-1FA1BDF7343D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{73A56CB9-A5F2-4407-B289-1FA1BDF7343D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{118CCEF1-002B-46C5-97B9-976DD9E607C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{118CCEF1-002B-46C5-97B9-976DD9E607C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{118CCEF1-002B-46C5-97B9-976DD9E607C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -87,7 +81,6 @@ Global
 		{C2E4915D-F311-493B-98FA-0337F2198F78} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{4C769F65-E090-462F-B8E2-6ADE65F6050D} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{55DC8ED2-ABF1-4DD6-8D10-E60B835A8997} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
-		{73A56CB9-A5F2-4407-B289-1FA1BDF7343D} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{118CCEF1-002B-46C5-97B9-976DD9E607C0} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{DE1C0554-45C2-4C04-B0EF-156D2A6568B8} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{54AFB36A-7748-4351-BC7C-8B7A012234DF} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}

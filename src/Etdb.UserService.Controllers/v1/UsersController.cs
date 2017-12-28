@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
-using Etdb.ServiceBase.EventSourcing.Abstractions.Base;
 using Etdb.ServiceBase.EventSourcing.Abstractions.Bus;
-using Etdb.ServiceBase.EventSourcing.Abstractions.Handler;
-using Etdb.ServiceBase.EventSourcing.Abstractions.Notifications;
 using Etdb.ServiceBase.General.Abstractions.Exceptions;
-using Etdb.ServiceBase.Repositories.Abstractions.Generics;
-using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.EventSourcing.Commands;
 using Etdb.UserService.Presentation.DTO;
 using Etdb.UserService.Repositories.Abstractions;
@@ -39,8 +31,7 @@ namespace Etdb.UserService.Controllers.v1
         {
             if (!this.ModelState.IsValid)
             {
-                throw new ModelStateValidationException("Register request is invalid!", this.ModelState.Values
-                    .SelectMany(value => value.Errors.Select(error => error.ErrorMessage)).ToArray());
+                throw new ModelStateValidationException("Register request is invalid!", this.ModelState);
             }
 
             var registerCommand = this.mapper.Map<UserRegisterCommand>(userRegisterDTO);
@@ -52,6 +43,10 @@ namespace Etdb.UserService.Controllers.v1
         [HttpPut("update")]
         public async Task<UserDTO> Update([FromBody] UserDTO userDTO)
         {
+            if (!this.ModelState.IsValid)
+            {
+                throw new ModelStateValidationException("Update request is invalid!", this.ModelState);
+            }
             var updateCommand = this.mapper.Map<UserUpdateCommand>(userDTO);
             var user = await this.mediator.SendCommandAsync<UserUpdateCommand, UserDTO>(updateCommand);
             return user;

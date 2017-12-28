@@ -2,7 +2,6 @@
 using Etdb.UserService.EventSourcing.Commands;
 using Etdb.UserService.Presentation.DTO;
 using Etdb.UserService.Repositories.Abstractions;
-using FluentValidation.Results;
 
 namespace Etdb.UserService.EventSourcing.Validation
 {

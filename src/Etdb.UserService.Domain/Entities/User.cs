@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Etdb.ServiceBase.Domain.Abstractions.Base;
+using Etdb.UserService.Domain.EntityInfos;
 
 namespace Etdb.UserService.Domain.Entities
 {
-    public class User : Entity
+    public class User : TrackedEntity
     {
         public User()
         {
-            this.UserSecurityroles = new List<UserSecurityrole>();
+            this.SecurityRoles = new List<SecurityRoleInfo>();
         }
 
         public string Name
@@ -47,10 +47,6 @@ namespace Etdb.UserService.Domain.Entities
             set;
         }
 
-        public ICollection<UserSecurityrole> UserSecurityroles
-        {
-            get;
-            set;
-        }
+        public ICollection<SecurityRoleInfo> SecurityRoles { get; set; }
     }
 }

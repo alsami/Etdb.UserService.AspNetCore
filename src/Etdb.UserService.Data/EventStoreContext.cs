@@ -1,0 +1,17 @@
+﻿using Etdb.ServiceBase.EventSourcing.Abstractions.Base;
+using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
+
+namespace Etdb.UserService.EventStore
+{
+    public class EventStoreContext : EventStoreContextBase
+    {
+        public EventStoreContext(IConfiguration configurationRoot)
+        {
+            var client = new MongoClient(configurationRoot.GetSection("MongoConnection:ConnectionString").Value);
+            this.Database = client.GetDatabase(configurationRoot.GetSection("MongoConnection:Database").Value);
+        }
+
+        public override IMongoDatabase Database { get; }
+    }
+}

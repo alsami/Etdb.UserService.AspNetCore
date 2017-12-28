@@ -1,44 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using Etdb.ServiceBase.Domain.Abstractions.Base;
+﻿using Etdb.ServiceBase.Domain.Abstractions.Base;
 
 namespace Etdb.UserService.Domain.Entities
 {
-    public class Securityrole : Entity
+    public class Securityrole : TrackedEntity
     {
-        public Securityrole(Guid id, string designation, string description, bool isSystem)
-        {
-            this.Id = id;
-            this.Designation = designation;
-            this.Description = description;
-            this.IsSystem = isSystem;
-            this.UserSecurityroles = new List<UserSecurityrole>();
-        }
-
-        public Securityrole()
-        {
-            this.UserSecurityroles = new List<UserSecurityrole>();
-        }
-
         public string Designation
         {
             get;
-            private set;
+            set;
         }
 
         public string Description
         {
             get;
-            private set;
+            set;
         }
 
         public bool IsSystem
-        {
-            get;
-            private set;
-        }
-
-        public ICollection<UserSecurityrole> UserSecurityroles
         {
             get;
             set;

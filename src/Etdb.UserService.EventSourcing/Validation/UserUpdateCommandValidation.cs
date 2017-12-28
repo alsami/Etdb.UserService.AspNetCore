@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Etdb.UserService.EventSourcing.Abstractions.Validation;
+﻿using Etdb.UserService.EventSourcing.Abstractions.Validation;
 using Etdb.UserService.EventSourcing.Commands;
 using Etdb.UserService.Presentation.DTO;
 using Etdb.UserService.Repositories.Abstractions;
