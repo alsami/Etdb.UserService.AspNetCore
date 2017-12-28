@@ -12,7 +12,6 @@ using Etdb.UserService.Application.ExceptionFilter;
 using Etdb.UserService.Application.Services;
 using Etdb.UserService.Application.Validators;
 using Etdb.UserService.Data;
-using Etdb.UserService.EventStore;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using MediatR;

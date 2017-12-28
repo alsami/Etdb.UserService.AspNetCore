@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using AutoMapper;
 using Etdb.ServiceBase.EventSourcing.Abstractions.Bus;
 using Etdb.ServiceBase.General.Abstractions.Exceptions;
@@ -23,6 +24,14 @@ namespace Etdb.UserService.Controllers.v1
             this.mapper = mapper;
             this.mediator = mediator;
             this.userRepository = userRepository;
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<UserDTO> Get()
+        {
+            var user = await this.userRepository.GetAsync(new Guid("bd1aaea4-4d39-4d3f-89ee-31c61aa2805c"));
+            return this.mapper.Map<UserDTO>(user);
         }
 
         [AllowAnonymous]

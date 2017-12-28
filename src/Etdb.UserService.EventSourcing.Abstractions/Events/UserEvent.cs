@@ -5,7 +5,7 @@ namespace Etdb.UserService.EventSourcing.Abstractions.Events
 {
     public abstract class UserEvent : Event
     {
-        protected UserEvent(Guid id, string name, string lastName, string email, string userName)
+        protected UserEvent(string id, string name, string lastName, string email, string userName)
         {
             this.Id = id;
             this.Name = name;
@@ -15,7 +15,7 @@ namespace Etdb.UserService.EventSourcing.Abstractions.Events
             this.AggregateId = id;
         }
 
-        public Guid Id
+        public string Id
         {
             get;
             protected set;

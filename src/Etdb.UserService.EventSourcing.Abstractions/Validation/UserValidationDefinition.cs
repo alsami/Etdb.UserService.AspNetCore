@@ -96,7 +96,7 @@ namespace Etdb.UserService.EventSourcing.Abstractions.Validation
                 return true;
             }
 
-            return existingUser.Id == command.Id;
+            return existingUser.Id == command.Id.ToString();
         }
     }
 }

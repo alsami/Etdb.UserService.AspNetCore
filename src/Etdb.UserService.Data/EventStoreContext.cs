@@ -1,8 +1,9 @@
 ﻿using Etdb.ServiceBase.EventSourcing.Abstractions.Base;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace Etdb.UserService.EventStore
+namespace Etdb.UserService.Data
 {
     public class EventStoreContext : EventStoreContextBase
     {

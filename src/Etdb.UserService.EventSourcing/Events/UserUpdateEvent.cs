@@ -5,7 +5,7 @@ namespace Etdb.UserService.EventSourcing.Events
 {
     public class UserUpdateEvent : UserEvent
     {
-        public UserUpdateEvent(Guid id, string name, string lastName, string email, string userName) : base(id, name, lastName, email, userName)
+        public UserUpdateEvent(string id, string name, string lastName, string email, string userName) : base(id, name, lastName, email, userName)
         {
         }
     }

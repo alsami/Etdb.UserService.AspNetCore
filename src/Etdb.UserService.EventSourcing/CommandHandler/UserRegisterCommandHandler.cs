@@ -23,18 +23,16 @@ namespace Etdb.UserService.EventSourcing.CommandHandler
         private readonly IHasher hasher;
         private readonly IMapper mapper;
         private readonly UserRegisterCommandValidation validation;
-        private readonly IEventStore eventStore;
 
         public UserRegisterCommandHandler(IMediatorHandler mediator,
             IUserRepository userRepository, IHasher hasher, UserRegisterCommandValidation validation, 
-            IMapper mapper, IEventStore eventStore)
+            IMapper mapper)
         {
             this.mediator = mediator;
             this.userRepository = userRepository;
             this.hasher = hasher;
             this.validation = validation;
             this.mapper = mapper;
-            this.eventStore = eventStore;
         }
 
         public async Task<UserDTO> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
