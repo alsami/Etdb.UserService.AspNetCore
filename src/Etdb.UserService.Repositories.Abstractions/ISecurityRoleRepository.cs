@@ -4,8 +4,8 @@ using Etdb.UserService.Domain.Entities;
 
 namespace Etdb.UserService.Repositories.Abstractions
 {
-    public interface ISecurityRoleRepository : IEntityRepository<Securityrole>
+    public interface ISecurityRoleRepository : IEntityRepository<SecurityRole>
     {
-        Task<Securityrole> FindAsync(string roleName);
+        Task<SecurityRole> FindAsync(string roleName);
     }
 }

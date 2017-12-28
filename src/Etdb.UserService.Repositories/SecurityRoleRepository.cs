@@ -6,13 +6,13 @@ using Etdb.UserService.Repositories.Abstractions;
 
 namespace Etdb.UserService.Repositories
 {
-    public class SecurityRoleRepository : EntityRepository<Securityrole>, ISecurityRoleRepository
+    public class SecurityRoleRepository : EntityRepository<SecurityRole>, ISecurityRoleRepository
     {
         public SecurityRoleRepository(AppContextBase context) : base(context)
         {
         }
 
-        public async Task<Securityrole> FindAsync(string roleName)
+        public async Task<SecurityRole> FindAsync(string roleName)
         {
             var securityRole = await this.GetAsync(role => role.Designation == roleName);
 

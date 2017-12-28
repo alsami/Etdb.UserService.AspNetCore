@@ -2,7 +2,7 @@
 
 namespace Etdb.UserService.Domain.Entities
 {
-    public class Securityrole : TrackedEntity
+    public class SecurityRole : TrackedEntity
     {
         public string Designation
         {

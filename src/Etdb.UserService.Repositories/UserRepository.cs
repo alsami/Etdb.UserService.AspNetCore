@@ -69,6 +69,11 @@ namespace Etdb.UserService.Repositories
         {
             var memberRole = await this.securityRoleRepo.FindAsync(RoleNames.Member);
 
+            if (memberRole == null)
+            {
+                throw new Exception($"You must setup a role with designation {RoleNames.Member}");
+            }
+
             user.SecurityRoles.Add(new SecurityRoleInfo
             {
                 Designation = memberRole.Designation,

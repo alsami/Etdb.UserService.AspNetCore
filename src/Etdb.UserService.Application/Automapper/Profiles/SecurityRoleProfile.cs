@@ -8,7 +8,7 @@ namespace Etdb.UserService.Application.Automapper.Profiles
     {
         public SecurityRoleProfile()
         {
-            this.CreateMap<Securityrole, SecurityRoleDTO>()
+            this.CreateMap<SecurityRole, SecurityRoleDTO>()
                 .ReverseMap();
         }
     }

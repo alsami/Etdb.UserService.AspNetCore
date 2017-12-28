@@ -37,7 +37,7 @@ namespace Etdb.UserService.EventSourcing.CommandHandler
             this.eventStore = eventStore;
         }
 
-        public Task<UserDTO> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
+        public async Task<UserDTO> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
         {
             if (!this.validation.IsValid(request, out var validationResult))
             {
@@ -51,11 +51,11 @@ namespace Etdb.UserService.EventSourcing.CommandHandler
             user.Password = this.hasher.CreateSaltedHash(request.Password, salt);
             user.Salt = salt;
 
-            this.userRepository.RegisterAsync(user);
+            await this.userRepository.RegisterAsync(user);
 
-            this.mediator.RaiseEvent(new UserRegisterEvent(user.Id, user.Name, user.LastName, user.Email, user.UserName));
+            await this.mediator.RaiseEvent(new UserRegisterEvent(user.Id, user.Name, user.LastName, user.Email, user.UserName));
 
-            return Task.FromResult(this.mapper.Map<UserDTO>(user));
+            return this.mapper.Map<UserDTO>(user);
         }
     }
 }
