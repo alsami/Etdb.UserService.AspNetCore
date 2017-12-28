@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Etdb.UserService.EventSourcing.Abstractions.Commands;
-using Etdb.UserService.Presentation.DTO;
+using Etdb.UserService.Presentation.DataTransferObjects;
 
 namespace Etdb.UserService.EventSourcing.Commands
 {
-    public class UserRegisterCommand : UserCommand<UserDTO>
+    public class UserRegisterCommand : UserCommand<UserDto>
     {
         public UserRegisterCommand(string name, string lastName, string email, string userName, string password)
         {

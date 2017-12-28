@@ -11,12 +11,12 @@ using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.EventSourcing.Commands;
 using Etdb.UserService.EventSourcing.Events;
 using Etdb.UserService.EventSourcing.Validation;
-using Etdb.UserService.Presentation.DTO;
+using Etdb.UserService.Presentation.DataTransferObjects;
 using Etdb.UserService.Repositories.Abstractions;
 
 namespace Etdb.UserService.EventSourcing.CommandHandler
 {
-    public class UserRegisterCommandHandler : ITransactionHandler<UserRegisterCommand, UserDTO>
+    public class UserRegisterCommandHandler : ITransactionHandler<UserRegisterCommand, UserDto>
     {
         private readonly IMediatorHandler mediator;
         private readonly IUserRepository userRepository;
@@ -35,7 +35,7 @@ namespace Etdb.UserService.EventSourcing.CommandHandler
             this.mapper = mapper;
         }
 
-        public async Task<UserDTO> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
+        public async Task<UserDto> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
         {
             if (!this.validation.IsValid(request, out var validationResult))
             {
@@ -53,7 +53,7 @@ namespace Etdb.UserService.EventSourcing.CommandHandler
 
             await this.mediator.RaiseEvent(new UserRegisterEvent(user.Id, user.Name, user.LastName, user.Email, user.UserName));
 
-            return this.mapper.Map<UserDTO>(user);
+            return this.mapper.Map<UserDto>(user);
         }
     }
 }

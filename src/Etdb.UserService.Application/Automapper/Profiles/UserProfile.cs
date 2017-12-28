@@ -2,7 +2,7 @@
 using Etdb.UserService.Application.Automapper.Converter;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.EventSourcing.Commands;
-using Etdb.UserService.Presentation.DTO;
+using Etdb.UserService.Presentation.DataTransferObjects;
 
 namespace Etdb.UserService.Application.Automapper.Profiles
 {
@@ -10,19 +10,19 @@ namespace Etdb.UserService.Application.Automapper.Profiles
     {
         public UserProfile()
         {
-            this.CreateMap<User, UserDTO>()
+            this.CreateMap<User, UserDto>()
                 .ForMember(destination => destination.ConccurencyToken,
                     options => options.MapFrom(src => src.RowVersion))
                 .ReverseMap();
 
             this.CreateMap<UserRegisterCommand, User>();
 
-            this.CreateMap<UserRegisterDTO, UserRegisterCommand>()
+            this.CreateMap<UserRegisterDto, UserRegisterCommand>()
                 .ConvertUsing<UserRegisterCommandConverter>();
 
             this.CreateMap<UserUpdateCommand, User>();
 
-            this.CreateMap<UserDTO, UserUpdateCommand>()
+            this.CreateMap<UserDto, UserUpdateCommand>()
                 .ConvertUsing<UserUpdateCommandConverter>();
         }
     }
