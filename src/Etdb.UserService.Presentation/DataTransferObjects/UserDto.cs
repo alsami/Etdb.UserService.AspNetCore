@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Etdb.UserService.Presentation.DataTransferObjects.Base;
 
 namespace Etdb.UserService.Presentation.DataTransferObjects
 {
-    public class UserDto : DataTransferObject
+    public class UserDto : TrackedDto
     {
         public string Name { get; set; }
 
@@ -14,6 +13,6 @@ namespace Etdb.UserService.Presentation.DataTransferObjects
 
         public string Email { get; set; }
 
-        public ICollection<SecurityRoleInfoDto> SecurityRoles { get; set; }
+        public ICollection<SecurityRoleDto> SecurityRoles { get; set; }
     }
 }

@@ -70,6 +70,17 @@ namespace Etdb.UserService.Bootstrap
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var allowedOrigins = this.configurationRoot.GetSection("IdentityConfig").GetSection("Origins")
+                .Get<string[]>();
+
+            var clientId = this.configurationRoot.GetSection("IdentityConfig")
+                .GetSection("WebClient")
+                .GetValue<string>("Name");
+
+            var clientSecret = this.configurationRoot.GetSection("IdentityConfig")
+                .GetSection("WebClient")
+                .GetValue<string>("Secret");
+
             services.AddMvc(options =>
             {
                 options.OutputFormatters.RemoveType<XmlSerializerOutputFormatter>();
@@ -105,7 +116,7 @@ namespace Etdb.UserService.Bootstrap
                 .AddDeveloperSigningCredential()
                 .AddInMemoryIdentityResources(new IdentityResourceConfig().GetIdentityResource())
                 .AddInMemoryApiResources(new ApiResourceConfig().GetApiResource())
-                .AddInMemoryClients(new ClientConfig().GetClients(this.configurationRoot));
+                .AddInMemoryClients(new ClientConfig().GetClients(clientId, clientSecret, allowedOrigins));
 
             services.AddAuthentication(Startup.AuthenticationSchema)
                 .AddIdentityServerAuthentication(options =>
@@ -119,10 +130,9 @@ namespace Etdb.UserService.Bootstrap
             {
                 options.AddPolicy(Startup.CorsPolicyName, opt =>
                 {
-                    opt.AllowAnyOrigin()
+                    opt.WithOrigins(allowedOrigins)
                         .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
+                        .AllowAnyMethod();
                 });
             })
             .Configure<MvcOptions>(options => 

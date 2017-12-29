@@ -1,6 +1,5 @@
 ﻿using Etdb.ServiceBase.EventSourcing.Abstractions.Base;
 using Microsoft.Extensions.Configuration;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Etdb.UserService.Data

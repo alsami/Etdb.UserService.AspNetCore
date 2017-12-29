@@ -33,8 +33,7 @@ namespace Etdb.UserService.Application.Validators
                 return;
             }
 
-            context.Result = new GrantValidationResult(loginUser.Id.ToString(),
-                "custom", this.userRepository.GetClaims(loginUser));
+            context.Result = new GrantValidationResult(loginUser.Id, "custom", await this.userRepository.GetClaims(loginUser));
         }
     }
 }

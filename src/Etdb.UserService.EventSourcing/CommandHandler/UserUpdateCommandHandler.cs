@@ -37,7 +37,7 @@ namespace Etdb.UserService.EventSourcing.CommandHandler
                     validationResult.Errors.Select(error => error.ErrorMessage).ToArray());
             }
 
-            var existingUser = await this.userRepository.GetAsync(request.Id);
+            var existingUser = await this.userRepository.GetAsync(Guid.Parse(request.Id));
 
             if (existingUser == null)
             {
@@ -58,8 +58,7 @@ namespace Etdb.UserService.EventSourcing.CommandHandler
                 throw new Exception("TODO");
             }
 
-            await this.mediator.RaiseEvent(new UserUpdateEvent(existingUser.Id, existingUser.Name, existingUser.LastName,
-                existingUser.Email, existingUser.UserName));
+            await this.mediator.RaiseEvent(this.mapper.Map<UserUpdateEvent>(existingUser));
 
             return this.mapper.Map<UserDto>(existingUser);
         }

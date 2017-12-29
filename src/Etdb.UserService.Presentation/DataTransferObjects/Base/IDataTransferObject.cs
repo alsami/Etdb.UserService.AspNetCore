@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace Etdb.UserService.Presentation.DataTransferObjects.Base
+﻿namespace Etdb.UserService.Presentation.DataTransferObjects.Base
 {
     public interface IDataTransferObject
     {
-        Guid Id { get; set; }
+        string Id { get; set; }
 
         byte[] ConccurencyToken { get; set; }
     }

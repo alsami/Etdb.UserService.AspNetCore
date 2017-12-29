@@ -8,7 +8,7 @@ namespace Etdb.UserService.Repositories.Abstractions
 {
     public interface IUserRepository : IEntityRepository<User>
     {
-        IEnumerable<Claim> GetClaims(User user);
+        Task<IEnumerable<Claim>> GetClaims(User user);
 
         Task<User> FindAsync(string userName);
 

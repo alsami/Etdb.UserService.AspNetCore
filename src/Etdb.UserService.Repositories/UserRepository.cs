@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Constants;
 using Etdb.ServiceBase.Repositories.Abstractions.Base;
 using Etdb.ServiceBase.Repositories.Generics;
 using Etdb.UserService.Domain.Entities;
-using Etdb.UserService.Domain.EntityInfos;
 using Etdb.UserService.Repositories.Abstractions;
 using IdentityModel;
 
@@ -15,22 +13,24 @@ namespace Etdb.UserService.Repositories
 {
     public class UserRepository : EntityRepository<User>, IUserRepository
     {
-        private readonly ISecurityRoleRepository securityRoleRepo;
+        private readonly ISecurityRoleRepository securityRoleRepository;
 
-        public UserRepository(AppContextBase context, ISecurityRoleRepository securityRoleRepo) : base(context)
+        public UserRepository(AppContextBase context, ISecurityRoleRepository securityRoleRepository) : base(context)
         {
-            this.securityRoleRepo = securityRoleRepo;
+            this.securityRoleRepository = securityRoleRepository;
         }
 
-        public IEnumerable<Claim> GetClaims(User user)
+        public async Task<IEnumerable<Claim>> GetClaims(User user)
         {
             if (user == null) throw new ArgumentException(nameof(user));
+            
+            var claims = new List<Claim>();
 
-
-            var claims = user
-                .SecurityRoles
-                .Select(role => new Claim(JwtClaimTypes.Role, role.Designation))
-                .ToList();
+            foreach (var securityRole in user.SecurityRoles)
+            {
+                var existingRole = await this.securityRoleRepository.GetAsync(Guid.Parse(securityRole.Id.ToString()));
+                claims.Add(new Claim(JwtClaimTypes.Role, existingRole.Designation));
+            }
 
             claims.AddRange(new[]
             {
@@ -67,19 +67,6 @@ namespace Etdb.UserService.Repositories
 
         public async Task RegisterAsync(User user)
         {
-            var memberRole = await this.securityRoleRepo.FindAsync(RoleNames.Member);
-
-            if (memberRole == null)
-            {
-                throw new Exception($"You must setup a role with designation {RoleNames.Member}");
-            }
-
-            user.SecurityRoles.Add(new SecurityRoleInfo
-            {
-                Designation = memberRole.Designation,
-                Id = memberRole.Id
-            });
-
             var currenDate = DateTime.UtcNow;
 
             user.CreatedAt = currenDate;

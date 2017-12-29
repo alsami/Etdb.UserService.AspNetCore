@@ -1,5 +1,4 @@
-﻿using System;
-using Etdb.UserService.EventSourcing.Abstractions.Events;
+﻿using Etdb.UserService.EventSourcing.Abstractions.Events;
 
 namespace Etdb.UserService.EventSourcing.Events
 {

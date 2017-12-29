@@ -2,29 +2,24 @@
 using Etdb.ServiceBase.Constants;
 using IdentityServer4;
 using IdentityServer4.Models;
-using Microsoft.Extensions.Configuration;
 
 namespace Etdb.UserService.Application.Config
 {
     public class ClientConfig
     {
-        public IEnumerable<Client> GetClients(IConfigurationRoot configuration)
+        public IEnumerable<Client> GetClients(string clientId, string clientSecrect, string[] allowedOrigins)
         {
             return new List<Client>
             {
                 new Client
                 {
-                    ClientId = configuration.GetSection("IdentityConfig")
-                        .GetSection("WebClient")
-                        .GetValue<string>("Name"),
+                    ClientId = clientId,
 
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
 
                     ClientSecrets =
                     {
-                        new Secret(configuration.GetSection("IdentityConfig")
-                            .GetSection("WebClient")
-                            .GetValue<string>("Secret").Sha256())
+                        new Secret(clientSecrect.Sha256())
                     },
 
                     AllowedScopes =
@@ -38,9 +33,7 @@ namespace Etdb.UserService.Application.Config
                         ServiceNames.FileService,
                     },
 
-                    AllowedCorsOrigins = configuration.GetSection("IdentityConfig")
-                        .GetSection("Origins")
-                        .Get<string[]>(),
+                    AllowedCorsOrigins = allowedOrigins,
 
                     AllowOfflineAccess = true,
                     AccessTokenLifetime = 60 * 60,

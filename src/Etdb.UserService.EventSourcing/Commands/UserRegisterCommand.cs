@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Etdb.UserService.EventSourcing.Abstractions.Commands;
+﻿using Etdb.UserService.EventSourcing.Abstractions.Commands;
 using Etdb.UserService.Presentation.DataTransferObjects;
 
 namespace Etdb.UserService.EventSourcing.Commands
