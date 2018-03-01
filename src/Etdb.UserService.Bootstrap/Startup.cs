@@ -132,9 +132,9 @@ namespace Etdb.UserService.Bootstrap
 
             services.AddCors(options =>
             {
-                options.AddPolicy(Startup.CorsPolicyName, opt =>
+                options.AddPolicy(Startup.CorsPolicyName, builder =>
                 {
-                    opt.WithOrigins(allowedOrigins)
+                    builder.WithOrigins(allowedOrigins)
                         .AllowAnyHeader()
                         .AllowAnyMethod();
                 });
@@ -149,19 +149,15 @@ namespace Etdb.UserService.Bootstrap
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (!env.IsProduction())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-            }
-
             app.UseSwagger();
+
             app.UseSwaggerUI(action =>
             {
                 action.SwaggerEndpoint(Startup.SwaggerDocJsonUri, Startup.SwaggerDocDescription);
             });
 
             app.UseIdentityServer();
+
             app.UseMvc();
         }
 
