@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System;
+using System.IO;
+using System.Reflection;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
@@ -9,7 +11,7 @@ namespace Etdb.UserService.Bootstrap
 {
     public class Program
     {
-        private static readonly string LogPath = $"Logs/{Assembly.GetEntryAssembly().GetName().Name}.log";
+        private static readonly string LogPath = Path.Combine(AppContext.BaseDirectory, "Logs", $"{Assembly.GetEntryAssembly().GetName().Name}.log");
 
         public static void Main(string[] args)
         {
@@ -28,6 +30,7 @@ namespace Etdb.UserService.Bootstrap
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .UseSerilog()
+                .UseContentRoot(AppContext.BaseDirectory)
                 .ConfigureServices(services => services.AddAutofac())
                 .Build();
     }

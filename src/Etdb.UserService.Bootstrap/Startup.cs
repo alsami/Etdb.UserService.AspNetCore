@@ -70,15 +70,18 @@ namespace Etdb.UserService.Bootstrap
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var allowedOrigins = this.configurationRoot.GetSection("IdentityConfig").GetSection("Origins")
+            var allowedOrigins = this.configurationRoot
+                .GetSection("IdentityConfig")
+                .GetSection("Origins")
                 .Get<string[]>();
 
-            var clientId = this.configurationRoot.GetSection("IdentityConfig")
+            var clientId = this.configurationRoot
+                .GetSection("IdentityConfig")
                 .GetSection("WebClient")
                 .GetValue<string>("Name");
 
-            var clientSecret = this.configurationRoot.GetSection("IdentityConfig")
-                .GetSection("WebClient")
+            var clientSecret = this.configurationRoot
+                .GetSection("IdentityConfig:WebClient")
                 .GetValue<string>("Secret");
 
             services.AddMvc(options =>
@@ -94,7 +97,8 @@ namespace Etdb.UserService.Bootstrap
                 options.Filters.Add(typeof(CommandValidationExceptionFilter));
                 options.Filters.Add(typeof(ModelStateValidationExceptionFilter));
                 options.Filters.Add(typeof(ConcurrencyExceptionFilter));
-            }).AddJsonOptions(options =>
+            })
+            .AddJsonOptions(options =>
             {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
