@@ -27,6 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Repositori
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.EventSourcing.Abstractions", "src\Etdb.UserService.EventSourcing.Abstractions\Etdb.UserService.EventSourcing.Abstractions.csproj", "{166A7865-9F46-4766-A02F-6396FDAE967F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{EEC64864-F550-44BE-9D0D-CCCA983F39B7}"
+ProjectSection(SolutionItems) = preProject
+	.gitignore = .gitignore
+EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
