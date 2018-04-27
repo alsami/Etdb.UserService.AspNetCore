@@ -1,19 +1,14 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Etdb.ServiceBase.Constants" Version="1.0.5" />
-    <PackageReference Include="Etdb.ServiceBase.Repositories" Version="2.0.4" />
-    <PackageReference Include="IdentityModel" Version="2.16.1" />
+    <PackageReference Include="Etdb.ServiceBase.Constants" Version="2.0.0" />
+    <PackageReference Include="Etdb.ServiceBase.Cryptography" Version="1.0.0" />
+    <PackageReference Include="Etdb.ServiceBase.DocumentRepository" Version="1.0.1" />
+    <PackageReference Include="IdentityModel" Version="3.6.1" />
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\Etdb.UserService.Data\Etdb.UserService.Data.csproj" />
-    <ProjectReference Include="..\Etdb.UserService.Domain\Etdb.UserService.Domain.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Repositories.Abstractions\Etdb.UserService.Repositories.Abstractions.csproj" />
   </ItemGroup>
-
 </Project>

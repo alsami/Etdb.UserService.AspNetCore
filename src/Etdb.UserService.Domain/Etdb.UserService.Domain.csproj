@@ -1,13 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="6.2.2" />
-    <PackageReference Include="Etdb.ServiceBase.Domain.Abstractions" Version="4.0.2" />
-    <PackageReference Include="MongoDB.Driver" Version="2.5.0" />
+    <PackageReference Include="Etdb.ServiceBase.Domain.Abstractions" Version="5.0.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.6.0" />
   </ItemGroup>
-
 </Project>

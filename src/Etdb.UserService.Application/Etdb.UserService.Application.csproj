@@ -7,4 +7,7 @@
     <PackageReference Include="Etdb.ServiceBase.Cryptography" Version="1.0.0" />
     <PackageReference Include="IdentityServer4" Version="2.0.5" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Etdb.UserService.Repositories.Abstractions\Etdb.UserService.Repositories.Abstractions.csproj" />
+  </ItemGroup>
 </Project>

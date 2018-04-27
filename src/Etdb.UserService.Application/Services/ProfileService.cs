@@ -11,7 +11,7 @@ namespace Etdb.UserService.Application.Services
         {
             context.IssuedClaims = context.Subject.Claims.ToList();
 
-            return Task.FromResult(0);
+            return Task.CompletedTask;
         }
 
         public Task IsActiveAsync(IsActiveContext context)
