@@ -1,19 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="Etdb.ServiceBase.Constants" Version="1.0.5" />
-    <PackageReference Include="Etdb.ServiceBase.General.Abstractions" Version="2.0.0" />
+    <PackageReference Include="Etdb.ServiceBase.Constants" Version="2.0.0" />
+    <PackageReference Include="Etdb.ServiceBase.Cryptography" Version="1.0.0" />
     <PackageReference Include="IdentityServer4" Version="2.0.5" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Etdb.UserService.EventSourcing\Etdb.UserService.EventSourcing.csproj" />
-    <ProjectReference Include="..\Etdb.UserService.Presentation\Etdb.UserService.Presentation.csproj" />
-    <ProjectReference Include="..\Etdb.UserService.Repositories.Abstractions\Etdb.UserService.Repositories.Abstractions.csproj" />
-  </ItemGroup>
-
 </Project>

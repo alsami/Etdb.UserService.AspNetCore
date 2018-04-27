@@ -11,8 +11,9 @@ namespace Etdb.UserService.Application.Config
             return new List<ApiResource>
             {
                 new ApiResource(ServiceNames.UserService),
-                new ApiResource(ServiceNames.WebService),
+                new ApiResource(ServiceNames.StorageService),
                 new ApiResource(ServiceNames.FileService),
+                new ApiResource(ServiceNames.IndexService),
             };
         }
     }

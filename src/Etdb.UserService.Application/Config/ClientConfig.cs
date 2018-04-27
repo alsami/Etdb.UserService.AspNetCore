@@ -29,8 +29,9 @@ namespace Etdb.UserService.Application.Config
                         IdentityServerConstants.StandardScopes.Email,
                         IdentityServerConstants.StandardScopes.OfflineAccess,
                         ServiceNames.UserService,
-                        ServiceNames.WebService,
+                        ServiceNames.StorageService,
                         ServiceNames.FileService,
+                        ServiceNames.IndexService,
                     },
 
                     AllowedCorsOrigins = allowedOrigins,

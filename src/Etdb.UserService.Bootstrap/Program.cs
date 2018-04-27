@@ -28,10 +28,11 @@ namespace Etdb.UserService.Bootstrap
 
         private static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureServices(services => services.AddAutofac())
+                .UseContentRoot(AppContext.BaseDirectory)
                 .UseStartup<Startup>()
                 .UseSerilog()
-                .UseContentRoot(AppContext.BaseDirectory)
-                .ConfigureServices(services => services.AddAutofac())
+                .UseKestrel()
                 .Build();
     }
 }
