@@ -12,6 +12,7 @@ using Etdb.UserService.AutoMapper.Profiles;
 using Etdb.UserService.Cqrs.Handler;
 using Etdb.UserService.Repositories;
 using Etdb.UserService.Repositories.Context;
+using Etdb.UserService.Services.Abstractions;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authorization;
@@ -169,7 +170,8 @@ namespace Etdb.UserService.Bootstrap
                 .UseGenericDocumentRepositoryPattern<UserServiceDbContext>(typeof(UserRepository).Assembly)
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypePerLifetimeScope<ResourceOwnerPasswordValidator, IResourceOwnerPasswordValidator>()
-                .RegisterTypePerLifetimeScope<ProfileService, IProfileService>();
+                .RegisterTypePerLifetimeScope<ProfileService, IProfileService>()
+                .RegisterTypePerLifetimeScope<Services.UserService, IUserService>();
         }
     }
 }

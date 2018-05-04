@@ -33,6 +33,7 @@
     <ProjectReference Include="..\Etdb.UserService.Controllers\Etdb.UserService.Controllers.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Cqrs\Etdb.UserService.Cqrs.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Repositories\Etdb.UserService.Repositories.csproj" />
+    <ProjectReference Include="..\Etdb.UserService.Services\Etdb.UserService.Services.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.Development.json">
