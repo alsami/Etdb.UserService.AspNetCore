@@ -1,6 +1,5 @@
 ﻿using Etdb.ServiceBase.Cqrs.Validation;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Repositories.Abstractions;
 using FluentValidation;
 
 namespace Etdb.UserService.Cqrs.Validation

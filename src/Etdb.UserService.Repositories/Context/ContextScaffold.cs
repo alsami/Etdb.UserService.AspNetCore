@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Etdb.ServiceBase.Cryptography.Hashing;
 using Etdb.UserService.Domain;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Etdb.UserService.Repositories.Context

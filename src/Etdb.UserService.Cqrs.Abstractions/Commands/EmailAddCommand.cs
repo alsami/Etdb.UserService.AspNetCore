@@ -1,6 +1,4 @@
-﻿using System;
-using System.Net.Sockets;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
+﻿using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands
 {

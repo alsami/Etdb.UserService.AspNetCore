@@ -4,23 +4,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Validation;
 using Etdb.ServiceBase.Cqrs.Validation;
-using Etdb.ServiceBase.ErrorHandling.Abstractions.Exceptions;
+using Etdb.ServiceBase.Extensions;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Cqrs.Extensions;
-using Etdb.UserService.Presentation;
-using Etdb.UserService.Repositories.Abstractions;
+using Etdb.UserService.Services.Abstractions;
 using FluentValidation;
 
 namespace Etdb.UserService.Cqrs.Validation
 {
-    public class UserRegisterCommandValidation : ResponseCommandValidation<UserRegisterCommand, UserDto>
+    public class UserRegisterCommandValidation : VoidCommandValidation<UserRegisterCommand>
     {
-        private readonly IUsersRepository repository;
+        private readonly IUserService userService;
         private readonly IVoidCommandValidation<EmailAddCommand> emailCommandValidation;
 
-        public UserRegisterCommandValidation(IUsersRepository repository, IVoidCommandValidation<EmailAddCommand> emailCommandValidation)
+        public UserRegisterCommandValidation(IUserService userService, IVoidCommandValidation<EmailAddCommand> emailCommandValidation)
         {
-            this.repository = repository;
+            this.userService = userService;
             this.emailCommandValidation = emailCommandValidation;
             
             this.UserNameRules();
@@ -54,7 +52,8 @@ namespace Etdb.UserService.Cqrs.Validation
 
                     if (!result.IsValid)
                     {
-                        result.ThrowValidationError($"Error validating emailaddress { emailAddCommand.Address }");
+                        throw result.GenerateValidationException(
+                            $"Error validating emailaddress {emailAddCommand.Address}");
                     }
                     
                     return true;
@@ -79,16 +78,14 @@ namespace Etdb.UserService.Cqrs.Validation
 
         private async Task<bool> IsUserNameAvailable(string userName)
         {
-            var user = await this.repository.FindUserAsync(userName);
+            var user = await this.userService.FindUserByUserNameAsync(userName);
 
             return user == null;
         }
 
         private async Task<bool> IsEmailAbailable(string address)
         {
-            var user = await this.repository.FindUserAsync(null, address);
-
-            return user == null;
+            return await this.userService.IsEmAilAddressAvailable(address);
         }
     }
 }

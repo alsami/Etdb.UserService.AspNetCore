@@ -166,7 +166,7 @@ namespace Etdb.UserService.Bootstrap
                 .UseAutoMapper(typeof(UsersProfile).Assembly)
                 .UseEnvironment(this.environment)
                 .UseConfiguration(this.configuration)
-                .UseGenericDocumentRepositoryPattern<UserServiceDbContext>(typeof(UsersRepository).Assembly)
+                .UseGenericDocumentRepositoryPattern<UserServiceDbContext>(typeof(UserRepository).Assembly)
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypePerLifetimeScope<ResourceOwnerPasswordValidator, IResourceOwnerPasswordValidator>()
                 .RegisterTypePerLifetimeScope<ProfileService, IProfileService>();

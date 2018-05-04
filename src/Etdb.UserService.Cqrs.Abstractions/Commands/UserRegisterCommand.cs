@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Presentation;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands
 {
-    public class UserRegisterCommand : IResponseCommand<UserDto>
+    public class UserRegisterCommand : IVoidCommand
     {
         public string UserName { get; set; }
         
