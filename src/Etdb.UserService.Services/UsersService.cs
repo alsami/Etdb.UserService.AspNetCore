@@ -14,16 +14,16 @@ using MongoDB.Driver;
 namespace Etdb.UserService.Services
 {
     // ReSharper disable SpecifyStringComparison
-    public class UserService : IUserService
+    public class UsersService : IUsersService
     {
-        private readonly IUserRepository userRepository;
-        private readonly ISecurityRoleRepository roleRepository;
+        private readonly IUsersRepository usersRepository;
+        private readonly ISecurityRolesRepository rolesRepository;
         private readonly IHasher hasher;
 
-        public UserService(IUserRepository userRepository, ISecurityRoleRepository roleRepository, IHasher hasher)
+        public UsersService(IUsersRepository usersRepository, ISecurityRolesRepository rolesRepository, IHasher hasher)
         {
-            this.userRepository = userRepository;
-            this.roleRepository = roleRepository;
+            this.usersRepository = usersRepository;
+            this.rolesRepository = rolesRepository;
             this.hasher = hasher;
         }
         
@@ -38,7 +38,7 @@ namespace Etdb.UserService.Services
 
             foreach (var roleRef in user.SecurityRoleReferences)
             {
-                var existingRole = await this.roleRepository.FindAsync(role => role.Id.Equals(roleRef.Id.AsGuid))
+                var existingRole = await this.rolesRepository.FindAsync(role => role.Id.Equals(roleRef.Id.AsGuid))
                     .ConfigureAwait(false);
                     
                 claims.Add(new Claim(JwtClaimTypes.Role, existingRole.Name));
@@ -66,12 +66,12 @@ namespace Etdb.UserService.Services
 
         public async Task<User> FindUserByIdAsync(Guid id)
         {
-            return await this.userRepository.FindAsync(id);
+            return await this.usersRepository.FindAsync(id);
         }
 
         public async Task<User> FindUserByUserNameAsync(string userName)
         {
-            return await this.userRepository.FindAsync(UserNameEqualsExpression(userName));
+            return await this.usersRepository.FindAsync(UserNameEqualsExpression(userName));
         }
 
         public async Task<User> FindUserByUserNameOrEmailAsync(string userNameOrEmail)
@@ -81,7 +81,7 @@ namespace Etdb.UserService.Services
                 throw new ArgumentException(nameof(userNameOrEmail));
             }
             
-            return await this.userRepository.FindAsync(user => user.UserName.ToLower() == userNameOrEmail.ToLower()
+            return await this.usersRepository.FindAsync(user => user.UserName.ToLower() == userNameOrEmail.ToLower()
                                                                || user.Emails.Any(email => email.Address.ToLower() == userNameOrEmail.ToLower()));
         }
 
@@ -92,7 +92,7 @@ namespace Etdb.UserService.Services
                 throw new ArgumentException(nameof(user.Password));
             }
             
-            var memberRole = await this.roleRepository.FindAsync(role => role.Name == RoleNames.Member);
+            var memberRole = await this.rolesRepository.FindAsync(role => role.Name == RoleNames.Member);
 
             user.SecurityRoleReferences.Add(new MongoDBRef($"{ nameof(SecurityRole).ToLower() }s", memberRole.Id));
 
@@ -102,14 +102,14 @@ namespace Etdb.UserService.Services
 
             user.Salt = salt;
             
-            await this.userRepository.AddAsync(user);
+            await this.usersRepository.AddAsync(user);
         }
 
-        public async Task<bool> IsEmAilAddressAvailable(string emailAddress)
+        public Email FindEmailAddress(string emailAddress)
         {
-            var users = await this.userRepository.FindAllAsync(UserHasAnyEqualEmailExpression(emailAddress));
-
-            return users.Any();
+            return this.usersRepository.Query()
+                .SelectMany(user => user.Emails)
+                .FirstOrDefault(EmailEqualsExpressios(emailAddress));
         }
 
         public bool ArePasswordsEqual(User user, string password)
@@ -126,6 +126,9 @@ namespace Etdb.UserService.Services
             user => user.UserName.ToLower() == userName.ToLower();
 
         private static Expression<Func<User, bool>> UserHasAnyEqualEmailExpression(string emailAddress) =>
-            user => user.Emails.Any(email => email.Address.ToLower() == emailAddress);
+            user => user.Emails.Any(email => email.Address.ToLower() == emailAddress.ToLower());
+
+        private static Expression<Func<Email, bool>> EmailEqualsExpressios(string emailAddress) =>
+            email => email.Address.ToLower() == emailAddress.ToLower();
     }
 }

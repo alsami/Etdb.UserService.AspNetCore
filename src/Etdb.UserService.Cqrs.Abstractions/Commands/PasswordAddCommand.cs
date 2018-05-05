@@ -2,7 +2,8 @@
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands
 {
-    public class EmailAddCommand : EmailCommand
+    public class PasswordAddCommand : PasswordCommand
     {
+        
     }
 }

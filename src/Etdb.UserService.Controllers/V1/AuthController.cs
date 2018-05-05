@@ -11,10 +11,10 @@ namespace Etdb.UserService.Controllers.V1
     [Route("api/v1/[controller]")]
     public class AuthController : Controller
     {
-        private readonly IUserRepository repository;
+        private readonly IUsersRepository repository;
         private readonly IMediatorHandler mediator;
 
-        public AuthController(IUserRepository repository, IMediatorHandler mediator)
+        public AuthController(IUsersRepository repository, IMediatorHandler mediator)
         {
             this.repository = repository;
             this.mediator = mediator;

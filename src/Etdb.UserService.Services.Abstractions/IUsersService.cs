@@ -6,7 +6,7 @@ using Etdb.UserService.Domain;
 
 namespace Etdb.UserService.Services.Abstractions
 {
-    public interface IUserService
+    public interface IUsersService
     {        
         Task<IEnumerable<Claim>> AllocateClaims(User user);
         
@@ -18,7 +18,7 @@ namespace Etdb.UserService.Services.Abstractions
         
         Task RegisterAsync(User user);
 
-        Task<bool> IsEmAilAddressAvailable(string emailAddress);
+        Email FindEmailAddress(string emailAddress);
 
         bool ArePasswordsEqual(User user, string password);
     }

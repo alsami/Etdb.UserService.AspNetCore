@@ -4,7 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
-    <PackageReference Include="Etdb.ServiceBase.Cqrs" Version="1.0.0" />
+    <PackageReference Include="Etdb.ServiceBase.Cqrs" Version="1.1.0" />
     <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="1.0.0" />
     <PackageReference Include="Etdb.ServiceBase.ErrorHandling.Abstractions" Version="1.0.0" />
     <PackageReference Include="Etdb.ServiceBase.Extensions" Version="1.0.1" />

@@ -4,8 +4,7 @@ using Etdb.UserService.Domain;
 
 namespace Etdb.UserService.Repositories.Abstractions
 {
-    public interface ISecurityRoleRepository : IDocumentRepository<SecurityRole, Guid>
+    public interface IUsersRepository : IDocumentRepository<User, Guid>
     {
-        
     }
 }

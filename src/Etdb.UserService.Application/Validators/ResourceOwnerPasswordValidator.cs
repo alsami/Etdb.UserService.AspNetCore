@@ -7,16 +7,16 @@ namespace Etdb.UserService.Application.Validators
 {
     public class ResourceOwnerPasswordValidator : IResourceOwnerPasswordValidator
     {
-        private readonly IUserService userService;
+        private readonly IUsersService usersService;
 
-        public ResourceOwnerPasswordValidator(IUserService userService)
+        public ResourceOwnerPasswordValidator(IUsersService usersService)
         {
-            this.userService = userService;
+            this.usersService = usersService;
         }
 
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            var loginUser = await this.userService.FindUserByUserNameOrEmailAsync(context.UserName);
+            var loginUser = await this.usersService.FindUserByUserNameOrEmailAsync(context.UserName);
 
             if (loginUser == null)
             {
@@ -24,7 +24,7 @@ namespace Etdb.UserService.Application.Validators
                 return;
             }
 
-            if (this.userService.ArePasswordsEqual(loginUser, context.Password))
+            if (this.usersService.ArePasswordsEqual(loginUser, context.Password))
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant);
                 return;
@@ -32,7 +32,7 @@ namespace Etdb.UserService.Application.Validators
 
             context.Result = new GrantValidationResult(loginUser.Id.ToString(), 
                 "custom", 
-                await this.userService.AllocateClaims(loginUser));
+                await this.usersService.AllocateClaims(loginUser));
         }
     }
 }

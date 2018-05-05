@@ -10,8 +10,8 @@ using Etdb.UserService.Application.Services;
 using Etdb.UserService.Application.Validators;
 using Etdb.UserService.AutoMapper.Profiles;
 using Etdb.UserService.Cqrs.Handler;
-using Etdb.UserService.Repositories;
 using Etdb.UserService.Repositories.Context;
+using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
@@ -167,11 +167,11 @@ namespace Etdb.UserService.Bootstrap
                 .UseAutoMapper(typeof(UsersProfile).Assembly)
                 .UseEnvironment(this.environment)
                 .UseConfiguration(this.configuration)
-                .UseGenericDocumentRepositoryPattern<UserServiceDbContext>(typeof(UserRepository).Assembly)
+                .UseGenericDocumentRepositoryPattern<UserServiceDbContext>(typeof(UserServiceDbContext).Assembly)
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypePerLifetimeScope<ResourceOwnerPasswordValidator, IResourceOwnerPasswordValidator>()
                 .RegisterTypePerLifetimeScope<ProfileService, IProfileService>()
-                .RegisterTypePerLifetimeScope<Services.UserService, IUserService>();
+                .RegisterTypePerLifetimeScope<UsersService, IUsersService>();
         }
     }
 }

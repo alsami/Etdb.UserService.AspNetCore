@@ -6,11 +6,11 @@ using Etdb.UserService.Repositories.Abstractions;
 
 namespace Etdb.UserService.Repositories
 {
-    public class UserRepository : GenericDocumentRepository<User, Guid>, IUserRepository
+    public class UsersRepository : GenericDocumentRepository<User, Guid>, IUsersRepository
     {
         private readonly DocumentDbContext context;
 
-        public UserRepository(DocumentDbContext context) : base(context)
+        public UsersRepository(DocumentDbContext context) : base(context)
         {
             this.context = context;
         }
