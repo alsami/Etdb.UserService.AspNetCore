@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Etdb.ServiceBase.Cryptography.Hashing;
+using Etdb.UserService.Constants;
 using Etdb.UserService.Domain;
 using MongoDB.Driver;
 
@@ -40,9 +41,6 @@ namespace Etdb.UserService.Repositories.Context
             }
 
             var usersCollection = context.Database.GetCollection<User>($"{nameof(User).ToLower()}s");
-
-            
-            var filter = Builders<User>.Filter.Eq(user => user.UserName, "admin");
             
             var adminUser =
                 usersCollection.Find(user => user.UserName == "admin")
@@ -57,9 +55,11 @@ namespace Etdb.UserService.Repositories.Context
 
             var salt = hasher.GenerateSalt();
 
+            var adminGuid = Guid.NewGuid();
+
             adminUser = new User
             {
-                Id = Guid.NewGuid(),
+                Id = adminGuid,
                 UserName = "admin",
                 Salt = salt,
                 Password = hasher.CreateSaltedHash("1234", salt),
@@ -69,7 +69,8 @@ namespace Etdb.UserService.Repositories.Context
                     {
                         Address = "admin@etdb.com",
                         Id = Guid.NewGuid(),
-                        IsPrimary = true
+                        IsPrimary = true,
+                        UserId = adminGuid
                     }
                 },
                 SecurityRoleReferences = new List<MongoDBRef>

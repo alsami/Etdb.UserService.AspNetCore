@@ -2,21 +2,22 @@
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.ServiceBase.Extensions;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Domain;
 using Etdb.UserService.Repositories.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 
 namespace Etdb.UserService.Controllers.V1
 {
     [Route("api/v1/[controller]")]
     public class AuthController : Controller
     {
-        private readonly IUsersRepository repository;
         private readonly IMediatorHandler mediator;
 
-        public AuthController(IUsersRepository repository, IMediatorHandler mediator)
+        public AuthController(IMediatorHandler mediator)
         {
-            this.repository = repository;
             this.mediator = mediator;
         }
 

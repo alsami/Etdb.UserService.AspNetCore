@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.IO.Compression;
+using Autofac;
 using Etdb.ServiceBase.Builder.Builder;
 using Etdb.ServiceBase.Constants;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
@@ -6,10 +7,10 @@ using Etdb.ServiceBase.Cryptography.Hashing;
 using Etdb.ServiceBase.DocumentRepository.Abstractions.Context;
 using Etdb.ServiceBase.ErrorHandling.Filters;
 using Etdb.UserService.Application.Config;
-using Etdb.UserService.Application.Services;
-using Etdb.UserService.Application.Validators;
 using Etdb.UserService.AutoMapper.Profiles;
+using Etdb.UserService.Constants;
 using Etdb.UserService.Cqrs.Handler;
+using Etdb.UserService.Domain;
 using Etdb.UserService.Repositories.Context;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
@@ -18,10 +19,12 @@ using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -41,6 +44,7 @@ namespace Etdb.UserService.Bootstrap
         private const string CorsPolicyName = "AllowAll";
         private const string AuthenticationSchema = "Bearer";
         private const string DbContextOptions = "DocumentDbContextOptions";
+        private const string RedisCacheOptions = "RedisCacheOptions";
 
         public Startup(IHostingEnvironment environment)
         {
@@ -84,7 +88,6 @@ namespace Etdb.UserService.Bootstrap
                         .Build());
                     
                     options.Filters.Add(requireAuthenticatedUserPolicy);
-
                     options.Filters.Add(typeof(UnhandledExceptionFilter));
                     options.Filters.Add(typeof(ConcurrencyExceptionFilter));
                     options.Filters.Add(typeof(AccessDeniedExceptionFilter));
@@ -98,6 +101,40 @@ namespace Etdb.UserService.Bootstrap
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
 
+            services.AddIdentityServer()
+                .AddDeveloperSigningCredential()
+                .AddInMemoryIdentityResources(IdentityResourceConfig.GetIdentityResource())
+                .AddInMemoryApiResources(ApiResourceConfig.GetApiResource())
+                .AddInMemoryClients(ClientConfig.GetClients(clientId, clientSecret, allowedOrigins));
+
+            services.AddAuthentication(AuthenticationSchema)
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = authority;
+                    options.RequireHttpsMetadata = this.environment.IsProduction();
+                    options.ApiName = ServiceNames.UserService;
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(RolePolicyNames.AdminPolicy, builder => builder.RequireRole(RoleNames.Admin));
+            });
+
+            services.AddCors(options =>
+                {
+                    options.AddPolicy(CorsPolicyName, builder =>
+                    {
+                        builder.WithOrigins(allowedOrigins)
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+                })
+                .Configure<MvcOptions>(options =>
+                    options.Filters.Add(new CorsAuthorizationFilterFactory(CorsPolicyName)));
+
+            services.AddDistributedRedisCache(options =>
+                this.configuration.GetSection(Startup.RedisCacheOptions).Bind(options));
+            
             if (this.environment.IsDevelopment())
             {
                 services.AddMvcCore()
@@ -113,36 +150,21 @@ namespace Etdb.UserService.Bootstrap
                 });   
             }
 
-            services.AddIdentityServer()
-                .AddDeveloperSigningCredential()
-                .AddInMemoryIdentityResources(new IdentityResourceConfig().GetIdentityResource())
-                .AddInMemoryApiResources(new ApiResourceConfig().GetApiResource())
-                .AddInMemoryClients(new ClientConfig().GetClients(clientId, clientSecret, allowedOrigins));
-
-            services.AddAuthentication(AuthenticationSchema)
-                .AddIdentityServerAuthentication(options =>
-                {
-                    options.Authority = authority;
-                    options.RequireHttpsMetadata = this.environment.IsProduction();
-                    options.ApiName = ServiceNames.UserService;
-                });
-
-            services.AddCors(options =>
-                {
-                    options.AddPolicy(CorsPolicyName, builder =>
-                    {
-                        builder.WithOrigins(allowedOrigins)
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                    });
-                })
-                .Configure<MvcOptions>(options =>
-                    options.Filters.Add(new CorsAuthorizationFilterFactory(CorsPolicyName)));
-
             services.Configure<DocumentDbContextOptions>(options =>
             {
                 this.configuration.GetSection(Startup.DbContextOptions)
                     .Bind(options);
+            });
+
+            services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
+            
+            services.AddResponseCompression(options =>
+            {
+                options.MimeTypes = new[]
+                {
+                    "application/json",
+                    "application/octet-stream"
+                };
             });
         }
 
@@ -169,9 +191,11 @@ namespace Etdb.UserService.Bootstrap
                 .UseConfiguration(this.configuration)
                 .UseGenericDocumentRepositoryPattern<UserServiceDbContext>(typeof(UserServiceDbContext).Assembly)
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
-                .RegisterTypePerLifetimeScope<ResourceOwnerPasswordValidator, IResourceOwnerPasswordValidator>()
-                .RegisterTypePerLifetimeScope<ProfileService, IProfileService>()
-                .RegisterTypePerLifetimeScope<UsersService, IUsersService>();
+                .RegisterTypePerLifetimeScope<HttpContextAccessor, IHttpContextAccessor>()
+                .RegisterTypePerLifetimeScope<AuthService, IResourceOwnerPasswordValidator>()
+                .RegisterTypePerLifetimeScope<AuthService, IProfileService>()
+                .RegisterTypePerLifetimeScope<AuthService, IAuthService>()
+                .RegisterTypePerLifetimeScope<UsersSearchService, IUsersSearchService>();
         }
     }
 }

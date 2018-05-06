@@ -6,20 +6,14 @@ using Etdb.UserService.Domain;
 
 namespace Etdb.UserService.Services.Abstractions
 {
-    public interface IUsersService
+    public interface IUsersSearchService
     {        
-        Task<IEnumerable<Claim>> AllocateClaims(User user);
-        
         Task<User> FindUserByIdAsync(Guid id);
 
         Task<User> FindUserByUserNameAsync(string userName);
 
         Task<User> FindUserByUserNameOrEmailAsync(string userNameOrEmail);
-        
-        Task RegisterAsync(User user);
 
-        Email FindEmailAddress(string emailAddress);
-
-        bool ArePasswordsEqual(User user, string password);
+        Task<Email> FindEmailAddress(string emailAddress);
     }
 }

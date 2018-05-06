@@ -1,4 +1,4 @@
-﻿namespace Etdb.UserService.Domain
+﻿namespace Etdb.UserService.Constants
 {
     public class RoleNames
     {

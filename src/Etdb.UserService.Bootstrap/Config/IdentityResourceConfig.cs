@@ -5,7 +5,7 @@ namespace Etdb.UserService.Application.Config
 {
     public class IdentityResourceConfig
     {
-        public IEnumerable<IdentityResource> GetIdentityResource()
+        public static IEnumerable<IdentityResource> GetIdentityResource()
         {
             return new List<IdentityResource>
             {

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Domain;
 using Etdb.UserService.Presentation;

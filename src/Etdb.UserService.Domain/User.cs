@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using Etdb.UserService.Domain.Base;
+using Etdb.UserService.Extensions.Converters;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 
 namespace Etdb.UserService.Domain
 {
@@ -9,6 +11,7 @@ namespace Etdb.UserService.Domain
         public User()
         {
             this.Emails = new List<Email>();
+            this.SecurityRoleReferences = new List<MongoDBRef>();
         }
         
         public string UserName { get; set; }
@@ -25,6 +28,7 @@ namespace Etdb.UserService.Domain
         
         public ICollection<SecurityRole> SecurityRoles { get; set; }
         
+        [JsonConverter(typeof(MongoDbRefConverter))]
         public ICollection<MongoDBRef> SecurityRoleReferences { get; set; }
     }
 }

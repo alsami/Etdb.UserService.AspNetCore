@@ -7,7 +7,7 @@ namespace Etdb.UserService.Application.Config
 {
     public class ClientConfig
     {
-        public IEnumerable<Client> GetClients(string clientId, string clientSecrect, string[] allowedOrigins)
+        public static IEnumerable<Client> GetClients(string clientId, string clientSecrect, string[] allowedOrigins)
         {
             return new List<Client>
             {

@@ -9,11 +9,11 @@ namespace Etdb.UserService.Cqrs.Validation.Base
 {
     public abstract class UserNameCommandValidation<TUserNameCommand> : CommandValidation<TUserNameCommand> where TUserNameCommand : UserNameCommand
     {
-        private readonly IUsersService usersService;
+        private readonly IUsersSearchService usersSearchService;
 
-        protected UserNameCommandValidation(IUsersService usersService)
+        protected UserNameCommandValidation(IUsersSearchService usersSearchService)
         {
-            this.usersService = usersService;
+            this.usersSearchService = usersSearchService;
         }
 
         protected void RegisterUserNameRules()
@@ -25,13 +25,14 @@ namespace Etdb.UserService.Cqrs.Validation.Base
                 .NotEqual("Administrator", StringComparer.OrdinalIgnoreCase)
                 .NotEqual("Admin", StringComparer.OrdinalIgnoreCase)
                 .WithMessage("Username blacklisted!")
-                .MustAsync(async (command, userName, token) => await this.IsUserNameAvailable(command));
+                .MustAsync(async (command, userName, token) => await this.IsUserNameAvailable(command))
+                .WithMessage("The username is already in use!");
 
         }
         
         private async Task<bool> IsUserNameAvailable(UserNameCommand command)
         {
-            var user = await this.usersService.FindUserByUserNameAsync(command.UserName);
+            var user = await this.usersSearchService.FindUserByUserNameAsync(command.UserName);
 
             if (user == null)
             {

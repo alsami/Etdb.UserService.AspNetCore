@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -10,26 +11,30 @@ using Etdb.ServiceBase.ErrorHandling.Abstractions.Exceptions;
 using Etdb.UserService.Cqrs.Abstractions.Base;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Domain;
+using Etdb.UserService.Extensions;
 using Etdb.UserService.Services.Abstractions;
 using FluentValidation.Results;
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 
 namespace Etdb.UserService.Cqrs.Handler
 {
     public class UserRegisterCommandHandler : IVoidCommandHandler<UserRegisterCommand>
     {
         private readonly IMapper mapper;
-        private readonly IUsersService usersService;
+        private readonly IAuthService authService;
         private readonly ICommandValidation<UserRegisterCommand> userRegisterCommandValidation;
         private readonly ICommandValidation<EmailAddCommand> emailAddCommandValidation;
-        private readonly ICommandValidation<PasswordCommand> passwordCommandValidation;
+        private readonly ICommandValidation<PasswordAddCommand> passwordCommandValidation;
 
-        public UserRegisterCommandHandler(IMapper mapper, IUsersService usersService, 
-            ICommandValidation<UserRegisterCommand> userRegisterCommandValidation, 
-            ICommandValidation<EmailAddCommand> emailAddCommandValidation, 
-            ICommandValidation<PasswordCommand> passwordCommandValidation)
+        public UserRegisterCommandHandler(IMapper mapper, IAuthService authService,
+            ICommandValidation<UserRegisterCommand> userRegisterCommandValidation,
+            ICommandValidation<EmailAddCommand> emailAddCommandValidation,
+            ICommandValidation<PasswordAddCommand> passwordCommandValidation)
         {
+            
             this.mapper = mapper;
-            this.usersService = usersService;
+            this.authService = authService;
             this.userRegisterCommandValidation = userRegisterCommandValidation;
             this.emailAddCommandValidation = emailAddCommandValidation;
             this.passwordCommandValidation = passwordCommandValidation;
@@ -68,7 +73,7 @@ namespace Etdb.UserService.Cqrs.Handler
             
             var user = this.mapper.Map<User>(request);
 
-            await this.usersService.RegisterAsync(user);
+            await this.authService.RegisterAsync(user);
         }
     }
 }

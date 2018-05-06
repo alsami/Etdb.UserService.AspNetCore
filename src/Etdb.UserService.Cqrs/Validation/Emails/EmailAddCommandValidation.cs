@@ -6,7 +6,7 @@ namespace Etdb.UserService.Cqrs.Validation.Emails
 {
     public class EmailAddCommandValidation : EmailCommandValidation<EmailAddCommand>
     {
-        protected EmailAddCommandValidation(IUsersService usersService) : base(usersService)
+        public EmailAddCommandValidation(IUsersSearchService usersSearchService) : base(usersSearchService)
         {
             this.RegisterEmailRules();
         }

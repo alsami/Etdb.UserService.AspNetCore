@@ -1,17 +1,18 @@
-﻿using Etdb.ServiceBase.Cqrs.Validation;
+﻿using System.Threading.Tasks;
+using Etdb.ServiceBase.Cqrs.Validation;
 using Etdb.UserService.Cqrs.Abstractions.Base;
 using Etdb.UserService.Services.Abstractions;
 using FluentValidation;
 
 namespace Etdb.UserService.Cqrs.Validation.Base
 {
-    public class EmailCommandValidation<TEmailCommand> : CommandValidation<TEmailCommand> where TEmailCommand : EmailCommand
+    public abstract class EmailCommandValidation<TEmailCommand> : CommandValidation<TEmailCommand> where TEmailCommand : EmailCommand
     {
-        private readonly IUsersService usersService;
+        private readonly IUsersSearchService usersSearchService;
 
-        protected EmailCommandValidation(IUsersService usersService)
+        protected EmailCommandValidation(IUsersSearchService usersSearchService)
         {
-            this.usersService = usersService;
+            this.usersSearchService = usersSearchService;
         }
         
         protected void RegisterEmailRules()
@@ -23,14 +24,14 @@ namespace Etdb.UserService.Cqrs.Validation.Base
                 .WithMessage("A valid email-address must be given!");
             
             this.RuleFor(command => command)
-                .Must(command => this.IsEmailAbailable(command))
+                .MustAsync(async (command, token, email) => await this.IsEmailAbailable(command))
                 .WithMessage("Email address already taken!");
         }
         
         
-        private bool IsEmailAbailable(EmailCommand command)
+        private async Task<bool> IsEmailAbailable(EmailCommand command)
         {
-            var email = this.usersService.FindEmailAddress(command.Address);
+            var email = await this.usersSearchService.FindEmailAddress(command.Address);
 
             if (email == null)
             {

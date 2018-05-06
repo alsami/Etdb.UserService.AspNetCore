@@ -1,6 +1,7 @@
 ﻿using Etdb.ServiceBase.DocumentRepository.Abstractions.Context;
 using Etdb.UserService.Domain;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson.Serialization.Conventions;
 
 namespace Etdb.UserService.Repositories.Context
 {
@@ -20,6 +21,7 @@ namespace Etdb.UserService.Repositories.Context
         public sealed override void Configure()
         {
             UseCamelCaseConvention();
+            UseIgnoreNullValuesConvention();
 
             foreach (var collectionName in this.collections)
             {
@@ -30,6 +32,12 @@ namespace Etdb.UserService.Repositories.Context
             }
             
             ContextScaffold.Scaffold(this);
+        }
+
+        private static void UseIgnoreNullValuesConvention()
+        {
+            ConventionRegistry.Register("IgnoreIfDefault", 
+                new ConventionPack { new IgnoreIfDefaultConvention(true) }, t => true);
         }
     }
 }

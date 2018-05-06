@@ -1,4 +1,5 @@
-﻿using Etdb.UserService.Domain.Base;
+﻿using System;
+using Etdb.UserService.Domain.Base;
 
 namespace Etdb.UserService.Domain
 {
@@ -8,6 +9,6 @@ namespace Etdb.UserService.Domain
 
         public bool IsPrimary { get; set; }
 
-        public User User { get; set; }
+        public Guid UserId { get; set; }
     }
 }

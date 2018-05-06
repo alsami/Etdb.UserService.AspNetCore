@@ -28,8 +28,8 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Etdb.UserService.Application\Etdb.UserService.Application.csproj" />
     <ProjectReference Include="..\Etdb.UserService.AutoMapper\Etdb.UserService.AutoMapper.csproj" />
+    <ProjectReference Include="..\Etdb.UserService.Constants\Etdb.UserService.Constants.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Controllers\Etdb.UserService.Controllers.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Cqrs\Etdb.UserService.Cqrs.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Repositories\Etdb.UserService.Repositories.csproj" />

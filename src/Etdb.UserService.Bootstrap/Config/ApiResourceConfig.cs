@@ -6,7 +6,7 @@ namespace Etdb.UserService.Application.Config
 {
     public class ApiResourceConfig
     {
-        public IEnumerable<ApiResource> GetApiResource()
+        public static IEnumerable<ApiResource> GetApiResource()
         {
             return new List<ApiResource>
             {
