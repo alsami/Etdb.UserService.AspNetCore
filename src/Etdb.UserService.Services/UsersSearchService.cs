@@ -34,8 +34,6 @@ namespace Etdb.UserService.Services
 
             if (cachedUser != null)
             {
-                await this.cache.RefreshAsync(id.ToString());
-                
                 return cachedUser;
             }
             
@@ -84,7 +82,6 @@ namespace Etdb.UserService.Services
 
             if (entry != null)
             {
-                await this.cache.RefreshAsync(emailAddress);
                 return entry;
             }
             

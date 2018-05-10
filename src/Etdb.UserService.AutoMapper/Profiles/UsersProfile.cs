@@ -12,10 +12,6 @@ namespace Etdb.UserService.AutoMapper.Profiles
             this.CreateMap<User, UserDto>();
 
             this.CreateMap<Email, EmailDto>();
-
-            this.CreateMap<UserRegisterCommand, User>();
-
-            this.CreateMap<EmailAddCommand, Email>();
         }
     }
 }

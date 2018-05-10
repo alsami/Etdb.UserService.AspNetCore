@@ -1,43 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Etdb.ServiceBase.Cryptography.Hashing;
 using Etdb.UserService.Constants;
 using Etdb.UserService.Domain;
+using Etdb.UserService.Repositories;
 using MongoDB.Driver;
 
-namespace Etdb.UserService.Repositories.Context
+namespace Etdb.UserService.Scaffold
 {
     internal class ContextScaffold
     {        
         public static void Scaffold(UserServiceDbContext context)
-        {
+        {                       
             var securityRoleCollection =
                 context.Database.GetCollection<SecurityRole>($"{nameof(SecurityRole).ToLower()}s");
+            
+            var rolesToAdd = new List<SecurityRole>();
 
             var memberRole = securityRoleCollection.Find(role => role.Name == RoleNames.Member).FirstOrDefault();
 
             if (memberRole == null)
             {
-                memberRole = new SecurityRole
-                {
-                    Id = Guid.NewGuid(),
-                    Name = RoleNames.Member
-                };
+                memberRole = new SecurityRole(Guid.NewGuid(), RoleNames.Member);
                 
-                securityRoleCollection.InsertOne(memberRole);
+                rolesToAdd.Add(memberRole);
             }
             
             var adminRole = securityRoleCollection.Find(role => role.Name == RoleNames.Admin).FirstOrDefault();
             
             if (adminRole == null)
             {
-                adminRole = new SecurityRole
-                {
-                    Id = Guid.NewGuid(),
-                    Name = RoleNames.Admin
-                };
+                adminRole = new SecurityRole(Guid.NewGuid(), RoleNames.Admin);
                 
-                securityRoleCollection.InsertOne(adminRole);
+                rolesToAdd.Add(adminRole);
+            }
+
+            if (rolesToAdd.Any())
+            {
+                securityRoleCollection.InsertMany(rolesToAdd);
             }
 
             var usersCollection = context.Database.GetCollection<User>($"{nameof(User).ToLower()}s");
@@ -57,28 +58,12 @@ namespace Etdb.UserService.Repositories.Context
 
             var adminGuid = Guid.NewGuid();
 
-            adminUser = new User
-            {
-                Id = adminGuid,
-                UserName = "admin",
-                Salt = salt,
-                Password = hasher.CreateSaltedHash("1234", salt),
-                Emails = new List<Email>
+            adminUser = new User(adminGuid, "admin", null, null, salt, hasher.CreateSaltedHash("1234", salt),
+                new List<Email> {new Email(Guid.NewGuid(), "admin@etdb.com", true)}, new List<MongoDBRef>
                 {
-                    new Email
-                    {
-                        Address = "admin@etdb.com",
-                        Id = Guid.NewGuid(),
-                        IsPrimary = true,
-                        UserId = adminGuid
-                    }
-                },
-                SecurityRoleReferences = new List<MongoDBRef>
-                {
-                    new MongoDBRef($"{nameof(SecurityRole).ToLower()}s", memberRole.Id),
-                    new MongoDBRef($"{nameof(SecurityRole).ToLower()}s", adminRole.Id)
-                }
-            };
+                new MongoDBRef($"{nameof(SecurityRole).ToLower()}s", memberRole.Id),
+                new MongoDBRef($"{nameof(SecurityRole).ToLower()}s", adminRole.Id)
+            });
             
             usersCollection.InsertOne(adminUser);
         }

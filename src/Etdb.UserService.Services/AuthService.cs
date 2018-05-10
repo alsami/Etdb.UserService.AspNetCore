@@ -39,33 +39,15 @@ namespace Etdb.UserService.Services
         }
         
         public async Task RegisterAsync(User user)
-        {
-            if (string.IsNullOrWhiteSpace(user.Password))
-            {
-                throw new ArgumentException(nameof(user.Password));
-            }
-
-            user.Id = user.Id == Guid.Empty ? Guid.NewGuid() : user.Id;
-            
-            foreach (var email in user.Emails)
-            {
-                email.Id = email.Id == Guid.Empty ? Guid.NewGuid() : email.Id;;
-                email.UserId = user.Id;
-            }
-            
-            var memberRole = await this.rolesRepository.FindAsync(role => role.Name == RoleNames.Member);
-
-            user.SecurityRoleReferences.Add(new MongoDBRef($"{ nameof(SecurityRole).ToLower() }s", memberRole.Id));
-
-            var salt = this.hasher.GenerateSalt();
-
-            user.Password = this.hasher.CreateSaltedHash(user.Password, salt);
-
-            user.Salt = salt;
-            
+        {            
             await this.usersRepository.AddAsync(user);
 
             await this.cache.AddOrUpdateAsync(user.Id, user);
+
+            foreach (var email in user.Emails)
+            {
+                await this.cache.AddOrUpdateAsync(email.Id, email);
+            }
         }
         
         public Task GetProfileDataAsync(ProfileDataRequestContext context)
@@ -125,13 +107,13 @@ namespace Etdb.UserService.Services
 
             claims.AddRange(user.Emails.Select(email => new Claim(JwtClaimTypes.Email, email.Address)).ToArray());
 
-            if (user.FirstName != null && user.LastName != null)
+            if (user.FirstName != null && user.Name != null)
             {
                 claims.AddRange(new []
                 {
-                    new Claim(JwtClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+                    new Claim(JwtClaimTypes.Name, $"{user.FirstName} {user.Name}"),
                     new Claim(JwtClaimTypes.GivenName, user.FirstName),
-                    new Claim(JwtClaimTypes.FamilyName, user.LastName),
+                    new Claim(JwtClaimTypes.FamilyName, user.Name)
                 });
             }
 

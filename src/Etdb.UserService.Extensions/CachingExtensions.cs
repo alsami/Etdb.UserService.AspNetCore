@@ -14,7 +14,7 @@ namespace Etdb.UserService.Extensions
         {
             var usedOptions = options ?? new DistributedCacheEntryOptions
             {
-                SlidingExpiration = TimeSpan.FromDays(1)
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1)
             };
 
             var entry = await cache.GetAsync(key.ToString(), token);

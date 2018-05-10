@@ -5,7 +5,7 @@
   <ItemGroup>
     <PackageReference Include="Etdb.ServiceBase.Constants" Version="2.0.0" />
     <PackageReference Include="Etdb.ServiceBase.Cryptography" Version="1.0.0" />
-    <PackageReference Include="Etdb.ServiceBase.DocumentRepository" Version="1.1.1" />
+    <PackageReference Include="Etdb.ServiceBase.DocumentRepository" Version="1.1.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Constants\Etdb.UserService.Constants.csproj" />

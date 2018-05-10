@@ -1,9 +1,13 @@
-﻿using Etdb.ServiceBase.DocumentRepository.Abstractions.Context;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Etdb.ServiceBase.DocumentRepository.Abstractions.Context;
 using Etdb.UserService.Domain;
 using Microsoft.Extensions.Options;
+using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 
-namespace Etdb.UserService.Repositories.Context
+namespace Etdb.UserService.Repositories
 {
     public class UserServiceDbContext : DocumentDbContext
     {
@@ -19,7 +23,8 @@ namespace Etdb.UserService.Repositories.Context
         }
 
         public sealed override void Configure()
-        {
+        {            
+            UseImmutableConvention();
             UseCamelCaseConvention();
             UseIgnoreNullValuesConvention();
 
@@ -30,14 +35,12 @@ namespace Etdb.UserService.Repositories.Context
                     this.CreateCollection(collectionName, AutoIndexIdCollectionOptions());
                 }
             }
-            
-            ContextScaffold.Scaffold(this);
         }
 
         private static void UseIgnoreNullValuesConvention()
         {
-            ConventionRegistry.Register("IgnoreIfDefault", 
-                new ConventionPack { new IgnoreIfDefaultConvention(true) }, t => true);
+            ConventionRegistry.Register(nameof(IgnoreIfDefaultConvention), 
+                new ConventionPack { new IgnoreIfDefaultConvention(true) }, type => true);
         }
     }
 }
