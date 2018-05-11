@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.CompilerServices;
 using Etdb.ServiceBase.DocumentRepository.Abstractions.Context;
 using Etdb.UserService.Repositories;
 using Microsoft.Extensions.Configuration;

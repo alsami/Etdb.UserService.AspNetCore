@@ -59,11 +59,8 @@ namespace Etdb.UserService.Scaffold
             var adminGuid = Guid.NewGuid();
 
             adminUser = new User(adminGuid, "admin", null, null, salt, hasher.CreateSaltedHash("1234", salt),
-                new List<Email> {new Email(Guid.NewGuid(), "admin@etdb.com", true)}, new List<MongoDBRef>
-                {
-                new MongoDBRef($"{nameof(SecurityRole).ToLower()}s", memberRole.Id),
-                new MongoDBRef($"{nameof(SecurityRole).ToLower()}s", adminRole.Id)
-            });
+                new []{ memberRole.Id, adminRole.Id },
+                new List<Email> {new Email(Guid.NewGuid(), "admin@etdb.com", true)});
             
             usersCollection.InsertOne(adminUser);
         }

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
-using Etdb.UserService.Constants;
 using Etdb.UserService.Domain;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Repositories.Abstractions;
@@ -14,7 +13,6 @@ using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
 using Microsoft.Extensions.Caching.Distributed;
-using MongoDB.Driver;
 
 namespace Etdb.UserService.Services
 {
@@ -72,7 +70,7 @@ namespace Etdb.UserService.Services
                 return;
             }
 
-            if (!this.ArePasswordsEqual(loginUser, context.Password))
+            if (!this.ArePasswordsEqual(loginUser.Password, context.Password, loginUser.Salt))
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant);
                 return;
@@ -92,9 +90,9 @@ namespace Etdb.UserService.Services
             
             var claims = new List<Claim>();
 
-            foreach (var roleRef in user.SecurityRoleReferences)
+            foreach (var roleId in user.RoleIds)
             {
-                var existingRole = await this.rolesRepository.FindAsync(role => role.Id.Equals(roleRef.Id.AsGuid))
+                var existingRole = await this.rolesRepository.FindAsync(roleId)
                     .ConfigureAwait(false);
                     
                 claims.Add(new Claim(JwtClaimTypes.Role, existingRole.Name));
@@ -120,14 +118,9 @@ namespace Etdb.UserService.Services
             return claims;
         }
         
-        private bool ArePasswordsEqual(User user, string password)
+        private bool ArePasswordsEqual(string hashedPassword, string unhasedPassword, byte[] salt)
         {
-            if (user == null)
-            {
-                throw new ArgumentNullException(); 
-            }
-
-            return this.hasher.CreateSaltedHash(password, user.Salt) == user.Password;
+            return this.hasher.CreateSaltedHash(unhasedPassword, salt) == hashedPassword;
         }
     }
 }

@@ -1,25 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Cqrs.Abstractions.Validation;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.ErrorHandling.Abstractions.Exceptions;
 using Etdb.UserService.Constants;
-using Etdb.UserService.Cqrs.Abstractions.Base;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Domain;
-using Etdb.UserService.Extensions;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using FluentValidation.Results;
-using Microsoft.Extensions.Caching.Distributed;
-using MongoDB.Driver;
-using Newtonsoft.Json;
 
 namespace Etdb.UserService.Cqrs.Handler
 {
@@ -92,15 +85,10 @@ namespace Etdb.UserService.Cqrs.Handler
             
             var memberRole = await this.rolesRepository.FindAsync(role => role.Name == RoleNames.Member);
 
-            var memberRoleRef = new MongoDBRef($"{nameof(SecurityRole).ToLower()}s", memberRole.Id);
-
             var salt = this.hasher.GenerateSalt();
             
             return new User(Guid.NewGuid(), command.UserName, command.FirstName, command.Name, salt,
-                this.hasher.CreateSaltedHash(command.Password, salt), emails, new List<MongoDBRef>
-            {
-                memberRoleRef
-            });
+                this.hasher.CreateSaltedHash(command.Password, salt), new[] { memberRole.Id }, emails);
         }
     }
 }

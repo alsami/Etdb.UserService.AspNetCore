@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Etdb.UserService.Constants
+﻿namespace Etdb.UserService.Constants
 {
     public class RolePolicyNames
     {

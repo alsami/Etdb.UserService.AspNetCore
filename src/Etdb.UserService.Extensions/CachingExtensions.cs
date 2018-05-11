@@ -9,7 +9,7 @@ namespace Etdb.UserService.Extensions
     public static class CachingExtensions
     {
         public static async Task AddOrUpdateAsync<T, TKey>(this IDistributedCache cache, TKey key, T @object,
-            DistributedCacheEntryOptions options = null, CancellationToken token = default(CancellationToken))
+            DistributedCacheEntryOptions options = null, CancellationToken token = default)
             where T : class where TKey : IEquatable<TKey>
         {
             var usedOptions = options ?? new DistributedCacheEntryOptions
@@ -28,7 +28,7 @@ namespace Etdb.UserService.Extensions
         }
 
         public static async Task<T> GetAsync<T, TKey>(this IDistributedCache cache, TKey key,
-            CancellationToken token = default(CancellationToken)) where T : class where TKey : IEquatable<TKey>
+            CancellationToken token = default) where T : class where TKey : IEquatable<TKey>
         {
             var @string = await cache.GetStringAsync(key.ToString(), token);
 

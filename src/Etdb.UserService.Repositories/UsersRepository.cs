@@ -15,4 +15,29 @@ namespace Etdb.UserService.Repositories
             this.context = context;
         }
     }
+//
+//    public class UsersRepositoryWithCache : UsersRepository
+//    {
+//        private readonly IDistributedCache cache;
+//
+//        public UsersRepositoryWithCache(DocumentDbContext context, IDistributedCache cache) : base(context)
+//        {
+//            this.cache = cache;
+//        }
+//
+//        public override Task AddAsync(User document, string collectionName = null, string partitionKey = null)
+//        {
+//            
+//            var ret = base.AddAsync(document, collectionName, partitionKey);
+////this.cache.AddOrUpdateAsync()
+//            return ret;
+//            
+//            
+//        }
+//
+//        public override User Find(Guid id, string collectionName = null, string partitionKey = null)
+//        {
+//            return base.Find(id, collectionName, partitionKey);
+//        }
+//    }
 }

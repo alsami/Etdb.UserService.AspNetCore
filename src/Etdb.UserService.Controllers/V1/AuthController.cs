@@ -2,12 +2,8 @@
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.ServiceBase.Extensions;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Domain;
-using Etdb.UserService.Repositories.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
 
 namespace Etdb.UserService.Controllers.V1
 {

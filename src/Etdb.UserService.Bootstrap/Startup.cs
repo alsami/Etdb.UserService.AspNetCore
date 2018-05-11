@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO.Compression;
+﻿using System.IO.Compression;
 using Autofac;
 using Etdb.ServiceBase.Builder.Builder;
 using Etdb.ServiceBase.Constants;
@@ -11,12 +10,11 @@ using Etdb.UserService.AutoMapper.Profiles;
 using Etdb.UserService.Bootstrap.Config;
 using Etdb.UserService.Constants;
 using Etdb.UserService.Cqrs.Handler;
-using Etdb.UserService.Domain;
-using Etdb.UserService.Extensions.Converters;
 using Etdb.UserService.Repositories;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
 using IdentityServer4.Services;
+using IdentityServer4.Stores;
 using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -197,6 +195,7 @@ namespace Etdb.UserService.Bootstrap
                 .RegisterTypePerLifetimeScope<AuthService, IResourceOwnerPasswordValidator>()
                 .RegisterTypePerLifetimeScope<AuthService, IProfileService>()
                 .RegisterTypePerLifetimeScope<AuthService, IAuthService>()
+                .RegisterTypePerLifetimeScope<CachedGrantStoreService, IPersistedGrantStore>()
                 .RegisterTypePerLifetimeScope<UsersSearchService, IUsersSearchService>();
         }
     }

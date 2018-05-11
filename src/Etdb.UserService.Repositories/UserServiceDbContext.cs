@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Etdb.ServiceBase.DocumentRepository.Abstractions.Context;
+﻿using Etdb.ServiceBase.DocumentRepository.Abstractions.Context;
 using Etdb.UserService.Domain;
 using Microsoft.Extensions.Options;
-using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Conventions;
 
 namespace Etdb.UserService.Repositories

@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.UserService.Domain;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
-using IdentityModel;
 using Microsoft.Extensions.Caching.Distributed;
-using MongoDB.Driver;
 
 namespace Etdb.UserService.Services
 {
@@ -102,9 +97,6 @@ namespace Etdb.UserService.Services
 
         private static Expression<Func<User, bool>> UserNameEqualsExpression(string userName) => 
             user => user.UserName.ToLower() == userName.ToLower();
-
-        private static Expression<Func<User, bool>> UserHasAnyEqualEmailExpression(string emailAddress) =>
-            user => user.Emails.Any(email => email.Address.ToLower() == emailAddress.ToLower());
 
         private static Expression<Func<Email, bool>> EmailEqualsExpressios(string emailAddress) =>
             email => email.Address.ToLower() == emailAddress.ToLower();

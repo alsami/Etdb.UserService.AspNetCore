@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
-using Etdb.UserService.Domain.Base;
 
 namespace Etdb.UserService.Scaffold
 {
