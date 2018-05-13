@@ -1,5 +1,6 @@
 using AutoMapper;
-using Etdb.UserService.Domain;
+using Etdb.UserService.AutoMapper.Resolver;
+using Etdb.UserService.Domain.Documents;
 using Etdb.UserService.Presentation;
 
 namespace Etdb.UserService.AutoMapper.Profiles
@@ -8,7 +9,8 @@ namespace Etdb.UserService.AutoMapper.Profiles
     {
         public UsersProfile()
         {
-            this.CreateMap<User, UserDto>();
+            this.CreateMap<User, UserDto>()
+                .ForMember(destination => destination.ProfileImageUrl, options => options.ResolveUsing<UserProfileImageUrlResolver>());
 
             this.CreateMap<Email, EmailDto>();
         }

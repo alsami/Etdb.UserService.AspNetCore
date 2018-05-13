@@ -9,7 +9,7 @@ using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.ErrorHandling.Abstractions.Exceptions;
 using Etdb.UserService.Constants;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Domain;
+using Etdb.UserService.Domain.Documents;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using FluentValidation.Results;
@@ -87,8 +87,9 @@ namespace Etdb.UserService.Cqrs.Handler
 
             var salt = this.hasher.GenerateSalt();
             
-            return new User(Guid.NewGuid(), command.UserName, command.FirstName, command.Name, salt,
-                this.hasher.CreateSaltedHash(command.Password, salt), new[] { memberRole.Id }, emails);
+            return new User(Guid.NewGuid(), command.UserName, command.FirstName, command.Name, 
+                this.hasher.CreateSaltedHash(command.Password, salt), salt, DateTime.UtcNow, null,
+                new[] {memberRole.Id}, emails);
         }
     }
 }

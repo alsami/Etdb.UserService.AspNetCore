@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Etdb.UserService.Domain;
+using Etdb.UserService.Domain.Documents;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;

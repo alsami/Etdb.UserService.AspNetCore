@@ -3,8 +3,8 @@ using Etdb.UserService.Domain.Documents;
 
 namespace Etdb.UserService.Services.Abstractions
 {
-    public interface IAuthService
+    public interface IUserChangesService
     {
-        Task RegisterAsync(User user);
+        Task<bool> EditUserAsync(User user);
     }
 }

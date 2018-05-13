@@ -1,6 +1,6 @@
 ﻿using System;
 using Etdb.ServiceBase.DocumentRepository.Abstractions.Generics;
-using Etdb.UserService.Domain;
+using Etdb.UserService.Domain.Documents;
 
 namespace Etdb.UserService.Repositories.Abstractions
 {

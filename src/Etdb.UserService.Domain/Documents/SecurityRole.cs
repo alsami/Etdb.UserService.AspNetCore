@@ -1,7 +1,7 @@
 ﻿using System;
 using Etdb.UserService.Domain.Base;
 
-namespace Etdb.UserService.Domain
+namespace Etdb.UserService.Domain.Documents
 {
     public class SecurityRole : GuidDocument
     {

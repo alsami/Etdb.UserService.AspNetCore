@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Etdb.UserService.Domain;
+using Etdb.UserService.Domain.Documents;
 
 namespace Etdb.UserService.Services.Abstractions
 {

@@ -4,8 +4,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.4" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Etdb.UserService.Constants\Etdb.UserService.Constants.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Cqrs.Abstractions\Etdb.UserService.Cqrs.Abstractions.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Domain\Etdb.UserService.Domain.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Presentation\Etdb.UserService.Presentation.csproj" />

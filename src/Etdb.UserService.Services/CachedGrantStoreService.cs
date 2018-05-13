@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Etdb.UserService.Extensions;
@@ -27,7 +26,7 @@ namespace Etdb.UserService.Services
             
             await this.cache.AddOrUpdateAsync(grant.Key, grant, cachingOptions);
 
-            await this.cache.AddOrUpdateAsync(grant.SubjectId, grant, cachingOptions);
+            await this.cache.AddOrUpdateAsync($"token_{ grant.SubjectId }", grant, cachingOptions);
         }
 
         public async Task<PersistedGrant> GetAsync(string key)
@@ -37,7 +36,7 @@ namespace Etdb.UserService.Services
 
         public async Task<IEnumerable<PersistedGrant>> GetAllAsync(string subjectId)
         {
-            var grants = await this.cache.GetAsync<IEnumerable<PersistedGrant>, string>(subjectId);
+            var grants = await this.cache.GetAsync<IEnumerable<PersistedGrant>, string>($"token_{ subjectId }");
 
             return grants.ToArray().AsEnumerable();
         }
@@ -49,7 +48,7 @@ namespace Etdb.UserService.Services
 
         public async Task RemoveAllAsync(string subjectId, string clientId)
         {
-            var grants = await this.cache.GetAsync<IEnumerable<PersistedGrant>, string>(subjectId);
+            var grants = await this.cache.GetAsync<IEnumerable<PersistedGrant>, string>($"token_{ subjectId }");
 
             foreach (var grant in grants.Where(grant => grant.ClientId == clientId).ToArray())
             {
@@ -59,7 +58,7 @@ namespace Etdb.UserService.Services
 
         public async Task RemoveAllAsync(string subjectId, string clientId, string type)
         {
-            var grants = await this.cache.GetAsync<IEnumerable<PersistedGrant>, string>(subjectId);
+            var grants = await this.cache.GetAsync<IEnumerable<PersistedGrant>, string>($"token_{ subjectId }");
 
             foreach (var grant in grants.Where(grant => grant.ClientId == clientId && grant.Type == type).ToArray())
             {

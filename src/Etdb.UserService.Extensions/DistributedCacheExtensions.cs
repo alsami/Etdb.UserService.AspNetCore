@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Etdb.UserService.Extensions
 {
-    public static class CachingExtensions
+    public static class DistributedCacheExtensions
     {
         public static async Task AddOrUpdateAsync<T, TKey>(this IDistributedCache cache, TKey key, T @object,
             DistributedCacheEntryOptions options = null, CancellationToken token = default)
@@ -32,12 +32,13 @@ namespace Etdb.UserService.Extensions
         {
             var @string = await cache.GetStringAsync(key.ToString(), token);
 
-            if (@string == null || string.IsNullOrWhiteSpace(@string))
+            if (!string.IsNullOrWhiteSpace(@string))
             {
-                return null;
+                return JsonConvert.DeserializeObject<T>(@string);   
             }
-
-            return JsonConvert.DeserializeObject<T>(@string);
+            
+            await cache.RemoveAsync(key.ToString(), token);
+            return null;
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System;
 using Etdb.UserService.Domain.Base;
+using Newtonsoft.Json;
 
-namespace Etdb.UserService.Domain
+namespace Etdb.UserService.Domain.Documents
 {
     public class Email : GuidDocument
     {
@@ -14,5 +15,10 @@ namespace Etdb.UserService.Domain
         public string Address { get; private set; }
 
         public bool IsPrimary { get; private set; }
+
+        public Email Copy()
+        {
+            return new Email(this.Id, this.Address, this.IsPrimary);
+        }
     }
 }

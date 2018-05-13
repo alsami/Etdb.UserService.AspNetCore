@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
-using Etdb.UserService.Domain;
+using Etdb.UserService.Domain.Documents;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
@@ -48,11 +48,23 @@ namespace Etdb.UserService.Services
             }
         }
         
-        public Task GetProfileDataAsync(ProfileDataRequestContext context)
+        public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            context.IssuedClaims = context.Subject.Claims.ToList();
+            if (!Guid.TryParse(context.Subject.Claims.FirstOrDefault(claim => claim.Type == JwtClaimTypes.Subject)?.Value, out var subjectId))
+            {
+                context.IssuedClaims = context.Subject.Claims.ToList();
+                return;
+            }
 
-            return Task.CompletedTask;
+            var user = await this.usersSearchService.FindUserByIdAsync(subjectId);
+
+            if (user == null)
+            {
+                context.IssuedClaims = context.Subject.Claims.ToList();
+                return;
+            }
+
+            context.IssuedClaims = (await this.AllocateClaimsAsync(user)).ToList();
         }
 
         public Task IsActiveAsync(IsActiveContext context)
@@ -78,10 +90,10 @@ namespace Etdb.UserService.Services
 
             context.Result = new GrantValidationResult(loginUser.Id.ToString(), 
                 "custom", 
-                await this.AllocateClaims(loginUser));
+                await this.AllocateClaimsAsync(loginUser));
         }
         
-        private async Task<IEnumerable<Claim>> AllocateClaims(User user)
+        private async Task<IEnumerable<Claim>> AllocateClaimsAsync(User user)
         {
             if (user == null)
             {

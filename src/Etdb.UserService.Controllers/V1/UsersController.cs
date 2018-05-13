@@ -1,12 +1,19 @@
 ﻿using System;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
+using Etdb.UserService.Constants;
+using Etdb.UserService.Controllers.Extensions;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Presentation;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 
 namespace Etdb.UserService.Controllers.V1
 {
+    [Route("api/v1/[controller]")]
     public class UsersController : Controller
     {
         private readonly IMediatorHandler mediator;
@@ -16,6 +23,7 @@ namespace Etdb.UserService.Controllers.V1
             this.mediator = mediator;
         }
 
+        [AllowAnonymous]
         [HttpGet("{id:Guid}")]
         public async Task<UserDto> GetUser(Guid id)
         {
@@ -24,6 +32,34 @@ namespace Etdb.UserService.Controllers.V1
             var user = await this.mediator.SendCommandAsync<UserLoadCommand, UserDto>(command);
 
             return user;
+        }
+
+        [HttpPatch("{id:Guid}/profileimage")]
+        public async Task<UserDto> UploadProfileImage(Guid id, [FromForm] IFormFile file)
+        {
+            var command = new UserProfileImageAddCommand(id,
+                file.FileName,
+                new ContentType(file.ContentType), await file.ReadFileBytesAsync());
+            
+            var user = await this.mediator.SendCommandAsync<UserProfileImageAddCommand, UserDto>(command);
+
+            return user;
+        }
+
+        [AllowAnonymous]
+        [ResponseCache(NoStore = true)]
+        [HttpGet("{id:Guid}/profileimage", Name = RouteNames.UserProfileImageUrlRoute)]
+        public async Task<IActionResult> GetUserProfileImage(Guid id)
+        {
+  
+            var fileBytes =
+                await this.mediator.SendCommandAsync<UserProfileImageBytesLoadCommand, byte[]>(
+                    new UserProfileImageBytesLoadCommand(id));
+            
+            return new FileContentResult(fileBytes, new MediaTypeHeaderValue("application/octet"))
+            {
+                FileDownloadName = $"userprofileimage_{id}_{DateTime.UtcNow.Ticks}",
+            };
         }
     }
 }

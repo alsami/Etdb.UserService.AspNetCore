@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Etdb.UserService.Presentation.Base;
 
 namespace Etdb.UserService.Presentation
@@ -7,6 +8,14 @@ namespace Etdb.UserService.Presentation
     {
         public string UserName { get; set; }
 
+        public string FirstName { get; set; }
+
+        public string Name { get; set; }
+
+        public DateTime RegisteredSince { get; set; }
+        
+        public string ProfileImageUrl { get; set; }
+        
         public ICollection<EmailDto> Emails { get; set; }
     }
 }

@@ -29,6 +29,8 @@ namespace Etdb.UserService.Bootstrap
         private static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureServices(services => services.AddAutofac())
+                .CaptureStartupErrors(true)
+                .UseSetting(WebHostDefaults.DetailedErrorsKey, true.ToString())
                 .UseContentRoot(AppContext.BaseDirectory)
                 .UseStartup<Startup>()
                 .UseSerilog()

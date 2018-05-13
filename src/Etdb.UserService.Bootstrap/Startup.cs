@@ -1,4 +1,5 @@
-﻿using System.IO.Compression;
+﻿using System.IO;
+using System.IO.Compression;
 using Autofac;
 using Etdb.ServiceBase.Builder.Builder;
 using Etdb.ServiceBase.Constants;
@@ -6,10 +7,13 @@ using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Cryptography.Hashing;
 using Etdb.ServiceBase.DocumentRepository.Abstractions.Context;
 using Etdb.ServiceBase.ErrorHandling.Filters;
+using Etdb.ServiceBase.Services;
 using Etdb.UserService.AutoMapper.Profiles;
 using Etdb.UserService.Bootstrap.Config;
+using Etdb.UserService.Bootstrap.Services;
 using Etdb.UserService.Constants;
 using Etdb.UserService.Cqrs.Handler;
+using Etdb.UserService.Extensions;
 using Etdb.UserService.Repositories;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
@@ -20,10 +24,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -124,9 +130,16 @@ namespace Etdb.UserService.Bootstrap
                 {
                     options.AddPolicy(CorsPolicyName, builder =>
                     {
-                        builder.WithOrigins(allowedOrigins)
-                            .AllowAnyHeader()
+                        builder.AllowAnyHeader()
                             .AllowAnyMethod();
+
+                        if (this.environment.IsDevelopment() || this.environment.IsLocalDevelopment())
+                        {
+                            builder.AllowAnyOrigin();
+                            return;
+                        }
+
+                        builder.WithOrigins(allowedOrigins);
                     });
                 })
                 .Configure<MvcOptions>(options =>
@@ -156,6 +169,18 @@ namespace Etdb.UserService.Bootstrap
                     .Bind(options);
             });
 
+            services.Configure<FileStoreOptions>(options =>
+            {
+                if (this.environment.IsDevelopment() || this.environment.IsLocalDevelopment())
+                {
+                    options.ImagePath = Path.Combine(this.environment.ContentRootPath, "Files");
+                    return;
+                }
+                
+                this.configuration.GetSection(nameof(FileStoreOptions))
+                    .Bind(options);
+            });
+
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
             
             services.AddResponseCompression(options =>
@@ -179,6 +204,11 @@ namespace Etdb.UserService.Bootstrap
 
             app.UseIdentityServer();
 
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
+
             app.UseMvc();
         }
 
@@ -190,13 +220,17 @@ namespace Etdb.UserService.Bootstrap
                 .UseEnvironment(this.environment)
                 .UseConfiguration(this.configuration)
                 .UseGenericDocumentRepositoryPattern<UserServiceDbContext>(typeof(UserServiceDbContext).Assembly)
+                .RegisterTypeAsSingleton<ActionContextAccessor, IActionContextAccessor>()
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
+                .RegisterTypeAsSingleton<FileService, ServiceBase.Services.Abstractions.IFileService>()
+                .RegisterTypeAsSingleton<CorsPolicyService, ICorsPolicyService>()
                 .RegisterTypePerLifetimeScope<HttpContextAccessor, IHttpContextAccessor>()
                 .RegisterTypePerLifetimeScope<AuthService, IResourceOwnerPasswordValidator>()
                 .RegisterTypePerLifetimeScope<AuthService, IProfileService>()
                 .RegisterTypePerLifetimeScope<AuthService, IAuthService>()
                 .RegisterTypePerLifetimeScope<CachedGrantStoreService, IPersistedGrantStore>()
-                .RegisterTypePerLifetimeScope<UsersSearchService, IUsersSearchService>();
+                .RegisterTypePerLifetimeScope<UsersSearchService, IUsersSearchService>()
+                .RegisterTypePerLifetimeScope<UserChangesService, IUserChangesService>();
         }
     }
 }
