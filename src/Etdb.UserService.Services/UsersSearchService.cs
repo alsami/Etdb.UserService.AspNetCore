@@ -84,14 +84,6 @@ namespace Etdb.UserService.Services
                 .SelectMany(user => user.Emails)
                 .FirstOrDefault(EmailEqualsExpressios(emailAddress));
 
-            if (email != null)
-            {
-                await this.cache.AddOrUpdateAsync(email.Address, email, new DistributedCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1)
-                });
-            }
-
             return email;
         }
 

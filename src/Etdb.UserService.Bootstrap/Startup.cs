@@ -105,7 +105,8 @@ namespace Etdb.UserService.Bootstrap
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                });
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
@@ -195,11 +196,15 @@ namespace Etdb.UserService.Bootstrap
 
         public void Configure(IApplicationBuilder app)
         {
-            if (this.environment.IsDevelopment())
+            if (this.environment.IsDevelopment() || this.environment.IsLocalDevelopment())
             {
                 app.UseSwagger();
 
                 app.UseSwaggerUI(action => { action.SwaggerEndpoint(SwaggerDocJsonUri, SwaggerDocDescription); });
+            }
+            else
+            {
+                app.UseHsts();
             }
 
             app.UseIdentityServer();

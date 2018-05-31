@@ -5,6 +5,7 @@ using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Constants;
 using Etdb.UserService.Controllers.Extensions;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Cqrs.Abstractions.Models;
 using Etdb.UserService.Presentation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -52,13 +53,13 @@ namespace Etdb.UserService.Controllers.V1
         public async Task<IActionResult> GetUserProfileImage(Guid id)
         {
   
-            var fileBytes =
-                await this.mediator.SendCommandAsync<UserProfileImageBytesLoadCommand, byte[]>(
-                    new UserProfileImageBytesLoadCommand(id));
+            var fileInfo =
+                await this.mediator.SendCommandAsync<UserProfileImageLoadCommand, FileInfo>(
+                    new UserProfileImageLoadCommand(id));
             
-            return new FileContentResult(fileBytes, new MediaTypeHeaderValue("application/octet"))
+            return new FileContentResult(fileInfo.File, new MediaTypeHeaderValue(fileInfo.MediaType))
             {
-                FileDownloadName = $"userprofileimage_{id}_{DateTime.UtcNow.Ticks}",
+                FileDownloadName = fileInfo.Name
             };
         }
     }

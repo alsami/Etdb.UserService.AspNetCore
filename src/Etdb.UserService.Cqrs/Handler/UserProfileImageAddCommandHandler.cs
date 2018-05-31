@@ -37,16 +37,16 @@ namespace Etdb.UserService.Cqrs.Handler
         
         public async Task<UserDto> Handle(UserProfileImageAddCommand request, CancellationToken cancellationToken)
         {
-            var user = await this.usersSearchService.FindUserByIdAsync(request.Id);
+            var existingUser = await this.usersSearchService.FindUserByIdAsync(request.Id);
 
-            if (user == null)
+            if (existingUser == null)
             {
                 throw new ResourceNotFoundException("The requested user could not be found");
             }
 
-            if (user.ProfileImage != null)
+            if (existingUser.ProfileImage != null)
             {
-                this.fileService.DeleteBinary(Path.Combine(this.fileStoreOptions.Value.ImagePath, user.ProfileImage.Name));
+                this.fileService.DeleteBinary(Path.Combine(this.fileStoreOptions.Value.ImagePath, existingUser.ProfileImage.Name));
             }
 
             var profileImageId = Guid.NewGuid();
@@ -54,17 +54,17 @@ namespace Etdb.UserService.Cqrs.Handler
             var userProfileImage = new UserProfileImage(profileImageId, $"{profileImageId}_{DateTime.UtcNow.Ticks}_{request.FileName}",
                 request.FileName, request.FileContentType.MediaType);
 
-            await this.fileService.StoreBinaryAsync(Path.Combine(this.fileStoreOptions.Value.ImagePath, user.Id.ToString()), userProfileImage.Name,
+            await this.fileService.StoreBinaryAsync(Path.Combine(this.fileStoreOptions.Value.ImagePath, existingUser.Id.ToString()), userProfileImage.Name,
                 request.FileBytes);
             
-            var updatedUser = new User(user.Id, user.UserName, user.FirstName, user.Name, user.Password, user.Salt,
-                user.RegisteredSince, userProfileImage, user.RoleIds, user.Emails.Select(email => email.Copy()).ToArray());
+            var updatedUser = new User(existingUser.Id, existingUser.UserName, existingUser.FirstName, existingUser.Name, existingUser.Password, existingUser.Salt,
+                existingUser.RegisteredSince, userProfileImage, existingUser.RoleIds, existingUser.Emails.Select(email => email.Copy()).ToArray(), existingUser.Contacts.ToArray());
 
             var edited = await this.userChangesService.EditUserAsync(updatedUser);
             
             // TODO: check if edited and then do what?
 
-            return this.mapper.Map<UserDto>(user);
+            return this.mapper.Map<UserDto>(updatedUser);
         }
     }
 }

@@ -28,6 +28,7 @@ namespace Etdb.UserService.Services
             }
             
             await this.cache.AddOrUpdateAsync(user.Id, user);
+            
             return true;
         }
     }

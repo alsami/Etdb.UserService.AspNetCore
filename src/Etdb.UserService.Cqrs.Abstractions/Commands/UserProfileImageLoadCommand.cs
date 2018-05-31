@@ -1,11 +1,12 @@
 ﻿using System;
 using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Cqrs.Abstractions.Models;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands
 {
-    public class UserProfileImageBytesLoadCommand : IResponseCommand<byte[]>
+    public class UserProfileImageLoadCommand : IResponseCommand<FileInfo>
     {
-        public UserProfileImageBytesLoadCommand(Guid id)
+        public UserProfileImageLoadCommand(Guid id)
         {
             this.Id = id;
         }

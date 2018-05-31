@@ -21,6 +21,23 @@ namespace Etdb.UserService.Domain.Documents
             this.RoleIds = roleIds;
             this.Emails = emails;
         }
+        
+        [JsonConstructor]
+        public User(Guid id, string userName, string firstName, string name, string password, byte[] salt,
+            DateTime registeredSince, UserProfileImage profileImage, ICollection<Guid> roleIds,
+            ICollection<Email> emails, ICollection<Guid> contacts) : base(id)
+        {
+            this.UserName = userName;
+            this.FirstName = firstName;
+            this.Name = name;
+            this.Password = password;
+            this.Salt = salt;
+            this.RegisteredSince = registeredSince;
+            this.ProfileImage = profileImage;
+            this.RoleIds = roleIds;
+            this.Emails = emails;
+            this.Contacts = contacts;
+        }
 
         public string UserName { get; private set; }
 
@@ -29,15 +46,17 @@ namespace Etdb.UserService.Domain.Documents
         public string Name { get; private set; }
         
         public string Password { get; private set; }
-        
-        public DateTime RegisteredSince { get; private set; }
 
         public byte[] Salt { get; private set; }
+        
+        public DateTime RegisteredSince { get; private set; }
         
         public UserProfileImage ProfileImage { get; private set; }
         
         public ICollection<Guid> RoleIds { get; private set; }
         
         public ICollection<Email> Emails { get; private set; }
+
+        public ICollection<Guid> Contacts { get; private set; }
     }
 }

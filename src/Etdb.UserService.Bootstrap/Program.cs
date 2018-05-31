@@ -23,10 +23,10 @@ namespace Etdb.UserService.Bootstrap
                     theme: AnsiConsoleTheme.Literate)
                 .CreateLogger();
 
-            BuildWebHost(args).Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        private static IWebHost BuildWebHost(string[] args) =>
+        private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureServices(services => services.AddAutofac())
                 .CaptureStartupErrors(true)
@@ -34,7 +34,6 @@ namespace Etdb.UserService.Bootstrap
                 .UseContentRoot(AppContext.BaseDirectory)
                 .UseStartup<Startup>()
                 .UseSerilog()
-                .UseKestrel()
-                .Build();
+                .UseKestrel();
     }
 }
