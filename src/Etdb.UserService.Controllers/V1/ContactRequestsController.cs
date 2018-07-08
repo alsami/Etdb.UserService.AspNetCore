@@ -1,27 +1,25 @@
-﻿using System.Security.Cryptography;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Presentation;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Etdb.UserService.Controllers.V1
 {
     public class ContactRequestsController : Controller
     {
-        private readonly IMediatorHandler mediator;
+        private readonly IBus bus;
 
-        public ContactRequestsController(IMediatorHandler mediator)
+        public ContactRequestsController(IBus bus)
         {
-            this.mediator = mediator;
+            this.bus = bus;
         }
 
         [HttpPost]
         public async Task<ContactRequestDto> Create([FromBody] ContactRequestCommand contactRequestCommand)
         {
             var response =
-                await this.mediator.SendCommandAsync<ContactRequestCommand, ContactRequestDto>(contactRequestCommand);
+                await this.bus.SendCommandAsync<ContactRequestCommand, ContactRequestDto>(contactRequestCommand);
 
             return response;
         }

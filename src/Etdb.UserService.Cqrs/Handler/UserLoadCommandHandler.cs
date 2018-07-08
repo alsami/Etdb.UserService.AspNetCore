@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
-using Etdb.ServiceBase.ErrorHandling.Abstractions.Exceptions;
+using Etdb.ServiceBase.Exceptions;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Presentation;
 using Etdb.UserService.Services.Abstractions;

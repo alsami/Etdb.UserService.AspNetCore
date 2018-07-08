@@ -17,7 +17,7 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands
 
         public Guid Id { get; }
 
-        public string FileName { get; set; }
+        public string FileName { get; }
         
         public ContentType FileContentType { get; }   
 

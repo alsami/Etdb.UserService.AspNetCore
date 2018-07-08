@@ -1,6 +1,5 @@
 ﻿using System;
 using Etdb.UserService.Domain.Base;
-using Newtonsoft.Json;
 
 namespace Etdb.UserService.Domain.Documents
 {

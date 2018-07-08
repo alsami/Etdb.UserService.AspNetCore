@@ -28,7 +28,7 @@ namespace Etdb.UserService.Repositories
             {
                 if (!this.CollectionExists(collectionName))
                 {
-                    this.CreateCollection(collectionName, AutoIndexIdCollectionOptions());
+                    this.CreateCollection(collectionName);
                 }
             }
         }

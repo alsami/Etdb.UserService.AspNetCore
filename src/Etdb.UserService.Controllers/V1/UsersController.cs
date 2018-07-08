@@ -17,9 +17,9 @@ namespace Etdb.UserService.Controllers.V1
     [Route("api/v1/[controller]")]
     public class UsersController : Controller
     {
-        private readonly IMediatorHandler mediator;
+        private readonly IBus mediator;
 
-        public UsersController(IMediatorHandler mediator)
+        public UsersController(IBus mediator)
         {
             this.mediator = mediator;
         }

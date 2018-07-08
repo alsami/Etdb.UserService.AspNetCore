@@ -11,6 +11,7 @@ namespace Etdb.UserService.Services
     public class CachedGrantStoreService : IPersistedGrantStore
     {
         private readonly IDistributedCache cache;
+        private const string TokenKeyPrefix = "token_";
 
         public CachedGrantStoreService(IDistributedCache cache)
         {
@@ -26,7 +27,7 @@ namespace Etdb.UserService.Services
             
             await this.cache.AddOrUpdateAsync(grant.Key, grant, cachingOptions);
 
-            await this.cache.AddOrUpdateAsync($"token_{ grant.SubjectId }", grant, cachingOptions);
+            await this.cache.AddOrUpdateAsync($"{CachedGrantStoreService.TokenKeyPrefix}{ grant.SubjectId }", grant, cachingOptions);
         }
 
         public async Task<PersistedGrant> GetAsync(string key)
@@ -36,7 +37,7 @@ namespace Etdb.UserService.Services
 
         public async Task<IEnumerable<PersistedGrant>> GetAllAsync(string subjectId)
         {
-            var grants = await this.cache.GetAsync<IEnumerable<PersistedGrant>, string>($"token_{ subjectId }");
+            var grants = await this.cache.GetAsync<IEnumerable<PersistedGrant>, string>($"{CachedGrantStoreService.TokenKeyPrefix}{ subjectId }");
 
             return grants.ToArray().AsEnumerable();
         }
@@ -48,7 +49,7 @@ namespace Etdb.UserService.Services
 
         public async Task RemoveAllAsync(string subjectId, string clientId)
         {
-            var grants = await this.cache.GetAsync<IEnumerable<PersistedGrant>, string>($"token_{ subjectId }");
+            var grants = await this.cache.GetAsync<IEnumerable<PersistedGrant>, string>($"{CachedGrantStoreService.TokenKeyPrefix}{ subjectId }");
 
             foreach (var grant in grants.Where(grant => grant.ClientId == clientId).ToArray())
             {
@@ -58,7 +59,7 @@ namespace Etdb.UserService.Services
 
         public async Task RemoveAllAsync(string subjectId, string clientId, string type)
         {
-            var grants = await this.cache.GetAsync<IEnumerable<PersistedGrant>, string>($"token_{ subjectId }");
+            var grants = await this.cache.GetAsync<IEnumerable<PersistedGrant>, string>($"{CachedGrantStoreService.TokenKeyPrefix}{ subjectId }");
 
             foreach (var grant in grants.Where(grant => grant.ClientId == clientId && grant.Type == type).ToArray())
             {

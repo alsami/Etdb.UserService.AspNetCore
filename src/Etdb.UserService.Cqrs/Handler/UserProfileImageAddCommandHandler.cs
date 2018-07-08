@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
-using Etdb.ServiceBase.ErrorHandling.Abstractions.Exceptions;
+using Etdb.ServiceBase.Exceptions;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Domain.Documents;

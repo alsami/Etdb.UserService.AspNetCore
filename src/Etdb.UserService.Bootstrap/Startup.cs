@@ -6,7 +6,7 @@ using Etdb.ServiceBase.Constants;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Cryptography.Hashing;
 using Etdb.ServiceBase.DocumentRepository.Abstractions.Context;
-using Etdb.ServiceBase.ErrorHandling.Filters;
+using Etdb.ServiceBase.Filter;
 using Etdb.ServiceBase.Services;
 using Etdb.UserService.AutoMapper.Profiles;
 using Etdb.UserService.Bootstrap.Config;
@@ -184,14 +184,7 @@ namespace Etdb.UserService.Bootstrap
 
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
             
-            services.AddResponseCompression(options =>
-            {
-                options.MimeTypes = new[]
-                {
-                    "application/json",
-                    "application/octet-stream"
-                };
-            });
+            services.AddResponseCompression();
         }
 
         public void Configure(IApplicationBuilder app)
@@ -207,12 +200,15 @@ namespace Etdb.UserService.Bootstrap
                 app.UseHsts();
             }
 
-            app.UseIdentityServer();
-
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            if (!this.environment.IsDevelopment())
             {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
+                app.UseForwardedHeaders(new ForwardedHeadersOptions
+                {
+                    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+                });
+            }
+
+            app.UseIdentityServer();
 
             app.UseMvc();
         }
@@ -222,7 +218,7 @@ namespace Etdb.UserService.Bootstrap
             new ServiceContainerBuilder(containerBuilder)
                 .UseCqrs(typeof(UserRegisterCommandHandler).Assembly)
                 .UseAutoMapper(typeof(UsersProfile).Assembly)
-                .UseEnvironment(this.environment)
+                .UseEnvironment((Microsoft.Extensions.Hosting.IHostingEnvironment) this.environment)
                 .UseConfiguration(this.configuration)
                 .UseGenericDocumentRepositoryPattern<UserServiceDbContext>(typeof(UserServiceDbContext).Assembly)
                 .RegisterTypeAsSingleton<ActionContextAccessor, IActionContextAccessor>()

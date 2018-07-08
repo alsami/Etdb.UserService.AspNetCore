@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Cqrs.Abstractions.Validation;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
-using Etdb.ServiceBase.ErrorHandling.Abstractions.Exceptions;
+using Etdb.ServiceBase.Exceptions;
 using Etdb.UserService.Constants;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Domain.Documents;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using FluentValidation.Results;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Handler
 {
@@ -40,7 +41,7 @@ namespace Etdb.UserService.Cqrs.Handler
             this.hasher = hasher;
         }
 
-        public async Task Handle(UserRegisterCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
         {
             var validationResults =
                 new List<ValidationResult>
@@ -74,6 +75,8 @@ namespace Etdb.UserService.Cqrs.Handler
             var user = await this.GenerateUser(request);
 
             await this.authService.RegisterAsync(user);
+
+            return Unit.Value;
         }
 
         private async Task<User> GenerateUser(UserRegisterCommand command)

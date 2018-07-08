@@ -8,10 +8,10 @@
     <ProjectReference Include="..\Etdb.UserService.Services.Abstractions\Etdb.UserService.Services.Abstractions.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Etdb.ServiceBase.Constants" Version="2.0.0" />
-    <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="1.0.0" />
-    <PackageReference Include="IdentityModel" Version="3.6.1" />
+    <PackageReference Include="Etdb.ServiceBase.Constants" Version="0.0.2" />
+    <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="0.0.2" />
+    <PackageReference Include="IdentityModel" Version="3.7.0" />
     <PackageReference Include="IdentityServer4" Version="2.2.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.6.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.7.0" />
   </ItemGroup>
 </Project>

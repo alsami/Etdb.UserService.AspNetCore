@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Mime;
 using Etdb.UserService.Domain.Base;
 
 namespace Etdb.UserService.Domain.Documents

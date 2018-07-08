@@ -10,11 +10,11 @@ namespace Etdb.UserService.Controllers.V1
     [Route("api/v1/[controller]")]
     public class AuthController : Controller
     {
-        private readonly IMediatorHandler mediator;
+        private readonly IBus bus;
 
-        public AuthController(IMediatorHandler mediator)
+        public AuthController(IBus bus)
         {
-            this.mediator = mediator;
+            this.bus = bus;
         }
 
         [AllowAnonymous]
@@ -26,7 +26,7 @@ namespace Etdb.UserService.Controllers.V1
                 throw this.ModelState.GenerateValidationException("User register command is invalid!");
             }
             
-            await this.mediator.SendCommandAsync(command);
+            await this.bus.SendCommandAsync(command);
 
             return this.NoContent();
         }

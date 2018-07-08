@@ -4,10 +4,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.2" />
-    <PackageReference Include="Etdb.ServiceBase.Builder" Version="3.2.0" />
-    <PackageReference Include="Etdb.ServiceBase.Constants" Version="2.0.0" />
-    <PackageReference Include="Etdb.ServiceBase.ErrorHandling" Version="1.1.0" />
-    <PackageReference Include="Etdb.ServiceBase.Services" Version="1.2.0" />
+    <PackageReference Include="Etdb.ServiceBase.Builder" Version="0.0.2" />
+    <PackageReference Include="Etdb.ServiceBase.Constants" Version="0.0.2" />
+    <PackageReference Include="Etdb.ServiceBase.Filter" Version="0.0.2" />
+    <PackageReference Include="Etdb.ServiceBase.Services" Version="0.0.2" />
     <PackageReference Include="IdentityServer4" Version="2.2.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -15,7 +15,7 @@
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="2.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="2.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.0" PrivateAssets="All" />
   </ItemGroup>
