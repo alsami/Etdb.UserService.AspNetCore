@@ -114,7 +114,7 @@ namespace Etdb.UserService.Bootstrap
                 .AddInMemoryApiResources(ApiResourceConfig.GetApiResource())
                 .AddInMemoryClients(ClientConfig.GetClients(clientId, clientSecret, allowedOrigins));
 
-            services.AddAuthentication(AuthenticationSchema)
+            services.AddAuthentication(Startup.AuthenticationSchema)
                 .AddIdentityServerAuthentication(options =>
                 {
                     options.Authority = authority;
@@ -129,7 +129,7 @@ namespace Etdb.UserService.Bootstrap
 
             services.AddCors(options =>
                 {
-                    options.AddPolicy(CorsPolicyName, builder =>
+                    options.AddPolicy(Startup.CorsPolicyName, builder =>
                     {
                         builder.AllowAnyHeader()
                             .AllowAnyMethod();
@@ -144,7 +144,7 @@ namespace Etdb.UserService.Bootstrap
                     });
                 })
                 .Configure<MvcOptions>(options =>
-                    options.Filters.Add(new CorsAuthorizationFilterFactory(CorsPolicyName)));
+                    options.Filters.Add(new CorsAuthorizationFilterFactory(Startup.CorsPolicyName)));
 
             services.AddDistributedRedisCache(options =>
                 this.configuration.GetSection(Startup.RedisCacheOptions).Bind(options));
@@ -158,8 +158,8 @@ namespace Etdb.UserService.Bootstrap
                 {
                     options.SwaggerDoc(Startup.SwaggerDocVersion, new Info
                     {
-                        Title = SwaggerDocDescription,
-                        Version = SwaggerDocVersion
+                        Title = Startup.SwaggerDocDescription,
+                        Version = Startup.SwaggerDocVersion
                     });
                 });   
             }
@@ -193,7 +193,7 @@ namespace Etdb.UserService.Bootstrap
             {
                 app.UseSwagger();
 
-                app.UseSwaggerUI(action => { action.SwaggerEndpoint(SwaggerDocJsonUri, SwaggerDocDescription); });
+                app.UseSwaggerUI(action => { action.SwaggerEndpoint(Startup.SwaggerDocJsonUri, Startup.SwaggerDocDescription); });
             }
             else
             {

@@ -18,7 +18,7 @@ namespace Etdb.UserService.Bootstrap
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Debug()
                 .Enrich.FromLogContext()
-                .WriteTo.RollingFile(LogPath)
+                .WriteTo.RollingFile(Program.LogPath)
                 .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", 
                     theme: AnsiConsoleTheme.Literate)
                 .CreateLogger();

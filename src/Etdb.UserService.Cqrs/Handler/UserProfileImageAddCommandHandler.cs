@@ -58,9 +58,9 @@ namespace Etdb.UserService.Cqrs.Handler
                 request.FileBytes);
             
             var updatedUser = new User(existingUser.Id, existingUser.UserName, existingUser.FirstName, existingUser.Name, existingUser.Password, existingUser.Salt,
-                existingUser.RegisteredSince, userProfileImage, existingUser.RoleIds, existingUser.Emails.Select(email => email.Copy()).ToArray(), existingUser.Contacts.ToArray());
+                existingUser.RegisteredSince, userProfileImage, existingUser.RoleIds, existingUser.Emails.Select(email => email.Copy()).ToArray());
 
-            var edited = await this.userChangesService.EditUserAsync(updatedUser);
+            await this.userChangesService.EditUserAsync(updatedUser);
             
             // TODO: check if edited and then do what?
 

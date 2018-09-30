@@ -11,7 +11,7 @@ namespace Etdb.UserService.Services
     public class CachedGrantStoreService : IPersistedGrantStore
     {
         private readonly IDistributedCache cache;
-        private const string TokenKeyPrefix = "token_";
+        private const string TokenKeyPrefix = "etdb_token_";
 
         public CachedGrantStoreService(IDistributedCache cache)
         {
