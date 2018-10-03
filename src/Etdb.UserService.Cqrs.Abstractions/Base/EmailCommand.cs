@@ -5,10 +5,23 @@ namespace Etdb.UserService.Cqrs.Abstractions.Base
 {
     public abstract class EmailCommand : IVoidCommand
     {
-        public Guid Id { get; set; }
-        
-        public string Address { get; set; }
+        public Guid Id { get; }
 
-        public bool IsPrimary { get; set; }
+        public string Address { get; }
+
+        public bool IsPrimary { get; }
+
+        protected EmailCommand(Guid id, string address, bool isPrimary)
+        {
+            this.Id = id;
+            this.Address = address;
+            this.IsPrimary = isPrimary;
+        }
+
+        protected EmailCommand(string address, bool isPrimary)
+        {
+            Address = address;
+            IsPrimary = isPrimary;
+        }
     }
 }

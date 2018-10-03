@@ -4,7 +4,7 @@ using Etdb.UserService.Cqrs.Abstractions.Models;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands
 {
-    public class UserProfileImageLoadCommand : IResponseCommand<FileInfo>
+    public class UserProfileImageLoadCommand : IResponseCommand<FileDownloadInfo>
     {
         public UserProfileImageLoadCommand(Guid id)
         {

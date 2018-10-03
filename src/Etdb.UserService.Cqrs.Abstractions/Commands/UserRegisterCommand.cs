@@ -5,12 +5,22 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands
 {
     public class UserRegisterCommand : UserNameCommand
     {
-        public string FirstName { get; set; }
+        public UserRegisterCommand(string userName, string firstName, string name,
+            PasswordAddCommand passwordAddCommand,
+            ICollection<EmailAddCommand> emails) : base(userName)
+        {
+            this.FirstName = firstName;
+            this.Name = name;
+            this.PasswordAddCommand = passwordAddCommand;
+            this.Emails = emails;
+        }
 
-        public string Name { get; set; }
+        public string FirstName { get; }
 
-        public string Password { get; set; }
+        public string Name { get; }
 
-        public ICollection<EmailAddCommand> Emails { get; set; }
+        public PasswordAddCommand PasswordAddCommand { get; set; }
+
+        public ICollection<EmailAddCommand> Emails { get; }
     }
 }

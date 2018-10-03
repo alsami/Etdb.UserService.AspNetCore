@@ -17,11 +17,11 @@ namespace Etdb.UserService.Controllers.V1
     [Route("api/v1/[controller]")]
     public class UsersController : Controller
     {
-        private readonly IBus mediator;
+        private readonly IBus bus;
 
-        public UsersController(IBus mediator)
+        public UsersController(IBus bus)
         {
-            this.mediator = mediator;
+            this.bus = bus;
         }
 
         [AllowAnonymous]
@@ -30,7 +30,7 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = new UserLoadCommand(id);
 
-            var user = await this.mediator.SendCommandAsync<UserLoadCommand, UserDto>(command);
+            var user = await this.bus.SendCommandAsync<UserLoadCommand, UserDto>(command);
 
             return user;
         }
@@ -42,19 +42,17 @@ namespace Etdb.UserService.Controllers.V1
                 file.FileName,
                 new ContentType(file.ContentType), await file.ReadFileBytesAsync());
             
-            var user = await this.mediator.SendCommandAsync<UserProfileImageAddCommand, UserDto>(command);
+            var user = await this.bus.SendCommandAsync<UserProfileImageAddCommand, UserDto>(command);
 
             return user;
         }
 
         [AllowAnonymous]
-        [ResponseCache(NoStore = true)]
         [HttpGet("{id:Guid}/profileimage", Name = RouteNames.UserProfileImageUrlRoute)]
         public async Task<IActionResult> GetUserProfileImage(Guid id)
         {
-  
             var fileInfo =
-                await this.mediator.SendCommandAsync<UserProfileImageLoadCommand, FileInfo>(
+                await this.bus.SendCommandAsync<UserProfileImageLoadCommand, FileDownloadInfo>(
                     new UserProfileImageLoadCommand(id));
             
             return new FileContentResult(fileInfo.File, new MediaTypeHeaderValue(fileInfo.MediaType))

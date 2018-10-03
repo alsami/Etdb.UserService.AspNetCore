@@ -2,6 +2,11 @@
 {
     public abstract class PasswordCommand
     {
-        public string Password { get; set; }
+        protected PasswordCommand(string newPassword)
+        {
+            NewPassword = newPassword;
+        }
+
+        public string NewPassword { get; }
     }
 }

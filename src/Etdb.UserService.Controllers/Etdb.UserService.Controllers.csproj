@@ -3,6 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
     <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="0.0.2" />
     <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="0.0.2" />
     <PackageReference Include="Etdb.ServiceBase.Extensions" Version="0.0.2" />

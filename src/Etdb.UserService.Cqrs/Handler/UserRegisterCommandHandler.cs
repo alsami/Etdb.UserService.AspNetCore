@@ -29,10 +29,9 @@ namespace Etdb.UserService.Cqrs.Handler
         public UserRegisterCommandHandler(IAuthService authService,
             ICommandValidation<UserRegisterCommand> userRegisterCommandValidation,
             ICommandValidation<EmailAddCommand> emailAddCommandValidation,
-            ICommandValidation<PasswordAddCommand> passwordCommandValidation, 
+            ICommandValidation<PasswordAddCommand> passwordCommandValidation,
             ISecurityRolesRepository rolesRepository, IHasher hasher)
         {
-            
             this.authService = authService;
             this.userRegisterCommandValidation = userRegisterCommandValidation;
             this.emailAddCommandValidation = emailAddCommandValidation;
@@ -41,25 +40,29 @@ namespace Etdb.UserService.Cqrs.Handler
             this.hasher = hasher;
         }
 
-        public async Task<Unit> Handle(UserRegisterCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UserRegisterCommand command, CancellationToken cancellationToken)
         {
-            var validationResults =
-                new List<ValidationResult>
-                {
-                    await this.userRegisterCommandValidation.ValidateCommandAsync(request)
-                };
+            await this.ValidateRequestAsync(command);
 
-            foreach (var emailAddCommand in request.Emails)
-            {
-                validationResults.Add(await this.emailAddCommandValidation.ValidateCommandAsync(emailAddCommand));
-            }
+            var user = await this.GenerateUserAsync(command);
 
-            var passwordAddCommand = new PasswordAddCommand
-            {
-                Password = request.Password
-            };
-            
-            validationResults.Add(await this.passwordCommandValidation.ValidateCommandAsync(passwordAddCommand));
+            await this.authService.RegisterAsync(user);
+
+            return Unit.Value;
+        }
+
+        private async Task ValidateRequestAsync(UserRegisterCommand command)
+        {
+            var validationTasks = command.Emails
+                .Select(async emailAddCommand =>
+                    await this.emailAddCommandValidation.ValidateCommandAsync(emailAddCommand))
+                .ToList();
+
+            validationTasks.Add(this.userRegisterCommandValidation.ValidateCommandAsync(command));
+
+            validationTasks.Add(this.passwordCommandValidation.ValidateCommandAsync(command.PasswordAddCommand));
+
+            var validationResults = await Task.WhenAll(validationTasks);
 
             if (validationResults.Any(result => !result.IsValid))
             {
@@ -68,30 +71,24 @@ namespace Etdb.UserService.Cqrs.Handler
                     .SelectMany(result => result.Errors)
                     .Select(result => result.ErrorMessage)
                     .ToArray();
-                
+
                 throw new GeneralValidationException("Error validating user registration!", errors);
             }
-
-            var user = await this.GenerateUser(request);
-
-            await this.authService.RegisterAsync(user);
-
-            return Unit.Value;
         }
 
-        private async Task<User> GenerateUser(UserRegisterCommand command)
+        private async Task<User> GenerateUserAsync(UserRegisterCommand command)
         {
             var emails = command
                 .Emails
                 .Select(email => new Email(Guid.NewGuid(), email.Address, email.IsPrimary))
                 .ToArray();
-            
+
             var memberRole = await this.rolesRepository.FindAsync(role => role.Name == RoleNames.Member);
 
             var salt = this.hasher.GenerateSalt();
-            
-            return new User(Guid.NewGuid(), command.UserName, command.FirstName, command.Name, 
-                this.hasher.CreateSaltedHash(command.Password, salt), salt, DateTime.UtcNow, null,
+
+            return new User(Guid.NewGuid(), command.UserName, command.FirstName, command.Name,
+                this.hasher.CreateSaltedHash(command.PasswordAddCommand.NewPassword, salt), salt, DateTime.UtcNow, null,
                 new[] {memberRole.Id}, emails);
         }
     }

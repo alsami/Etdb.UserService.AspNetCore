@@ -5,27 +5,28 @@ using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Exceptions;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Cqrs.Abstractions.Models;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Services.Abstractions;
 using Microsoft.Extensions.Options;
-using FileInfo = Etdb.UserService.Cqrs.Abstractions.Models.FileInfo;
 
 namespace Etdb.UserService.Cqrs.Handler
 {
-    public class UserProfileImageLoadCommandHandler : IResponseCommandHandler<UserProfileImageLoadCommand, FileInfo>
+    public class UserProfileImageLoadCommandHandler : IResponseCommandHandler<UserProfileImageLoadCommand, FileDownloadInfo>
     {
         private readonly IOptions<FileStoreOptions> fileStoreOptions;
         private readonly IUsersSearchService usersSearchService;
         private readonly IFileService fileService;
 
-        public UserProfileImageLoadCommandHandler(IOptions<FileStoreOptions> fileStoreOptions, IUsersSearchService usersSearchService, IFileService fileService)
+        public UserProfileImageLoadCommandHandler(IOptions<FileStoreOptions> fileStoreOptions,
+            IUsersSearchService usersSearchService, IFileService fileService)
         {
             this.fileStoreOptions = fileStoreOptions;
             this.usersSearchService = usersSearchService;
             this.fileService = fileService;
         }
-        
-        public async Task<FileInfo> Handle(UserProfileImageLoadCommand request, CancellationToken cancellationToken)
+
+        public async Task<FileDownloadInfo> Handle(UserProfileImageLoadCommand request, CancellationToken cancellationToken)
         {
             var user = await this.usersSearchService.FindUserByIdAsync(request.Id);
 
@@ -42,7 +43,7 @@ namespace Etdb.UserService.Cqrs.Handler
             var binary = await this.fileService.ReadBinaryAsync(
                 Path.Combine(this.fileStoreOptions.Value.ImagePath, user.Id.ToString()), user.ProfileImage.Name);
 
-            return new FileInfo(user.ProfileImage.MediaType, user.ProfileImage.Name, binary);
+            return new FileDownloadInfo(user.ProfileImage.MediaType, user.ProfileImage.Name, binary);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Etdb.UserService.Domain.Base;
-using Newtonsoft.Json;
 
 namespace Etdb.UserService.Domain.Documents
 {
