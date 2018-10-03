@@ -6,6 +6,6 @@ namespace Etdb.UserService.Presentation
     {
         public string Address { get; set; }
 
-        public string IsPrimary { get; set; }
+        public bool IsPrimary { get; set; }
     }
 }

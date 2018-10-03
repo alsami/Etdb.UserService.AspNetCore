@@ -8,7 +8,7 @@ namespace Etdb.UserService.Cqrs.Validation.Base
     {
         protected void RegisterPasswordRules()
         {
-            this.RuleFor(command => command.Password)
+            this.RuleFor(command => command.NewPassword)
                 .NotEmpty()
                 .WithMessage("!")
                 .MinimumLength(8)

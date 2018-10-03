@@ -34,12 +34,7 @@ namespace Etdb.UserService.Cqrs.Validation.Base
         {
             var user = await this.usersSearchService.FindUserByUserNameAsync(command.UserName);
 
-            if (user == null)
-            {
-                return true;
-            }
-
-            return user.Id == command.Id;
+            return user == null || user.Id == command.Id;
         }
     }
 }

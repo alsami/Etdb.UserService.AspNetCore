@@ -24,21 +24,16 @@ namespace Etdb.UserService.Cqrs.Validation.Base
                 .WithMessage("A valid email-address must be given!");
             
             this.RuleFor(command => command)
-                .MustAsync(async (command, token, email) => await this.IsEmailAbailable(command))
+                .MustAsync(async (command, token, email) => await this.IsEmailAbailableAsync(command))
                 .WithMessage("Email address already taken!");
         }
         
         
-        private async Task<bool> IsEmailAbailable(EmailCommand command)
+        private async Task<bool> IsEmailAbailableAsync(EmailCommand command)
         {
             var email = await this.usersSearchService.FindEmailAddress(command.Address);
 
-            if (email == null)
-            {
-                return true;
-            }
-
-            return email.Id == command.Id;
+            return email == null || email.Id == command.Id;
         }
     }
 }
