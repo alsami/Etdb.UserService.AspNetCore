@@ -1,13 +1,19 @@
 ﻿using System.IO;
 using System.IO.Compression;
 using Autofac;
-using Etdb.ServiceBase.Builder.Builder;
+using Autofac.Extensions.FluentBuilder;
+using AutoMapper.Extensions.Autofac.DependencyInjection;
 using Etdb.ServiceBase.Constants;
+using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
+using Etdb.ServiceBase.Cqrs.Abstractions.Validation;
+using Etdb.ServiceBase.Cqrs.Bus;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Cryptography.Hashing;
 using Etdb.ServiceBase.DocumentRepository.Abstractions.Context;
+using Etdb.ServiceBase.DocumentRepository.Abstractions.Generics;
 using Etdb.ServiceBase.Filter;
 using Etdb.ServiceBase.Services;
+using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.AutoMapper.Profiles;
 using Etdb.UserService.Bootstrap.Config;
 using Etdb.UserService.Bootstrap.Services;
@@ -20,6 +26,7 @@ using Etdb.UserService.Services.Abstractions;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using IdentityServer4.Validation;
+using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -43,7 +50,7 @@ namespace Etdb.UserService.Bootstrap
     {
         private readonly IConfigurationRoot configuration;
         private readonly IHostingEnvironment environment;
-        
+
         private const string SwaggerDocDescription = "Etdb " + ServiceNames.UserService + " V1";
         private const string SwaggerDocVersion = "v1";
         private const string SwaggerDocJsonUri = "/swagger/v1/swagger.json";
@@ -92,7 +99,7 @@ namespace Etdb.UserService.Bootstrap
                     var requireAuthenticatedUserPolicy = new AuthorizeFilter(new AuthorizationPolicyBuilder()
                         .RequireAuthenticatedUser()
                         .Build());
-                    
+
                     options.Filters.Add(requireAuthenticatedUserPolicy);
                     options.Filters.Add(typeof(UnhandledExceptionFilter));
                     options.Filters.Add(typeof(ConcurrencyExceptionFilter));
@@ -148,7 +155,7 @@ namespace Etdb.UserService.Bootstrap
 
             services.AddDistributedRedisCache(options =>
                 this.configuration.GetSection(Startup.RedisCacheOptions).Bind(options));
-            
+
             if (this.environment.IsDevelopment())
             {
                 services.AddMvcCore()
@@ -161,7 +168,7 @@ namespace Etdb.UserService.Bootstrap
                         Title = Startup.SwaggerDocDescription,
                         Version = Startup.SwaggerDocVersion
                     });
-                });   
+                });
             }
 
             services.Configure<DocumentDbContextOptions>(options =>
@@ -177,13 +184,13 @@ namespace Etdb.UserService.Bootstrap
                     options.ImagePath = Path.Combine(this.environment.ContentRootPath, "Files");
                     return;
                 }
-                
+
                 this.configuration.GetSection(nameof(FileStoreOptions))
                     .Bind(options);
             });
 
             services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
-            
+
             services.AddResponseCompression();
         }
 
@@ -193,7 +200,10 @@ namespace Etdb.UserService.Bootstrap
             {
                 app.UseSwagger();
 
-                app.UseSwaggerUI(action => { action.SwaggerEndpoint(Startup.SwaggerDocJsonUri, Startup.SwaggerDocDescription); });
+                app.UseSwaggerUI(action =>
+                {
+                    action.SwaggerEndpoint(Startup.SwaggerDocJsonUri, Startup.SwaggerDocDescription);
+                });
             }
             else
             {
@@ -215,23 +225,27 @@ namespace Etdb.UserService.Bootstrap
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
-            new ServiceContainerBuilder(containerBuilder)
-                .UseCqrs(typeof(UserRegisterCommandHandler).Assembly)
-                .UseAutoMapper(typeof(UsersProfile).Assembly)
-                .UseEnvironment((Microsoft.Extensions.Hosting.IHostingEnvironment) this.environment)
-                .UseConfiguration(this.configuration)
-                .UseGenericDocumentRepositoryPattern<UserServiceDbContext>(typeof(UserServiceDbContext).Assembly)
+            new AutofacFluentBuilder(containerBuilder
+                    .AddMediatR(typeof(UserRegisterCommandHandler).Assembly)
+                    .AddAutoMapper(typeof(UsersProfile).Assembly))
+                .RegisterInstance<Microsoft.Extensions.Hosting.IHostingEnvironment>(this.environment)
+                .RegisterInstance<IConfiguration>(this.configuration)
                 .RegisterTypeAsSingleton<ActionContextAccessor, IActionContextAccessor>()
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
-                .RegisterTypeAsSingleton<FileService, ServiceBase.Services.Abstractions.IFileService>()
+                .RegisterTypeAsSingleton<FileService, IFileService>()
                 .RegisterTypeAsSingleton<CorsPolicyService, ICorsPolicyService>()
-                .RegisterTypePerLifetimeScope<HttpContextAccessor, IHttpContextAccessor>()
-                .RegisterTypePerLifetimeScope<AuthService, IResourceOwnerPasswordValidator>()
-                .RegisterTypePerLifetimeScope<AuthService, IProfileService>()
-                .RegisterTypePerLifetimeScope<AuthService, IAuthService>()
-                .RegisterTypePerLifetimeScope<CachedGrantStoreService, IPersistedGrantStore>()
-                .RegisterTypePerLifetimeScope<UsersSearchService, IUsersSearchService>()
-                .RegisterTypePerLifetimeScope<UserChangesService, IUserChangesService>();
+                .RegisterTypeAsScoped<Bus, IBus>()
+                .RegisterTypeAsScoped<HttpContextAccessor, IHttpContextAccessor>()
+                .RegisterTypeAsScoped<AuthService, IResourceOwnerPasswordValidator>()
+                .RegisterTypeAsScoped<AuthService, IProfileService>()
+                .RegisterTypeAsScoped<AuthService, IAuthService>()
+                .RegisterTypeAsScoped<CachedGrantStoreService, IPersistedGrantStore>()
+                .RegisterTypeAsScoped<UsersSearchService, IUsersSearchService>()
+                .RegisterTypeAsScoped<UserChangesService, IUserChangesService>()
+                .RegisterTypeAsScoped<UserServiceDbContext, DocumentDbContext>()
+                .AddClosedTypeAsScoped(typeof(ICommandValidation<>),
+                    new[] {typeof(UserRegisterCommandHandler).Assembly})
+                .AddClosedTypeAsScoped(typeof(IDocumentRepository<,>), new[] {typeof(UserServiceDbContext).Assembly});
         }
     }
 }
