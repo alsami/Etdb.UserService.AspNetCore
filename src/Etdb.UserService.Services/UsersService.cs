@@ -11,27 +11,53 @@ using Microsoft.Extensions.Caching.Distributed;
 namespace Etdb.UserService.Services
 {
     // ReSharper disable SpecifyStringComparison
-    public class UsersSearchService : IUsersSearchService
+    public class UsersService : IUsersService
     {
         private readonly IDistributedCache cache;
         private readonly IUsersRepository usersRepository;
-        
 
-        public UsersSearchService(IUsersRepository usersRepository, IDistributedCache cache)
+
+        public UsersService(IUsersRepository usersRepository, IDistributedCache cache)
         {
             this.usersRepository = usersRepository;
             this.cache = cache;
         }
-        
+
+        public async Task AddAsync(User user)
+        {
+            await this.usersRepository.AddAsync(user);
+
+            await this.cache.AddOrUpdateAsync(user.Id, user);
+
+            foreach (var email in user.Emails)
+            {
+                await this.cache.AddOrUpdateAsync(email.Id, email);
+            }
+        }
+
+        public async Task<bool> EditUserAsync(User user)
+        {
+            var saved = await this.usersRepository.EditAsync(user);
+
+            if (!saved)
+            {
+                return false;
+            }
+
+            await this.cache.AddOrUpdateAsync(user.Id, user);
+
+            return true;
+        }
+
         public async Task<User> FindUserByIdAsync(Guid id)
         {
-            var cachedUser = await this.cache.GetAsync<User, Guid>(id);
+            var cachedUser = await this.cache.FindAsync<User, Guid>(id);
 
             if (cachedUser != null)
             {
                 return cachedUser;
             }
-            
+
             var user = await this.usersRepository.FindAsync(id);
 
             if (user != null)
@@ -43,7 +69,7 @@ namespace Etdb.UserService.Services
         }
 
         public async Task<User> FindUserByUserNameAsync(string userName)
-        {            
+        {
             var user = await this.usersRepository.FindAsync(UserNameEqualsExpression(userName));
 
             if (user != null)
@@ -60,7 +86,7 @@ namespace Etdb.UserService.Services
             {
                 throw new ArgumentException(nameof(userNameOrEmail));
             }
-            
+
             var user = await this.usersRepository.FindAsync(UserOrEmailEqualsExpression(userNameOrEmail));
 
             if (user != null)
@@ -71,23 +97,17 @@ namespace Etdb.UserService.Services
             return user;
         }
 
-        public async Task<Email> FindEmailAddress(string emailAddress)
+        public Email FindEmailAddress(string emailAddress)
         {
-            var entry = await this.cache.GetAsync<Email, string>(emailAddress.ToLower());
-
-            if (entry != null)
-            {
-                return entry;
-            }
-            
-            var email = this.usersRepository.Query()
+            var email = this.usersRepository
+                .Query()
                 .SelectMany(user => user.Emails)
                 .FirstOrDefault(EmailEqualsExpressios(emailAddress));
 
             return email;
         }
 
-        private static Expression<Func<User, bool>> UserNameEqualsExpression(string userName) => 
+        private static Expression<Func<User, bool>> UserNameEqualsExpression(string userName) =>
             user => user.UserName.ToLower() == userName.ToLower();
 
         private static Expression<Func<Email, bool>> EmailEqualsExpressios(string emailAddress) =>

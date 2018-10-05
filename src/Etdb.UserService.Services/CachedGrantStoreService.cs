@@ -32,12 +32,12 @@ namespace Etdb.UserService.Services
 
         public async Task<PersistedGrant> GetAsync(string key)
         {
-            return await this.cache.GetAsync<PersistedGrant, string>(key);
+            return await this.cache.FindAsync<PersistedGrant, string>(key);
         }
 
         public async Task<IEnumerable<PersistedGrant>> GetAllAsync(string subjectId)
         {
-            var grants = await this.cache.GetAsync<IEnumerable<PersistedGrant>, string>($"{CachedGrantStoreService.TokenKeyPrefix}{ subjectId }");
+            var grants = await this.cache.FindAsync<IEnumerable<PersistedGrant>, string>($"{CachedGrantStoreService.TokenKeyPrefix}{ subjectId }");
 
             return grants.ToArray().AsEnumerable();
         }
@@ -49,7 +49,7 @@ namespace Etdb.UserService.Services
 
         public async Task RemoveAllAsync(string subjectId, string clientId)
         {
-            var grants = await this.cache.GetAsync<IEnumerable<PersistedGrant>, string>($"{CachedGrantStoreService.TokenKeyPrefix}{ subjectId }");
+            var grants = await this.cache.FindAsync<IEnumerable<PersistedGrant>, string>($"{CachedGrantStoreService.TokenKeyPrefix}{ subjectId }");
 
             foreach (var grant in grants.Where(grant => grant.ClientId == clientId).ToArray())
             {
@@ -59,7 +59,7 @@ namespace Etdb.UserService.Services
 
         public async Task RemoveAllAsync(string subjectId, string clientId, string type)
         {
-            var grants = await this.cache.GetAsync<IEnumerable<PersistedGrant>, string>($"{CachedGrantStoreService.TokenKeyPrefix}{ subjectId }");
+            var grants = await this.cache.FindAsync<IEnumerable<PersistedGrant>, string>($"{CachedGrantStoreService.TokenKeyPrefix}{ subjectId }");
 
             foreach (var grant in grants.Where(grant => grant.ClientId == clientId && grant.Type == type).ToArray())
             {

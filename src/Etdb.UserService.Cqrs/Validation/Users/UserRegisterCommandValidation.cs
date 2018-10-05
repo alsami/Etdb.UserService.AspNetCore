@@ -9,7 +9,7 @@ namespace Etdb.UserService.Cqrs.Validation.Users
 {
     public class UserRegisterCommandValidation : UserNameCommandValidation<UserRegisterCommand>
     {
-        public UserRegisterCommandValidation(IUsersSearchService usersSearchService) : base(usersSearchService)
+        public UserRegisterCommandValidation(IUsersService usersService) : base(usersService)
         {
             this.RegisterUserNameRules();
             this.EmailRules();

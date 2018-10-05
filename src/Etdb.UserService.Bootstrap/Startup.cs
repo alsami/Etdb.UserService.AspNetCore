@@ -18,6 +18,7 @@ using Etdb.UserService.AutoMapper.Profiles;
 using Etdb.UserService.Bootstrap.Config;
 using Etdb.UserService.Bootstrap.Services;
 using Etdb.UserService.Constants;
+using Etdb.UserService.Controllers.V1;
 using Etdb.UserService.Cqrs.Handler;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Repositories;
@@ -38,6 +39,7 @@ using Microsoft.AspNetCore.Mvc.Cors.Internal;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -220,7 +222,15 @@ namespace Etdb.UserService.Bootstrap
 
             app.UseIdentityServer();
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                //var template =
+                //    $"api/{nameof(UsersController).Replace("Controller", "").ToLowerInvariant()}/{{action={RouteNames.UserProfileImageUrlRoute}}}/{{id:Guid}}/profileimage";
+
+                //routes.MapRoute(RouteNames.UserProfileImageUrlRoute, template);
+
+                //UserProfileImageUrlFactory.Router = routes.Build();
+            });
         }
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
@@ -230,6 +240,7 @@ namespace Etdb.UserService.Bootstrap
                     .AddAutoMapper(typeof(UsersProfile).Assembly))
                 .RegisterInstance<Microsoft.Extensions.Hosting.IHostingEnvironment>(this.environment)
                 .RegisterInstance<IConfiguration>(this.configuration)
+                .RegisterTypeAsSingleton<UserProfileImageUrlFactory, IUserProfileImageUrlFactory>()
                 .RegisterTypeAsSingleton<ActionContextAccessor, IActionContextAccessor>()
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypeAsSingleton<FileService, IFileService>()
@@ -238,10 +249,8 @@ namespace Etdb.UserService.Bootstrap
                 .RegisterTypeAsScoped<HttpContextAccessor, IHttpContextAccessor>()
                 .RegisterTypeAsScoped<AuthService, IResourceOwnerPasswordValidator>()
                 .RegisterTypeAsScoped<AuthService, IProfileService>()
-                .RegisterTypeAsScoped<AuthService, IAuthService>()
                 .RegisterTypeAsScoped<CachedGrantStoreService, IPersistedGrantStore>()
-                .RegisterTypeAsScoped<UsersSearchService, IUsersSearchService>()
-                .RegisterTypeAsScoped<UserChangesService, IUserChangesService>()
+                .RegisterTypeAsScoped<UsersService, IUsersService>()
                 .RegisterTypeAsScoped<UserServiceDbContext, DocumentDbContext>()
                 .AddClosedTypeAsScoped(typeof(ICommandValidation<>),
                     new[] {typeof(UserRegisterCommandHandler).Assembly})

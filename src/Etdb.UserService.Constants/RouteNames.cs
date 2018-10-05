@@ -2,6 +2,6 @@
 {
     public class RouteNames
     {
-        public const string UserProfileImageUrlRoute = "UserProfileImage";
+        public const string UserProfileImageUrlRoute = "LoadProfileImage";
     }
 }

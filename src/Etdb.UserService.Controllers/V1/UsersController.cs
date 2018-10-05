@@ -41,7 +41,7 @@ namespace Etdb.UserService.Controllers.V1
             var command = new UserProfileImageAddCommand(id,
                 file.FileName,
                 new ContentType(file.ContentType), await file.ReadFileBytesAsync());
-            
+
             var user = await this.bus.SendCommandAsync<UserProfileImageAddCommand, UserDto>(command);
 
             return user;
@@ -49,12 +49,12 @@ namespace Etdb.UserService.Controllers.V1
 
         [AllowAnonymous]
         [HttpGet("{id:Guid}/profileimage", Name = RouteNames.UserProfileImageUrlRoute)]
-        public async Task<IActionResult> GetUserProfileImage(Guid id)
+        public async Task<IActionResult> LoadProfileImage(Guid id)
         {
             var fileInfo =
                 await this.bus.SendCommandAsync<UserProfileImageLoadCommand, FileDownloadInfo>(
                     new UserProfileImageLoadCommand(id));
-            
+
             return new FileContentResult(fileInfo.File, new MediaTypeHeaderValue(fileInfo.MediaType))
             {
                 FileDownloadName = fileInfo.Name

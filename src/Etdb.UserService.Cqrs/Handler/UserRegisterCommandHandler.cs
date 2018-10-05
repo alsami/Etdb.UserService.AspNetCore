@@ -19,20 +19,20 @@ namespace Etdb.UserService.Cqrs.Handler
 {
     public class UserRegisterCommandHandler : IVoidCommandHandler<UserRegisterCommand>
     {
-        private readonly IAuthService authService;
+        private readonly IUsersService usersService;
         private readonly ICommandValidation<UserRegisterCommand> userRegisterCommandValidation;
         private readonly ICommandValidation<EmailAddCommand> emailAddCommandValidation;
         private readonly ICommandValidation<PasswordAddCommand> passwordCommandValidation;
         private readonly ISecurityRolesRepository rolesRepository;
         private readonly IHasher hasher;
 
-        public UserRegisterCommandHandler(IAuthService authService,
+        public UserRegisterCommandHandler(IUsersService usersService,
             ICommandValidation<UserRegisterCommand> userRegisterCommandValidation,
             ICommandValidation<EmailAddCommand> emailAddCommandValidation,
             ICommandValidation<PasswordAddCommand> passwordCommandValidation,
             ISecurityRolesRepository rolesRepository, IHasher hasher)
         {
-            this.authService = authService;
+            this.usersService = usersService;
             this.userRegisterCommandValidation = userRegisterCommandValidation;
             this.emailAddCommandValidation = emailAddCommandValidation;
             this.passwordCommandValidation = passwordCommandValidation;
@@ -42,27 +42,7 @@ namespace Etdb.UserService.Cqrs.Handler
 
         public async Task<Unit> Handle(UserRegisterCommand command, CancellationToken cancellationToken)
         {
-            await this.ValidateRequestAsync(command);
-
-            var user = await this.GenerateUserAsync(command);
-
-            await this.authService.RegisterAsync(user);
-
-            return Unit.Value;
-        }
-
-        private async Task ValidateRequestAsync(UserRegisterCommand command)
-        {
-            var validationTasks = command.Emails
-                .Select(async emailAddCommand =>
-                    await this.emailAddCommandValidation.ValidateCommandAsync(emailAddCommand))
-                .ToList();
-
-            validationTasks.Add(this.userRegisterCommandValidation.ValidateCommandAsync(command));
-
-            validationTasks.Add(this.passwordCommandValidation.ValidateCommandAsync(command.PasswordAddCommand));
-
-            var validationResults = await Task.WhenAll(validationTasks);
+            var validationResults = await this.ValidateRequestAsync(command);
 
             if (validationResults.Any(result => !result.IsValid))
             {
@@ -74,6 +54,26 @@ namespace Etdb.UserService.Cqrs.Handler
 
                 throw new GeneralValidationException("Error validating user registration!", errors);
             }
+
+            var user = await this.GenerateUserAsync(command);
+
+            await this.usersService.AddAsync(user);
+
+            return Unit.Value;
+        }
+
+        private async Task<ICollection<ValidationResult>> ValidateRequestAsync(UserRegisterCommand command)
+        {
+            var validationTasks = command.Emails
+                .Select(async emailAddCommand =>
+                    await this.emailAddCommandValidation.ValidateCommandAsync(emailAddCommand))
+                .ToList();
+
+            validationTasks.Add(this.userRegisterCommandValidation.ValidateCommandAsync(command));
+
+            validationTasks.Add(this.passwordCommandValidation.ValidateCommandAsync(command.PasswordAddCommand));
+
+            return await Task.WhenAll(validationTasks);
         }
 
         private async Task<User> GenerateUserAsync(UserRegisterCommand command)

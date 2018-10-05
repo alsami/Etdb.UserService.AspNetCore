@@ -27,7 +27,7 @@ namespace Etdb.UserService.Extensions
             await cache.SetStringAsync(key.ToString(), JsonConvert.SerializeObject(@object), usedOptions, token);
         }
 
-        public static async Task<T> GetAsync<T, TKey>(this IDistributedCache cache, TKey key,
+        public static async Task<T> FindAsync<T, TKey>(this IDistributedCache cache, TKey key,
             CancellationToken token = default) where T : class where TKey : IEquatable<TKey>
         {
             var @string = await cache.GetStringAsync(key.ToString(), token);
@@ -38,6 +38,7 @@ namespace Etdb.UserService.Extensions
             }
             
             await cache.RemoveAsync(key.ToString(), token);
+
             return null;
         }
     }

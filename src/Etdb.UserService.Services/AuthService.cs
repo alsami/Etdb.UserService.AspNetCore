@@ -5,58 +5,43 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.UserService.Domain.Documents;
-using Etdb.UserService.Extensions;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
-using Microsoft.Extensions.Caching.Distributed;
 
 namespace Etdb.UserService.Services
 {
-    public class AuthService : IAuthService, IProfileService, IResourceOwnerPasswordValidator
+    public class AuthService : IProfileService, IResourceOwnerPasswordValidator
     {
         private readonly IHasher hasher;
         private readonly ISecurityRolesRepository rolesRepository;
-        private readonly IUsersSearchService usersSearchService;
-        private readonly IUsersRepository usersRepository;
-        private readonly IDistributedCache cache;
+        private readonly IUsersService userService;
+        private readonly IUserProfileImageUrlFactory userProfileImageUrlFactory;
 
         public AuthService(IHasher hasher,
             ISecurityRolesRepository rolesRepository,
-            IUsersSearchService usersSearchService,
-            IUsersRepository usersRepository, IDistributedCache cache)
+            IUsersService userService, IUserProfileImageUrlFactory userProfileImageUrlFactory)
         {
             this.hasher = hasher;
             this.rolesRepository = rolesRepository;
-            this.usersSearchService = usersSearchService;
-            this.usersRepository = usersRepository;
-            this.cache = cache;
+            this.userService = userService;
+            this.userProfileImageUrlFactory = userProfileImageUrlFactory;
         }
-        
-        public async Task RegisterAsync(User user)
-        {            
-            await this.usersRepository.AddAsync(user);
 
-            await this.cache.AddOrUpdateAsync(user.Id, user);
-
-            foreach (var email in user.Emails)
-            {
-                await this.cache.AddOrUpdateAsync(email.Id, email);
-            }
-        }
-        
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
-            if (!Guid.TryParse(context.Subject.Claims.FirstOrDefault(claim => claim.Type == JwtClaimTypes.Subject)?.Value, out var subjectId))
+            if (!Guid.TryParse(
+                context.Subject.Claims.FirstOrDefault(claim => claim.Type == JwtClaimTypes.Subject)?.Value,
+                out var subjectId))
             {
                 context.IssuedClaims = context.Subject.Claims.ToList();
                 return;
             }
 
-            var user = await this.usersSearchService.FindUserByIdAsync(subjectId);
+            var user = await this.userService.FindUserByIdAsync(subjectId);
 
             if (user == null)
             {
@@ -71,10 +56,10 @@ namespace Etdb.UserService.Services
         {
             return Task.FromResult(context.IsActive);
         }
-        
+
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            var loginUser = await this.usersSearchService.FindUserByUserNameOrEmailAsync(context.UserName);
+            var loginUser = await this.userService.FindUserByUserNameOrEmailAsync(context.UserName);
 
             if (loginUser == null)
             {
@@ -88,25 +73,25 @@ namespace Etdb.UserService.Services
                 return;
             }
 
-            context.Result = new GrantValidationResult(loginUser.Id.ToString(), 
-                "custom", 
+            context.Result = new GrantValidationResult(loginUser.Id.ToString(),
+                "custom",
                 await this.AllocateClaimsAsync(loginUser));
         }
-        
+
         private async Task<IEnumerable<Claim>> AllocateClaimsAsync(User user)
         {
             if (user == null)
             {
                 throw new ArgumentException(nameof(user));
             }
-            
+
             var claims = new List<Claim>();
 
             foreach (var roleId in user.RoleIds)
             {
                 var existingRole = await this.rolesRepository.FindAsync(roleId)
                     .ConfigureAwait(false);
-                    
+
                 claims.Add(new Claim(JwtClaimTypes.Role, existingRole.Name));
             }
 
@@ -119,7 +104,7 @@ namespace Etdb.UserService.Services
 
             if (user.FirstName != null && user.Name != null)
             {
-                claims.AddRange(new []
+                claims.AddRange(new[]
                 {
                     new Claim(JwtClaimTypes.Name, $"{user.FirstName} {user.Name}"),
                     new Claim(JwtClaimTypes.GivenName, user.FirstName),
@@ -127,9 +112,15 @@ namespace Etdb.UserService.Services
                 });
             }
 
+            if (user.ProfileImage != null)
+            {
+                claims.Add(new Claim(JwtClaimTypes.Picture,
+                    this.userProfileImageUrlFactory.GenerateUrl(user.Id, user.ProfileImage)));
+            }
+
             return claims;
         }
-        
+
         private bool ArePasswordsEqual(string hashedPassword, string unhasedPassword, byte[] salt)
         {
             return this.hasher.CreateSaltedHash(unhasedPassword, salt) == hashedPassword;

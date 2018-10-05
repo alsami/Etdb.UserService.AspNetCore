@@ -4,14 +4,18 @@ using Etdb.UserService.Domain.Documents;
 
 namespace Etdb.UserService.Services.Abstractions
 {
-    public interface IUsersSearchService
-    {        
+    public interface IUsersService
+    {
+        Task AddAsync(User user);
+
+        Task<bool> EditUserAsync(User user);
+
         Task<User> FindUserByIdAsync(Guid id);
 
         Task<User> FindUserByUserNameAsync(string userName);
 
         Task<User> FindUserByUserNameOrEmailAsync(string userNameOrEmail);
 
-        Task<Email> FindEmailAddress(string emailAddress);
+        Email FindEmailAddress(string emailAddress);
     }
 }

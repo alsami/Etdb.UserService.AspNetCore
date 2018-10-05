@@ -6,15 +6,16 @@ using FluentValidation;
 
 namespace Etdb.UserService.Cqrs.Validation.Base
 {
-    public abstract class EmailCommandValidation<TEmailCommand> : CommandValidation<TEmailCommand> where TEmailCommand : EmailCommand
+    public abstract class EmailCommandValidation<TEmailCommand> : CommandValidation<TEmailCommand>
+        where TEmailCommand : EmailCommand
     {
-        private readonly IUsersSearchService usersSearchService;
+        private readonly IUsersService usersService;
 
-        protected EmailCommandValidation(IUsersSearchService usersSearchService)
+        protected EmailCommandValidation(IUsersService usersService)
         {
-            this.usersSearchService = usersSearchService;
+            this.usersService = usersService;
         }
-        
+
         protected void RegisterEmailRules()
         {
             this.RuleFor(command => command.Address)
@@ -22,16 +23,16 @@ namespace Etdb.UserService.Cqrs.Validation.Base
                 .NotEmpty()
                 .EmailAddress()
                 .WithMessage("A valid email-address must be given!");
-            
+
             this.RuleFor(command => command)
-                .MustAsync(async (command, token, email) => await this.IsEmailAbailableAsync(command))
+                .Must(this.CheckEmailAvailibility)
                 .WithMessage("Email address already taken!");
         }
-        
-        
-        private async Task<bool> IsEmailAbailableAsync(EmailCommand command)
+
+
+        private bool CheckEmailAvailibility(EmailCommand command)
         {
-            var email = await this.usersSearchService.FindEmailAddress(command.Address);
+            var email = this.usersService.FindEmailAddress(command.Address);
 
             return email == null || email.Id == command.Id;
         }

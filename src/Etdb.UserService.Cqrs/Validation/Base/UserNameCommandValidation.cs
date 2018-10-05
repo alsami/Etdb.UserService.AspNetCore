@@ -9,11 +9,11 @@ namespace Etdb.UserService.Cqrs.Validation.Base
 {
     public abstract class UserNameCommandValidation<TUserNameCommand> : CommandValidation<TUserNameCommand> where TUserNameCommand : UserNameCommand
     {
-        private readonly IUsersSearchService usersSearchService;
+        private readonly IUsersService _usersService;
 
-        protected UserNameCommandValidation(IUsersSearchService usersSearchService)
+        protected UserNameCommandValidation(IUsersService usersService)
         {
-            this.usersSearchService = usersSearchService;
+            this._usersService = usersService;
         }
 
         protected void RegisterUserNameRules()
@@ -32,7 +32,7 @@ namespace Etdb.UserService.Cqrs.Validation.Base
         
         private async Task<bool> IsUserNameAvailable(UserNameCommand command)
         {
-            var user = await this.usersSearchService.FindUserByUserNameAsync(command.UserName);
+            var user = await this._usersService.FindUserByUserNameAsync(command.UserName);
 
             return user == null || user.Id == command.Id;
         }

@@ -11,18 +11,18 @@ namespace Etdb.UserService.Cqrs.Handler
 {
     public class UserLoadCommandHandler : IResponseCommandHandler<UserLoadCommand, UserDto>
     {
-        private readonly IUsersSearchService usersSearchService;
+        private readonly IUsersService usersService;
         private readonly IMapper mapper;
         
-        public UserLoadCommandHandler(IUsersSearchService usersSearchService, IMapper mapper)
+        public UserLoadCommandHandler(IUsersService usersService, IMapper mapper)
         {
-            this.usersSearchService = usersSearchService;
+            this.usersService = usersService;
             this.mapper = mapper;
         }
         
         public async Task<UserDto> Handle(UserLoadCommand request, CancellationToken cancellationToken)
         {
-            var user = await this.usersSearchService.FindUserByIdAsync(request.Id);
+            var user = await this.usersService.FindUserByIdAsync(request.Id);
 
             if (user == null)
             {

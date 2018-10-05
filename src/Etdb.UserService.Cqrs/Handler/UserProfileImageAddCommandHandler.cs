@@ -19,25 +19,22 @@ namespace Etdb.UserService.Cqrs.Handler
     public class UserProfileImageAddCommandHandler : IResponseCommandHandler<UserProfileImageAddCommand, UserDto>
     {
         private readonly IOptions<FileStoreOptions> fileStoreOptions;
-        private readonly IUsersSearchService usersSearchService;
-        private readonly IUserChangesService userChangesService;
+        private readonly IUsersService usersService;
         private readonly IFileService fileService;
         private readonly IMapper mapper;
 
         public UserProfileImageAddCommandHandler(IOptions<FileStoreOptions> fileStoreOptions,
-            IUsersSearchService usersSearchService, IFileService fileService, IUserChangesService userChangesService,
-            IMapper mapper)
+            IUsersService usersService, IFileService fileService, IMapper mapper)
         {
             this.fileStoreOptions = fileStoreOptions;
-            this.usersSearchService = usersSearchService;
+            this.usersService = usersService;
             this.fileService = fileService;
-            this.userChangesService = userChangesService;
             this.mapper = mapper;
         }
-        
+
         public async Task<UserDto> Handle(UserProfileImageAddCommand request, CancellationToken cancellationToken)
         {
-            var existingUser = await this.usersSearchService.FindUserByIdAsync(request.Id);
+            var existingUser = await this.usersService.FindUserByIdAsync(request.Id);
 
             if (existingUser == null)
             {
@@ -46,23 +43,26 @@ namespace Etdb.UserService.Cqrs.Handler
 
             if (existingUser.ProfileImage != null)
             {
-                this.fileService.DeleteBinary(Path.Combine(this.fileStoreOptions.Value.ImagePath, existingUser.ProfileImage.Name));
+                this.fileService.DeleteBinary(Path.Combine(this.fileStoreOptions.Value.ImagePath,
+                    existingUser.ProfileImage.Name));
             }
 
             var profileImageId = Guid.NewGuid();
 
-            var userProfileImage = new UserProfileImage(profileImageId, $"{profileImageId}_{DateTime.UtcNow.Ticks}_{request.FileName}",
+            var userProfileImage = new UserProfileImage(profileImageId,
+                $"{profileImageId}_{DateTime.UtcNow.Ticks}_{request.FileName}",
                 request.FileName, request.FileContentType.MediaType);
 
-            await this.fileService.StoreBinaryAsync(Path.Combine(this.fileStoreOptions.Value.ImagePath, existingUser.Id.ToString()), userProfileImage.Name,
+            await this.fileService.StoreBinaryAsync(
+                Path.Combine(this.fileStoreOptions.Value.ImagePath, existingUser.Id.ToString()), userProfileImage.Name,
                 request.FileBytes);
-            
-            var updatedUser = new User(existingUser.Id, existingUser.UserName, existingUser.FirstName, existingUser.Name, existingUser.Password, existingUser.Salt,
-                existingUser.RegisteredSince, userProfileImage, existingUser.RoleIds, existingUser.Emails.Select(email => email.Copy()).ToArray());
 
-            await this.userChangesService.EditUserAsync(updatedUser);
-            
-            // TODO: check if edited and then do what?
+            var updatedUser = new User(existingUser.Id, existingUser.UserName, existingUser.FirstName,
+                existingUser.Name, existingUser.Password, existingUser.Salt,
+                existingUser.RegisteredSince, userProfileImage, existingUser.RoleIds,
+                existingUser.Emails.Select(email => email.Copy()).ToArray());
+
+            await this.usersService.EditUserAsync(updatedUser);
 
             return this.mapper.Map<UserDto>(updatedUser);
         }
