@@ -19,19 +19,18 @@ namespace Etdb.UserService.Services
 {
     public class UserProfileImageUrlFactory : IUserProfileImageUrlFactory
     {
-        // very hacky shit https://github.com/aspnet/Mvc/issues/5164
-        public static IRouter Router;
-
         private readonly IUrlHelperFactory urlHelperFactory;
         private readonly IActionContextAccessor actionContextAccessor;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly ContextLessRouteProvider contextLessRouteProvider;
 
         public UserProfileImageUrlFactory(IUrlHelperFactory urlHelperFactory,
-            IActionContextAccessor actionContextAccessor, IHttpContextAccessor httpContextAccessor)
+            IActionContextAccessor actionContextAccessor, IHttpContextAccessor httpContextAccessor, ContextLessRouteProvider contextLessRouteProvider)
         {
             this.urlHelperFactory = urlHelperFactory;
             this.actionContextAccessor = actionContextAccessor;
             this.httpContextAccessor = httpContextAccessor;
+            this.contextLessRouteProvider = contextLessRouteProvider;
         }
 
         public string GenerateUrl(Guid userId, UserProfileImage profileImage)
@@ -43,12 +42,10 @@ namespace Etdb.UserService.Services
 
             var context = this.actionContextAccessor.ActionContext ??
                           new ActionContext(this.httpContextAccessor.HttpContext,
-                              new RouteData(), new ActionDescriptor());
-
-            if (!context.RouteData.Routers.Any())
-            {
-                context.RouteData.Routers.Add(Router);
-            }
+                              new RouteData
+                              {
+                                  Routers = { this.contextLessRouteProvider.Router }
+                              }, new ActionDescriptor());
 
             var urlHelper =
                 this.urlHelperFactory.GetUrlHelper(context);

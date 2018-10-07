@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Cqrs.Handler
 {
+    // ReSharper disable once UnusedMember.Global
     public class UserProfileImageAddCommandHandler : IResponseCommandHandler<UserProfileImageAddCommand, UserDto>
     {
         private readonly IOptions<FileStoreOptions> fileStoreOptions;
@@ -57,10 +58,11 @@ namespace Etdb.UserService.Cqrs.Handler
                 Path.Combine(this.fileStoreOptions.Value.ImagePath, existingUser.Id.ToString()), userProfileImage.Name,
                 request.FileBytes);
 
+            var emailClones = (Email[]) existingUser.Emails.Select(email => email.Clone()).ToArray();
+
             var updatedUser = new User(existingUser.Id, existingUser.UserName, existingUser.FirstName,
                 existingUser.Name, existingUser.Password, existingUser.Salt,
-                existingUser.RegisteredSince, userProfileImage, existingUser.RoleIds,
-                existingUser.Emails.Select(email => email.Copy()).ToArray());
+                existingUser.RegisteredSince, userProfileImage, existingUser.RoleIds, emailClones);
 
             await this.usersService.EditUserAsync(updatedUser);
 

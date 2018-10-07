@@ -3,7 +3,7 @@ using Etdb.UserService.Domain.Base;
 
 namespace Etdb.UserService.Domain.Documents
 {
-    public class Email : GuidDocument
+    public class Email : GuidDocument, ICloneable
     {
         public Email(Guid id, string address, bool isPrimary) : base(id)
         {
@@ -15,7 +15,7 @@ namespace Etdb.UserService.Domain.Documents
 
         public bool IsPrimary { get; private set; }
 
-        public Email Copy()
+        public object Clone()
         {
             return new Email(this.Id, this.Address, this.IsPrimary);
         }

@@ -222,15 +222,14 @@ namespace Etdb.UserService.Bootstrap
 
             app.UseIdentityServer();
 
-            app.UseMvc(routes =>
-            {
-                //var template =
-                //    $"api/{nameof(UsersController).Replace("Controller", "").ToLowerInvariant()}/{{action={RouteNames.UserProfileImageUrlRoute}}}/{{id:Guid}}/profileimage";
+            // very hacky shit the upcoming lines https://github.com/aspnet/Mvc/issues/5164
+            var contextLessRouteProvider = app.ApplicationServices.GetRequiredService<ContextLessRouteProvider>();
 
-                //routes.MapRoute(RouteNames.UserProfileImageUrlRoute, template);
+            IRouteBuilder builder = null;
 
-                //UserProfileImageUrlFactory.Router = routes.Build();
-            });
+            app.UseMvc(routes => builder = routes);
+
+            contextLessRouteProvider.Router = builder.Build();
         }
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
@@ -240,6 +239,7 @@ namespace Etdb.UserService.Bootstrap
                     .AddAutoMapper(typeof(UsersProfile).Assembly))
                 .RegisterInstance<Microsoft.Extensions.Hosting.IHostingEnvironment>(this.environment)
                 .RegisterInstance<IConfiguration>(this.configuration)
+                .RegisterTypeAsSingleton<ContextLessRouteProvider>()
                 .RegisterTypeAsSingleton<UserProfileImageUrlFactory, IUserProfileImageUrlFactory>()
                 .RegisterTypeAsSingleton<ActionContextAccessor, IActionContextAccessor>()
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
