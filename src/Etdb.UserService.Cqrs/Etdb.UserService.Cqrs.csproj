@@ -4,11 +4,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.1" />
-    <PackageReference Include="Etdb.ServiceBase.Cqrs" Version="0.0.2" />
-    <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="0.0.2" />
-    <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="0.0.2" />
+    <PackageReference Include="Etdb.ServiceBase.Cqrs" Version="0.0.3" />
+    <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="0.0.3" />
+    <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="0.0.3" />
     <PackageReference Include="Etdb.ServiceBase.Extensions" Version="0.0.2" />
-    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="0.0.2" />
+    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="0.0.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Constants\Etdb.UserService.Constants.csproj" />
