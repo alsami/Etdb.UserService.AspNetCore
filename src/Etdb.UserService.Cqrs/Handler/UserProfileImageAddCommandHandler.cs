@@ -45,6 +45,7 @@ namespace Etdb.UserService.Cqrs.Handler
             if (existingUser.ProfileImage != null)
             {
                 this.fileService.DeleteBinary(Path.Combine(this.fileStoreOptions.Value.ImagePath,
+                    existingUser.Id.ToString(),
                     existingUser.ProfileImage.Name));
             }
 
@@ -58,7 +59,7 @@ namespace Etdb.UserService.Cqrs.Handler
                 Path.Combine(this.fileStoreOptions.Value.ImagePath, existingUser.Id.ToString()), userProfileImage.Name,
                 request.FileBytes);
 
-            var emailClones = (Email[]) existingUser.Emails.Select(email => email.Clone()).ToArray();
+            var emailClones = existingUser.Emails.Select(email => email.Clone()).ToArray();
 
             var updatedUser = new User(existingUser.Id, existingUser.UserName, existingUser.FirstName,
                 existingUser.Name, existingUser.Password, existingUser.Salt,
