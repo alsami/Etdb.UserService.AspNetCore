@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Validation;
+﻿using Etdb.ServiceBase.Cqrs.Validation;
 using Etdb.UserService.Cqrs.Abstractions.Base;
 using Etdb.UserService.Services.Abstractions;
 using FluentValidation;

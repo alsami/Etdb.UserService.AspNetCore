@@ -1,24 +1,25 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Etdb.UserService.Extensions;
+using Etdb.UserService.Bootstrap.Config;
+using Etdb.UserService.Bootstrap.Extensions;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Bootstrap.Services
 {
     public class CorsPolicyService : ICorsPolicyService
     {
-        private readonly IConfiguration configuration;
         private readonly IHostingEnvironment environment;
+        private readonly IOptions<AllowedOriginsOptions> options;
 
-        public CorsPolicyService(IConfiguration configuration, IHostingEnvironment environment)
+        public CorsPolicyService(IHostingEnvironment environment, IOptions<AllowedOriginsOptions> options)
         {
-            this.configuration = configuration;
             this.environment = environment;
+            this.options = options;
         }
-        
+
         public Task<bool> IsOriginAllowedAsync(string origin)
         {
             if (this.environment.IsDevelopment() || this.environment.IsLocalDevelopment())
@@ -26,12 +27,7 @@ namespace Etdb.UserService.Bootstrap.Services
                 return Task.FromResult(true);
             }
 
-            var allowedOrigins = this.configuration
-                .GetSection("IdentityConfig")
-                .GetSection("Origins")
-                .Get<string[]>();
-
-            return Task.FromResult(allowedOrigins.Any(allowed =>
+            return Task.FromResult(this.options.Value.AllowedOrigins.Any(allowed =>
                 allowed.Equals(origin, StringComparison.OrdinalIgnoreCase)));
         }
     }

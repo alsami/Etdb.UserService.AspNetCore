@@ -1,11 +1,7 @@
-﻿using System;
-using AutoMapper;
-using Etdb.UserService.Constants;
+﻿using AutoMapper;
 using Etdb.UserService.Domain.Documents;
 using Etdb.UserService.Presentation;
 using Etdb.UserService.Services.Abstractions;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace Etdb.UserService.AutoMapper.Resolver
 {
