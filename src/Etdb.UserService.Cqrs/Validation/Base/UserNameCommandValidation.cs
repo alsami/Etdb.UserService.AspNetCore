@@ -32,7 +32,7 @@ namespace Etdb.UserService.Cqrs.Validation.Base
         
         private async Task<bool> IsUserNameAvailable(UserNameCommand command)
         {
-            var user = await this._usersService.FindUserByUserNameAsync(command.UserName);
+            var user = await this._usersService.FindByUserNameAsync(command.UserName);
 
             return user == null || user.Id == command.Id;
         }

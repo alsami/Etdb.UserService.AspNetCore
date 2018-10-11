@@ -35,7 +35,7 @@ namespace Etdb.UserService.Cqrs.Handler
 
         public async Task<UserDto> Handle(UserProfileImageAddCommand request, CancellationToken cancellationToken)
         {
-            var existingUser = await this.usersService.FindUserByIdAsync(request.Id);
+            var existingUser = await this.usersService.FindByIdAsync(request.Id);
 
             if (existingUser == null)
             {
@@ -65,7 +65,7 @@ namespace Etdb.UserService.Cqrs.Handler
                 existingUser.Name, existingUser.Password, existingUser.Salt,
                 existingUser.RegisteredSince, userProfileImage, existingUser.RoleIds, emailClones);
 
-            await this.usersService.EditUserAsync(updatedUser);
+            await this.usersService.EditAsync(updatedUser);
 
             return this.mapper.Map<UserDto>(updatedUser);
         }

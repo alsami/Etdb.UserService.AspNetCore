@@ -1,13 +1,18 @@
-﻿using Etdb.UserService.Cqrs.Abstractions.Base;
+﻿using System;
+using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Cqrs.Abstractions.Base;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands
 {
-    public class UserPasswordChangeCommand : PasswordCommand
+    public class UserPasswordChangeCommand : PasswordCommand, IVoidCommand
     {
-        public UserPasswordChangeCommand(string newPassword, string currentPassword) : base(newPassword)
+        public UserPasswordChangeCommand(Guid id, string newPassword, string currentPassword) : base(newPassword)
         {
-            CurrentPassword = currentPassword;
+            this.Id = id;
+            this.CurrentPassword = currentPassword;
         }
+
+        public Guid Id { get; }
 
         public string CurrentPassword { get; }
     }

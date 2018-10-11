@@ -35,6 +35,16 @@ namespace Etdb.UserService.Controllers.V1
             return user;
         }
 
+        [HttpPatch("{id:Guid}/passwordupdate")]
+        public async Task<IActionResult> PasswordUpdate(Guid id, [FromBody] UserPasswordChangeDto dto)
+        {
+            var command = new UserPasswordChangeCommand(id, dto.NewPassword, dto.CurrentPassword);
+
+            await this.bus.SendCommandAsync(command);
+
+            return NoContent();
+        }
+
         [HttpPatch("{id:Guid}/profileimage")]
         public async Task<UserDto> UploadProfileImage(Guid id, [FromForm] IFormFile file)
         {

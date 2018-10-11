@@ -41,7 +41,7 @@ namespace Etdb.UserService.Services
                 return;
             }
 
-            var user = await this.userService.FindUserByIdAsync(subjectId);
+            var user = await this.userService.FindByIdAsync(subjectId);
 
             if (user == null)
             {
@@ -59,7 +59,7 @@ namespace Etdb.UserService.Services
 
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            var loginUser = await this.userService.FindUserByUserNameOrEmailAsync(context.UserName);
+            var loginUser = await this.userService.FindByUserNameOrEmailAsync(context.UserName);
 
             if (loginUser == null)
             {

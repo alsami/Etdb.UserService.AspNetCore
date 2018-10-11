@@ -35,7 +35,7 @@ namespace Etdb.UserService.Services
             }
         }
 
-        public async Task<bool> EditUserAsync(User user)
+        public async Task<bool> EditAsync(User user)
         {
             var saved = await this.usersRepository.EditAsync(user);
 
@@ -49,7 +49,7 @@ namespace Etdb.UserService.Services
             return true;
         }
 
-        public async Task<User> FindUserByIdAsync(Guid id)
+        public async Task<User> FindByIdAsync(Guid id)
         {
             var cachedUser = await this.cache.FindAsync<User, Guid>(id);
 
@@ -68,7 +68,7 @@ namespace Etdb.UserService.Services
             return user;
         }
 
-        public async Task<User> FindUserByUserNameAsync(string userName)
+        public async Task<User> FindByUserNameAsync(string userName)
         {
             var user = await this.usersRepository.FindAsync(UserNameEqualsExpression(userName));
 
@@ -80,7 +80,7 @@ namespace Etdb.UserService.Services
             return user;
         }
 
-        public async Task<User> FindUserByUserNameOrEmailAsync(string userNameOrEmail)
+        public async Task<User> FindByUserNameOrEmailAsync(string userNameOrEmail)
         {
             if (string.IsNullOrWhiteSpace(userNameOrEmail))
             {

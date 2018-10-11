@@ -8,13 +8,13 @@ namespace Etdb.UserService.Services.Abstractions
     {
         Task AddAsync(User user);
 
-        Task<bool> EditUserAsync(User user);
+        Task<bool> EditAsync(User user);
 
-        Task<User> FindUserByIdAsync(Guid id);
+        Task<User> FindByIdAsync(Guid id);
 
-        Task<User> FindUserByUserNameAsync(string userName);
+        Task<User> FindByUserNameAsync(string userName);
 
-        Task<User> FindUserByUserNameOrEmailAsync(string userNameOrEmail);
+        Task<User> FindByUserNameOrEmailAsync(string userNameOrEmail);
 
         Email FindEmailAddress(string emailAddress);
     }

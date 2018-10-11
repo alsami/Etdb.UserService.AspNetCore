@@ -22,7 +22,7 @@ namespace Etdb.UserService.Cqrs.Handler
         
         public async Task<UserDto> Handle(UserLoadCommand request, CancellationToken cancellationToken)
         {
-            var user = await this.usersService.FindUserByIdAsync(request.Id);
+            var user = await this.usersService.FindByIdAsync(request.Id);
 
             if (user == null)
             {

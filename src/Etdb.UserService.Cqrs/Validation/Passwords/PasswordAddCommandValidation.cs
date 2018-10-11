@@ -7,7 +7,7 @@ namespace Etdb.UserService.Cqrs.Validation.Passwords
     {
         public PasswordAddCommandValidation()
         {
-            this.RegisterPasswordRules();
+            this.RegisterDefaultPasswordRule("Password");
         }
     }
 }

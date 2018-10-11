@@ -28,7 +28,7 @@ namespace Etdb.UserService.Cqrs.Handler
 
         public async Task<FileDownloadInfo> Handle(UserProfileImageLoadCommand request, CancellationToken cancellationToken)
         {
-            var user = await this._usersService.FindUserByIdAsync(request.Id);
+            var user = await this._usersService.FindByIdAsync(request.Id);
 
             if (user == null)
             {
