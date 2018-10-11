@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Etdb.ServiceBase.Constants;
+using Etdb.UserService.Bootstrap.Config;
 using Etdb.UserService.Bootstrap.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,7 +30,8 @@ namespace Etdb.UserService.Bootstrap
         public void ConfigureServices(IServiceCollection services)
         {
             var allowedOrigins = this.configuration
-                .GetSection("AllowedOriginsConfig")
+                .GetSection(nameof(AllowedOriginsOptions))
+                .GetSection("Origins")
                 .Get<string[]>();
 
             var identityConfig = this.configuration
@@ -73,7 +75,6 @@ namespace Etdb.UserService.Bootstrap
                 Version = Startup.SwaggerDocVersion
             }, Startup.SwaggerDocVersion);
         }
-
 
         public void Configure(IApplicationBuilder app)
         {

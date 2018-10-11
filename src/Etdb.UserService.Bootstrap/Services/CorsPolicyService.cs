@@ -27,7 +27,7 @@ namespace Etdb.UserService.Bootstrap.Services
                 return Task.FromResult(true);
             }
 
-            return Task.FromResult(this.options.Value.AllowedOrigins.Any(allowed =>
+            return Task.FromResult(this.options.Value.Origins.Any(allowed =>
                 allowed.Equals(origin, StringComparison.OrdinalIgnoreCase)));
         }
     }

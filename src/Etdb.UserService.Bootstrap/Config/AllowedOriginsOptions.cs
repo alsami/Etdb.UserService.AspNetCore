@@ -2,6 +2,6 @@
 {
     public class AllowedOriginsOptions
     {
-        public string[] AllowedOrigins { get; set; }
+        public string[] Origins { get; set; }
     }
 }
