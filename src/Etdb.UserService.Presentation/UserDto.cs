@@ -12,10 +12,12 @@ namespace Etdb.UserService.Presentation
 
         public string Name { get; set; }
 
+        public string Biography { get; set; }
+
         public DateTime RegisteredSince { get; set; }
-        
+
         public string ProfileImageUrl { get; set; }
-        
+
         public ICollection<EmailDto> Emails { get; set; }
     }
 }

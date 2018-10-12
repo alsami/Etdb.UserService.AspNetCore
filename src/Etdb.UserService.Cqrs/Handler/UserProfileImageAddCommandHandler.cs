@@ -62,7 +62,7 @@ namespace Etdb.UserService.Cqrs.Handler
             var emailClones = existingUser.Emails.Select(email => email.Clone()).ToArray();
 
             var updatedUser = new User(existingUser.Id, existingUser.UserName, existingUser.FirstName,
-                existingUser.Name, existingUser.Password, existingUser.Salt,
+                existingUser.Name, existingUser.Biography, existingUser.Password, existingUser.Salt,
                 existingUser.RegisteredSince, userProfileImage, existingUser.RoleIds, emailClones);
 
             await this.usersService.EditAsync(updatedUser);

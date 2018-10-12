@@ -50,7 +50,7 @@ namespace Etdb.UserService.Cqrs.Handler
 
             var salt = this.hasher.GenerateSalt();
 
-            var updatedUser = new User(user.Id, user.UserName, user.FirstName, user.Name,
+            var updatedUser = new User(user.Id, user.UserName, user.FirstName, user.Name, user.Biography,
                 this.hasher.CreateSaltedHash(command.NewPassword, salt), salt, user.RegisteredSince, user.ProfileImage,
                 user.RoleIds, user.Emails.Select(email => email.Clone()).ToArray());
 

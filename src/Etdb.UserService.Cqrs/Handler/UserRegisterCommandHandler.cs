@@ -87,7 +87,7 @@ namespace Etdb.UserService.Cqrs.Handler
 
             var salt = this.hasher.GenerateSalt();
 
-            return new User(Guid.NewGuid(), command.UserName, command.FirstName, command.Name,
+            return new User(Guid.NewGuid(), command.UserName, command.FirstName, command.Name, null,
                 this.hasher.CreateSaltedHash(command.PasswordAddCommand.NewPassword, salt), salt, DateTime.UtcNow, null,
                 new[] {memberRole.Id}, emails);
         }

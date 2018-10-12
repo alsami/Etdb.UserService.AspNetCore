@@ -26,7 +26,7 @@ namespace Etdb.UserService.Controllers.V1
 
         [AllowAnonymous]
         [HttpGet("{id:Guid}")]
-        public async Task<UserDto> GetUser(Guid id)
+        public async Task<UserDto> LoadAsync(Guid id)
         {
             var command = new UserLoadCommand(id);
 
@@ -35,8 +35,18 @@ namespace Etdb.UserService.Controllers.V1
             return user;
         }
 
-        [HttpPatch("{id:Guid}/passwordupdate")]
-        public async Task<IActionResult> PasswordUpdate(Guid id, [FromBody] UserPasswordChangeDto dto)
+        [HttpPatch("{id:Guid}/profileinfo")]
+        public async Task<IActionResult> ProfileInfoChangeAsync(Guid id, [FromBody] UserProfileInfoChangeDto dto)
+        {
+            var command = new UserProfileInfoChangeCommand(id, dto.FirstName, dto.Name, dto.Biography);
+
+            await this.bus.SendCommandAsync(command);
+
+            return NoContent();
+        }
+
+        [HttpPatch("{id:Guid}/password")]
+        public async Task<IActionResult> PasswordChangeAsync(Guid id, [FromBody] UserPasswordChangeDto dto)
         {
             var command = new UserPasswordChangeCommand(id, dto.NewPassword, dto.CurrentPassword);
 
@@ -46,7 +56,7 @@ namespace Etdb.UserService.Controllers.V1
         }
 
         [HttpPatch("{id:Guid}/profileimage")]
-        public async Task<UserDto> UploadProfileImage(Guid id, [FromForm] IFormFile file)
+        public async Task<UserDto> ProfileImageUploadAsync(Guid id, [FromForm] IFormFile file)
         {
             var command = new UserProfileImageAddCommand(id,
                 file.FileName,
@@ -59,7 +69,7 @@ namespace Etdb.UserService.Controllers.V1
 
         [AllowAnonymous]
         [HttpGet("{id:Guid}/profileimage", Name = RouteNames.UserProfileImageUrlRoute)]
-        public async Task<IActionResult> LoadProfileImage(Guid id)
+        public async Task<IActionResult> ProfileImageLoadAsync(Guid id)
         {
             var fileInfo =
                 await this.bus.SendCommandAsync<UserProfileImageLoadCommand, FileDownloadInfo>(

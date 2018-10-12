@@ -6,15 +6,16 @@ namespace Etdb.UserService.Domain.Documents
 {
     public class User : GuidDocument
     {
-        public User(Guid id, string userName, string firstName, string name, string password, byte[] salt,
+        public User(Guid id, string userName, string firstName, string name, string biography, string password, byte[] salt,
             DateTime registeredSince, UserProfileImage profileImage, ICollection<Guid> roleIds,
             ICollection<Email> emails) : base(id)
         {
             this.UserName = userName;
             this.FirstName = firstName;
             this.Name = name;
-            this.Salt = salt;
+            this.Biography = biography;
             this.Password = password;
+            this.Salt = salt;
             this.RegisteredSince = registeredSince;
             this.ProfileImage = profileImage;
             this.RoleIds = roleIds;
@@ -26,6 +27,8 @@ namespace Etdb.UserService.Domain.Documents
         public string FirstName { get; private set; }
 
         public string Name { get; private set; }
+
+        public string Biography { get; private set; }
         
         public string Password { get; private set; }
 
