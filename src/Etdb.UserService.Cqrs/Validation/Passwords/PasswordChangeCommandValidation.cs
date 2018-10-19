@@ -38,7 +38,7 @@ namespace Etdb.UserService.Cqrs.Validation.Passwords
 
         private async Task<bool> CurrentPasswordMatchesUsersPasswordAsync(UserPasswordChangeCommand command)
         {
-            var user = await usersService.FindByIdAsync(command.Id);
+            var user = await this.usersService.FindByIdAsync(command.Id);
 
             return this.hasher.CreateSaltedHash(command.CurrentPassword, user.Salt) == user.Password;
         }

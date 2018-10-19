@@ -4,7 +4,7 @@
     {
         protected PasswordCommand(string newPassword)
         {
-            NewPassword = newPassword;
+            this.NewPassword = newPassword;
         }
 
         public string NewPassword { get; }

@@ -33,7 +33,7 @@ namespace Etdb.UserService.Cqrs.Handler
 
         public async Task<Unit> Handle(UserPasswordChangeCommand command, CancellationToken cancellationToken)
         {
-            var user = await usersService.FindByIdAsync(command.Id);
+            var user = await this.usersService.FindByIdAsync(command.Id);
 
             if (user == null)
             {

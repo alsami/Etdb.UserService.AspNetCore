@@ -22,7 +22,7 @@ namespace Etdb.UserService.Cqrs.Handler
 
         public async Task<Unit> Handle(UserProfileInfoChangeCommand command, CancellationToken cancellationToken)
         {
-            var existingUser = await usersService.FindByIdAsync(command.Id);
+            var existingUser = await this.usersService.FindByIdAsync(command.Id);
 
             if (existingUser == null)
             {
@@ -34,7 +34,7 @@ namespace Etdb.UserService.Cqrs.Handler
                 existingUser.Password, existingUser.Salt, existingUser.RegisteredSince, existingUser.ProfileImage,
                 existingUser.RoleIds, existingUser.Emails);
 
-            await usersService.EditAsync(user);
+            await this.usersService.EditAsync(user);
 
             return Unit.Value;
         }

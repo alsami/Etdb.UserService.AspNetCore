@@ -42,7 +42,7 @@ namespace Etdb.UserService.Controllers.V1
 
             await this.bus.SendCommandAsync(command);
 
-            return NoContent();
+            return this.NoContent();
         }
 
         [HttpPatch("{id:Guid}/password")]
@@ -52,7 +52,7 @@ namespace Etdb.UserService.Controllers.V1
 
             await this.bus.SendCommandAsync(command);
 
-            return NoContent();
+            return this.NoContent();
         }
 
         [HttpPatch("{id:Guid}/profileimage")]

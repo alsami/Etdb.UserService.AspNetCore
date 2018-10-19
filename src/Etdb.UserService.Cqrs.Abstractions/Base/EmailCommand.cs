@@ -20,8 +20,8 @@ namespace Etdb.UserService.Cqrs.Abstractions.Base
 
         protected EmailCommand(string address, bool isPrimary)
         {
-            Address = address;
-            IsPrimary = isPrimary;
+            this.Address = address;
+            this.IsPrimary = isPrimary;
         }
     }
 }
