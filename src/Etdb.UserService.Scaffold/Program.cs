@@ -20,11 +20,15 @@ namespace Etdb.UserService.Scaffold
 
             service.AddOptions();
 
-            service.Configure<DocumentDbContextOptions>(options => { configuration.GetSection(nameof(DocumentDbContextOptions)).Bind(options); });
+            service.Configure<DocumentDbContextOptions>(options =>
+            {
+                configuration.GetSection(nameof(DocumentDbContextOptions)).Bind(options);
+            });
 
             var provider = service.BuildServiceProvider();
-            
-            ContextScaffold.Scaffold(new UserServiceDbContext(provider.GetService<IOptions<DocumentDbContextOptions>>()));
+
+            ContextScaffold.Scaffold(
+                new UserServiceDbContext(provider.GetService<IOptions<DocumentDbContextOptions>>()));
         }
     }
 }

@@ -18,8 +18,8 @@ namespace Etdb.UserService.Services
     {
         private readonly IHasher hasher;
         private readonly ISecurityRolesRepository rolesRepository;
-        private readonly IUsersService userService;
         private readonly IUserProfileImageUrlFactory userProfileImageUrlFactory;
+        private readonly IUsersService userService;
 
         public AuthService(IHasher hasher,
             ISecurityRolesRepository rolesRepository,
@@ -80,10 +80,7 @@ namespace Etdb.UserService.Services
 
         private async Task<IEnumerable<Claim>> AllocateClaimsAsync(User user)
         {
-            if (user == null)
-            {
-                throw new ArgumentException(nameof(user));
-            }
+            if (user == null) throw new ArgumentException(nameof(user));
 
             var claims = new List<Claim>();
 
@@ -97,26 +94,22 @@ namespace Etdb.UserService.Services
 
             claims.AddRange(new[]
             {
-                new Claim(JwtClaimTypes.PreferredUserName, user.UserName),
+                new Claim(JwtClaimTypes.PreferredUserName, user.UserName)
             });
 
             claims.AddRange(user.Emails.Select(email => new Claim(JwtClaimTypes.Email, email.Address)).ToArray());
 
             if (user.FirstName != null && user.Name != null)
-            {
                 claims.AddRange(new[]
                 {
                     new Claim(JwtClaimTypes.Name, $"{user.FirstName} {user.Name}"),
                     new Claim(JwtClaimTypes.GivenName, user.FirstName),
                     new Claim(JwtClaimTypes.FamilyName, user.Name)
                 });
-            }
 
             if (user.ProfileImage != null)
-            {
                 claims.Add(new Claim(JwtClaimTypes.Picture,
                     this.userProfileImageUrlFactory.GenerateUrl(user.Id, user.ProfileImage)));
-            }
 
             return claims;
         }

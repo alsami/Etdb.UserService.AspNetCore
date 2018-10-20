@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Cqrs.Validation.Base;
@@ -12,8 +9,8 @@ namespace Etdb.UserService.Cqrs.Validation.Passwords
 {
     public class PasswordChangeCommandValidation : PasswordCommandValidation<UserPasswordChangeCommand>
     {
-        private readonly IUsersService usersService;
         private readonly IHasher hasher;
+        private readonly IUsersService usersService;
 
         public PasswordChangeCommandValidation(IUsersService usersService, IHasher hasher)
         {

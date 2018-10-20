@@ -11,23 +11,20 @@ namespace Etdb.UserService.Cqrs.Handler
 {
     public class UserLoadCommandHandler : IResponseCommandHandler<UserLoadCommand, UserDto>
     {
-        private readonly IUsersService usersService;
         private readonly IMapper mapper;
-        
+        private readonly IUsersService usersService;
+
         public UserLoadCommandHandler(IUsersService usersService, IMapper mapper)
         {
             this.usersService = usersService;
             this.mapper = mapper;
         }
-        
+
         public async Task<UserDto> Handle(UserLoadCommand request, CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByIdAsync(request.Id);
 
-            if (user == null)
-            {
-                throw new ResourceNotFoundException("The requested user could not be found!");
-            }
+            if (user == null) throw new ResourceNotFoundException("The requested user could not be found!");
 
             return this.mapper.Map<UserDto>(user);
         }

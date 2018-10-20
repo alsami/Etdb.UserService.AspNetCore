@@ -7,14 +7,14 @@ using Etdb.UserService.Constants;
 using Etdb.UserService.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
@@ -61,10 +61,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
         public static IServiceCollection ConfigureSwaggerGen(this IServiceCollection services,
             IHostingEnvironment environment, Info info, string title)
         {
-            if (!environment.IsDevelopment() || environment.IsLocalDevelopment())
-            {
-                return services;
-            }
+            if (!environment.IsDevelopment() || environment.IsLocalDevelopment()) return services;
 
             services.AddMvcCore()
                 .AddApiExplorer();

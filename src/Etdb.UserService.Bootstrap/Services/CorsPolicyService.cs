@@ -22,10 +22,7 @@ namespace Etdb.UserService.Bootstrap.Services
 
         public Task<bool> IsOriginAllowedAsync(string origin)
         {
-            if (this.environment.IsDevelopment() || this.environment.IsLocalDevelopment())
-            {
-                return Task.FromResult(true);
-            }
+            if (this.environment.IsDevelopment() || this.environment.IsLocalDevelopment()) return Task.FromResult(true);
 
             return Task.FromResult(this.options.Value.Origins.Any(allowed =>
                 allowed.Equals(origin, StringComparison.OrdinalIgnoreCase)));

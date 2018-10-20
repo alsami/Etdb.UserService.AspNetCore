@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
@@ -18,9 +15,9 @@ namespace Etdb.UserService.Cqrs.Handler
 {
     public class UserPasswordChangeCommandHandler : IVoidCommandHandler<UserPasswordChangeCommand>
     {
+        private readonly IHasher hasher;
         private readonly ICommandValidation<UserPasswordChangeCommand> passwordChangeCommandValidation;
         private readonly IUsersService usersService;
-        private readonly IHasher hasher;
 
         public UserPasswordChangeCommandHandler(
             ICommandValidation<UserPasswordChangeCommand> passwordChangeCommandValidation, IUsersService usersService,
@@ -35,18 +32,13 @@ namespace Etdb.UserService.Cqrs.Handler
         {
             var user = await this.usersService.FindByIdAsync(command.Id);
 
-            if (user == null)
-            {
-                throw new ResourceNotFoundException("User could not be found!");
-            }
+            if (user == null) throw new ResourceNotFoundException("User could not be found!");
 
             var validationResult = await this.passwordChangeCommandValidation.ValidateCommandAsync(command);
 
             if (!validationResult.IsValid)
-            {
                 validationResult.GenerateValidationException(
                     "Failed to validate the request to change the user's password!");
-            }
 
             var salt = this.hasher.GenerateSalt();
 

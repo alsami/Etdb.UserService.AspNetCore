@@ -19,12 +19,12 @@ namespace Etdb.UserService.Cqrs.Handler
 {
     public class UserRegisterCommandHandler : IVoidCommandHandler<UserRegisterCommand>
     {
-        private readonly IUsersService usersService;
-        private readonly ICommandValidation<UserRegisterCommand> userRegisterCommandValidation;
         private readonly ICommandValidation<EmailAddCommand> emailAddCommandValidation;
+        private readonly IHasher hasher;
         private readonly ICommandValidation<PasswordAddCommand> passwordCommandValidation;
         private readonly ISecurityRolesRepository rolesRepository;
-        private readonly IHasher hasher;
+        private readonly ICommandValidation<UserRegisterCommand> userRegisterCommandValidation;
+        private readonly IUsersService usersService;
 
         public UserRegisterCommandHandler(IUsersService usersService,
             ICommandValidation<UserRegisterCommand> userRegisterCommandValidation,

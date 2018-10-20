@@ -6,7 +6,8 @@ namespace Etdb.UserService.Domain.Documents
 {
     public class User : GuidDocument
     {
-        public User(Guid id, string userName, string firstName, string name, string biography, string password, byte[] salt,
+        public User(Guid id, string userName, string firstName, string name, string biography, string password,
+            byte[] salt,
             DateTime registeredSince, UserProfileImage profileImage, ICollection<Guid> roleIds,
             ICollection<Email> emails) : base(id)
         {
@@ -22,24 +23,24 @@ namespace Etdb.UserService.Domain.Documents
             this.Emails = emails;
         }
 
-        public string UserName { get; private set; }
+        public string UserName { get; }
 
-        public string FirstName { get; private set; }
+        public string FirstName { get; }
 
-        public string Name { get; private set; }
+        public string Name { get; }
 
-        public string Biography { get; private set; }
-        
-        public string Password { get; private set; }
+        public string Biography { get; }
 
-        public byte[] Salt { get; private set; }
-        
-        public DateTime RegisteredSince { get; private set; }
-        
-        public UserProfileImage ProfileImage { get; private set; }
-        
-        public ICollection<Guid> RoleIds { get; private set; }
-        
-        public ICollection<Email> Emails { get; private set; }
+        public string Password { get; }
+
+        public byte[] Salt { get; }
+
+        public DateTime RegisteredSince { get; }
+
+        public UserProfileImage ProfileImage { get; }
+
+        public ICollection<Guid> RoleIds { get; }
+
+        public ICollection<Email> Emails { get; }
     }
 }

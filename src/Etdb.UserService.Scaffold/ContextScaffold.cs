@@ -36,10 +36,7 @@ namespace Etdb.UserService.Scaffold
                 rolesToAdd.Add(adminRole);
             }
 
-            if (rolesToAdd.Any())
-            {
-                securityRoleCollection.InsertMany(rolesToAdd);
-            }
+            if (rolesToAdd.Any()) securityRoleCollection.InsertMany(rolesToAdd);
 
             var usersCollection = context.Database.GetCollection<User>($"{nameof(User).ToLower()}s");
 
@@ -47,10 +44,7 @@ namespace Etdb.UserService.Scaffold
                 usersCollection.Find(user => user.UserName == "admin")
                     .FirstOrDefault();
 
-            if (adminUser != null)
-            {
-                return;
-            }
+            if (adminUser != null) return;
 
             var hasher = new Hasher();
 

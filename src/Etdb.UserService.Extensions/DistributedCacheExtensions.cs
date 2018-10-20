@@ -19,11 +19,8 @@ namespace Etdb.UserService.Extensions
 
             var entry = await cache.GetAsync(key.ToString(), token);
 
-            if (entry != null)
-            {
-                await cache.RemoveAsync(key.ToString(), token);
-            }
-            
+            if (entry != null) await cache.RemoveAsync(key.ToString(), token);
+
             await cache.SetStringAsync(key.ToString(), JsonConvert.SerializeObject(@object), usedOptions, token);
         }
 
@@ -32,11 +29,8 @@ namespace Etdb.UserService.Extensions
         {
             var @string = await cache.GetStringAsync(key.ToString(), token);
 
-            if (!string.IsNullOrWhiteSpace(@string))
-            {
-                return JsonConvert.DeserializeObject<T>(@string);   
-            }
-            
+            if (!string.IsNullOrWhiteSpace(@string)) return JsonConvert.DeserializeObject<T>(@string);
+
             await cache.RemoveAsync(key.ToString(), token);
 
             return null;

@@ -13,13 +13,14 @@ namespace Etdb.UserService.Services
 {
     public class UserProfileImageUrlFactory : IUserProfileImageUrlFactory
     {
-        private readonly IUrlHelperFactory urlHelperFactory;
         private readonly IActionContextAccessor actionContextAccessor;
-        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly ContextLessRouteProvider contextLessRouteProvider;
+        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IUrlHelperFactory urlHelperFactory;
 
         public UserProfileImageUrlFactory(IUrlHelperFactory urlHelperFactory,
-            IActionContextAccessor actionContextAccessor, IHttpContextAccessor httpContextAccessor, ContextLessRouteProvider contextLessRouteProvider)
+            IActionContextAccessor actionContextAccessor, IHttpContextAccessor httpContextAccessor,
+            ContextLessRouteProvider contextLessRouteProvider)
         {
             this.urlHelperFactory = urlHelperFactory;
             this.actionContextAccessor = actionContextAccessor;
@@ -29,16 +30,13 @@ namespace Etdb.UserService.Services
 
         public string GenerateUrl(Guid userId, UserProfileImage profileImage)
         {
-            if (profileImage == null)
-            {
-                return null;
-            }
+            if (profileImage == null) return null;
 
             var context = this.actionContextAccessor.ActionContext ??
                           new ActionContext(this.httpContextAccessor.HttpContext,
                               new RouteData
                               {
-                                  Routers = { this.contextLessRouteProvider.Router }
+                                  Routers = {this.contextLessRouteProvider.Router}
                               }, new ActionDescriptor());
 
             var urlHelper =

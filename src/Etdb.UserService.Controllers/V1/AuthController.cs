@@ -12,8 +12,8 @@ namespace Etdb.UserService.Controllers.V1
     [Route("api/v1/[controller]")]
     public class AuthController : Controller
     {
-        private readonly IMapper mapper;
         private readonly IBus bus;
+        private readonly IMapper mapper;
 
         public AuthController(IBus bus, IMapper mapper)
         {
@@ -26,9 +26,7 @@ namespace Etdb.UserService.Controllers.V1
         public async Task<IActionResult> Registration([FromBody] UserRegisterDto dto)
         {
             if (!this.ModelState.IsValid)
-            {
                 throw this.ModelState.GenerateValidationException("User register request is invalid!");
-            }
 
             var command = this.mapper.Map<UserRegisterCommand>(dto);
 

@@ -6,6 +6,5 @@ namespace Etdb.UserService.Repositories.Abstractions
 {
     public interface ISecurityRolesRepository : IDocumentRepository<SecurityRole, Guid>
     {
-        
     }
 }

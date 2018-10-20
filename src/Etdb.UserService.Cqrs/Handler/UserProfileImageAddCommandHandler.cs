@@ -19,10 +19,10 @@ namespace Etdb.UserService.Cqrs.Handler
     // ReSharper disable once UnusedMember.Global
     public class UserProfileImageAddCommandHandler : IResponseCommandHandler<UserProfileImageAddCommand, UserDto>
     {
-        private readonly IOptions<FileStoreOptions> fileStoreOptions;
-        private readonly IUsersService usersService;
         private readonly IFileService fileService;
+        private readonly IOptions<FileStoreOptions> fileStoreOptions;
         private readonly IMapper mapper;
+        private readonly IUsersService usersService;
 
         public UserProfileImageAddCommandHandler(IOptions<FileStoreOptions> fileStoreOptions,
             IUsersService usersService, IFileService fileService, IMapper mapper)
@@ -37,17 +37,12 @@ namespace Etdb.UserService.Cqrs.Handler
         {
             var existingUser = await this.usersService.FindByIdAsync(request.Id);
 
-            if (existingUser == null)
-            {
-                throw new ResourceNotFoundException("The requested user could not be found");
-            }
+            if (existingUser == null) throw new ResourceNotFoundException("The requested user could not be found");
 
             if (existingUser.ProfileImage != null)
-            {
                 this.fileService.DeleteBinary(Path.Combine(this.fileStoreOptions.Value.ImagePath,
                     existingUser.Id.ToString(),
                     existingUser.ProfileImage.Name));
-            }
 
             var profileImageId = Guid.NewGuid();
 

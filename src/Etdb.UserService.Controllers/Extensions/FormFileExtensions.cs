@@ -17,7 +17,7 @@ namespace Etdb.UserService.Controllers.Extensions
                 while (offset < file.Length)
                 {
                     var chunkSize = totalSize - offset < 4096L ? (int) totalSize - offset : 4096;
-                    
+
                     offset += await fileStream.ReadAsync(fileBytes, offset, chunkSize);
                 }
             }

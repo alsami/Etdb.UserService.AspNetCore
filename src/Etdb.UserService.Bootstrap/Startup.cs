@@ -12,14 +12,13 @@ namespace Etdb.UserService.Bootstrap
 {
     public class Startup
     {
-        private readonly IConfiguration configuration;
-        private readonly IHostingEnvironment environment;
-
         private const string SwaggerDocDescription = "Etdb " + ServiceNames.UserService + " V1";
         private const string SwaggerDocVersion = "v1";
         private const string SwaggerDocJsonUri = "/swagger/v1/swagger.json";
         private const string CorsPolicyName = "AllowAll";
         private const string AuthenticationSchema = "Bearer";
+        private readonly IConfiguration configuration;
+        private readonly IHostingEnvironment environment;
 
         public Startup(IHostingEnvironment environment, IConfiguration configuration)
         {

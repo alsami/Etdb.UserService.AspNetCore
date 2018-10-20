@@ -12,11 +12,12 @@ using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Cqrs.Handler
 {
-    public class UserProfileImageLoadCommandHandler : IResponseCommandHandler<UserProfileImageLoadCommand, FileDownloadInfo>
+    public class
+        UserProfileImageLoadCommandHandler : IResponseCommandHandler<UserProfileImageLoadCommand, FileDownloadInfo>
     {
-        private readonly IOptions<FileStoreOptions> fileStoreOptions;
         private readonly IUsersService _usersService;
         private readonly IFileService fileService;
+        private readonly IOptions<FileStoreOptions> fileStoreOptions;
 
         public UserProfileImageLoadCommandHandler(IOptions<FileStoreOptions> fileStoreOptions,
             IUsersService usersService, IFileService fileService)
@@ -26,19 +27,15 @@ namespace Etdb.UserService.Cqrs.Handler
             this.fileService = fileService;
         }
 
-        public async Task<FileDownloadInfo> Handle(UserProfileImageLoadCommand request, CancellationToken cancellationToken)
+        public async Task<FileDownloadInfo> Handle(UserProfileImageLoadCommand request,
+            CancellationToken cancellationToken)
         {
             var user = await this._usersService.FindByIdAsync(request.Id);
 
-            if (user == null)
-            {
-                throw new ResourceNotFoundException("The requested user could not be found!");
-            }
+            if (user == null) throw new ResourceNotFoundException("The requested user could not be found!");
 
             if (user.ProfileImage == null)
-            {
                 throw new ResourceNotFoundException("The requested user does not have a profile image!");
-            }
 
             var binary = await this.fileService.ReadBinaryAsync(
                 Path.Combine(this.fileStoreOptions.Value.ImagePath, user.Id.ToString()), user.ProfileImage.Name);
