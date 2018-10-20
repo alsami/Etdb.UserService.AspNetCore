@@ -5,6 +5,10 @@ namespace Etdb.UserService.Cqrs.Abstractions.Base
 {
     public abstract class UserNameCommand : IVoidCommand
     {
+        public Guid Id { get; }
+
+        public string UserName { get; }
+
         protected UserNameCommand(string userName)
         {
             this.UserName = userName;
@@ -15,9 +19,5 @@ namespace Etdb.UserService.Cqrs.Abstractions.Base
             this.Id = id;
             this.UserName = userName;
         }
-
-        public Guid Id { get; }
-
-        public string UserName { get; }
     }
 }

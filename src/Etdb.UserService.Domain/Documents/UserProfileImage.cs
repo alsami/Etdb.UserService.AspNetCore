@@ -3,7 +3,7 @@ using Etdb.UserService.Domain.Base;
 
 namespace Etdb.UserService.Domain.Documents
 {
-    public class UserProfileImage : GuidDocument
+    public class UserProfileImage : GuidDocument 
     {
         public UserProfileImage(Guid id, string name, string originalName, string mediaType) : base(id)
         {
@@ -12,10 +12,10 @@ namespace Etdb.UserService.Domain.Documents
             this.MediaType = mediaType;
         }
 
-        public string Name { get; }
+        public string Name { get; private set; }
+        
+        public string OriginalName { get; private set; }
 
-        public string OriginalName { get; }
-
-        public string MediaType { get; }
+        public string MediaType { get; private set; }
     }
 }

@@ -11,8 +11,7 @@ namespace Etdb.UserService.Bootstrap
 {
     public class Program
     {
-        private static readonly string LogPath = Path.Combine(AppContext.BaseDirectory, "Logs",
-            $"{Assembly.GetEntryAssembly().GetName().Name}.log");
+        private static readonly string LogPath = Path.Combine(AppContext.BaseDirectory, "Logs", $"{Assembly.GetEntryAssembly().GetName().Name}.log");
 
         public static void Main(string[] args)
         {
@@ -20,18 +19,15 @@ namespace Etdb.UserService.Bootstrap
                 .MinimumLevel.Debug()
                 .Enrich.FromLogContext()
                 .WriteTo.RollingFile(Program.LogPath)
-                .WriteTo.Console(
-                    outputTemplate:
-                    "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
+                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", 
                     theme: AnsiConsoleTheme.Literate)
                 .CreateLogger();
 
             CreateWebHostBuilder(args).Build().Run();
         }
 
-        private static IWebHostBuilder CreateWebHostBuilder(string[] args)
-        {
-            return WebHost.CreateDefaultBuilder(args)
+        private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
                 .ConfigureServices(services => services.AddAutofac())
                 .CaptureStartupErrors(true)
                 .UseSetting(WebHostDefaults.DetailedErrorsKey, true.ToString())
@@ -39,6 +35,5 @@ namespace Etdb.UserService.Bootstrap
                 .UseStartup<Startup>()
                 .UseSerilog()
                 .UseKestrel();
-        }
     }
 }

@@ -4,14 +4,17 @@ namespace Etdb.UserService.Scaffold
 {
     public class TestImmutable
     {
+        private readonly Guid id;
+        private readonly string someValue;
+
         public TestImmutable(Guid id, string someValue)
         {
-            this.Id = id;
-            this.SomeValue = someValue;
+            this.id = id;
+            this.someValue = someValue;
         }
 
-        public Guid Id { get; }
+        public Guid Id => this.id;
 
-        public string SomeValue { get; }
+        public string SomeValue => this.someValue;
     }
 }

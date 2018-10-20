@@ -15,7 +15,6 @@ namespace Etdb.UserService.Repositories
             this.context = context;
         }
     }
-
 //
 //    public class UsersRepositoryWithCache : UsersRepository
 //    {

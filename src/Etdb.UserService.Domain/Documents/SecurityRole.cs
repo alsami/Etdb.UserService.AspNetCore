@@ -10,6 +10,6 @@ namespace Etdb.UserService.Domain.Documents
             this.Name = name;
         }
 
-        public string Name { get; }
+        public string Name { get; private set; }
     }
 }

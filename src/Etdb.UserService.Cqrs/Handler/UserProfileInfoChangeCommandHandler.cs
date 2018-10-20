@@ -1,4 +1,7 @@
-﻿using System.Threading;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
@@ -21,7 +24,10 @@ namespace Etdb.UserService.Cqrs.Handler
         {
             var existingUser = await this.usersService.FindByIdAsync(command.Id);
 
-            if (existingUser == null) throw WellknownExceptions.UserNotFoundException();
+            if (existingUser == null)
+            {
+                throw WellknownExceptions.UserNotFoundException();
+            }
 
             var user = new User(existingUser.Id, existingUser.UserName, command.FirstName, command.Name,
                 command.Biography,

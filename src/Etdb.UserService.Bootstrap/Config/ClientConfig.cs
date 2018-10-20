@@ -31,7 +31,7 @@ namespace Etdb.UserService.Bootstrap.Config
                         ServiceNames.UserService,
                         ServiceNames.StorageService,
                         ServiceNames.FileService,
-                        ServiceNames.IndexService
+                        ServiceNames.IndexService,
                     },
 
                     AllowedCorsOrigins = allowedOrigins,
@@ -41,7 +41,8 @@ namespace Etdb.UserService.Bootstrap.Config
                     AlwaysSendClientClaims = true,
                     AlwaysIncludeUserClaimsInIdToken = true,
                     RefreshTokenUsage = TokenUsage.OneTimeOnly,
-                    RefreshTokenExpiration = TokenExpiration.Sliding
+                    RefreshTokenExpiration = TokenExpiration.Sliding,
+                    
                 }
             };
         }

@@ -13,7 +13,7 @@ namespace Etdb.UserService.Bootstrap.Config
                 new ApiResource(ServiceNames.UserService),
                 new ApiResource(ServiceNames.StorageService),
                 new ApiResource(ServiceNames.FileService),
-                new ApiResource(ServiceNames.IndexService)
+                new ApiResource(ServiceNames.IndexService),
             };
         }
     }

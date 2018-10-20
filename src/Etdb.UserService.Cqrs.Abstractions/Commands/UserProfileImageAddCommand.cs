@@ -18,8 +18,8 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands
         public Guid Id { get; }
 
         public string FileName { get; }
-
-        public ContentType FileContentType { get; }
+        
+        public ContentType FileContentType { get; }   
 
         public byte[] FileBytes { get; }
     }

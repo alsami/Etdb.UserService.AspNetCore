@@ -29,14 +29,20 @@ namespace Etdb.UserService.Services
 
             await this.cache.AddOrUpdateAsync(user.Id, user);
 
-            foreach (var email in user.Emails) await this.cache.AddOrUpdateAsync(email.Id, email);
+            foreach (var email in user.Emails)
+            {
+                await this.cache.AddOrUpdateAsync(email.Id, email);
+            }
         }
 
         public async Task<bool> EditAsync(User user)
         {
             var saved = await this.usersRepository.EditAsync(user);
 
-            if (!saved) return false;
+            if (!saved)
+            {
+                return false;
+            }
 
             await this.cache.AddOrUpdateAsync(user.Id, user);
 
@@ -47,11 +53,17 @@ namespace Etdb.UserService.Services
         {
             var cachedUser = await this.cache.FindAsync<User, Guid>(id);
 
-            if (cachedUser != null) return cachedUser;
+            if (cachedUser != null)
+            {
+                return cachedUser;
+            }
 
             var user = await this.usersRepository.FindAsync(id);
 
-            if (user != null) await this.cache.AddOrUpdateAsync(user.Id, user);
+            if (user != null)
+            {
+                await this.cache.AddOrUpdateAsync(user.Id, user);
+            }
 
             return user;
         }
@@ -60,18 +72,27 @@ namespace Etdb.UserService.Services
         {
             var user = await this.usersRepository.FindAsync(UserNameEqualsExpression(userName));
 
-            if (user != null) await this.cache.AddOrUpdateAsync(user.Id, user);
+            if (user != null)
+            {
+                await this.cache.AddOrUpdateAsync(user.Id, user);
+            }
 
             return user;
         }
 
         public async Task<User> FindByUserNameOrEmailAsync(string userNameOrEmail)
         {
-            if (string.IsNullOrWhiteSpace(userNameOrEmail)) throw new ArgumentException(nameof(userNameOrEmail));
+            if (string.IsNullOrWhiteSpace(userNameOrEmail))
+            {
+                throw new ArgumentException(nameof(userNameOrEmail));
+            }
 
             var user = await this.usersRepository.FindAsync(UserOrEmailEqualsExpression(userNameOrEmail));
 
-            if (user != null) await this.cache.AddOrUpdateAsync(user.Id, user);
+            if (user != null)
+            {
+                await this.cache.AddOrUpdateAsync(user.Id, user);
+            }
 
             return user;
         }
@@ -86,21 +107,14 @@ namespace Etdb.UserService.Services
             return email;
         }
 
-        private static Expression<Func<User, bool>> UserNameEqualsExpression(string userName)
-        {
-            return user => user.UserName.ToLower() == userName.ToLower();
-        }
+        private static Expression<Func<User, bool>> UserNameEqualsExpression(string userName) =>
+            user => user.UserName.ToLower() == userName.ToLower();
 
-        private static Expression<Func<Email, bool>> EmailEqualsExpressios(string emailAddress)
-        {
-            return email => email.Address.ToLower() == emailAddress.ToLower();
-        }
+        private static Expression<Func<Email, bool>> EmailEqualsExpressios(string emailAddress) =>
+            email => email.Address.ToLower() == emailAddress.ToLower();
 
-        private static Expression<Func<User, bool>> UserOrEmailEqualsExpression(string userNameOrEmail)
-        {
-            return user =>
-                user.UserName.ToLower() == userNameOrEmail.ToLower() ||
-                user.Emails.Any(email => email.Address.ToLower() == userNameOrEmail.ToLower());
-        }
+        private static Expression<Func<User, bool>> UserOrEmailEqualsExpression(string userNameOrEmail) => user =>
+            user.UserName.ToLower() == userNameOrEmail.ToLower() ||
+            user.Emails.Any(email => email.Address.ToLower() == userNameOrEmail.ToLower());
     }
 }
