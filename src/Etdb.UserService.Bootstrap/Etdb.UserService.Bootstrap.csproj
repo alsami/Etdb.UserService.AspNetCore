@@ -6,14 +6,15 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.0" />
     <PackageReference Include="Autofac.Extensions.FluentBuilder" Version="1.1.0" />
     <PackageReference Include="CleanCodeLabs.AutoMapper.Extensions.Autofac.DependencyInjection" Version="1.0.0" />
-    <PackageReference Include="Etdb.ServiceBase.Constants" Version="0.0.3" />
-    <PackageReference Include="Etdb.ServiceBase.Filter" Version="0.0.3" />
-    <PackageReference Include="Etdb.ServiceBase.Services" Version="0.0.3" />
+    <PackageReference Include="Etdb.ServiceBase.Constants" Version="0.0.4" />
+    <PackageReference Include="Etdb.ServiceBase.Filter" Version="0.0.4" />
+    <PackageReference Include="Etdb.ServiceBase.Services" Version="0.0.4" />
     <PackageReference Include="IdentityServer4" Version="2.2.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
     <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="1.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.1.2" />
+    <PackageReference Include="RedLock" Version="4.0.0" />
     <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />

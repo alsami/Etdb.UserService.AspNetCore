@@ -3,7 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Etdb.ServiceBase.Cqrs.Abstractions" Version="0.0.3" />
+    <PackageReference Include="Etdb.ServiceBase.Cqrs.Abstractions" Version="0.0.4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Presentation\Etdb.UserService.Presentation.csproj" />

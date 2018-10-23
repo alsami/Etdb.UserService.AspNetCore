@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extensions.FluentBuilder;
 using AutoMapper.Extensions.Autofac.DependencyInjection;
+using Elders.RedLock;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.ServiceBase.Cqrs.Abstractions.Validation;
 using Etdb.ServiceBase.Cqrs.Bus;
@@ -23,6 +24,7 @@ using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 
 namespace Etdb.UserService.Bootstrap.Extensions
@@ -32,6 +34,12 @@ namespace Etdb.UserService.Bootstrap.Extensions
         public static void SetupDependencies(this ContainerBuilder containerBuilder, IHostingEnvironment environment,
             IConfiguration configuration)
         {
+            containerBuilder
+                .Register(ctx =>
+                    new RedisLockManager(ctx.Resolve<IConfiguration>().GetSection(nameof(RedisCacheOptions))
+                        .GetValue<string>("Configuration"))).As<IRedisLockManager>()
+                .InstancePerLifetimeScope();
+
             new AutofacFluentBuilder(containerBuilder
                     .AddMediatR(typeof(UserRegisterCommandHandler).Assembly)
                     .AddAutoMapper(typeof(UsersProfile).Assembly))

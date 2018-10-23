@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Elders.RedLock;
 using Etdb.ServiceBase.Constants;
 using Etdb.UserService.Bootstrap.Config;
 using Etdb.UserService.Bootstrap.Extensions;

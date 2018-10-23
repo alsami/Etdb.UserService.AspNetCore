@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Elders.RedLock;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Exceptions;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
@@ -13,13 +14,13 @@ namespace Etdb.UserService.Cqrs.Handler
     {
         private readonly IUsersService usersService;
         private readonly IMapper mapper;
-        
+
         public UserLoadCommandHandler(IUsersService usersService, IMapper mapper)
         {
             this.usersService = usersService;
             this.mapper = mapper;
         }
-        
+
         public async Task<UserDto> Handle(UserLoadCommand request, CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByIdAsync(request.Id);
