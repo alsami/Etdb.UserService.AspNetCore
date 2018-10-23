@@ -14,10 +14,5 @@ namespace Etdb.UserService.Domain.Documents
         public string Address { get; private set; }
 
         public bool IsPrimary { get; private set; }
-
-        public Email Clone()
-        {
-            return new Email(this.Id, this.Address, this.IsPrimary);
-        }
     }
 }

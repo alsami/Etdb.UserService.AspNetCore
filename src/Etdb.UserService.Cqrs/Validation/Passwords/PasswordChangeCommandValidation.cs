@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Cqrs.Validation.Base;

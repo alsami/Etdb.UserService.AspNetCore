@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Cqrs.Abstractions.Validation;
@@ -52,7 +48,7 @@ namespace Etdb.UserService.Cqrs.Handler
 
             var updatedUser = new User(user.Id, user.UserName, user.FirstName, user.Name, user.Biography,
                 this.hasher.CreateSaltedHash(command.NewPassword, salt), salt, user.RegisteredSince, user.ProfileImage,
-                user.RoleIds, user.Emails.Select(email => email.Clone()).ToArray());
+                user.RoleIds, user.Emails);
 
             await this.usersService.EditAsync(updatedUser);
 

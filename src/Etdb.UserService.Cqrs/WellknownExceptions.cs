@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Etdb.ServiceBase.Exceptions;
+﻿using Etdb.ServiceBase.Exceptions;
 
 namespace Etdb.UserService.Cqrs
 {
