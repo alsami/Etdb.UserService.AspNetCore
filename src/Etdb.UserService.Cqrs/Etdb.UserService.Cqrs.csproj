@@ -9,7 +9,6 @@
     <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="0.0.4" />
     <PackageReference Include="Etdb.ServiceBase.Extensions" Version="0.0.4" />
     <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="0.0.4" />
-    <PackageReference Include="RedLock" Version="4.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Constants\Etdb.UserService.Constants.csproj" />

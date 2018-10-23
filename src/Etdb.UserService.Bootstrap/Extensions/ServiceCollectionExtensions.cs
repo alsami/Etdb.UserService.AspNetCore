@@ -101,9 +101,9 @@ namespace Etdb.UserService.Bootstrap.Extensions
 
                     options.Filters.Add(requireAuthenticatedUserPolicy);
                     options.Filters.Add(typeof(UnhandledExceptionFilter));
-                    options.Filters.Add(typeof(ConcurrencyExceptionFilter));
                     options.Filters.Add(typeof(AccessDeniedExceptionFilter));
                     options.Filters.Add(typeof(GeneralValidationExceptionFilter));
+                    options.Filters.Add(typeof(ResourceLockedExceptionFilter));
                     options.Filters.Add(typeof(ResourceNotFoundExceptionFilter));
                 })
                 .AddJsonOptions(options =>

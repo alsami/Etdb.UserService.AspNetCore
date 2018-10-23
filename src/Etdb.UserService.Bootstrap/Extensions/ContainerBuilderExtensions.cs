@@ -58,6 +58,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .RegisterTypeAsScoped<CachedGrantStoreService, IPersistedGrantStore>()
                 .RegisterTypeAsScoped<UsersService, IUsersService>()
                 .RegisterTypeAsScoped<UserServiceDbContext, DocumentDbContext>()
+                .RegisterTypeAsScoped<ResourceLockingAdapter, IResourceLockingAdapter>()
                 .AddClosedTypeAsScoped(typeof(ICommandValidation<>),
                     new[] {typeof(UserRegisterCommandHandler).Assembly})
                 .AddClosedTypeAsScoped(typeof(IDocumentRepository<,>), new[] {typeof(UserServiceDbContext).Assembly});

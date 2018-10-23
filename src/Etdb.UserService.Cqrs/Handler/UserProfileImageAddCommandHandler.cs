@@ -22,15 +22,18 @@ namespace Etdb.UserService.Cqrs.Handler
         private readonly IOptions<FileStoreOptions> fileStoreOptions;
         private readonly IUsersService usersService;
         private readonly IFileService fileService;
+        private readonly IResourceLockingAdapter resourceLockingAdapter;
         private readonly IMapper mapper;
 
         public UserProfileImageAddCommandHandler(IOptions<FileStoreOptions> fileStoreOptions,
-            IUsersService usersService, IFileService fileService, IMapper mapper)
+            IUsersService usersService, IFileService fileService, IMapper mapper,
+            IResourceLockingAdapter resourceLockingAdapter)
         {
             this.fileStoreOptions = fileStoreOptions;
             this.usersService = usersService;
             this.fileService = fileService;
             this.mapper = mapper;
+            this.resourceLockingAdapter = resourceLockingAdapter;
         }
 
         public async Task<UserDto> Handle(UserProfileImageAddCommand request, CancellationToken cancellationToken)
@@ -40,6 +43,11 @@ namespace Etdb.UserService.Cqrs.Handler
             if (existingUser == null)
             {
                 throw new ResourceNotFoundException("The requested user could not be found");
+            }
+
+            if (!await this.resourceLockingAdapter.LockAsync(existingUser.Id, TimeSpan.FromSeconds(30)))
+            {
+                throw new ResourceLockedException(typeof(User), existingUser.Id, "User currently busy");
             }
 
             if (existingUser.ProfileImage != null)
@@ -59,12 +67,13 @@ namespace Etdb.UserService.Cqrs.Handler
                 Path.Combine(this.fileStoreOptions.Value.ImagePath, existingUser.Id.ToString()), userProfileImage.Name,
                 request.FileBytes);
 
-
             var updatedUser = new User(existingUser.Id, existingUser.UserName, existingUser.FirstName,
                 existingUser.Name, existingUser.Biography, existingUser.Password, existingUser.Salt,
                 existingUser.RegisteredSince, userProfileImage, existingUser.RoleIds, existingUser.Emails);
 
             await this.usersService.EditAsync(updatedUser);
+
+            await this.resourceLockingAdapter.UnlockAsync(existingUser.Id);
 
             return this.mapper.Map<UserDto>(updatedUser);
         }

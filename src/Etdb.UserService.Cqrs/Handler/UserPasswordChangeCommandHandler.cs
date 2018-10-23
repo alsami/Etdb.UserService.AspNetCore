@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Cqrs.Abstractions.Validation;
@@ -16,24 +17,31 @@ namespace Etdb.UserService.Cqrs.Handler
     {
         private readonly ICommandValidation<UserPasswordChangeCommand> passwordChangeCommandValidation;
         private readonly IUsersService usersService;
+        private readonly IResourceLockingAdapter resourceLockingAdapter;
         private readonly IHasher hasher;
 
         public UserPasswordChangeCommandHandler(
             ICommandValidation<UserPasswordChangeCommand> passwordChangeCommandValidation, IUsersService usersService,
-            IHasher hasher)
+            IHasher hasher, IResourceLockingAdapter resourceLockingAdapter)
         {
             this.passwordChangeCommandValidation = passwordChangeCommandValidation;
             this.usersService = usersService;
             this.hasher = hasher;
+            this.resourceLockingAdapter = resourceLockingAdapter;
         }
 
         public async Task<Unit> Handle(UserPasswordChangeCommand command, CancellationToken cancellationToken)
         {
-            var user = await this.usersService.FindByIdAsync(command.Id);
+            var existingUser = await this.usersService.FindByIdAsync(command.Id);
 
-            if (user == null)
+            if (existingUser == null)
             {
                 throw new ResourceNotFoundException("User could not be found!");
+            }
+
+            if (!await this.resourceLockingAdapter.LockAsync(existingUser.Id, TimeSpan.FromSeconds(30)))
+            {
+                throw new ResourceLockedException(typeof(User), existingUser.Id, "User currently busy");
             }
 
             var validationResult = await this.passwordChangeCommandValidation.ValidateCommandAsync(command);
@@ -46,11 +54,15 @@ namespace Etdb.UserService.Cqrs.Handler
 
             var salt = this.hasher.GenerateSalt();
 
-            var updatedUser = new User(user.Id, user.UserName, user.FirstName, user.Name, user.Biography,
-                this.hasher.CreateSaltedHash(command.NewPassword, salt), salt, user.RegisteredSince, user.ProfileImage,
-                user.RoleIds, user.Emails);
+            var updatedUser = new User(existingUser.Id, existingUser.UserName, existingUser.FirstName,
+                existingUser.Name, existingUser.Biography,
+                this.hasher.CreateSaltedHash(command.NewPassword, salt), salt, existingUser.RegisteredSince,
+                existingUser.ProfileImage,
+                existingUser.RoleIds, existingUser.Emails);
 
             await this.usersService.EditAsync(updatedUser);
+
+            await this.resourceLockingAdapter.UnlockAsync(existingUser.Id);
 
             return Unit.Value;
         }
