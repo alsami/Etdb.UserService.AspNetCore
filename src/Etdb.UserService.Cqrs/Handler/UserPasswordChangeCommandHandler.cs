@@ -44,7 +44,7 @@ namespace Etdb.UserService.Cqrs.Handler
 
             if (!validationResult.IsValid)
             {
-                validationResult.GenerateValidationException(
+                throw validationResult.GenerateValidationException(
                     "Failed to validate the request to change the user's password!");
             }
 
