@@ -33,7 +33,7 @@ namespace Etdb.UserService.Cqrs.Handler
 
             if (!await this.resourceLockingAdapter.LockAsync(existingUser.Id, TimeSpan.FromSeconds(30)))
             {
-                throw new ResourceLockedException(typeof(User), existingUser.Id, "User currently busy");
+                throw WellknownExceptions.UserResourceLockException(existingUser.Id);
             }
 
             var user = new User(existingUser.Id, existingUser.UserName, command.FirstName, command.Name,

@@ -41,15 +41,17 @@ namespace Etdb.UserService.Cqrs.Handler
 
             if (!await this.resourceLockingAdapter.LockAsync(existingUser.Id, TimeSpan.FromSeconds(30)))
             {
-                throw new ResourceLockedException(typeof(User), existingUser.Id, "User currently busy");
+                throw WellknownExceptions.UserResourceLockException(existingUser.Id);
             }
 
             var validationResult = await this.passwordChangeCommandValidation.ValidateCommandAsync(command);
 
             if (!validationResult.IsValid)
             {
+                await this.resourceLockingAdapter.UnlockAsync(existingUser.Id);
+
                 throw validationResult.GenerateValidationException(
-                    "Failed to validate the request to change the user's password!");
+                    "Failed to change the password.");
             }
 
             var salt = this.hasher.GenerateSalt();

@@ -15,20 +15,20 @@ namespace Etdb.UserService.Cqrs.Handler
     public class UserProfileImageLoadCommandHandler : IResponseCommandHandler<UserProfileImageLoadCommand, FileDownloadInfo>
     {
         private readonly IOptions<FileStoreOptions> fileStoreOptions;
-        private readonly IUsersService _usersService;
+        private readonly IUsersService usersService;
         private readonly IFileService fileService;
 
         public UserProfileImageLoadCommandHandler(IOptions<FileStoreOptions> fileStoreOptions,
             IUsersService usersService, IFileService fileService)
         {
             this.fileStoreOptions = fileStoreOptions;
-            this._usersService = usersService;
+            this.usersService = usersService;
             this.fileService = fileService;
         }
 
         public async Task<FileDownloadInfo> Handle(UserProfileImageLoadCommand request, CancellationToken cancellationToken)
         {
-            var user = await this._usersService.FindByIdAsync(request.Id);
+            var user = await this.usersService.FindByIdAsync(request.Id);
 
             if (user == null)
             {

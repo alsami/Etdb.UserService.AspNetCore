@@ -47,7 +47,7 @@ namespace Etdb.UserService.Cqrs.Handler
 
             if (!await this.resourceLockingAdapter.LockAsync(existingUser.Id, TimeSpan.FromSeconds(30)))
             {
-                throw new ResourceLockedException(typeof(User), existingUser.Id, "User currently busy");
+                throw WellknownExceptions.UserResourceLockException(existingUser.Id);
             }
 
             if (existingUser.ProfileImage != null)
