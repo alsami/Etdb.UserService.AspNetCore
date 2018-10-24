@@ -35,6 +35,19 @@ namespace Etdb.UserService.Controllers.V1
             return user;
         }
 
+        [AllowAnonymous]
+        [HttpGet("{id:Guid}/profileimage", Name = RouteNames.UserProfileImageUrlRoute)]
+        public async Task<IActionResult> ProfileImageLoadAsync(Guid id)
+        {
+            var fileInfo =
+                await this.bus.SendCommandAsync<UserProfileImageLoadCommand, FileDownloadInfo>(
+                    new UserProfileImageLoadCommand(id));
+
+            return new FileContentResult(fileInfo.File, new MediaTypeHeaderValue(fileInfo.MediaType)) {
+                FileDownloadName = fileInfo.Name
+            };
+        }
+
         [HttpPatch("{id:Guid}/profileinfo")]
         public async Task<IActionResult> ProfileInfoChangeAsync(Guid id, [FromBody] UserProfileInfoChangeDto dto)
         {
@@ -67,18 +80,14 @@ namespace Etdb.UserService.Controllers.V1
             return user;
         }
 
-        [AllowAnonymous]
-        [HttpGet("{id:Guid}/profileimage", Name = RouteNames.UserProfileImageUrlRoute)]
-        public async Task<IActionResult> ProfileImageLoadAsync(Guid id)
+        [HttpDelete("{id:Guid}/profileimage")]
+        public async Task<IActionResult> ProfileImageRemoveAsync(Guid id)
         {
-            var fileInfo =
-                await this.bus.SendCommandAsync<UserProfileImageLoadCommand, FileDownloadInfo>(
-                    new UserProfileImageLoadCommand(id));
+            var command = new UserProfileImageRemoveCommand(id);
 
-            return new FileContentResult(fileInfo.File, new MediaTypeHeaderValue(fileInfo.MediaType))
-            {
-                FileDownloadName = fileInfo.Name
-            };
+            await this.bus.SendCommandAsync(command);
+
+            return NoContent();
         }
     }
 }
