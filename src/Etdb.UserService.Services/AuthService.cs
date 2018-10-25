@@ -5,12 +5,15 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.UserService.Domain.Documents;
+using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
 using IdentityServer4.Validation;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace Etdb.UserService.Services
 {
@@ -20,15 +23,23 @@ namespace Etdb.UserService.Services
         private readonly ISecurityRolesRepository rolesRepository;
         private readonly IUsersService userService;
         private readonly IUserProfileImageUrlFactory userProfileImageUrlFactory;
+        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly ILoginLogRepository loginLogRepository;
+        private readonly ILogger<AuthService> logger;
 
         public AuthService(IHasher hasher,
             ISecurityRolesRepository rolesRepository,
-            IUsersService userService, IUserProfileImageUrlFactory userProfileImageUrlFactory)
+            IUsersService userService, IUserProfileImageUrlFactory userProfileImageUrlFactory,
+            IHttpContextAccessor httpContextAccessor, ILoginLogRepository loginLogRepository,
+            ILogger<AuthService> logger)
         {
             this.hasher = hasher;
             this.rolesRepository = rolesRepository;
             this.userService = userService;
             this.userProfileImageUrlFactory = userProfileImageUrlFactory;
+            this.httpContextAccessor = httpContextAccessor;
+            this.loginLogRepository = loginLogRepository;
+            this.logger = logger;
         }
 
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
@@ -52,9 +63,9 @@ namespace Etdb.UserService.Services
             context.IssuedClaims = (await this.AllocateClaimsAsync(user)).ToList();
         }
 
-        public Task IsActiveAsync(IsActiveContext context)
+        public async Task IsActiveAsync(IsActiveContext context)
         {
-            return Task.FromResult(context.IsActive);
+            await Task.FromResult(context.IsActive);
         }
 
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
@@ -67,15 +78,36 @@ namespace Etdb.UserService.Services
                 return;
             }
 
-            if (!this.ArePasswordsEqual(loginUser.Password, context.Password, loginUser.Salt))
+            var passwordIsValid = this.hasher.CreateSaltedHash(context.Password, loginUser.Salt)
+                                  == loginUser.Password;
+
+            if (!passwordIsValid)
             {
+                await this.LogLoginEvent(LoginType.Failed, loginUser.Id, "Given password is invalid!");
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant);
                 return;
             }
 
+            await this.LogLoginEvent(LoginType.Succeeded, loginUser.Id);
+
             context.Result = new GrantValidationResult(loginUser.Id.ToString(),
                 "custom",
                 await this.AllocateClaimsAsync(loginUser));
+        }
+
+        private async Task LogLoginEvent(LoginType loginType, Guid userId, string additionalInfo = null)
+        {
+            var log = new LoginLog(Guid.NewGuid(), userId, DateTime.UtcNow, loginType,
+                this.httpContextAccessor.HttpContext.Connection.RemoteIpAddress.ToString(), additionalInfo);
+
+            try
+            {
+                await this.loginLogRepository.AddAsync(log);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogWarning(ex, ex.Message);
+            }
         }
 
         private async Task<IEnumerable<Claim>> AllocateClaimsAsync(User user)
@@ -119,11 +151,6 @@ namespace Etdb.UserService.Services
             }
 
             return claims;
-        }
-
-        private bool ArePasswordsEqual(string hashedPassword, string unhasedPassword, byte[] salt)
-        {
-            return this.hasher.CreateSaltedHash(unhasedPassword, salt) == hashedPassword;
         }
     }
 }
