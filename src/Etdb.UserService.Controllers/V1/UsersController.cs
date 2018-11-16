@@ -43,7 +43,8 @@ namespace Etdb.UserService.Controllers.V1
                 await this.bus.SendCommandAsync<UserProfileImageLoadCommand, FileDownloadInfo>(
                     new UserProfileImageLoadCommand(id));
 
-            return new FileContentResult(fileInfo.File, new MediaTypeHeaderValue(fileInfo.MediaType)) {
+            return new FileContentResult(fileInfo.File, new MediaTypeHeaderValue(fileInfo.MediaType))
+            {
                 FileDownloadName = fileInfo.Name
             };
         }

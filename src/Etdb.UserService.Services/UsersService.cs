@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Etdb.UserService.Domain.Documents;
+using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
@@ -29,10 +29,12 @@ namespace Etdb.UserService.Services
 
             await this.cache.AddOrUpdateAsync(user.Id, user);
 
-            foreach (var email in user.Emails)
-            {
-                await this.cache.AddOrUpdateAsync(email.Id, email);
-            }
+            var emailCachingTasks = user
+                .Emails
+                .Select(async email => await this.cache.AddOrUpdateAsync(email.Id, email))
+                .ToArray();
+
+            await Task.WhenAll(emailCachingTasks);
         }
 
         public async Task<bool> EditAsync(User user)
@@ -102,7 +104,7 @@ namespace Etdb.UserService.Services
             var email = this.usersRepository
                 .Query()
                 .SelectMany(user => user.Emails)
-                .FirstOrDefault(EmailEqualsExpressios(emailAddress));
+                .FirstOrDefault(EmailEqualsExpression(emailAddress));
 
             return email;
         }
@@ -110,7 +112,7 @@ namespace Etdb.UserService.Services
         private static Expression<Func<User, bool>> UserNameEqualsExpression(string userName) =>
             user => user.UserName.ToLower() == userName.ToLower();
 
-        private static Expression<Func<Email, bool>> EmailEqualsExpressios(string emailAddress) =>
+        private static Expression<Func<Email, bool>> EmailEqualsExpression(string emailAddress) =>
             email => email.Address.ToLower() == emailAddress.ToLower();
 
         private static Expression<Func<User, bool>> UserOrEmailEqualsExpression(string userNameOrEmail) => user =>

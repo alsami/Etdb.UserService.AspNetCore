@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using Etdb.ServiceBase.Constants;
+using Etdb.UserService.Constants;
 using IdentityServer4;
 using IdentityServer4.Models;
 
-namespace Etdb.UserService.Bootstrap.Config
+namespace Etdb.UserService.Authentication.Configs
 {
     public class ClientConfig
     {
-        public static IEnumerable<Client> GetClients(string clientId, string clientSecrect, string[] allowedOrigins)
+        public static IEnumerable<Client> GetClients(string clientId, string clientSecret, string[] allowedOrigins)
         {
             return new List<Client>
             {
@@ -15,11 +16,11 @@ namespace Etdb.UserService.Bootstrap.Config
                 {
                     ClientId = clientId,
 
-                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    AllowedGrantTypes = {GrantType.ResourceOwnerPassword, Misc.ExternalGrantType},
 
                     ClientSecrets =
                     {
-                        new Secret(clientSecrect.Sha256())
+                        new Secret(clientSecret.Sha256())
                     },
 
                     AllowedScopes =
@@ -42,7 +43,6 @@ namespace Etdb.UserService.Bootstrap.Config
                     AlwaysIncludeUserClaimsInIdToken = true,
                     RefreshTokenUsage = TokenUsage.OneTimeOnly,
                     RefreshTokenExpiration = TokenExpiration.Sliding,
-                    
                 }
             };
         }

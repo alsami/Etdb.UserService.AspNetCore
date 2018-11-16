@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands

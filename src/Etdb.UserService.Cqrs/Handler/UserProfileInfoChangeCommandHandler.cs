@@ -2,9 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
-using Etdb.ServiceBase.Exceptions;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Domain.Documents;
+using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Services.Abstractions;
 using MediatR;
 
@@ -37,9 +36,9 @@ namespace Etdb.UserService.Cqrs.Handler
             }
 
             var user = new User(existingUser.Id, existingUser.UserName, command.FirstName, command.Name,
-                command.Biography,
-                existingUser.Password, existingUser.Salt, existingUser.RegisteredSince, existingUser.ProfileImage,
-                existingUser.RoleIds, existingUser.Emails);
+                command.Biography, existingUser.RegisteredSince,
+                existingUser.RoleIds, existingUser.Emails, existingUser.SignInProvider, existingUser.Password,
+                existingUser.Salt, existingUser.ProfileImage);
 
             await this.usersService.EditAsync(user);
 

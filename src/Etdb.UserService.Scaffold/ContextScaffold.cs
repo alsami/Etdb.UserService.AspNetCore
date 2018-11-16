@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Etdb.ServiceBase.Cryptography.Hashing;
 using Etdb.UserService.Constants;
-using Etdb.UserService.Domain.Documents;
+using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Repositories;
 using MongoDB.Driver;
 
@@ -59,11 +61,10 @@ namespace Etdb.UserService.Scaffold
             var adminGuid = Guid.NewGuid();
 
             adminUser = new User(adminGuid, "admin", null, null, null,
-                hasher.CreateSaltedHash("1234", salt), salt,
                 DateTime.UtcNow,
-                null,
                 new[] {memberRole.Id, adminRole.Id},
-                new List<Email> {new Email(Guid.NewGuid(), "admin@etdb.com", true)});
+                new List<Email> {new Email(Guid.NewGuid(), "admin@etdb.com", true, false)},
+                password: hasher.CreateSaltedHash("1234", salt), salt: salt);
 
             usersCollection.InsertOne(adminUser);
         }

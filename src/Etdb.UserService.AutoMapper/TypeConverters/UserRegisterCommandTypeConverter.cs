@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using AutoMapper;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Presentation;
 
 namespace Etdb.UserService.AutoMapper.TypeConverters
@@ -10,13 +11,13 @@ namespace Etdb.UserService.AutoMapper.TypeConverters
         public UserRegisterCommand Convert(UserRegisterDto source, UserRegisterCommand destination,
             ResolutionContext context)
         {
-            var emailsToAdd = source.Emails?.Select(email => new EmailAddCommand(email.Address, email.IsPrimary))
+            var emailsToAdd = source.Emails?.Select(email => new EmailAddCommand(email.Address, email.IsPrimary, false))
                 .ToArray();
 
             var passwordAddCommand = new PasswordAddCommand(source.Password);
 
-            return new UserRegisterCommand(source.UserName, source.FirstName, source.Name, passwordAddCommand,
-                emailsToAdd);
+            return new UserRegisterCommand(source.UserName, source.FirstName, source.Name,
+                emailsToAdd, (int) SignInProvider.UsernamePassword, passwordAddCommand);
         }
     }
 }

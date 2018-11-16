@@ -5,23 +5,20 @@ namespace Etdb.UserService.Cqrs.Abstractions.Base
 {
     public abstract class EmailCommand : IVoidCommand
     {
+        // ReSharper disable once UnassignedGetOnlyAutoProperty
         public Guid Id { get; }
 
         public string Address { get; }
 
         public bool IsPrimary { get; }
 
-        protected EmailCommand(Guid id, string address, bool isPrimary)
-        {
-            this.Id = id;
-            this.Address = address;
-            this.IsPrimary = isPrimary;
-        }
+        public bool IsExternal { get; }
 
-        protected EmailCommand(string address, bool isPrimary)
+        protected EmailCommand(string address, bool isPrimary, bool isExternal)
         {
             this.Address = address;
             this.IsPrimary = isPrimary;
+            this.IsExternal = isExternal;
         }
     }
 }

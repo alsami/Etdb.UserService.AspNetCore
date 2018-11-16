@@ -1,7 +1,9 @@
 ﻿using System.IO;
 using System.IO.Compression;
-using Etdb.ServiceBase.DocumentRepository.Abstractions.Context;
+using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.ServiceBase.Filter;
+using Etdb.UserService.Authentication;
+using Etdb.UserService.Authentication.Configs;
 using Etdb.UserService.Bootstrap.Config;
 using Etdb.UserService.Constants;
 using Etdb.UserService.Extensions;
@@ -115,6 +117,11 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             return services;
+        }
+
+        public static IServiceCollection ConfigureHttpClients(this IServiceCollection services)
+        {
+            return services.AddHttpClient();
         }
 
         public static IServiceCollection ConfigureCors(this IServiceCollection services,

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Etdb.UserService.Authentication.Abstractions\Etdb.UserService.Authentication.Abstractions.csproj" />
+      <ProjectReference Include="..\Etdb.UserService.Constants\Etdb.UserService.Constants.csproj" />
+      <ProjectReference Include="..\Etdb.UserService.Cqrs.Abstractions\Etdb.UserService.Cqrs.Abstractions.csproj" />
+      <ProjectReference Include="..\Etdb.UserService.Domain\Etdb.UserService.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Etdb.ServiceBase.Constants" Version="0.0.6" />
+      <PackageReference Include="Etdb.ServiceBase.Cqrs.Abstractions" Version="0.0.6" />
+      <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="0.0.6" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.2" />
+      <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.1" />
+    </ItemGroup>
+
+</Project>

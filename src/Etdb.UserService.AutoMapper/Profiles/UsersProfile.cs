@@ -2,7 +2,8 @@ using AutoMapper;
 using Etdb.UserService.AutoMapper.Resolver;
 using Etdb.UserService.AutoMapper.TypeConverters;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Domain.Documents;
+using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Presentation;
 
 namespace Etdb.UserService.AutoMapper.Profiles
@@ -12,8 +13,10 @@ namespace Etdb.UserService.AutoMapper.Profiles
         public UsersProfile()
         {
             this.CreateMap<User, UserDto>()
+                .ForMember(destination => destination.IsExternalUserLogin,
+                    options => options.MapFrom(src => src.SignInProvider != SignInProvider.UsernamePassword))
                 .ForMember(destination => destination.ProfileImageUrl,
-                    options => options.ResolveUsing<UserProfileImageUrlResolver>());
+                    options => options.MapFrom<UserProfileImageUrlResolver>());
 
             this.CreateMap<UserRegisterDto, UserRegisterCommand>()
                 .ConvertUsing<UserRegisterCommandTypeConverter>();

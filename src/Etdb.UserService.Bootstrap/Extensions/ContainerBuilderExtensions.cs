@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using Autofac.Extensions.FluentBuilder;
 using AutoMapper.Extensions.Autofac.DependencyInjection;
 using Elders.RedLock;
@@ -7,13 +8,20 @@ using Etdb.ServiceBase.Cqrs.Abstractions.Validation;
 using Etdb.ServiceBase.Cqrs.Bus;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Cryptography.Hashing;
-using Etdb.ServiceBase.DocumentRepository.Abstractions.Context;
-using Etdb.ServiceBase.DocumentRepository.Abstractions.Generics;
+using Etdb.ServiceBase.DocumentRepository;
+using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.ServiceBase.Services;
 using Etdb.ServiceBase.Services.Abstractions;
+using Etdb.UserService.Authentication;
+using Etdb.UserService.Authentication.Abstractions;
+using Etdb.UserService.Authentication.Abstractions.Strategies;
+using Etdb.UserService.Authentication.Services;
+using Etdb.UserService.Authentication.Strategies;
+using Etdb.UserService.Authentication.Validator;
 using Etdb.UserService.AutoMapper.Profiles;
 using Etdb.UserService.Bootstrap.Services;
 using Etdb.UserService.Cqrs.Handler;
+using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Repositories;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
@@ -40,6 +48,32 @@ namespace Etdb.UserService.Bootstrap.Extensions
                         .GetValue<string>("Configuration"))).As<IRedisLockManager>()
                 .InstancePerLifetimeScope();
 
+            containerBuilder.Register<IExternalAuthenticationStrategy>((componentContext, types) =>
+                {
+                    var provider = types.TypedAs<SignInProvider>();
+
+                    // ReSharper disable once SwitchStatementMissingSomeCases
+                    switch (provider)
+                    {
+                        case SignInProvider.Google:
+                        {
+                            return componentContext.Resolve<IGoogleAuthenticationStrategy>();
+                        }
+                        case SignInProvider.Facebook:
+                        {
+                            return componentContext.Resolve<IFacebookAuthenticationStrategy>();
+                        }
+                        case SignInProvider.Twitter:
+                        {
+                            return componentContext.Resolve<ITwitterAuthenticationStrategy>();
+                        }
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(provider));
+                    }
+                })
+                .As<IExternalAuthenticationStrategy>()
+                .InstancePerLifetimeScope();
+
             new AutofacFluentBuilder(containerBuilder
                     .AddMediatR(typeof(UserRegisterCommandHandler).Assembly)
                     .AddAutoMapper(typeof(UsersProfile).Assembly))
@@ -53,8 +87,12 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .RegisterTypeAsSingleton<CorsPolicyService, ICorsPolicyService>()
                 .RegisterTypeAsScoped<Bus, IBus>()
                 .RegisterTypeAsScoped<HttpContextAccessor, IHttpContextAccessor>()
-                .RegisterTypeAsScoped<AuthService, IResourceOwnerPasswordValidator>()
-                .RegisterTypeAsScoped<AuthService, IProfileService>()
+                .RegisterTypeAsScoped<ProfileService, IProfileService>()
+                .RegisterTypeAsScoped<ResourceOwnerPasswordGrandValidator, IResourceOwnerPasswordValidator>()
+                .RegisterTypeAsScoped<GoogleAuthenticationStrategy, IGoogleAuthenticationStrategy>()
+                .RegisterTypeAsScoped<FacebookAuthenticationStrategy, IFacebookAuthenticationStrategy>()
+                .RegisterTypeAsScoped<TwitterAuthenticationStrategy, ITwitterAuthenticationStrategy>()
+                .RegisterTypeAsScoped<ExternalGrantValidator, IExtensionGrantValidator>()
                 .RegisterTypeAsScoped<CachedGrantStoreService, IPersistedGrantStore>()
                 .RegisterTypeAsScoped<UsersService, IUsersService>()
                 .RegisterTypeAsScoped<UserServiceDbContext, DocumentDbContext>()

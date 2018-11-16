@@ -7,13 +7,14 @@ using FluentValidation;
 
 namespace Etdb.UserService.Cqrs.Validation.Base
 {
-    public abstract class UserNameCommandValidation<TUserNameCommand> : CommandValidation<TUserNameCommand> where TUserNameCommand : UserNameCommand
+    public abstract class UserNameCommandValidation<TUserNameCommand> : CommandValidation<TUserNameCommand>
+        where TUserNameCommand : UserNameCommand
     {
-        private readonly IUsersService _usersService;
+        private readonly IUsersService usersService;
 
         protected UserNameCommandValidation(IUsersService usersService)
         {
-            this._usersService = usersService;
+            this.usersService = usersService;
         }
 
         protected void RegisterUserNameRules()
@@ -27,12 +28,11 @@ namespace Etdb.UserService.Cqrs.Validation.Base
                 .WithMessage("Username blacklisted!")
                 .MustAsync(async (command, userName, token) => await this.IsUserNameAvailable(command))
                 .WithMessage("The username is already in use!");
-
         }
-        
+
         private async Task<bool> IsUserNameAvailable(UserNameCommand command)
         {
-            var user = await this._usersService.FindByUserNameAsync(command.UserName);
+            var user = await this.usersService.FindByUserNameAsync(command.UserName);
 
             return user == null || user.Id == command.Id;
         }

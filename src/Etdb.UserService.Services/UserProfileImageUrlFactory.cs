@@ -1,6 +1,6 @@
 ﻿using System;
 using Etdb.UserService.Constants;
-using Etdb.UserService.Domain.Documents;
+using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Services.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +19,8 @@ namespace Etdb.UserService.Services
         private readonly ContextLessRouteProvider contextLessRouteProvider;
 
         public UserProfileImageUrlFactory(IUrlHelperFactory urlHelperFactory,
-            IActionContextAccessor actionContextAccessor, IHttpContextAccessor httpContextAccessor, ContextLessRouteProvider contextLessRouteProvider)
+            IActionContextAccessor actionContextAccessor, IHttpContextAccessor httpContextAccessor,
+            ContextLessRouteProvider contextLessRouteProvider)
         {
             this.urlHelperFactory = urlHelperFactory;
             this.actionContextAccessor = actionContextAccessor;
@@ -38,7 +39,7 @@ namespace Etdb.UserService.Services
                           new ActionContext(this.httpContextAccessor.HttpContext,
                               new RouteData
                               {
-                                  Routers = { this.contextLessRouteProvider.Router }
+                                  Routers = {this.contextLessRouteProvider.Router}
                               }, new ActionDescriptor());
 
             var urlHelper =

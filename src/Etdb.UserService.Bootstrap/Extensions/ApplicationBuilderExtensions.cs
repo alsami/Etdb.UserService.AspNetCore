@@ -9,7 +9,8 @@ namespace Etdb.UserService.Bootstrap.Extensions
 {
     internal static class ApplicationBuilderExtensions
     {
-        public static IApplicationBuilder SetupSwagger(this IApplicationBuilder app, IHostingEnvironment environment, string jsonUri,
+        public static IApplicationBuilder SetupSwagger(this IApplicationBuilder app, IHostingEnvironment environment,
+            string jsonUri,
             string description)
         {
             if (!environment.IsDevelopment() && !environment.IsLocalDevelopment())
@@ -24,7 +25,8 @@ namespace Etdb.UserService.Bootstrap.Extensions
 
         public static IApplicationBuilder SetupHsts(this IApplicationBuilder app, IHostingEnvironment environment)
         {
-            if (environment.IsDevelopment() || environment.IsLocalDevelopment()) {
+            if (environment.IsDevelopment() || environment.IsLocalDevelopment())
+            {
                 return app;
             }
 

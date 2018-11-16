@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Elders.RedLock;
 using Etdb.ServiceBase.Constants;
 using Etdb.UserService.Bootstrap.Config;
 using Etdb.UserService.Bootstrap.Extensions;
@@ -49,32 +48,23 @@ namespace Etdb.UserService.Bootstrap
             var authority = identityConfig
                 .GetValue<string>("Authority");
 
-            services.ConfigureMvc();
-
-            services.ConfigureCors(this.environment, allowedOrigins, Startup.CorsPolicyName);
-
-            services.ConfigureAllowedOriginsOptions(this.configuration);
-
-            services.ConfigureIdentityServerAuthorization(allowedOrigins, clientId, clientSecret);
-
-            services.ConfigureIdentityServerAuthentication(this.environment, Startup.AuthenticationSchema,
-                ServiceNames.UserService, authority);
-
-            services.ConfigureAuthorizationPolicies();
-
-            services.ConfigureRedisCache(this.configuration);
-
-            services.ConfigureDocumentDbContextOptions(this.configuration);
-
-            services.ConfigureFileStoreOptions(this.configuration, this.environment);
-
-            services.ConfigureCompression();
-
-            services.ConfigureSwaggerGen(this.environment, new Info
-            {
-                Title = Startup.SwaggerDocDescription,
-                Version = Startup.SwaggerDocVersion
-            }, Startup.SwaggerDocVersion);
+            services.ConfigureMvc()
+                .ConfigureCors(this.environment, allowedOrigins, Startup.CorsPolicyName)
+                .ConfigureAllowedOriginsOptions(this.configuration)
+                .ConfigureIdentityServerAuthorization(allowedOrigins, clientId, clientSecret)
+                .ConfigureIdentityServerAuthentication(this.environment, Startup.AuthenticationSchema,
+                    ServiceNames.UserService, authority)
+                .ConfigureAuthorizationPolicies()
+                .ConfigureRedisCache(this.configuration)
+                .ConfigureDocumentDbContextOptions(this.configuration)
+                .ConfigureFileStoreOptions(this.configuration, this.environment)
+                .ConfigureCompression()
+                .ConfigureHttpClients()
+                .ConfigureSwaggerGen(this.environment, new Info
+                {
+                    Title = Startup.SwaggerDocDescription,
+                    Version = Startup.SwaggerDocVersion
+                }, Startup.SwaggerDocVersion);
         }
 
         public void Configure(IApplicationBuilder app)

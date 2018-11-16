@@ -11,7 +11,8 @@ namespace Etdb.UserService.Bootstrap
 {
     public class Program
     {
-        private static readonly string LogPath = Path.Combine(AppContext.BaseDirectory, "Logs", $"{Assembly.GetEntryAssembly().GetName().Name}.log");
+        private static readonly string LogPath = Path.Combine(AppContext.BaseDirectory, "Logs",
+            $"{Assembly.GetEntryAssembly().GetName().Name}.log");
 
         public static void Main(string[] args)
         {
@@ -19,7 +20,9 @@ namespace Etdb.UserService.Bootstrap
                 .MinimumLevel.Debug()
                 .Enrich.FromLogContext()
                 .WriteTo.RollingFile(Program.LogPath)
-                .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", 
+                .WriteTo.Console(
+                    outputTemplate:
+                    "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
                     theme: AnsiConsoleTheme.Literate)
                 .CreateLogger();
 

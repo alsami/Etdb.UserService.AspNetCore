@@ -1,6 +1,6 @@
 ﻿using System;
 using Etdb.ServiceBase.Exceptions;
-using Etdb.UserService.Domain.Documents;
+using Etdb.UserService.Domain.Entities;
 
 namespace Etdb.UserService.Cqrs
 {

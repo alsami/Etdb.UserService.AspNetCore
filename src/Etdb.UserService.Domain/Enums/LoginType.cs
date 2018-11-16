@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Etdb.UserService.Domain.Enums
+﻿namespace Etdb.UserService.Domain.Enums
 {
     public enum LoginType
     {

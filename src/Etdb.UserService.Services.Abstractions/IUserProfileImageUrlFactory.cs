@@ -1,5 +1,5 @@
 ﻿using System;
-using Etdb.UserService.Domain.Documents;
+using Etdb.UserService.Domain.Entities;
 
 namespace Etdb.UserService.Services.Abstractions
 {

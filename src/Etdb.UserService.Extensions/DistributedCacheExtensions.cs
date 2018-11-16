@@ -23,7 +23,7 @@ namespace Etdb.UserService.Extensions
             {
                 await cache.RemoveAsync(key.ToString(), token);
             }
-            
+
             await cache.SetStringAsync(key.ToString(), JsonConvert.SerializeObject(@object), usedOptions, token);
         }
 
@@ -34,9 +34,9 @@ namespace Etdb.UserService.Extensions
 
             if (!string.IsNullOrWhiteSpace(@string))
             {
-                return JsonConvert.DeserializeObject<T>(@string);   
+                return JsonConvert.DeserializeObject<T>(@string);
             }
-            
+
             await cache.RemoveAsync(key.ToString(), token);
 
             return null;

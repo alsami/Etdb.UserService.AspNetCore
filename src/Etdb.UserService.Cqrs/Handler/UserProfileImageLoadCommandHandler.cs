@@ -12,7 +12,8 @@ using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Cqrs.Handler
 {
-    public class UserProfileImageLoadCommandHandler : IResponseCommandHandler<UserProfileImageLoadCommand, FileDownloadInfo>
+    public class
+        UserProfileImageLoadCommandHandler : IResponseCommandHandler<UserProfileImageLoadCommand, FileDownloadInfo>
     {
         private readonly IOptions<FileStoreOptions> fileStoreOptions;
         private readonly IUsersService usersService;
@@ -26,7 +27,8 @@ namespace Etdb.UserService.Cqrs.Handler
             this.fileService = fileService;
         }
 
-        public async Task<FileDownloadInfo> Handle(UserProfileImageLoadCommand request, CancellationToken cancellationToken)
+        public async Task<FileDownloadInfo> Handle(UserProfileImageLoadCommand request,
+            CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByIdAsync(request.Id);
 

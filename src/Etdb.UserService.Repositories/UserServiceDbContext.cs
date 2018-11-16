@@ -1,5 +1,6 @@
-﻿using Etdb.ServiceBase.DocumentRepository.Abstractions.Context;
-using Etdb.UserService.Domain.Documents;
+﻿using Etdb.ServiceBase.DocumentRepository;
+using Etdb.ServiceBase.DocumentRepository.Abstractions;
+using Etdb.UserService.Domain.Entities;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Conventions;

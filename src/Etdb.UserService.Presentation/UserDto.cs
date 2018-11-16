@@ -18,6 +18,8 @@ namespace Etdb.UserService.Presentation
 
         public string ProfileImageUrl { get; set; }
 
+        public bool IsExternalUserLogin { get; set; }
+
         public ICollection<EmailDto> Emails { get; set; }
     }
 }

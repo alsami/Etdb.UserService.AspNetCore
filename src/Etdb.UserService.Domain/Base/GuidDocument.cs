@@ -7,6 +7,7 @@ namespace Etdb.UserService.Domain.Base
     public abstract class GuidDocument : IDocument<Guid>
     {
         [BsonId]
+        // ReSharper disable once MemberCanBePrivate.Global
         public Guid Id { get; protected set; }
 
         protected GuidDocument(Guid id)

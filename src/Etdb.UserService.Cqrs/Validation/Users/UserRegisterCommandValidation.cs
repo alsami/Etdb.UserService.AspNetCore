@@ -14,7 +14,7 @@ namespace Etdb.UserService.Cqrs.Validation.Users
             this.RegisterUserNameRules();
             this.EmailRules();
         }
-        
+
         private void EmailRules()
         {
             this.RuleFor(command => command.Emails)

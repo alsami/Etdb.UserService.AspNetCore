@@ -3,7 +3,7 @@ using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Base
 {
-    public abstract class UserNameCommand : IVoidCommand
+    public abstract class UserNameCommand
     {
         public Guid Id { get; }
 

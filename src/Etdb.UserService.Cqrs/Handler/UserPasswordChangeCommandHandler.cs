@@ -7,7 +7,7 @@ using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Exceptions;
 using Etdb.ServiceBase.Extensions;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Domain.Documents;
+using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Services.Abstractions;
 using MediatR;
 
@@ -57,10 +57,10 @@ namespace Etdb.UserService.Cqrs.Handler
             var salt = this.hasher.GenerateSalt();
 
             var updatedUser = new User(existingUser.Id, existingUser.UserName, existingUser.FirstName,
-                existingUser.Name, existingUser.Biography,
-                this.hasher.CreateSaltedHash(command.NewPassword, salt), salt, existingUser.RegisteredSince,
-                existingUser.ProfileImage,
-                existingUser.RoleIds, existingUser.Emails);
+                existingUser.Name, existingUser.Biography, existingUser.RegisteredSince,
+                existingUser.RoleIds, existingUser.Emails,
+                existingUser.SignInProvider,
+                this.hasher.CreateSaltedHash(command.NewPassword, salt), salt, existingUser.ProfileImage);
 
             await this.usersService.EditAsync(updatedUser);
 

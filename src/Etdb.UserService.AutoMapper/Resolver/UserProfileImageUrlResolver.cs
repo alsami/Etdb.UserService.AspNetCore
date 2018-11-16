@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Etdb.UserService.Domain.Documents;
+using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Presentation;
 using Etdb.UserService.Services.Abstractions;
 

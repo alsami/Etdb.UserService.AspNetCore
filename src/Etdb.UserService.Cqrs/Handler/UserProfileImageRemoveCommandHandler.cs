@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Domain.Documents;
+using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Extensions;
-using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Options;
@@ -52,8 +49,9 @@ namespace Etdb.UserService.Cqrs.Handler
                 existingUser.ProfileImage.Name));
 
             var updatedUser = new User(existingUser.Id, existingUser.UserName, existingUser.FirstName,
-                existingUser.Name, existingUser.Biography, existingUser.Password, existingUser.Salt,
-                existingUser.RegisteredSince, null, existingUser.RoleIds, existingUser.Emails);
+                existingUser.Name, existingUser.Biography,
+                existingUser.RegisteredSince, existingUser.RoleIds, existingUser.Emails,
+                existingUser.SignInProvider, existingUser.Password, existingUser.Salt);
 
             await this.usersService.EditAsync(updatedUser);
 

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.ServiceBase.Extensions;
@@ -23,7 +24,8 @@ namespace Etdb.UserService.Controllers.V1
 
         [AllowAnonymous]
         [HttpPost("registration")]
-        public async Task<IActionResult> Registration([FromBody] UserRegisterDto dto)
+        public async Task<IActionResult> Registration([FromBody] UserRegisterDto dto,
+            CancellationToken cancellationToken)
         {
             if (!this.ModelState.IsValid)
             {
@@ -32,7 +34,7 @@ namespace Etdb.UserService.Controllers.V1
 
             var command = this.mapper.Map<UserRegisterCommand>(dto);
 
-            await this.bus.SendCommandAsync(command);
+            await this.bus.SendCommandAsync<UserRegisterCommand, UserDto>(command, cancellationToken);
 
             return this.NoContent();
         }
