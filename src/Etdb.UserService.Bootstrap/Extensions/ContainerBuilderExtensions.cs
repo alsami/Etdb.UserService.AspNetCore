@@ -32,8 +32,10 @@ using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
+using global::Microsoft.AspNetCore.Routing.Abstractions;
 
 namespace Etdb.UserService.Bootstrap.Extensions
 {

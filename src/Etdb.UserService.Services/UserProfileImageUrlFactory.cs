@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
+using MongoDB.Driver;
 
 namespace Etdb.UserService.Services
 {
@@ -32,7 +33,7 @@ namespace Etdb.UserService.Services
         {
             if (profileImage == null)
             {
-                return null;
+                throw new ArgumentNullException(nameof(profileImage));
             }
 
             var context = this.actionContextAccessor.ActionContext ??
@@ -50,6 +51,18 @@ namespace Etdb.UserService.Services
                 id = userId,
                 date = DateTime.UtcNow.Ticks
             });
+
+            //// new {
+            ////    id = userId,
+            ////    date = DateTime.UtcNow.Ticks
+            ////}
+
+            //var url = linkGenerator.GetUriByAddress(this.httpContextAccessor.HttpContext, new RouteValueDictionary(new
+            //{
+            //    controller = ControllerNames.UsersController,
+            //    action = RouteNames.UserProfileImageUrlRoute,
+            //    id = userId
+            //}), httpContextAccessor.HttpContext.Request.Scheme, httpContextAccessor.HttpContext.Request.Host);
 
             return url;
         }

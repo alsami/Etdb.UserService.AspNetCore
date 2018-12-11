@@ -12,11 +12,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Etdb.ServiceBase.Constants" Version="0.0.6" />
-      <PackageReference Include="Etdb.ServiceBase.Cqrs.Abstractions" Version="0.0.6" />
-      <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="0.0.6" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.1.2" />
-      <PackageReference Include="Microsoft.Extensions.Http" Version="2.1.1" />
+      <PackageReference Include="Etdb.ServiceBase.Constants" Version="1.0.0" />
+      <PackageReference Include="Etdb.ServiceBase.Cqrs.Abstractions" Version="1.0.0" />
+      <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="1.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />
+      <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
     </ItemGroup>
 
 </Project>

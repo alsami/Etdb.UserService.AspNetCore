@@ -4,10 +4,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
-    <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="0.0.6" />
-    <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="0.0.6" />
-    <PackageReference Include="Etdb.ServiceBase.Extensions" Version="0.0.6" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.3" />
+    <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="1.0.0" />
+    <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="1.0.0" />
+    <PackageReference Include="Etdb.ServiceBase.Extensions" Version="1.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Constants\Etdb.UserService.Constants.csproj" />

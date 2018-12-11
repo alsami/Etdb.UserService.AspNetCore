@@ -116,6 +116,10 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            // TODO use new CompatibilityVersion
+            // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-2.2
+            // https://stackoverflow.com/questions/46096068/asp-net-core-2-0-creating-urlhelper-without-request
+            // services.AddRouting();
             return services;
         }
 

@@ -1,11 +1,15 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using Etdb.ServiceBase.Constants;
 using Etdb.UserService.Bootstrap.Config;
 using Etdb.UserService.Bootstrap.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Etdb.UserService.Bootstrap

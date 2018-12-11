@@ -14,7 +14,7 @@ using Microsoft.Net.Http.Headers;
 
 namespace Etdb.UserService.Controllers.V1
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/[controller]", Name = ControllerNames.UsersController)]
     public class UsersController : Controller
     {
         private readonly IBus bus;
