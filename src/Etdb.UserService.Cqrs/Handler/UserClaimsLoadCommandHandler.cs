@@ -74,6 +74,8 @@ namespace Etdb.UserService.Cqrs.Handler
                     this.userProfileImageUrlFactory.GenerateUrl(user.Id, user.ProfileImage)));
             }
 
+            claims.Add(new Claim(JwtClaimTypes.IdentityProvider, user.SignInProvider.ToString()));
+
             return claims;
         }
     }
