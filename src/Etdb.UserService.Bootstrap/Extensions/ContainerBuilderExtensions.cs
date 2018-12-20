@@ -12,8 +12,6 @@ using Etdb.ServiceBase.DocumentRepository;
 using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.ServiceBase.Services;
 using Etdb.ServiceBase.Services.Abstractions;
-using Etdb.UserService.Authentication;
-using Etdb.UserService.Authentication.Abstractions;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Services;
 using Etdb.UserService.Authentication.Strategies;
@@ -32,10 +30,8 @@ using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
-using global::Microsoft.AspNetCore.Routing.Abstractions;
 
 namespace Etdb.UserService.Bootstrap.Extensions
 {

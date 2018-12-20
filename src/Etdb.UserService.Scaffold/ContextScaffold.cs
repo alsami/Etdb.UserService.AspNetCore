@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Etdb.ServiceBase.Cryptography.Hashing;
 using Etdb.UserService.Constants;
 using Etdb.UserService.Domain.Entities;
-using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Repositories;
 using MongoDB.Driver;
 

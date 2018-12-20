@@ -8,7 +8,9 @@ namespace Etdb.UserService.Services.Abstractions
     {
         Task AddAsync(User user);
 
-        Task<bool> EditAsync(User user);
+        Task EditAsync(User user);
+
+        Task<User> EditProfileImageAsync(User user, UserProfileImage userProfileImage, byte[] file);
 
         Task<User> FindByIdAsync(Guid id);
 

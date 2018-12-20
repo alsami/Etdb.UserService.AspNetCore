@@ -16,7 +16,6 @@ using Etdb.UserService.Presentation;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using FluentValidation.Results;
-using MediatR;
 
 namespace Etdb.UserService.Cqrs.Handler
 {
@@ -66,7 +65,18 @@ namespace Etdb.UserService.Cqrs.Handler
 
             await this.usersService.AddAsync(user);
 
-            return this.mapper.Map<UserDto>(user);
+            if (command.ProfileImageAddCommand == null)
+            {
+                return this.mapper.Map<UserDto>(user);
+            }
+
+            var profileImage = UserProfileImage.Create(user.Id, command.ProfileImageAddCommand.FileName,
+                command.ProfileImageAddCommand.FileContentType.MediaType);
+
+            var userWithImage = await this.usersService.EditProfileImageAsync(user, profileImage,
+                command.ProfileImageAddCommand.FileBytes);
+
+            return this.mapper.Map<UserDto>(userWithImage);
         }
 
         private async Task<ICollection<ValidationResult>> ValidateRequestAsync(UserRegisterCommand command,

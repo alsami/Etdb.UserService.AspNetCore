@@ -2,7 +2,6 @@
 using System.IO.Compression;
 using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.ServiceBase.Filter;
-using Etdb.UserService.Authentication;
 using Etdb.UserService.Authentication.Configs;
 using Etdb.UserService.Bootstrap.Config;
 using Etdb.UserService.Constants;

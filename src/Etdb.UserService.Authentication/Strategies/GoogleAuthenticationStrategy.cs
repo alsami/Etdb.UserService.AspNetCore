@@ -1,12 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Authentication.Abstractions;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Structures;
 using Etdb.UserService.Constants;
@@ -52,7 +49,7 @@ namespace Etdb.UserService.Authentication.Strategies
             {
                 return this.ErrorValidationResult(json);
             }
-            
+
             var googleProfile =
                 JsonConvert.DeserializeObject<GoogleUserProfile>(json, GoogleAuthenticationStrategy.SerializeSettings);
 
@@ -63,11 +60,9 @@ namespace Etdb.UserService.Authentication.Strategies
                 return await this.SuccessValidationResultAsync(existingUser);
             }
 
-            var newUser = await this.RegisterUserFromAuthResponseAsync(googleProfile);
+            var registeredUser = await this.RegisterUserFromAuthResponseAsync(googleProfile, client);
 
-            await this.AddUserProfileImageAsync(newUser.Id, await client.GetByteArrayAsync(googleProfile.Picture));
-
-            return await this.SuccessValidationResultAsync(newUser);
+            return await this.SuccessValidationResultAsync(registeredUser);
         }
 
         protected override string UserProfileUrl => "https://www.googleapis.com/oauth2/v2/userinfo";
@@ -79,27 +74,30 @@ namespace Etdb.UserService.Authentication.Strategies
             return await this.bus.SendCommandAsync<UserSearchByUsernameAndEmailCommand, UserDto>(userSearchCommand);
         }
 
-        private async Task AddUserProfileImageAsync(Guid id, byte[] userImageFileBytes)
-        {
-            var profileImageAddCommand = new UserProfileImageAddCommand(id, "google_photo.jpg",
-                new ContentType("image/*"), userImageFileBytes);
+        //private async Task AddUserProfileImageAsync(Guid id, byte[] userImageFileBytes)
+        //{
+        //    var profileImageAddCommand = new UserProfileImageAddCommand(id, "google_photo.jpg",
+        //        new ContentType("image/*"), userImageFileBytes);
 
-            await this.bus.SendCommandAsync<UserProfileImageAddCommand, UserDto>(profileImageAddCommand);
-        }
+        //    await this.bus.SendCommandAsync<UserProfileImageAddCommand, UserDto>(profileImageAddCommand);
+        //}
 
-        private async Task<UserDto> RegisterUserFromAuthResponseAsync(GoogleUserProfile googleProfile)
+        private async Task<UserDto> RegisterUserFromAuthResponseAsync(GoogleUserProfile googleProfile,
+            HttpClient client)
         {
             var registerCommand = new UserRegisterCommand(googleProfile.Email, googleProfile.Given_Name,
                 googleProfile.Family_Name, new[]
                 {
                     new EmailAddCommand(googleProfile.Email, true, true),
-                }, (int) SignInProvider.Google);
+                }, (int) SignInProvider.Google, profileImageAddCommand: new UserProfileImageAddCommand(
+                    "google_photo.jpg",
+                    new ContentType("image/*"), await client.GetByteArrayAsync(googleProfile.Picture)));
 
             var user = await this.bus.SendCommandAsync<UserRegisterCommand, UserDto>(registerCommand);
 
             return user;
         }
-        
+
         private async Task<GrantValidationResult> SuccessValidationResultAsync(UserDto user)
         {
             var claims =

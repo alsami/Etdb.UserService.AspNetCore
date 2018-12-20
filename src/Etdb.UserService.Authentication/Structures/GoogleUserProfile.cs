@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace Etdb.UserService.Authentication.Structures
 {
     internal class GoogleUserProfile

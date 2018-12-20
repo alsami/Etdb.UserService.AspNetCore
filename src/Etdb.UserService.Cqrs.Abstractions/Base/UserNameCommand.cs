@@ -1,5 +1,4 @@
 ﻿using System;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Base
 {

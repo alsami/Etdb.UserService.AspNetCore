@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc.Abstractions;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Routing;
-using MongoDB.Driver;
 
 namespace Etdb.UserService.Services
 {
@@ -33,7 +32,7 @@ namespace Etdb.UserService.Services
         {
             if (profileImage == null)
             {
-                throw new ArgumentNullException(nameof(profileImage));
+                return null;
             }
 
             var context = this.actionContextAccessor.ActionContext ??

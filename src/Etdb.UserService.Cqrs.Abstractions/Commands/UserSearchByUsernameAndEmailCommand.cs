@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Presentation;
 

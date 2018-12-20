@@ -15,7 +15,14 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands
             this.FileBytes = fileBytes;
         }
 
-        public Guid Id { get; }
+        public UserProfileImageAddCommand(string fileName, ContentType fileContentType, byte[] fileBytes)
+        {
+            FileName = fileName;
+            FileContentType = fileContentType;
+            FileBytes = fileBytes;
+        }
+
+        public Guid Id { get; } = Guid.Empty;
 
         public string FileName { get; }
 

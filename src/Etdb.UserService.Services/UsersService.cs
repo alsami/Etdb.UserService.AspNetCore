@@ -1,12 +1,15 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Services
 {
@@ -15,12 +18,16 @@ namespace Etdb.UserService.Services
     {
         private readonly IDistributedCache cache;
         private readonly IUsersRepository usersRepository;
+        private readonly IFileService fileService;
+        private readonly IOptions<FileStoreOptions> fileStoreOptions;
 
-
-        public UsersService(IUsersRepository usersRepository, IDistributedCache cache)
+        public UsersService(IUsersRepository usersRepository, IDistributedCache cache, IFileService fileService,
+            IOptions<FileStoreOptions> fileStoreOptions)
         {
             this.usersRepository = usersRepository;
             this.cache = cache;
+            this.fileService = fileService;
+            this.fileStoreOptions = fileStoreOptions;
         }
 
         public async Task AddAsync(User user)
@@ -37,18 +44,40 @@ namespace Etdb.UserService.Services
             await Task.WhenAll(emailCachingTasks);
         }
 
-        public async Task<bool> EditAsync(User user)
+        public async Task EditAsync(User user)
         {
             var saved = await this.usersRepository.EditAsync(user);
 
             if (!saved)
             {
-                return false;
+                return;
             }
 
             await this.cache.AddOrUpdateAsync(user.Id, user);
+        }
 
-            return true;
+        public async Task<User> EditProfileImageAsync(User user, UserProfileImage userProfileImage, byte[] file)
+        {
+            if (user.ProfileImage != null)
+            {
+                this.fileService.DeleteBinary(Path.Combine(this.fileStoreOptions.Value.ImagePath,
+                    user.Id.ToString(),
+                    user.ProfileImage.Name));
+            }
+
+            await this.fileService.StoreBinaryAsync(
+                Path.Combine(this.fileStoreOptions.Value.ImagePath, user.Id.ToString()), userProfileImage.Name,
+                file);
+
+            var updatedUser = new User(user.Id, user.UserName, user.FirstName,
+                user.Name, user.Biography,
+                user.RegisteredSince, user.RoleIds, user.Emails,
+                user.SignInProvider,
+                user.Password, user.Salt, userProfileImage);
+
+            await this.EditAsync(updatedUser);
+
+            return updatedUser;
         }
 
         public async Task<User> FindByIdAsync(Guid id)
