@@ -25,6 +25,8 @@ namespace Etdb.UserService.Bootstrap.Extensions
     internal static class ServiceCollectionExtensions
     {
         private const string FilesLocalSubpath = "Files";
+        private static string CookieName =    typeof(Startup).Assembly.GetName().Name.Replace(".dll", "").Replace(".exe", "");
+
 
         public static IServiceCollection ConfigureCompression(this IServiceCollection services,
             CompressionLevel level = CompressionLevel.Optimal)
@@ -93,6 +95,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
         {
             services.AddMvc(options =>
                 {
+                    options.EnableEndpointRouting = false;
                     options.OutputFormatters.RemoveType<XmlSerializerOutputFormatter>();
                     options.InputFormatters.RemoveType<XmlSerializerInputFormatter>();
 
@@ -113,7 +116,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // TODO use new CompatibilityVersion
             // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-2.2
@@ -151,7 +154,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
         public static IServiceCollection ConfigureIdentityServerAuthorization(this IServiceCollection services,
             string[] allowedOrigins, string clientId, string clientSecret)
         {
-            services.AddIdentityServer()
+            services.AddIdentityServer(options => options.Authentication.CookieAuthenticationScheme = ServiceCollectionExtensions.CookieName)
                 .AddDeveloperSigningCredential()
                 .AddInMemoryIdentityResources(IdentityResourceConfig.GetIdentityResource())
                 .AddInMemoryApiResources(ApiResourceConfig.GetApiResource())
@@ -164,6 +167,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
             IHostingEnvironment environment, string schema, string apiName, string authority)
         {
             services.AddAuthentication(schema)
+                .AddCookie(ServiceCollectionExtensions.CookieName)
                 .AddIdentityServerAuthentication(options =>
                 {
                     options.Authority = authority;
