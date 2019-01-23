@@ -11,7 +11,6 @@ using Etdb.UserService.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Domain.Enums;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 

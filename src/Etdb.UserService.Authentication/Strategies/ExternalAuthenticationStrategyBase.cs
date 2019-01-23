@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
-using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Constants;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Domain.Enums;

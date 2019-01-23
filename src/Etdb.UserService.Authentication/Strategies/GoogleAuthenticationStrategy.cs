@@ -1,20 +1,15 @@
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Mime;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Structures;
-using Etdb.UserService.Constants;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Domain.Enums;
-using Etdb.UserService.Presentation;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace Etdb.UserService.Authentication.Strategies
 {

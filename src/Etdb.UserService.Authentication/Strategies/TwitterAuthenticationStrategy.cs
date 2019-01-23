@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
