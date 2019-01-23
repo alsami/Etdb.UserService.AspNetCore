@@ -1,17 +1,24 @@
 using System;
 using System.Threading.Tasks;
+using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
+using Etdb.UserService.Domain.Enums;
 using IdentityServer4.Validation;
 
 namespace Etdb.UserService.Authentication.Strategies
 {
     public class TwitterAuthenticationStrategy : ExternalAuthenticationStrategyBase, ITwitterAuthenticationStrategy
     {
+        public TwitterAuthenticationStrategy(IBus bus) : base(bus)
+        {
+        }
+
+        protected override string UserProfileUrl => "https://api.twitter.com/1.1/account/verify_credentials.json";
+        protected override SignInProvider SignInProvider => SignInProvider.Twitter;
+
         public Task<GrantValidationResult> AuthenticateAsync(string token)
         {
             throw new System.NotImplementedException();
         }
-
-        protected override string UserProfileUrl => throw new NotImplementedException();
     }
 }

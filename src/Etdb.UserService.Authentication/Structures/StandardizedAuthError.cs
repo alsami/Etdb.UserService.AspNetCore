@@ -1,12 +1,12 @@
 namespace Etdb.UserService.Authentication.Structures
 {
-    internal class GoogleAuthError
+    internal class StandardizedAuthError
     {
         public string Message { get; }
 
         public int Code { get; }
 
-        public GoogleAuthError(string message, int code)
+        public StandardizedAuthError(string message, int code)
         {
             this.Message = message;
             this.Code = code;

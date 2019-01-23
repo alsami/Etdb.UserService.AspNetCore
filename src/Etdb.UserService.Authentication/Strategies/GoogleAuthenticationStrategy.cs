@@ -24,18 +24,16 @@ namespace Etdb.UserService.Authentication.Strategies
         private readonly IHttpClientFactory httpClientFactory;
         private readonly IBus bus;
 
-        private static readonly JsonSerializerSettings SerializeSettings = new JsonSerializerSettings
-        {
-            ContractResolver = new CamelCasePropertyNamesContractResolver()
-        };
-
         public GoogleAuthenticationStrategy(IHttpClientFactory httpClientFactory,
-            ILogger<GoogleAuthenticationStrategy> logger, IBus bus)
+            ILogger<GoogleAuthenticationStrategy> logger, IBus bus) : base(bus)
         {
             this.httpClientFactory = httpClientFactory;
             this.logger = logger;
             this.bus = bus;
         }
+
+        protected override string UserProfileUrl => "https://www.googleapis.com/oauth2/v2/userinfo";
+        protected override SignInProvider SignInProvider => SignInProvider.Google;
 
         public async Task<GrantValidationResult> AuthenticateAsync(string token)
         {
@@ -51,41 +49,30 @@ namespace Etdb.UserService.Authentication.Strategies
             }
 
             var googleProfile =
-                JsonConvert.DeserializeObject<GoogleUserProfile>(json, GoogleAuthenticationStrategy.SerializeSettings);
+                JsonConvert.DeserializeObject<GoogleUserProfile>(json, this.SerializeSettings);
 
-            var existingUser = await this.SearchForExistingUserAsync(googleProfile);
+            var existingUser = await this.SearchForExistingUserAsync(googleProfile.Email);
 
             if (existingUser != null)
             {
-                return await this.SuccessValidationResultAsync(existingUser);
+                if (this.AreSignInProvidersEqual(existingUser))
+                {
+                    return await this.SuccessValidationResultAsync(existingUser);
+                }
+
+                return this.NotEqualSignInProviderResult;
             }
 
-            var registeredUser = await this.RegisterUserFromAuthResponseAsync(googleProfile, client);
+            var command = await CreateCommandAsync(client, googleProfile);
+
+            var registeredUser = await this.RegisterUserAsync(command);
 
             return await this.SuccessValidationResultAsync(registeredUser);
         }
 
-        protected override string UserProfileUrl => "https://www.googleapis.com/oauth2/v2/userinfo";
-
-        private async Task<UserDto> SearchForExistingUserAsync(GoogleUserProfile googleProfile)
-        {
-            var userSearchCommand = new UserSearchByUsernameAndEmailCommand(googleProfile.Email);
-
-            return await this.bus.SendCommandAsync<UserSearchByUsernameAndEmailCommand, UserDto>(userSearchCommand);
-        }
-
-        //private async Task AddUserProfileImageAsync(Guid id, byte[] userImageFileBytes)
-        //{
-        //    var profileImageAddCommand = new UserProfileImageAddCommand(id, "google_photo.jpg",
-        //        new ContentType("image/*"), userImageFileBytes);
-
-        //    await this.bus.SendCommandAsync<UserProfileImageAddCommand, UserDto>(profileImageAddCommand);
-        //}
-
-        private async Task<UserDto> RegisterUserFromAuthResponseAsync(GoogleUserProfile googleProfile,
-            HttpClient client)
-        {
-            var registerCommand = new UserRegisterCommand(googleProfile.Email, googleProfile.Given_Name,
+        private static async Task<UserRegisterCommand> CreateCommandAsync(HttpClient client,
+            GoogleUserProfile googleProfile)
+            => new UserRegisterCommand(googleProfile.Email, googleProfile.Given_Name,
                 googleProfile.Family_Name, new[]
                 {
                     new EmailAddCommand(googleProfile.Email, true, true),
@@ -93,27 +80,12 @@ namespace Etdb.UserService.Authentication.Strategies
                     "google_photo.jpg",
                     new ContentType("image/*"), await client.GetByteArrayAsync(googleProfile.Picture)));
 
-            var user = await this.bus.SendCommandAsync<UserRegisterCommand, UserDto>(registerCommand);
-
-            return user;
-        }
-
-        private async Task<GrantValidationResult> SuccessValidationResultAsync(UserDto user)
-        {
-            var claims =
-                await this.bus.SendCommandAsync<UserClaimsLoadCommand, IEnumerable<Claim>>(
-                    new UserClaimsLoadCommand(user.Id));
-
-            return new GrantValidationResult(user.Id.ToString(),
-                Misc.ExternalGrantType, claims,
-                SignInProvider.Google.ToString());
-        }
 
         private GrantValidationResult ErrorValidationResult(string json)
         {
             var errorContainer =
-                JsonConvert.DeserializeObject<GoogleAuthErrorContainer>(json,
-                    GoogleAuthenticationStrategy.SerializeSettings);
+                JsonConvert.DeserializeObject<StandardizedAuthErrorContainer>(json,
+                    this.SerializeSettings);
 
             this.logger.LogError(
                 $"Google authentication failed with code {errorContainer.Error.Code} and message\n{errorContainer.Error.Message}!");

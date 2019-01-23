@@ -19,6 +19,8 @@ namespace Etdb.UserService.Presentation
 
         public string ProfileImageUrl { get; set; }
 
+        public string SignInProvider { get; set; }
+
         public bool IsExternalUser { get; set; }
 
         public ICollection<EmailDto> Emails { get; set; }
