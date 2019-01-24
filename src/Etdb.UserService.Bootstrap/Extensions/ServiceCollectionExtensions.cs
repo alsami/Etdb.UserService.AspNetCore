@@ -6,6 +6,7 @@ using Etdb.UserService.Authentication.Configs;
 using Etdb.UserService.Bootstrap.Config;
 using Etdb.UserService.Constants;
 using Etdb.UserService.Extensions;
+using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.ResponseCompression;
