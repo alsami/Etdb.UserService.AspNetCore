@@ -52,9 +52,7 @@ namespace Etdb.UserService.Authentication.Services
 
         public async Task RemoveAllAsync(string subjectId, string clientId)
         {
-            var grants =
-                await this.cache.FindAsync<IEnumerable<PersistedGrant>, string>(
-                    $"{CachedGrantStoreService.TokenKeyPrefix}{subjectId}");
+            var grants = await this.GetAllAsync(subjectId);
 
             foreach (var grant in grants.Where(grant => grant.ClientId == clientId).ToArray())
             {
