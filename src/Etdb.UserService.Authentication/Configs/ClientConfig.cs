@@ -36,13 +36,12 @@ namespace Etdb.UserService.Authentication.Configs
                     },
 
                     AllowedCorsOrigins = allowedOrigins,
-
                     AllowOfflineAccess = true,
-                    AccessTokenLifetime = 60 * 60,
+                    AccessTokenLifetime = 60 * 10,
                     AlwaysSendClientClaims = true,
                     AlwaysIncludeUserClaimsInIdToken = true,
                     RefreshTokenUsage = TokenUsage.OneTimeOnly,
-                    RefreshTokenExpiration = TokenExpiration.Sliding,
+                    RefreshTokenExpiration = TokenExpiration.Absolute,
                 }
             };
         }
