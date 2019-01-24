@@ -14,6 +14,8 @@ namespace Etdb.UserService.Authentication.Validator
 {
     public class ResourceOwnerPasswordGrandValidator : IResourceOwnerPasswordValidator
     {
+        private const string InvalidUserOrPasswordError = "Invalid user or password";
+
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IBus bus;
 
@@ -33,7 +35,7 @@ namespace Etdb.UserService.Authentication.Validator
 
             if (!userLoginValidation.IsValid)
             {
-                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant);
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, ResourceOwnerPasswordGrandValidator.InvalidUserOrPasswordError);
                 return;
             }
 
