@@ -83,6 +83,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypeAsSingleton<FileService, IFileService>()
                 .RegisterTypeAsSingleton<CorsPolicyService, ICorsPolicyService>()
+                .RegisterTypeAsSingleton<UserServiceDbContext, DocumentDbContext>()
                 .RegisterTypeAsScoped<Bus, IBus>()
                 .RegisterTypeAsScoped<HttpContextAccessor, IHttpContextAccessor>()
                 .RegisterTypeAsScoped<ProfileService, IProfileService>()
@@ -93,7 +94,6 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .RegisterTypeAsScoped<ExternalGrantValidator, IExtensionGrantValidator>()
                 .RegisterTypeAsScoped<CachedGrantStoreService, IPersistedGrantStore>()
                 .RegisterTypeAsScoped<UsersService, IUsersService>()
-                .RegisterTypeAsScoped<UserServiceDbContext, DocumentDbContext>()
                 .RegisterTypeAsScoped<ResourceLockingAdapter, IResourceLockingAdapter>()
                 .AddClosedTypeAsScoped(typeof(ICommandValidation<>),
                     new[] {typeof(UserRegisterCommandHandler).Assembly})
