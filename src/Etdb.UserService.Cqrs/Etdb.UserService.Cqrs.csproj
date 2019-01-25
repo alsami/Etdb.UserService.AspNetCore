@@ -9,7 +9,7 @@
     <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="1.0.0" />
     <PackageReference Include="Etdb.ServiceBase.Extensions" Version="1.0.0" />
     <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="1.0.0" />
-    <PackageReference Include="IdentityModel" Version="3.10.4" />
+    <PackageReference Include="IdentityModel" Version="3.10.5" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Constants\Etdb.UserService.Constants.csproj" />
