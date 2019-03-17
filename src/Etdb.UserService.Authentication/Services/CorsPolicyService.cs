@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Etdb.UserService.Bootstrap.Config;
-using Etdb.UserService.Bootstrap.Extensions;
 using IdentityServer4.Services;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Etdb.UserService.Authentication.Configuration;
+using Etdb.UserService.Extensions;
 
-namespace Etdb.UserService.Bootstrap.Services
+namespace Etdb.UserService.Authentication.Services
 {
     public class CorsPolicyService : ICorsPolicyService
     {
         private readonly IHostingEnvironment environment;
-        private readonly IOptions<AllowedOriginsOptions> options;
+        private readonly IOptions<AllowedOriginsConfiguration> options;
 
-        public CorsPolicyService(IHostingEnvironment environment, IOptions<AllowedOriginsOptions> options)
+        public CorsPolicyService(IHostingEnvironment environment, IOptions<AllowedOriginsConfiguration> options)
         {
             this.environment = environment;
             this.options = options;

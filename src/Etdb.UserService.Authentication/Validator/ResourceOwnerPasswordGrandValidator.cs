@@ -45,7 +45,7 @@ namespace Etdb.UserService.Authentication.Validator
 
             context.Result = new GrantValidationResult(userLoginValidation.UserId.ToString(),
                 Misc.CustomAuthenticationMethod,
-                claims, SignInProvider.UsernamePassword.ToString());
+                claims, AuthenticationProvider.UsernamePassword.ToString());
         }
     }
 }

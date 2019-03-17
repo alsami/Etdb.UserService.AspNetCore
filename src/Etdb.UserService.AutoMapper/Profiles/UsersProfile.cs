@@ -14,9 +14,9 @@ namespace Etdb.UserService.AutoMapper.Profiles
         {
             this.CreateMap<User, UserDto>()
                 .ForMember(destination => destination.SignInProvider,
-                    options => options.MapFrom(src => src.SignInProvider.ToString()))
+                    options => options.MapFrom(src => src.AuthenticationProvider.ToString()))
                 .ForMember(destination => destination.IsExternalUser,
-                    options => options.MapFrom(src => src.SignInProvider != SignInProvider.UsernamePassword))
+                    options => options.MapFrom(src => src.AuthenticationProvider != AuthenticationProvider.UsernamePassword))
                 .ForMember(destination => destination.ProfileImageUrl,
                     options => options.MapFrom<UserProfileImageUrlResolver>());
 

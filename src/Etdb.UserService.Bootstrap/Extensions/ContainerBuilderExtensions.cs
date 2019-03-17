@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using Autofac;
+using Autofac.Core;
 using Autofac.Extensions.FluentBuilder;
 using AutoMapper.Extensions.Autofac.DependencyInjection;
 using Elders.RedLock;
@@ -17,7 +19,7 @@ using Etdb.UserService.Authentication.Services;
 using Etdb.UserService.Authentication.Strategies;
 using Etdb.UserService.Authentication.Validator;
 using Etdb.UserService.AutoMapper.Profiles;
-using Etdb.UserService.Bootstrap.Services;
+using Etdb.UserService.Bootstrap.Configuration;
 using Etdb.UserService.Cqrs.Handler;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Repositories;
@@ -27,11 +29,12 @@ using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using IdentityServer4.Validation;
 using MediatR.Extensions.Autofac.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Bootstrap.Extensions
 {
@@ -40,42 +43,12 @@ namespace Etdb.UserService.Bootstrap.Extensions
         public static void SetupDependencies(this ContainerBuilder containerBuilder, IHostingEnvironment environment,
             IConfiguration configuration)
         {
-            containerBuilder
-                .Register(ctx =>
-                    new RedisLockManager(ctx.Resolve<IConfiguration>().GetSection(nameof(RedisCacheOptions))
-                        .GetValue<string>("Configuration"))).As<IRedisLockManager>()
-                .InstancePerLifetimeScope();
-
-            containerBuilder.Register<IExternalAuthenticationStrategy>((componentContext, types) =>
-                {
-                    var provider = types.TypedAs<SignInProvider>();
-
-                    // ReSharper disable once SwitchStatementMissingSomeCases
-                    switch (provider)
-                    {
-                        case SignInProvider.Google:
-                        {
-                            return componentContext.Resolve<IGoogleAuthenticationStrategy>();
-                        }
-                        case SignInProvider.Facebook:
-                        {
-                            return componentContext.Resolve<IFacebookAuthenticationStrategy>();
-                        }
-                        case SignInProvider.Twitter:
-                        {
-                            return componentContext.Resolve<ITwitterAuthenticationStrategy>();
-                        }
-                        default:
-                            throw new ArgumentOutOfRangeException(nameof(provider));
-                    }
-                })
-                .As<IExternalAuthenticationStrategy>()
-                .InstancePerLifetimeScope();
-
             new AutofacFluentBuilder(containerBuilder
                     .AddMediatR(typeof(UserRegisterCommandHandler).Assembly)
                     .AddAutoMapper(typeof(UsersProfile).Assembly))
-                .RegisterInstance<Microsoft.Extensions.Hosting.IHostingEnvironment>(environment)
+                .RegisterResolver<RedisLockManager, IRedisLockManager>(RedisLockManagerResolver)
+                .RegisterResolver(ExternalAuthenticationStrategyResolver)
+                .RegisterInstance<IHostingEnvironment>(environment)
                 .RegisterInstance<IConfiguration>(configuration)
                 .RegisterTypeAsSingleton<ContextLessRouteProvider>()
                 .RegisterTypeAsSingleton<UserProfileImageUrlFactory, IUserProfileImageUrlFactory>()
@@ -90,7 +63,6 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .RegisterTypeAsScoped<ResourceOwnerPasswordGrandValidator, IResourceOwnerPasswordValidator>()
                 .RegisterTypeAsScoped<GoogleAuthenticationStrategy, IGoogleAuthenticationStrategy>()
                 .RegisterTypeAsScoped<FacebookAuthenticationStrategy, IFacebookAuthenticationStrategy>()
-                .RegisterTypeAsScoped<TwitterAuthenticationStrategy, ITwitterAuthenticationStrategy>()
                 .RegisterTypeAsScoped<ExternalGrantValidator, IExtensionGrantValidator>()
                 .RegisterTypeAsScoped<CachedGrantStoreService, IPersistedGrantStore>()
                 .RegisterTypeAsScoped<UsersService, IUsersService>()
@@ -98,6 +70,37 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .AddClosedTypeAsScoped(typeof(ICommandValidation<>),
                     new[] {typeof(UserRegisterCommandHandler).Assembly})
                 .AddClosedTypeAsScoped(typeof(IDocumentRepository<,>), new[] {typeof(UserServiceDbContext).Assembly});
+        }
+
+        private static IRedisLockManager RedisLockManagerResolver(IComponentContext componentContext) =>
+            new RedisLockManager(new RedLockOptions
+            {
+                LockRetryCount = 2
+            }, componentContext.Resolve<IOptions<RedisConfiguration>>().Value.Connection); 
+
+        private static IExternalAuthenticationStrategy ExternalAuthenticationStrategyResolver(IComponentContext componentContext,
+            IEnumerable<Parameter> @params)
+        {
+            var provider = @params.TypedAs<AuthenticationProvider>();
+
+            // ReSharper disable once SwitchStatementMissingSomeCases
+            switch (provider)
+            {
+                case AuthenticationProvider.Google:
+                {
+                    return componentContext.Resolve<IGoogleAuthenticationStrategy>();
+                }
+                case AuthenticationProvider.Facebook:
+                {
+                    return componentContext.Resolve<IFacebookAuthenticationStrategy>();
+                }
+                case AuthenticationProvider.Twitter:
+                {
+                    throw new NotImplementedException();
+                }
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(provider));
+            }
         }
     }
 }

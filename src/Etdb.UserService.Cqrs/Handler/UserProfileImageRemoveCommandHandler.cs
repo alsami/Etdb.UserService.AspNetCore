@@ -16,13 +16,13 @@ namespace Etdb.UserService.Cqrs.Handler
     public class UserProfileImageRemoveCommandHandler : IVoidCommandHandler<UserProfileImageRemoveCommand>
     {
         private readonly IUsersService usersService;
-        private readonly IOptions<FileStoreOptions> fileStoreOptions;
+        private readonly IOptions<FilestoreConfiguration> fileStoreOptions;
         private readonly IResourceLockingAdapter resourceLockingAdapter;
         private readonly IFileService fileService;
 
         public UserProfileImageRemoveCommandHandler(IUsersService usersService,
             IResourceLockingAdapter resourceLockingAdapter, IFileService fileService,
-            IOptions<FileStoreOptions> fileStoreOptions)
+            IOptions<FilestoreConfiguration> fileStoreOptions)
         {
             this.usersService = usersService;
             this.resourceLockingAdapter = resourceLockingAdapter;
@@ -51,7 +51,7 @@ namespace Etdb.UserService.Cqrs.Handler
             var updatedUser = new User(existingUser.Id, existingUser.UserName, existingUser.FirstName,
                 existingUser.Name, existingUser.Biography,
                 existingUser.RegisteredSince, existingUser.RoleIds, existingUser.Emails,
-                existingUser.SignInProvider, existingUser.Password, existingUser.Salt);
+                existingUser.AuthenticationProvider, existingUser.Password, existingUser.Salt);
 
             await this.usersService.EditAsync(updatedUser);
 

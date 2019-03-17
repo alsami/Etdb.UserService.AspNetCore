@@ -37,7 +37,7 @@ namespace Etdb.UserService.Cqrs.Handler
 
             var user = new User(existingUser.Id, existingUser.UserName, command.FirstName, command.Name,
                 command.Biography, existingUser.RegisteredSince,
-                existingUser.RoleIds, existingUser.Emails, existingUser.SignInProvider, existingUser.Password,
+                existingUser.RoleIds, existingUser.Emails, existingUser.AuthenticationProvider, existingUser.Password,
                 existingUser.Salt, existingUser.ProfileImage);
 
             await this.usersService.EditAsync(user);

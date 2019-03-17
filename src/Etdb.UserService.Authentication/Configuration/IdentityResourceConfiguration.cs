@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using IdentityServer4.Models;
 
-namespace Etdb.UserService.Authentication.Configs
+namespace Etdb.UserService.Authentication.Configuration
 {
-    public class IdentityResourceConfig
+    public class IdentityResourceConfiguration
     {
         public static IEnumerable<IdentityResource> GetIdentityResource()
         {

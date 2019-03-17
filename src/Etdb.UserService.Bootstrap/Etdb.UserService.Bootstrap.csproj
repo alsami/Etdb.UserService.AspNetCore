@@ -3,14 +3,14 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.3.1" />
-    <PackageReference Include="Autofac.Extensions.FluentBuilder" Version="1.2.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
+    <PackageReference Include="Autofac.Extensions.FluentBuilder" Version="1.5.0" />
     <PackageReference Include="CleanCodeLabs.AutoMapper.Extensions.Autofac.DependencyInjection" Version="3.0.0" />
-    <PackageReference Include="Etdb.ServiceBase.Constants" Version="1.0.0" />
-    <PackageReference Include="Etdb.ServiceBase.Filter" Version="1.0.0" />
-    <PackageReference Include="Etdb.ServiceBase.Services" Version="1.0.0" />
+    <PackageReference Include="Etdb.ServiceBase.Constants" Version="1.1.0" />
+    <PackageReference Include="Etdb.ServiceBase.Filter" Version="1.1.0" />
+    <PackageReference Include="Etdb.ServiceBase.Services" Version="1.1.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
-    <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="2.0.1" />
+    <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
@@ -19,7 +19,7 @@
     <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="4.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="4.0.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Authentication\Etdb.UserService.Authentication.csproj" />

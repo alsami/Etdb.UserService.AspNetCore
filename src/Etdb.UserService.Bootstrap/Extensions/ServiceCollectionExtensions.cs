@@ -1,22 +1,23 @@
 ﻿using System.IO;
 using System.IO.Compression;
+using Etdb.ServiceBase.Constants;
 using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.ServiceBase.Filter;
-using Etdb.UserService.Authentication.Configs;
-using Etdb.UserService.Bootstrap.Config;
+using Etdb.UserService.Authentication.Configuration;
+using Etdb.UserService.Bootstrap.Configuration;
 using Etdb.UserService.Constants;
 using Etdb.UserService.Extensions;
-using IdentityServer4.Validation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
@@ -34,13 +35,24 @@ namespace Etdb.UserService.Bootstrap.Extensions
         {
             return services
                 .Configure<GzipCompressionProviderOptions>(options => options.Level = level)
-                .AddResponseCompression();
+                .AddResponseCompression(options =>
+                {
+                    options.Providers.Add<BrotliCompressionProvider>();
+                    options.Providers.Add<GzipCompressionProvider>();
+                    options.MimeTypes = new[]
+                    {
+                        "application/json",
+                        "application/json; charset=utf-8",
+                        "image/*",
+                        "application/octet"
+                    };
+                });
         }
 
         public static IServiceCollection ConfigureFileStoreOptions(this IServiceCollection services,
             IConfiguration configuration, IHostingEnvironment environment)
         {
-            return services.Configure<FileStoreOptions>(options =>
+            return services.Configure<FilestoreConfiguration>(options =>
             {
                 if (environment.IsDevelopment() || environment.IsLocalDevelopment())
                 {
@@ -50,7 +62,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
                     return;
                 }
 
-                configuration.GetSection(nameof(FileStoreOptions)).Bind(options);
+                configuration.GetSection(nameof(FilestoreConfiguration)).Bind(options);
             });
         }
 
@@ -76,19 +88,26 @@ namespace Etdb.UserService.Bootstrap.Extensions
             return services.AddSwaggerGen(options => options.SwaggerDoc(title, info));
         }
 
-        public static IServiceCollection ConfigureRedisCache(this IServiceCollection services,
+        public static IServiceCollection ConfigureDistributedCaching(this IServiceCollection services,
             IConfiguration configuration)
         {
-            return services.AddDistributedRedisCache(options => configuration
-                .GetSection(nameof(RedisCacheOptions))
+            services.Configure<RedisConfiguration>(options => configuration
+                .GetSection(nameof(RedisConfiguration))
                 .Bind(options));
+
+
+            return services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = services.BuildServiceProvider().GetRequiredService<IOptions<RedisConfiguration>>().Value.Connection;
+                options.InstanceName = $"{ServiceNames.UserService}_";
+            });
         }
 
         public static IServiceCollection ConfigureAllowedOriginsOptions(this IServiceCollection services,
             IConfiguration configuration)
         {
-            return services.Configure<AllowedOriginsOptions>(options => configuration
-                .GetSection(nameof(AllowedOriginsOptions))
+            return services.Configure<AllowedOriginsConfiguration>(options => configuration
+                .GetSection(nameof(AllowedOriginsConfiguration))
                 .Bind(options));
         }
 
@@ -119,10 +138,6 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            // TODO use new CompatibilityVersion
-            // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-2.2
-            // https://stackoverflow.com/questions/46096068/asp-net-core-2-0-creating-urlhelper-without-request
-            // services.AddRouting();
             return services;
         }
 
@@ -157,9 +172,9 @@ namespace Etdb.UserService.Bootstrap.Extensions
         {
             services.AddIdentityServer(options => options.Authentication.CookieAuthenticationScheme = ServiceCollectionExtensions.CookieName)
                 .AddDeveloperSigningCredential()
-                .AddInMemoryIdentityResources(IdentityResourceConfig.GetIdentityResource())
-                .AddInMemoryApiResources(ApiResourceConfig.GetApiResource())
-                .AddInMemoryClients(ClientConfig.GetClients(clientId, clientSecret, allowedOrigins));
+                .AddInMemoryIdentityResources(IdentityResourceConfiguration.GetIdentityResource())
+                .AddInMemoryApiResources(ApiResourceConfiguration.GetApiResource())
+                .AddInMemoryClients(ClientConfiguration.GetClients(clientId, clientSecret, allowedOrigins));
 
             return services;
         }

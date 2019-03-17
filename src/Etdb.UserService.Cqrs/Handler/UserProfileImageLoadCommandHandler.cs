@@ -15,11 +15,11 @@ namespace Etdb.UserService.Cqrs.Handler
     public class
         UserProfileImageLoadCommandHandler : IResponseCommandHandler<UserProfileImageLoadCommand, FileDownloadInfo>
     {
-        private readonly IOptions<FileStoreOptions> fileStoreOptions;
+        private readonly IOptions<FilestoreConfiguration> fileStoreOptions;
         private readonly IUsersService usersService;
         private readonly IFileService fileService;
 
-        public UserProfileImageLoadCommandHandler(IOptions<FileStoreOptions> fileStoreOptions,
+        public UserProfileImageLoadCommandHandler(IOptions<FilestoreConfiguration> fileStoreOptions,
             IUsersService usersService, IFileService fileService)
         {
             this.fileStoreOptions = fileStoreOptions;

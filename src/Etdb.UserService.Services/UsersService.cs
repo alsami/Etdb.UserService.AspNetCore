@@ -19,10 +19,10 @@ namespace Etdb.UserService.Services
         private readonly IDistributedCache cache;
         private readonly IUsersRepository usersRepository;
         private readonly IFileService fileService;
-        private readonly IOptions<FileStoreOptions> fileStoreOptions;
+        private readonly IOptions<FilestoreConfiguration> fileStoreOptions;
 
         public UsersService(IUsersRepository usersRepository, IDistributedCache cache, IFileService fileService,
-            IOptions<FileStoreOptions> fileStoreOptions)
+            IOptions<FilestoreConfiguration> fileStoreOptions)
         {
             this.usersRepository = usersRepository;
             this.cache = cache;
@@ -72,7 +72,7 @@ namespace Etdb.UserService.Services
             var updatedUser = new User(user.Id, user.UserName, user.FirstName,
                 user.Name, user.Biography,
                 user.RegisteredSince, user.RoleIds, user.Emails,
-                user.SignInProvider,
+                user.AuthenticationProvider,
                 user.Password, user.Salt, userProfileImage);
 
             await this.EditAsync(updatedUser);

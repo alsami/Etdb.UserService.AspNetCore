@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 
-namespace Etdb.UserService.Bootstrap.Extensions
+namespace Etdb.UserService.Extensions
 {
     public static class HostingEnvironmentExtensions
     {

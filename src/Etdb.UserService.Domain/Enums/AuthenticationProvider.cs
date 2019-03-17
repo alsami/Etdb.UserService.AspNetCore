@@ -1,6 +1,6 @@
 namespace Etdb.UserService.Domain.Enums
 {
-    public enum SignInProvider
+    public enum AuthenticationProvider
     {
         UsernamePassword = 0,
         Google = 1,

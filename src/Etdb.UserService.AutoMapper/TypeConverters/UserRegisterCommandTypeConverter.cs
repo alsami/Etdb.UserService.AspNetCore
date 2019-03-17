@@ -17,7 +17,7 @@ namespace Etdb.UserService.AutoMapper.TypeConverters
             var passwordAddCommand = new PasswordAddCommand(source.Password);
 
             return new UserRegisterCommand(source.UserName, source.FirstName, source.Name,
-                emailsToAdd, (int) SignInProvider.UsernamePassword, passwordAddCommand);
+                emailsToAdd, (int) AuthenticationProvider.UsernamePassword, passwordAddCommand);
         }
     }
 }

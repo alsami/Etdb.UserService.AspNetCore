@@ -1,6 +1,7 @@
-﻿using Etdb.UserService.Services;
+﻿using Etdb.UserService.Extensions;
+using Etdb.UserService.Services;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;

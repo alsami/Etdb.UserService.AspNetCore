@@ -13,7 +13,7 @@ namespace Etdb.UserService.Authentication.Strategies
         }
 
         protected override string UserProfileUrl => "https://api.twitter.com/1.1/account/verify_credentials.json";
-        protected override SignInProvider SignInProvider => SignInProvider.Twitter;
+        protected override AuthenticationProvider AuthenticationProvider => AuthenticationProvider.Twitter;
 
         public Task<GrantValidationResult> AuthenticateAsync(string token)
         {

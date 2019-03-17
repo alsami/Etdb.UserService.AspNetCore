@@ -28,7 +28,7 @@ namespace Etdb.UserService.Authentication.Strategies
         }
 
         protected override string UserProfileUrl => "https://www.googleapis.com/oauth2/v2/userinfo";
-        protected override SignInProvider SignInProvider => SignInProvider.Google;
+        protected override AuthenticationProvider AuthenticationProvider => AuthenticationProvider.Google;
 
         public async Task<GrantValidationResult> AuthenticateAsync(string token)
         {
@@ -71,7 +71,7 @@ namespace Etdb.UserService.Authentication.Strategies
                 googleProfile.Family_Name, new[]
                 {
                     new EmailAddCommand(googleProfile.Email, true, true),
-                }, (int) SignInProvider.Google, profileImageAddCommand: new UserProfileImageAddCommand(
+                }, (int) AuthenticationProvider.Google, profileImageAddCommand: new UserProfileImageAddCommand(
                     "google_photo.jpg",
                     new ContentType("image/*"), await client.GetByteArrayAsync(googleProfile.Picture)));
 

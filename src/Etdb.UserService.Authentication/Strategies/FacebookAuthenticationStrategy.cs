@@ -31,7 +31,7 @@ namespace Etdb.UserService.Authentication.Strategies
         }
 
         protected override string UserProfileUrl => "https://graph.facebook.com/v3.2/me";
-        protected override SignInProvider SignInProvider => SignInProvider.Facebook;
+        protected override AuthenticationProvider AuthenticationProvider => AuthenticationProvider.Facebook;
 
         public async Task<GrantValidationResult> AuthenticateAsync(string token)
         {
@@ -48,7 +48,7 @@ namespace Etdb.UserService.Authentication.Strategies
 
             if (!response.IsSuccessStatusCode)
             {
-                return ErrorValidationResult(json);
+                return this.ErrorValidationResult(json);
             }
 
             var facebookUser = JsonConvert.DeserializeObject<FacebookUserProfile>(json, this.SerializeSettings);
@@ -87,7 +87,7 @@ namespace Etdb.UserService.Authentication.Strategies
             return new UserRegisterCommand(facebookUser.Email, firstName, lastName, new List<EmailAddCommand>()
             {
                 new EmailAddCommand(facebookUser.Email, true, true)
-            }, (int) this.SignInProvider, profileImageAddCommand: profileImageAddCommand);
+            }, (int) this.AuthenticationProvider, profileImageAddCommand: profileImageAddCommand);
         }
 
         private GrantValidationResult ErrorValidationResult(string json)

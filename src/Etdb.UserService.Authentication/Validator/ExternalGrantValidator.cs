@@ -12,9 +12,9 @@ namespace Etdb.UserService.Authentication.Validator
     {
         private const string ProviderKey = "Provider";
         private const string UnsupportedProviderMessage = "Loginprovider not supported!";
-        private readonly Func<SignInProvider, IExternalAuthenticationStrategy> loginStrategyComposer;
+        private readonly Func<AuthenticationProvider, IExternalAuthenticationStrategy> loginStrategyComposer;
 
-        public ExternalGrantValidator(Func<SignInProvider, IExternalAuthenticationStrategy> loginStrategyComposer)
+        public ExternalGrantValidator(Func<AuthenticationProvider, IExternalAuthenticationStrategy> loginStrategyComposer)
         {
             this.loginStrategyComposer = loginStrategyComposer;
         }
@@ -23,8 +23,8 @@ namespace Etdb.UserService.Authentication.Validator
 
         public async Task ValidateAsync(ExtensionGrantValidationContext context)
         {
-            if (!Enum.TryParse<SignInProvider>(context.Request.Raw.Get("Provider"), true, out var loginProvider) ||
-                loginProvider == SignInProvider.UsernamePassword)
+            if (!Enum.TryParse<AuthenticationProvider>(context.Request.Raw.Get("Provider"), true, out var loginProvider) ||
+                loginProvider == AuthenticationProvider.UsernamePassword)
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest,
                     ExternalGrantValidator.UnsupportedProviderMessage);

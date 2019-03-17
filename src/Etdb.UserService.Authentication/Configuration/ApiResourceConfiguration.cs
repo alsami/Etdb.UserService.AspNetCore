@@ -2,9 +2,9 @@
 using Etdb.ServiceBase.Constants;
 using IdentityServer4.Models;
 
-namespace Etdb.UserService.Authentication.Configs
+namespace Etdb.UserService.Authentication.Configuration
 {
-    public class ApiResourceConfig
+    public class ApiResourceConfiguration
     {
         public static IEnumerable<ApiResource> GetApiResource()
         {

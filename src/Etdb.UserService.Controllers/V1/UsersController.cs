@@ -27,13 +27,11 @@ namespace Etdb.UserService.Controllers.V1
 
         [AllowAnonymous]
         [HttpGet("{id:Guid}")]
-        public async Task<UserDto> LoadAsync(CancellationToken cancellationToken, Guid id)
+        public Task<UserDto> LoadAsync(CancellationToken cancellationToken, Guid id)
         {
             var command = new UserLoadCommand(id);
 
-            var user = await this.bus.SendCommandAsync<UserLoadCommand, UserDto>(command, cancellationToken);
-
-            return user;
+            return this.bus.SendCommandAsync<UserLoadCommand, UserDto>(command, cancellationToken);
         }
 
         [AllowAnonymous]
@@ -89,7 +87,7 @@ namespace Etdb.UserService.Controllers.V1
 
             await this.bus.SendCommandAsync(command, cancellationToken);
 
-            return NoContent();
+            return this.NoContent();
         }
     }
 }

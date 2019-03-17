@@ -1,9 +1,9 @@
 ﻿using Autofac;
 using Etdb.ServiceBase.Constants;
-using Etdb.UserService.Bootstrap.Config;
+using Etdb.UserService.Authentication.Configuration;
 using Etdb.UserService.Bootstrap.Extensions;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
@@ -30,7 +30,7 @@ namespace Etdb.UserService.Bootstrap
         public void ConfigureServices(IServiceCollection services)
         {
             var allowedOrigins = this.configuration
-                .GetSection(nameof(AllowedOriginsOptions))
+                .GetSection(nameof(AllowedOriginsConfiguration))
                 .GetSection("Origins")
                 .Get<string[]>();
 
@@ -55,7 +55,7 @@ namespace Etdb.UserService.Bootstrap
                 .ConfigureIdentityServerAuthentication(this.environment, Startup.AuthenticationSchema,
                     ServiceNames.UserService, authority)
                 .ConfigureAuthorizationPolicies()
-                .ConfigureRedisCache(this.configuration)
+                .ConfigureDistributedCaching(this.configuration)
                 .ConfigureDocumentDbContextOptions(this.configuration)
                 .ConfigureFileStoreOptions(this.configuration, this.environment)
                 .ConfigureCompression()
@@ -69,17 +69,13 @@ namespace Etdb.UserService.Bootstrap
 
         public void Configure(IApplicationBuilder app)
         {
-            app.SetupSwagger(this.environment, Startup.SwaggerDocJsonUri, Startup.SwaggerDocDescription);
-
-            app.SetupHsts(this.environment);
-
-            app.SetupForwarding(this.environment);
-
-            app.UseCors(Startup.CorsPolicyName);
-
-            app.UseIdentityServer();
-
-            app.SetupMvc();
+            app.SetupSwagger(this.environment, Startup.SwaggerDocJsonUri, Startup.SwaggerDocDescription)
+                .SetupHsts(this.environment)
+                .SetupForwarding(this.environment)
+                .UseResponseCompression()
+                .UseCors(Startup.CorsPolicyName)
+                .UseIdentityServer()
+                .SetupMvc();
         }
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)

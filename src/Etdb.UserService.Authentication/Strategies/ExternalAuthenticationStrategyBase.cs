@@ -25,7 +25,7 @@ namespace Etdb.UserService.Authentication.Strategies
 
         protected abstract string UserProfileUrl { get; }
 
-        protected abstract SignInProvider SignInProvider { get; }
+        protected abstract AuthenticationProvider AuthenticationProvider { get; }
 
         protected virtual JsonSerializerSettings SerializeSettings => new JsonSerializerSettings
         {
@@ -38,9 +38,9 @@ namespace Etdb.UserService.Authentication.Strategies
 
         protected bool AreSignInProvidersEqual(UserDto userDto)
         {
-            var userSignInProvider = (SignInProvider) Enum.Parse(typeof(SignInProvider), userDto.SignInProvider);
+            var userSignInProvider = (AuthenticationProvider) Enum.Parse(typeof(AuthenticationProvider), userDto.SignInProvider);
 
-            return userSignInProvider == this.SignInProvider;
+            return userSignInProvider == this.AuthenticationProvider;
         }
 
         protected async Task<UserDto> SearchForExistingUserAsync(string emailAddress)
@@ -58,7 +58,7 @@ namespace Etdb.UserService.Authentication.Strategies
 
             return new GrantValidationResult(user.Id.ToString(),
                 Misc.ExternalGrantType, claims,
-                this.SignInProvider.ToString());
+                this.AuthenticationProvider.ToString());
         }
 
         protected async Task<UserDto> RegisterUserAsync(UserRegisterCommand command)

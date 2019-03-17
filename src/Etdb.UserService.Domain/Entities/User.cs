@@ -11,7 +11,7 @@ namespace Etdb.UserService.Domain.Entities
     {
         public User(Guid id, string userName, string firstName, string name, string biography,
             DateTime registeredSince, ICollection<Guid> roleIds,
-            ICollection<Email> emails, SignInProvider signInProvider = SignInProvider.UsernamePassword,
+            ICollection<Email> emails, AuthenticationProvider authenticationProvider = AuthenticationProvider.UsernamePassword,
             string password = null, byte[] salt = null, UserProfileImage profileImage = null) : base(id)
         {
             this.UserName = userName;
@@ -21,7 +21,7 @@ namespace Etdb.UserService.Domain.Entities
             this.RegisteredSince = registeredSince;
             this.RoleIds = roleIds;
             this.Emails = emails;
-            this.SignInProvider = signInProvider;
+            this.AuthenticationProvider = authenticationProvider;
             this.Password = password;
             this.Salt = salt;
             this.ProfileImage = profileImage;
@@ -43,7 +43,7 @@ namespace Etdb.UserService.Domain.Entities
 
         public ICollection<Email> Emails { get; private set; }
 
-        public SignInProvider SignInProvider { get; private set; }
+        public AuthenticationProvider AuthenticationProvider { get; private set; }
 
         public string Password { get; private set; }
 

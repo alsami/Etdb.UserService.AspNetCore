@@ -4,9 +4,9 @@ using Etdb.UserService.Constants;
 using IdentityServer4;
 using IdentityServer4.Models;
 
-namespace Etdb.UserService.Authentication.Configs
+namespace Etdb.UserService.Authentication.Configuration
 {
-    public class ClientConfig
+    public class ClientConfiguration
     {
         public static IEnumerable<Client> GetClients(string clientId, string clientSecret, string[] allowedOrigins)
         {

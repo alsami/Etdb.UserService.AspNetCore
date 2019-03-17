@@ -1,6 +1,6 @@
 ﻿namespace Etdb.UserService.Extensions
 {
-    public class FileStoreOptions
+    public class FilestoreConfiguration
     {
         public string ImagePath { get; set; }
     }

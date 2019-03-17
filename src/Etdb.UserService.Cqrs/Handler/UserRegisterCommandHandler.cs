@@ -46,7 +46,7 @@ namespace Etdb.UserService.Cqrs.Handler
 
         public async Task<UserDto> Handle(UserRegisterCommand command, CancellationToken cancellationToken)
         {
-            var provider = (SignInProvider) Enum.Parse(typeof(SignInProvider), command.LoginProvider.ToString(), true);
+            var provider = (AuthenticationProvider) Enum.Parse(typeof(AuthenticationProvider), command.LoginProvider.ToString(), true);
 
             var validationResults = await this.ValidateRequestAsync(command, provider);
 
@@ -80,7 +80,7 @@ namespace Etdb.UserService.Cqrs.Handler
         }
 
         private async Task<ICollection<ValidationResult>> ValidateRequestAsync(UserRegisterCommand command,
-            SignInProvider provider)
+            AuthenticationProvider provider)
         {
             var validationTasks = command.Emails
                 .Select(async emailAddCommand =>
@@ -89,7 +89,7 @@ namespace Etdb.UserService.Cqrs.Handler
 
             validationTasks.Add(this.userRegisterCommandValidation.ValidateCommandAsync(command));
 
-            if (provider == SignInProvider.UsernamePassword)
+            if (provider == AuthenticationProvider.UsernamePassword)
             {
                 validationTasks.Add(this.passwordCommandValidation.ValidateCommandAsync(command.PasswordAddCommand));
             }
@@ -97,12 +97,12 @@ namespace Etdb.UserService.Cqrs.Handler
             return await Task.WhenAll(validationTasks);
         }
 
-        private async Task<User> GenerateUserAsync(UserRegisterCommand command, SignInProvider provider)
+        private async Task<User> GenerateUserAsync(UserRegisterCommand command, AuthenticationProvider provider)
         {
             var emails = command
                 .Emails
                 .Select(email => new Email(Guid.NewGuid(), email.Address, email.IsPrimary,
-                    provider != SignInProvider.UsernamePassword))
+                    provider != AuthenticationProvider.UsernamePassword))
                 .ToArray();
 
             var memberRole = await this.rolesRepository.FindAsync(role => role.Name == RoleNames.Member);
@@ -112,7 +112,7 @@ namespace Etdb.UserService.Cqrs.Handler
                 memberRole.Id
             };
 
-            if (provider != SignInProvider.UsernamePassword)
+            if (provider != AuthenticationProvider.UsernamePassword)
             {
                 return new User(Guid.NewGuid(), command.UserName, command.FirstName, command.Name, null,
                     DateTime.UtcNow, roles, emails, provider);

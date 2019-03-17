@@ -59,7 +59,7 @@ namespace Etdb.UserService.Cqrs.Handler
             var updatedUser = new User(existingUser.Id, existingUser.UserName, existingUser.FirstName,
                 existingUser.Name, existingUser.Biography, existingUser.RegisteredSince,
                 existingUser.RoleIds, existingUser.Emails,
-                existingUser.SignInProvider,
+                existingUser.AuthenticationProvider,
                 this.hasher.CreateSaltedHash(command.NewPassword, salt), salt, existingUser.ProfileImage);
 
             await this.usersService.EditAsync(updatedUser);
