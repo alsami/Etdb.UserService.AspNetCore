@@ -27,9 +27,9 @@ namespace Etdb.UserService.Cqrs.Handler
             this.usersService = usersService;
         }
 
-        public async Task<IEnumerable<Claim>> Handle(UserClaimsLoadCommand request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Claim>> Handle(UserClaimsLoadCommand command, CancellationToken cancellationToken)
         {
-            var user = await this.usersService.FindByIdAsync(request.Id);
+            var user = await this.usersService.FindByIdAsync(command.Id);
 
             if (user == null)
             {

@@ -1,10 +1,10 @@
 ﻿using System;
 using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Cqrs.Abstractions.Models;
+using Etdb.UserService.Presentation;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands
 {
-    public class UserProfileImageLoadCommand : IResponseCommand<FileDownloadInfo>
+    public class UserProfileImageLoadCommand : IResponseCommand<FileDownloadInfoDto>
     {
         public UserProfileImageLoadCommand(Guid id)
         {

@@ -57,6 +57,7 @@ namespace Etdb.UserService.Bootstrap
                 .ConfigureAuthorizationPolicies()
                 .ConfigureDistributedCaching(this.configuration)
                 .ConfigureDocumentDbContextOptions(this.configuration)
+                .ConfigureIdentityServerOptions(this.configuration)
                 .ConfigureFileStoreOptions(this.configuration, this.environment)
                 .ConfigureCompression()
                 .ConfigureHttpClients()

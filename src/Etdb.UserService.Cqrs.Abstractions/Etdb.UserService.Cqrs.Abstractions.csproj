@@ -8,4 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Presentation\Etdb.UserService.Presentation.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
 </Project>

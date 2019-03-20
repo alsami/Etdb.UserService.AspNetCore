@@ -1,4 +1,4 @@
-﻿namespace Etdb.UserService.Extensions
+﻿namespace Etdb.UserService.Options
 {
     public class FilestoreConfiguration
     {

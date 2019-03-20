@@ -6,7 +6,6 @@ using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Constants;
 using Etdb.UserService.Controllers.Extensions;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Cqrs.Abstractions.Models;
 using Etdb.UserService.Presentation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -39,7 +38,7 @@ namespace Etdb.UserService.Controllers.V1
         public async Task<IActionResult> ProfileImageLoadAsync(CancellationToken cancellationToken, Guid id)
         {
             var fileInfo =
-                await this.bus.SendCommandAsync<UserProfileImageLoadCommand, FileDownloadInfo>(
+                await this.bus.SendCommandAsync<UserProfileImageLoadCommand, FileDownloadInfoDto>(
                     new UserProfileImageLoadCommand(id), cancellationToken);
 
             return new FileContentResult(fileInfo.File, new MediaTypeHeaderValue(fileInfo.MediaType))

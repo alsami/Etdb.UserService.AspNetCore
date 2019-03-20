@@ -27,11 +27,11 @@ namespace Etdb.UserService.Authentication.Validator
 
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            var command = new UserLoginValidationCommand(context.UserName, context.Password,
+            var command = new UserSigninValidationCommand(context.UserName, context.Password,
                 this.httpContextAccessor.HttpContext.Connection.RemoteIpAddress);
 
             var userLoginValidation =
-                await this.bus.SendCommandAsync<UserLoginValidationCommand, UserLoginValidationDto>(command);
+                await this.bus.SendCommandAsync<UserSigninValidationCommand, UserLoginValidationDto>(command);
 
             if (!userLoginValidation.IsValid)
             {

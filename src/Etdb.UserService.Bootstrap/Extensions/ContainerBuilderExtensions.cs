@@ -32,7 +32,6 @@ using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 

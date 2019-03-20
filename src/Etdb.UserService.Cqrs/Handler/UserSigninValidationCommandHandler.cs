@@ -14,17 +14,17 @@ using Microsoft.Extensions.Logging;
 
 namespace Etdb.UserService.Cqrs.Handler
 {
-    public class
-        UserLoginValidationCommandHandler : IResponseCommandHandler<UserLoginValidationCommand, UserLoginValidationDto>
+    public class UserSigninValidationCommandHandler :
+        IResponseCommandHandler<UserSigninValidationCommand, UserLoginValidationDto>
     {
         private readonly IUsersService usersService;
-        private readonly ILogger<UserLoginValidationCommandHandler> logger;
+        private readonly ILogger<UserSigninValidationCommandHandler> logger;
         private readonly IHasher hasher;
         private readonly ILoginLogRepository loginLogRepository;
         private static readonly UserLoginValidationDto FailedLogin = new UserLoginValidationDto(false);
 
-        public UserLoginValidationCommandHandler(IUsersService usersService, IHasher hasher,
-            ILoginLogRepository loginLogRepository, ILogger<UserLoginValidationCommandHandler> logger)
+        public UserSigninValidationCommandHandler(IUsersService usersService, IHasher hasher,
+            ILoginLogRepository loginLogRepository, ILogger<UserSigninValidationCommandHandler> logger)
         {
             this.usersService = usersService;
             this.hasher = hasher;
@@ -32,14 +32,14 @@ namespace Etdb.UserService.Cqrs.Handler
             this.logger = logger;
         }
 
-        public async Task<UserLoginValidationDto> Handle(UserLoginValidationCommand command,
+        public async Task<UserLoginValidationDto> Handle(UserSigninValidationCommand command,
             CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByUserNameOrEmailAsync(command.UserName);
 
             if (user == null)
             {
-                return UserLoginValidationCommandHandler.FailedLogin;
+                return UserSigninValidationCommandHandler.FailedLogin;
             }
 
             var passwordIsValid = this.hasher.CreateSaltedHash(command.Password, user.Salt)
@@ -51,7 +51,8 @@ namespace Etdb.UserService.Cqrs.Handler
             }
 
             await this.LogLoginEvent(LoginType.Failed, user.Id, command.IpAddress, "Given password is invalid!");
-            return UserLoginValidationCommandHandler.FailedLogin;
+
+            return UserSigninValidationCommandHandler.FailedLogin;
         }
 
         private async Task LogLoginEvent(LoginType loginType, Guid userId, IPAddress ipAddress,

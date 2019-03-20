@@ -4,6 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Constants\Etdb.UserService.Constants.csproj" />
+    <ProjectReference Include="..\Etdb.UserService.Options\Etdb.UserService.Options.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Repositories.Abstractions\Etdb.UserService.Repositories.Abstractions.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Services.Abstractions\Etdb.UserService.Services.Abstractions.csproj" />
   </ItemGroup>

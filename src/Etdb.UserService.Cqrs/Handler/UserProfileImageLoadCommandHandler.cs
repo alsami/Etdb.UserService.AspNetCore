@@ -5,15 +5,15 @@ using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Exceptions;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Cqrs.Abstractions.Models;
-using Etdb.UserService.Extensions;
+using Etdb.UserService.Options;
+using Etdb.UserService.Presentation;
 using Etdb.UserService.Services.Abstractions;
 using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Cqrs.Handler
 {
     public class
-        UserProfileImageLoadCommandHandler : IResponseCommandHandler<UserProfileImageLoadCommand, FileDownloadInfo>
+        UserProfileImageLoadCommandHandler : IResponseCommandHandler<UserProfileImageLoadCommand, FileDownloadInfoDto>
     {
         private readonly IOptions<FilestoreConfiguration> fileStoreOptions;
         private readonly IUsersService usersService;
@@ -27,7 +27,7 @@ namespace Etdb.UserService.Cqrs.Handler
             this.fileService = fileService;
         }
 
-        public async Task<FileDownloadInfo> Handle(UserProfileImageLoadCommand request,
+        public async Task<FileDownloadInfoDto> Handle(UserProfileImageLoadCommand request,
             CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByIdAsync(request.Id);
@@ -45,7 +45,7 @@ namespace Etdb.UserService.Cqrs.Handler
             var binary = await this.fileService.ReadBinaryAsync(
                 Path.Combine(this.fileStoreOptions.Value.ImagePath, user.Id.ToString()), user.ProfileImage.Name);
 
-            return new FileDownloadInfo(user.ProfileImage.MediaType, user.ProfileImage.Name, binary);
+            return new FileDownloadInfoDto(user.ProfileImage.MediaType, user.ProfileImage.Name, binary);
         }
     }
 }

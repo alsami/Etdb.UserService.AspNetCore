@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.UserService.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Cqrs.Misc;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Services.Abstractions;
 using MediatR;

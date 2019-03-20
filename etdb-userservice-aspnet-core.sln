@@ -10,39 +10,41 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Bootstrap", "src\Etdb.UserService.Bootstrap\Etdb.UserService.Bootstrap.csproj", "{C2E4915D-F311-493B-98FA-0337F2198F78}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{EEC64864-F550-44BE-9D0D-CCCA983F39B7}"
-ProjectSection(SolutionItems) = preProject
-	.gitignore = .gitignore
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.AutoMapper", "src\Etdb.UserService.AutoMapper\Etdb.UserService.AutoMapper.csproj", "{404C19B7-D968-49A4-B89F-201407BE2892}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.AutoMapper", "src\Etdb.UserService.AutoMapper\Etdb.UserService.AutoMapper.csproj", "{404C19B7-D968-49A4-B89F-201407BE2892}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Presentation", "src\Etdb.UserService.Presentation\Etdb.UserService.Presentation.csproj", "{3680B28D-A9D3-4249-99B0-55CAFFCE8447}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Presentation", "src\Etdb.UserService.Presentation\Etdb.UserService.Presentation.csproj", "{3680B28D-A9D3-4249-99B0-55CAFFCE8447}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Domain", "src\Etdb.UserService.Domain\Etdb.UserService.Domain.csproj", "{BB67A8BA-5FAC-43A1-9D9A-8B05E1CDB8B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Domain", "src\Etdb.UserService.Domain\Etdb.UserService.Domain.csproj", "{BB67A8BA-5FAC-43A1-9D9A-8B05E1CDB8B5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Repositories.Abstractions", "src\Etdb.UserService.Repositories.Abstractions\Etdb.UserService.Repositories.Abstractions.csproj", "{43166634-0186-478B-9E81-96B6E175D502}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Repositories.Abstractions", "src\Etdb.UserService.Repositories.Abstractions\Etdb.UserService.Repositories.Abstractions.csproj", "{43166634-0186-478B-9E81-96B6E175D502}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Repositories", "src\Etdb.UserService.Repositories\Etdb.UserService.Repositories.csproj", "{ABDE8D8F-6C29-49B2-A1D8-A56478E93D3F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Repositories", "src\Etdb.UserService.Repositories\Etdb.UserService.Repositories.csproj", "{ABDE8D8F-6C29-49B2-A1D8-A56478E93D3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Controllers", "src\Etdb.UserService.Controllers\Etdb.UserService.Controllers.csproj", "{D99A563B-B144-46AF-A660-46A84EA7F2BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Controllers", "src\Etdb.UserService.Controllers\Etdb.UserService.Controllers.csproj", "{D99A563B-B144-46AF-A660-46A84EA7F2BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Cqrs.Abstractions", "src\Etdb.UserService.Cqrs.Abstractions\Etdb.UserService.Cqrs.Abstractions.csproj", "{7334848E-C555-430E-9A53-F749D594D86B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Cqrs.Abstractions", "src\Etdb.UserService.Cqrs.Abstractions\Etdb.UserService.Cqrs.Abstractions.csproj", "{7334848E-C555-430E-9A53-F749D594D86B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Cqrs", "src\Etdb.UserService.Cqrs\Etdb.UserService.Cqrs.csproj", "{EB3B5AEB-3D8B-4E15-BEC4-99DC46954959}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Cqrs", "src\Etdb.UserService.Cqrs\Etdb.UserService.Cqrs.csproj", "{EB3B5AEB-3D8B-4E15-BEC4-99DC46954959}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Services.Abstractions", "src\Etdb.UserService.Services.Abstractions\Etdb.UserService.Services.Abstractions.csproj", "{79044B7C-AF8F-4393-8C3B-1CB92E024CD0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Services.Abstractions", "src\Etdb.UserService.Services.Abstractions\Etdb.UserService.Services.Abstractions.csproj", "{79044B7C-AF8F-4393-8C3B-1CB92E024CD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Services", "src\Etdb.UserService.Services\Etdb.UserService.Services.csproj", "{D12DD739-089A-4D8A-9C08-AFB0F7AA560F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Services", "src\Etdb.UserService.Services\Etdb.UserService.Services.csproj", "{D12DD739-089A-4D8A-9C08-AFB0F7AA560F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Extensions", "src\Etdb.UserService.Extensions\Etdb.UserService.Extensions.csproj", "{1E685953-7264-4672-9BE2-F1E054C8A075}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Extensions", "src\Etdb.UserService.Extensions\Etdb.UserService.Extensions.csproj", "{1E685953-7264-4672-9BE2-F1E054C8A075}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Constants", "src\Etdb.UserService.Constants\Etdb.UserService.Constants.csproj", "{E333AC42-2E86-4ABE-A45A-6AFCD0102C96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Constants", "src\Etdb.UserService.Constants\Etdb.UserService.Constants.csproj", "{E333AC42-2E86-4ABE-A45A-6AFCD0102C96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Scaffold", "src\Etdb.UserService.Scaffold\Etdb.UserService.Scaffold.csproj", "{D59A81CF-25EB-473A-9CF5-4A6A8C2EFC1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Scaffold", "src\Etdb.UserService.Scaffold\Etdb.UserService.Scaffold.csproj", "{D59A81CF-25EB-473A-9CF5-4A6A8C2EFC1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Authentication.Abstractions", "src\Etdb.UserService.Authentication.Abstractions\Etdb.UserService.Authentication.Abstractions.csproj", "{2CF308C3-F0BB-4CF7-9650-C43AEA1299EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Authentication.Abstractions", "src\Etdb.UserService.Authentication.Abstractions\Etdb.UserService.Authentication.Abstractions.csproj", "{2CF308C3-F0BB-4CF7-9650-C43AEA1299EC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Authentication", "src\Etdb.UserService.Authentication\Etdb.UserService.Authentication.csproj", "{B045A1B4-2763-43AD-9D89-558ADB377E7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Authentication", "src\Etdb.UserService.Authentication\Etdb.UserService.Authentication.csproj", "{B045A1B4-2763-43AD-9D89-558ADB377E7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Options", "src\Etdb.UserService.Options\Etdb.UserService.Options.csproj", "{2DDF95B2-C3EB-4168-8478-9CAC323400B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -114,6 +116,10 @@ Global
 		{B045A1B4-2763-43AD-9D89-558ADB377E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B045A1B4-2763-43AD-9D89-558ADB377E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B045A1B4-2763-43AD-9D89-558ADB377E7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DDF95B2-C3EB-4168-8478-9CAC323400B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DDF95B2-C3EB-4168-8478-9CAC323400B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DDF95B2-C3EB-4168-8478-9CAC323400B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DDF95B2-C3EB-4168-8478-9CAC323400B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,6 +141,7 @@ Global
 		{D59A81CF-25EB-473A-9CF5-4A6A8C2EFC1D} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{2CF308C3-F0BB-4CF7-9650-C43AEA1299EC} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{B045A1B4-2763-43AD-9D89-558ADB377E7D} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
+		{2DDF95B2-C3EB-4168-8478-9CAC323400B8} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {39A620F8-72B1-4D11-8393-8263B92F8704}

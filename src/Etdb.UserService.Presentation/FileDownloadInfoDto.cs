@@ -1,6 +1,6 @@
-﻿namespace Etdb.UserService.Cqrs.Abstractions.Models
+﻿namespace Etdb.UserService.Presentation
 {
-    public class FileDownloadInfo
+    public class FileDownloadInfoDto
     {
         public string MediaType { get; }
 
@@ -8,7 +8,7 @@
 
         public byte[] File { get; }
 
-        public FileDownloadInfo(string mediaType, string name, byte[] file)
+        public FileDownloadInfoDto(string mediaType, string name, byte[] file)
         {
             this.MediaType = mediaType;
             this.Name = name;

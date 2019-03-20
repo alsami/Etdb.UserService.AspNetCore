@@ -4,7 +4,7 @@ using Etdb.UserService.Presentation;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands
 {
-    public class UserLoginValidationCommand : IResponseCommand<UserLoginValidationDto>
+    public class UserSigninValidationCommand : IResponseCommand<UserLoginValidationDto>
     {
         public string UserName { get; }
 
@@ -12,7 +12,7 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands
 
         public IPAddress IpAddress { get; }
 
-        public UserLoginValidationCommand(string userName, string password, IPAddress ipAddress)
+        public UserSigninValidationCommand(string userName, string password, IPAddress ipAddress)
         {
             this.UserName = userName;
             this.Password = password;

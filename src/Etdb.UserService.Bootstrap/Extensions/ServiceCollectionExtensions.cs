@@ -7,6 +7,7 @@ using Etdb.UserService.Authentication.Configuration;
 using Etdb.UserService.Bootstrap.Configuration;
 using Etdb.UserService.Constants;
 using Etdb.UserService.Extensions;
+using Etdb.UserService.Options;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -15,7 +16,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Extensions.Caching.Redis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -27,7 +27,9 @@ namespace Etdb.UserService.Bootstrap.Extensions
     internal static class ServiceCollectionExtensions
     {
         private const string FilesLocalSubpath = "Files";
-        private static string CookieName =    typeof(Startup).Assembly.GetName().Name.Replace(".dll", "").Replace(".exe", "");
+
+        private static readonly string CookieName =
+            typeof(Startup).Assembly.GetName().Name.Replace(".dll", "").Replace(".exe", "");
 
 
         public static IServiceCollection ConfigureCompression(this IServiceCollection services,
@@ -66,6 +68,15 @@ namespace Etdb.UserService.Bootstrap.Extensions
             });
         }
 
+        public static IServiceCollection ConfigureIdentityServerOptions(this IServiceCollection services,
+            IConfiguration configuration)
+        {
+            return services.Configure<IdentityServerConfiguration>(options =>
+            {
+                configuration.GetSection(nameof(IdentityServerConfiguration)).Bind(options);
+            });
+        }
+
         public static IServiceCollection ConfigureDocumentDbContextOptions(this IServiceCollection services,
             IConfiguration configuration)
         {
@@ -98,7 +109,8 @@ namespace Etdb.UserService.Bootstrap.Extensions
 
             return services.AddDistributedRedisCache(options =>
             {
-                options.Configuration = services.BuildServiceProvider().GetRequiredService<IOptions<RedisConfiguration>>().Value.Connection;
+                options.Configuration = services.BuildServiceProvider()
+                    .GetRequiredService<IOptions<RedisConfiguration>>().Value.Connection;
                 options.InstanceName = $"{ServiceNames.UserService}_";
             });
         }
@@ -170,7 +182,8 @@ namespace Etdb.UserService.Bootstrap.Extensions
         public static IServiceCollection ConfigureIdentityServerAuthorization(this IServiceCollection services,
             string[] allowedOrigins, string clientId, string clientSecret)
         {
-            services.AddIdentityServer(options => options.Authentication.CookieAuthenticationScheme = ServiceCollectionExtensions.CookieName)
+            services.AddIdentityServer(options =>
+                    options.Authentication.CookieAuthenticationScheme = ServiceCollectionExtensions.CookieName)
                 .AddDeveloperSigningCredential()
                 .AddInMemoryIdentityResources(IdentityResourceConfiguration.GetIdentityResource())
                 .AddInMemoryApiResources(ApiResourceConfiguration.GetApiResource())

@@ -2,7 +2,7 @@
 using Etdb.ServiceBase.Exceptions;
 using Etdb.UserService.Domain.Entities;
 
-namespace Etdb.UserService.Cqrs
+namespace Etdb.UserService.Cqrs.Misc
 {
     internal static class WellknownExceptions
     {
