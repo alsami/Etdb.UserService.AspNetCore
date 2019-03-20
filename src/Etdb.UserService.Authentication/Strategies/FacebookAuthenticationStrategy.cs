@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Structures;
-using Etdb.UserService.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Domain.Enums;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
@@ -82,7 +82,8 @@ namespace Etdb.UserService.Authentication.Strategies
             var firstIndexOfWhitespace = facebookUser.Name.IndexOf(" ", StringComparison.Ordinal);
 
             var firstName = facebookUser.Name.Substring(0, firstIndexOfWhitespace - 1);
-            var lastName = facebookUser.Name.Substring(firstIndexOfWhitespace + 1, facebookUser.Name.Length - 1 - firstIndexOfWhitespace);
+            var lastName = facebookUser.Name.Substring(firstIndexOfWhitespace + 1,
+                facebookUser.Name.Length - 1 - firstIndexOfWhitespace);
 
             return new UserRegisterCommand(facebookUser.Email, firstName, lastName, new List<EmailAddCommand>()
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Etdb.UserService.Presentation.Base;
+
 // ReSharper disable UnusedMember.Global
 
 namespace Etdb.UserService.Presentation

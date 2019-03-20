@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Etdb.UserService.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Cqrs.Validation.Base;
 using Etdb.UserService.Services.Abstractions;
 using FluentValidation;

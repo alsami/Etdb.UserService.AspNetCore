@@ -3,13 +3,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Etdb.UserService.Constants\Etdb.UserService.Constants.csproj" />
-    <ProjectReference Include="..\Etdb.UserService.Options\Etdb.UserService.Options.csproj" />
+    <ProjectReference Include="..\Etdb.UserService.Extensions\Etdb.UserService.Extensions.csproj" />
+    <ProjectReference Include="..\Etdb.UserService.Misc\Etdb.UserService.Misc.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Repositories.Abstractions\Etdb.UserService.Repositories.Abstractions.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Services.Abstractions\Etdb.UserService.Services.Abstractions.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="1.1.0" />
+    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="1.2.0" />
     <PackageReference Include="IdentityModel" Version="3.10.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.2" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />

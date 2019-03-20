@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
-using Etdb.UserService.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
@@ -36,7 +36,7 @@ namespace Etdb.UserService.Authentication.Services
 
             var enumeratedClaims = claims as Claim[] ?? claims.ToArray();
 
-            context.IssuedClaims = enumeratedClaims.Any() 
+            context.IssuedClaims = enumeratedClaims.Any()
                 ? enumeratedClaims.ToList()
                 : context.IssuedClaims;
         }

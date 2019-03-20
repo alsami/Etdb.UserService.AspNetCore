@@ -3,9 +3,9 @@ using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
-using Etdb.UserService.Constants;
 using Etdb.UserService.Controllers.Extensions;
-using Etdb.UserService.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
+using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Presentation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -48,7 +48,8 @@ namespace Etdb.UserService.Controllers.V1
         }
 
         [HttpPatch("{id:Guid}/profileinfo")]
-        public async Task<IActionResult> ProfileInfoChangeAsync(CancellationToken cancellationToken, Guid id, [FromBody] UserProfileInfoChangeDto dto)
+        public async Task<IActionResult> ProfileInfoChangeAsync(CancellationToken cancellationToken, Guid id,
+            [FromBody] UserProfileInfoChangeDto dto)
         {
             var command = new UserProfileInfoChangeCommand(id, dto.FirstName, dto.Name, dto.Biography);
 
@@ -58,7 +59,8 @@ namespace Etdb.UserService.Controllers.V1
         }
 
         [HttpPatch("{id:Guid}/password")]
-        public async Task<IActionResult> PasswordChangeAsync(CancellationToken cancellationToken, Guid id, [FromBody] UserPasswordChangeDto dto)
+        public async Task<IActionResult> PasswordChangeAsync(CancellationToken cancellationToken, Guid id,
+            [FromBody] UserPasswordChangeDto dto)
         {
             var command = new UserPasswordChangeCommand(id, dto.NewPassword, dto.CurrentPassword);
 
@@ -68,7 +70,8 @@ namespace Etdb.UserService.Controllers.V1
         }
 
         [HttpPatch("{id:Guid}/profileimage")]
-        public async Task<UserDto> ProfileImageUploadAsync(CancellationToken cancellationToken, Guid id, [FromForm] IFormFile file)
+        public async Task<UserDto> ProfileImageUploadAsync(CancellationToken cancellationToken, Guid id,
+            [FromForm] IFormFile file)
         {
             var command = new UserProfileImageAddCommand(id,
                 file.FileName,

@@ -1,49 +1,34 @@
 ﻿using System.Collections.Generic;
-using Etdb.ServiceBase.Constants;
-using Etdb.UserService.Constants;
-using IdentityServer4;
+using System.Linq;
+using Etdb.UserService.Misc.Configuration;
 using IdentityServer4.Models;
+using Client = IdentityServer4.Models.Client;
 
 namespace Etdb.UserService.Authentication.Configuration
 {
     public class ClientConfiguration
     {
-        public static IEnumerable<Client> GetClients(string clientId, string clientSecret, string[] allowedOrigins)
+        public static IEnumerable<Client> GetClients(IdentityServerConfiguration configuration)
         {
-            return new List<Client>
+            var identityClients = configuration.Clients.Select(client => new Client
             {
-                new Client
+                ClientId = client.Id,
+                AllowedGrantTypes = client.GrantTypes,
+                AllowedScopes = client.Scopes,
+                ClientSecrets =
                 {
-                    ClientId = clientId,
+                    new Secret(client.Secret.Sha256())
+                },
+                AllowOfflineAccess = client.HasOfflineAccess,
+                AllowedCorsOrigins = client.Origins,
+                AccessTokenLifetime = 60 * 60,
+                AlwaysSendClientClaims = true,
+                AlwaysIncludeUserClaimsInIdToken = true,
+                RefreshTokenUsage = TokenUsage.OneTimeOnly,
+                RefreshTokenExpiration = TokenExpiration.Absolute,
+            }).ToArray();
 
-                    AllowedGrantTypes = {GrantType.ResourceOwnerPassword, Misc.ExternalGrantType},
-
-                    ClientSecrets =
-                    {
-                        new Secret(clientSecret.Sha256())
-                    },
-
-                    AllowedScopes =
-                    {
-                        IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile,
-                        IdentityServerConstants.StandardScopes.Email,
-                        IdentityServerConstants.StandardScopes.OfflineAccess,
-                        ServiceNames.UserService,
-                        ServiceNames.StorageService,
-                        ServiceNames.FileService,
-                        ServiceNames.IndexService,
-                    },
-
-                    AllowedCorsOrigins = allowedOrigins,
-                    AllowOfflineAccess = true,
-                    AccessTokenLifetime = 60 * 10,
-                    AlwaysSendClientClaims = true,
-                    AlwaysIncludeUserClaimsInIdToken = true,
-                    RefreshTokenUsage = TokenUsage.OneTimeOnly,
-                    RefreshTokenExpiration = TokenExpiration.Absolute,
-                }
-            };
+            return identityClients;
         }
     }
 }

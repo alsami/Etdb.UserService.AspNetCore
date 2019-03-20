@@ -3,12 +3,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Etdb.ServiceBase.Constants" Version="1.1.0" />
-    <PackageReference Include="Etdb.ServiceBase.Cryptography" Version="1.1.0" />
-    <PackageReference Include="Etdb.ServiceBase.DocumentRepository" Version="1.1.0" />
+    <PackageReference Include="Etdb.ServiceBase.Constants" Version="1.2.0" />
+    <PackageReference Include="Etdb.ServiceBase.Cryptography" Version="1.2.0" />
+    <PackageReference Include="Etdb.ServiceBase.DocumentRepository" Version="1.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Etdb.UserService.Constants\Etdb.UserService.Constants.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Repositories.Abstractions\Etdb.UserService.Repositories.Abstractions.csproj" />
   </ItemGroup>
 </Project>

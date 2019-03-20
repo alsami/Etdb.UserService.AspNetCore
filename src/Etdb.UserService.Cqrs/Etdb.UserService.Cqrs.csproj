@@ -1,21 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.0.0" />
-    <PackageReference Include="Etdb.ServiceBase.Cqrs" Version="1.1.0" />
-    <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="1.1.0" />
-    <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="1.1.0" />
-    <PackageReference Include="Etdb.ServiceBase.Extensions" Version="1.1.0" />
-    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="1.1.0" />
+    <PackageReference Include="Etdb.ServiceBase.Cqrs" Version="1.2.0" />
+    <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="1.2.0" />
+    <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="1.2.0" />
+    <PackageReference Include="Etdb.ServiceBase.Extensions" Version="1.2.0" />
+    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="1.2.0" />
     <PackageReference Include="IdentityModel" Version="3.10.6" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Etdb.UserService.Constants\Etdb.UserService.Constants.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Cqrs.Abstractions\Etdb.UserService.Cqrs.Abstractions.csproj" />
-    <ProjectReference Include="..\Etdb.UserService.Extensions\Etdb.UserService.Extensions.csproj" />
-    <ProjectReference Include="..\Etdb.UserService.Options\Etdb.UserService.Options.csproj" />
+    <ProjectReference Include="..\Etdb.UserService.Misc\Etdb.UserService.Misc.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Presentation\Etdb.UserService.Presentation.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Repositories.Abstractions\Etdb.UserService.Repositories.Abstractions.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Services.Abstractions\Etdb.UserService.Services.Abstractions.csproj" />

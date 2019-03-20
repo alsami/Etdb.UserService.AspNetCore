@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
-using Etdb.UserService.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Cqrs.Validation.Base;
 using Etdb.UserService.Services.Abstractions;
 using FluentValidation;

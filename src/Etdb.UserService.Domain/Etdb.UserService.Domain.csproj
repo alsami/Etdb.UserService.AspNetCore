@@ -3,11 +3,8 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Etdb.ServiceBase.Domain.Abstractions" Version="1.1.0" />
+    <PackageReference Include="Etdb.ServiceBase.Domain.Abstractions" Version="1.2.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.8.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Etdb.UserService.Extensions\Etdb.UserService.Extensions.csproj" />
   </ItemGroup>
 </Project>

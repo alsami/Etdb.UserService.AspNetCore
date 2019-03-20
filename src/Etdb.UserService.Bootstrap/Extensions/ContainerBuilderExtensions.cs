@@ -20,7 +20,7 @@ using Etdb.UserService.Authentication.Strategies;
 using Etdb.UserService.Authentication.Validator;
 using Etdb.UserService.AutoMapper.Profiles;
 using Etdb.UserService.Bootstrap.Configuration;
-using Etdb.UserService.Cqrs.Handler;
+using Etdb.UserService.Cqrs.Handler.Users;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Repositories;
 using Etdb.UserService.Services;
@@ -54,7 +54,6 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .RegisterTypeAsSingleton<ActionContextAccessor, IActionContextAccessor>()
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypeAsSingleton<FileService, IFileService>()
-                .RegisterTypeAsSingleton<CorsPolicyService, ICorsPolicyService>()
                 .RegisterTypeAsSingleton<UserServiceDbContext, DocumentDbContext>()
                 .RegisterTypeAsScoped<Bus, IBus>()
                 .RegisterTypeAsScoped<HttpContextAccessor, IHttpContextAccessor>()
@@ -75,9 +74,10 @@ namespace Etdb.UserService.Bootstrap.Extensions
             new RedisLockManager(new RedLockOptions
             {
                 LockRetryCount = 2
-            }, componentContext.Resolve<IOptions<RedisConfiguration>>().Value.Connection); 
+            }, componentContext.Resolve<IOptions<RedisConfiguration>>().Value.Connection);
 
-        private static IExternalAuthenticationStrategy ExternalAuthenticationStrategyResolver(IComponentContext componentContext,
+        private static IExternalAuthenticationStrategy ExternalAuthenticationStrategyResolver(
+            IComponentContext componentContext,
             IEnumerable<Parameter> @params)
         {
             var provider = @params.TypedAs<AuthenticationProvider>();

@@ -5,9 +5,10 @@ using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.ServiceBase.Filter;
 using Etdb.UserService.Authentication.Configuration;
 using Etdb.UserService.Bootstrap.Configuration;
-using Etdb.UserService.Constants;
 using Etdb.UserService.Extensions;
-using Etdb.UserService.Options;
+using Etdb.UserService.Filter;
+using Etdb.UserService.Misc.Configuration;
+using Etdb.UserService.Misc.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -136,11 +137,12 @@ namespace Etdb.UserService.Bootstrap.Extensions
                         .Build());
 
                     options.Filters.Add(requireAuthenticatedUserPolicy);
-                    options.Filters.Add(typeof(UnhandledExceptionFilter));
-                    options.Filters.Add(typeof(AccessDeniedExceptionFilter));
-                    options.Filters.Add(typeof(GeneralValidationExceptionFilter));
-                    options.Filters.Add(typeof(ResourceLockedExceptionFilter));
-                    options.Filters.Add(typeof(ResourceNotFoundExceptionFilter));
+                    options.Filters.Add<UnhandledExceptionFilter>();
+                    options.Filters.Add<IdentityServerExceptionFilter>();
+                    options.Filters.Add<AccessDeniedExceptionFilter>();
+                    options.Filters.Add<GeneralValidationExceptionFilter>();
+                    options.Filters.Add<ResourceLockedExceptionFilter>();
+                    options.Filters.Add<ResourceNotFoundExceptionFilter>();
                 })
                 .AddJsonOptions(options =>
                 {
@@ -180,14 +182,14 @@ namespace Etdb.UserService.Bootstrap.Extensions
         }
 
         public static IServiceCollection ConfigureIdentityServerAuthorization(this IServiceCollection services,
-            string[] allowedOrigins, string clientId, string clientSecret)
+            IdentityServerConfiguration identityServerConfiguration)
         {
             services.AddIdentityServer(options =>
                     options.Authentication.CookieAuthenticationScheme = ServiceCollectionExtensions.CookieName)
                 .AddDeveloperSigningCredential()
                 .AddInMemoryIdentityResources(IdentityResourceConfiguration.GetIdentityResource())
                 .AddInMemoryApiResources(ApiResourceConfiguration.GetApiResource())
-                .AddInMemoryClients(ClientConfiguration.GetClients(clientId, clientSecret, allowedOrigins));
+                .AddInMemoryClients(ClientConfiguration.GetClients(identityServerConfiguration));
 
             return services;
         }

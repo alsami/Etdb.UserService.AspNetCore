@@ -11,7 +11,8 @@ namespace Etdb.UserService.Domain.Entities
     {
         public User(Guid id, string userName, string firstName, string name, string biography,
             DateTime registeredSince, ICollection<Guid> roleIds,
-            ICollection<Email> emails, AuthenticationProvider authenticationProvider = AuthenticationProvider.UsernamePassword,
+            ICollection<Email> emails,
+            AuthenticationProvider authenticationProvider = AuthenticationProvider.UsernamePassword,
             string password = null, byte[] salt = null, UserProfileImage profileImage = null) : base(id)
         {
             this.UserName = userName;

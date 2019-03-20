@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
-using Etdb.UserService.Constants;
-using Etdb.UserService.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Presentation;
 using IdentityServer4.Models;
@@ -38,7 +37,8 @@ namespace Etdb.UserService.Authentication.Strategies
 
         protected bool AreSignInProvidersEqual(UserDto userDto)
         {
-            var userSignInProvider = (AuthenticationProvider) Enum.Parse(typeof(AuthenticationProvider), userDto.SignInProvider);
+            var userSignInProvider =
+                (AuthenticationProvider) Enum.Parse(typeof(AuthenticationProvider), userDto.SignInProvider);
 
             return userSignInProvider == this.AuthenticationProvider;
         }
@@ -57,7 +57,7 @@ namespace Etdb.UserService.Authentication.Strategies
                     new UserClaimsLoadCommand(user.Id));
 
             return new GrantValidationResult(user.Id.ToString(),
-                Misc.ExternalGrantType, claims,
+                Misc.Constants.Identity.ExternalGrantType, claims,
                 this.AuthenticationProvider.ToString());
         }
 

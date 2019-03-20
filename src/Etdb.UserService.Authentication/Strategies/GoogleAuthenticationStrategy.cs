@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Structures;
-using Etdb.UserService.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Domain.Enums;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;

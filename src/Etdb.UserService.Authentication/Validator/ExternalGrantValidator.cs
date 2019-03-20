@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
-using Etdb.UserService.Constants;
 using Etdb.UserService.Domain.Enums;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
@@ -14,16 +13,18 @@ namespace Etdb.UserService.Authentication.Validator
         private const string UnsupportedProviderMessage = "Loginprovider not supported!";
         private readonly Func<AuthenticationProvider, IExternalAuthenticationStrategy> loginStrategyComposer;
 
-        public ExternalGrantValidator(Func<AuthenticationProvider, IExternalAuthenticationStrategy> loginStrategyComposer)
+        public ExternalGrantValidator(
+            Func<AuthenticationProvider, IExternalAuthenticationStrategy> loginStrategyComposer)
         {
             this.loginStrategyComposer = loginStrategyComposer;
         }
 
-        public string GrantType => Misc.ExternalGrantType;
+        public string GrantType => Misc.Constants.Identity.ExternalGrantType;
 
         public async Task ValidateAsync(ExtensionGrantValidationContext context)
         {
-            if (!Enum.TryParse<AuthenticationProvider>(context.Request.Raw.Get("Provider"), true, out var loginProvider) ||
+            if (!Enum.TryParse<AuthenticationProvider>(context.Request.Raw.Get("Provider"), true,
+                    out var loginProvider) ||
                 loginProvider == AuthenticationProvider.UsernamePassword)
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest,

@@ -1,6 +1,6 @@
 ﻿using System;
-using Etdb.UserService.Constants;
 using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Services.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -50,18 +50,6 @@ namespace Etdb.UserService.Services
                 id = userId,
                 date = DateTime.UtcNow.Ticks
             });
-
-            //// new {
-            ////    id = userId,
-            ////    date = DateTime.UtcNow.Ticks
-            ////}
-
-            //var url = linkGenerator.GetUriByAddress(this.httpContextAccessor.HttpContext, new RouteValueDictionary(new
-            //{
-            //    controller = ControllerNames.UsersController,
-            //    action = RouteNames.UserProfileImageUrlRoute,
-            //    id = userId
-            //}), httpContextAccessor.HttpContext.Request.Scheme, httpContextAccessor.HttpContext.Request.Host);
 
             return url;
         }

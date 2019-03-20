@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Extensions;
-using Etdb.UserService.Options;
+using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using Microsoft.Extensions.Caching.Distributed;

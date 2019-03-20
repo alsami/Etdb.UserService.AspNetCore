@@ -2,6 +2,7 @@
 using Etdb.ServiceBase.Constants;
 using Etdb.UserService.Authentication.Configuration;
 using Etdb.UserService.Bootstrap.Extensions;
+using Etdb.UserService.Misc.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -31,29 +32,19 @@ namespace Etdb.UserService.Bootstrap
         {
             var allowedOrigins = this.configuration
                 .GetSection(nameof(AllowedOriginsConfiguration))
-                .GetSection("Origins")
                 .Get<string[]>();
 
-            var identityConfig = this.configuration
-                .GetSection("IdentityConfig");
 
-            var clientId = identityConfig
-                .GetSection("WebClient")
-                .GetValue<string>("Name");
-
-            var clientSecret = identityConfig
-                .GetSection("WebClient")
-                .GetValue<string>("Secret");
-
-            var authority = identityConfig
-                .GetValue<string>("Authority");
+            var identityServerConfiguration =
+                this.configuration.GetSection(nameof(IdentityServerConfiguration))
+                    .Get<IdentityServerConfiguration>();
 
             services.ConfigureMvc()
                 .ConfigureCors(this.environment, allowedOrigins, Startup.CorsPolicyName)
                 .ConfigureAllowedOriginsOptions(this.configuration)
-                .ConfigureIdentityServerAuthorization(allowedOrigins, clientId, clientSecret)
+                .ConfigureIdentityServerAuthorization(identityServerConfiguration)
                 .ConfigureIdentityServerAuthentication(this.environment, Startup.AuthenticationSchema,
-                    ServiceNames.UserService, authority)
+                    ServiceNames.UserService, identityServerConfiguration.Authority)
                 .ConfigureAuthorizationPolicies()
                 .ConfigureDistributedCaching(this.configuration)
                 .ConfigureDocumentDbContextOptions(this.configuration)

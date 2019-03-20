@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
-using Etdb.UserService.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Presentation;
 

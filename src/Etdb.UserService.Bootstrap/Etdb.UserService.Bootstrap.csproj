@@ -6,9 +6,9 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.4.0" />
     <PackageReference Include="Autofac.Extensions.FluentBuilder" Version="1.5.0" />
     <PackageReference Include="CleanCodeLabs.AutoMapper.Extensions.Autofac.DependencyInjection" Version="3.0.0" />
-    <PackageReference Include="Etdb.ServiceBase.Constants" Version="1.1.0" />
-    <PackageReference Include="Etdb.ServiceBase.Filter" Version="1.1.0" />
-    <PackageReference Include="Etdb.ServiceBase.Services" Version="1.1.0" />
+    <PackageReference Include="Etdb.ServiceBase.Constants" Version="1.2.0" />
+    <PackageReference Include="Etdb.ServiceBase.Filter" Version="1.2.0" />
+    <PackageReference Include="Etdb.ServiceBase.Services" Version="1.2.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
     <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -24,10 +24,10 @@
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Authentication\Etdb.UserService.Authentication.csproj" />
     <ProjectReference Include="..\Etdb.UserService.AutoMapper\Etdb.UserService.AutoMapper.csproj" />
-    <ProjectReference Include="..\Etdb.UserService.Constants\Etdb.UserService.Constants.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Controllers\Etdb.UserService.Controllers.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Cqrs\Etdb.UserService.Cqrs.csproj" />
-    <ProjectReference Include="..\Etdb.UserService.Options\Etdb.UserService.Options.csproj" />
+    <ProjectReference Include="..\Etdb.UserService.Filter\Etdb.UserService.Filter.csproj" />
+    <ProjectReference Include="..\Etdb.UserService.Misc\Etdb.UserService.Misc.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Repositories\Etdb.UserService.Repositories.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Services\Etdb.UserService.Services.csproj" />
   </ItemGroup>
@@ -37,10 +37,6 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="appsettings.Development-Local.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

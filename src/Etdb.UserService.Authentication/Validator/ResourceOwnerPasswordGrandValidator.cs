@@ -2,8 +2,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
-using Etdb.UserService.Constants;
-using Etdb.UserService.Cqrs.Abstractions.Commands;
+using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Presentation;
 using IdentityServer4.Models;
@@ -35,7 +34,8 @@ namespace Etdb.UserService.Authentication.Validator
 
             if (!userLoginValidation.IsValid)
             {
-                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant, ResourceOwnerPasswordGrandValidator.InvalidUserOrPasswordError);
+                context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant,
+                    ResourceOwnerPasswordGrandValidator.InvalidUserOrPasswordError);
                 return;
             }
 
@@ -44,7 +44,7 @@ namespace Etdb.UserService.Authentication.Validator
                     new UserClaimsLoadCommand(userLoginValidation.UserId));
 
             context.Result = new GrantValidationResult(userLoginValidation.UserId.ToString(),
-                Misc.CustomAuthenticationMethod,
+                Misc.Constants.Identity.PasswordAuthenticationMethod,
                 claims, AuthenticationProvider.UsernamePassword.ToString());
         }
     }

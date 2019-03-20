@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Etdb.UserService.Misc\Etdb.UserService.Misc.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Repositories\Etdb.UserService.Repositories.csproj" />
   </ItemGroup>
   <ItemGroup>
