@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using Autofac;
 using Elders.RedLock;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
@@ -14,12 +13,10 @@ using Etdb.UserService.Services.Abstractions;
 using IdentityServer4.Services;
 using IdentityServer4.Stores;
 using IdentityServer4.Validation;
-using MediatR;
 using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Xunit;
 
