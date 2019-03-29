@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{EEC64864-F
 		.travis.yml = .travis.yml
 		run-tests.sh = run-tests.sh
 		setup-mongodb-user.sh = setup-mongodb-user.sh
+		readme.md = readme.md
+		licence.md = licence.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.AutoMapper", "src\Etdb.UserService.AutoMapper\Etdb.UserService.AutoMapper.csproj", "{404C19B7-D968-49A4-B89F-201407BE2892}"
