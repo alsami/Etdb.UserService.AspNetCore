@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Autofac;
 using Etdb.UserService.Bootstrap.Extensions;
@@ -7,7 +6,7 @@ using Microsoft.AspNetCore.Hosting.Internal;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 
-namespace Etdb.UserService.Bootstrap.IntegrationTests
+namespace Etdb.UserService.Bootstrap.Tests
 {
     public class ContainerBuilderExtensionsTests
     {

@@ -12,6 +12,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{EEC64864-F550-44BE-9D0D-CCCA983F39B7}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
+		.travis.yml = .travis.yml
+		run-tests.sh = run-tests.sh
+		setup-mongodb-user.sh = setup-mongodb-user.sh
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.AutoMapper", "src\Etdb.UserService.AutoMapper\Etdb.UserService.AutoMapper.csproj", "{404C19B7-D968-49A4-B89F-201407BE2892}"
@@ -45,6 +48,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Misc", "src\Etdb.UserService.Misc\Etdb.UserService.Misc.csproj", "{ECE4D68D-FBE1-410C-AC7A-58468F99D6A2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Extensions", "src\Etdb.UserService.Extensions\Etdb.UserService.Extensions.csproj", "{68162009-82DF-4296-860E-50C531238D89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Bootstrap.Tests", "test\Etdb.UserService.Bootstrap.Tests\Etdb.UserService.Bootstrap.Tests.csproj", "{6C7189E2-BADF-43D5-9451-CC91069A694F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,6 +125,10 @@ Global
 		{68162009-82DF-4296-860E-50C531238D89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68162009-82DF-4296-860E-50C531238D89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68162009-82DF-4296-860E-50C531238D89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C7189E2-BADF-43D5-9451-CC91069A694F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C7189E2-BADF-43D5-9451-CC91069A694F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C7189E2-BADF-43D5-9451-CC91069A694F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C7189E2-BADF-43D5-9451-CC91069A694F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,6 +151,7 @@ Global
 		{F33A4B1B-6DB4-4CE5-80E2-B2D21A562D75} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{ECE4D68D-FBE1-410C-AC7A-58468F99D6A2} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{68162009-82DF-4296-860E-50C531238D89} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
+		{6C7189E2-BADF-43D5-9451-CC91069A694F} = {6D5EBCBA-FB78-425F-8D55-D13C11C9DCB7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {39A620F8-72B1-4D11-8393-8263B92F8704}

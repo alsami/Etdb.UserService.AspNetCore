@@ -1,0 +1,29 @@
+dist: bionic
+language: csharp
+solution: etdb-userservice-aspnet-core.sln
+mono: none
+dotnet: 2.2.105
+env:
+  global:
+    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
+    - DOTNET_CLI_TELEMETRY_OPTOUT=true
+stages:
+  - build
+  - test
+  - publish
+jobs:
+  include:
+    - stage: build
+      name: build solution
+      script: dotnet restore && dotnet build
+    - stage: test
+      name: run-tests
+      services: mongodb
+      before_script:
+        - sh setup-mongodb-user.sh "$MONGODB_USERNAME" "$MONGODB_PASSWORD"
+      script: ./run-tests.sh
+    - stage: publish
+      name: publish-packages
+      if: tag IS present
+      script: ./publish-packages.sh "$NUGET_SOURCE" "$ETDB_NUGET_APIKEY" "$TRAVIS_TAG"
+
