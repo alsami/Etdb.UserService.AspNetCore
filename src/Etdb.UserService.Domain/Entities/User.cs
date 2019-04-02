@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Etdb.UserService.Domain.Base;
 using Etdb.UserService.Domain.Enums;
 
@@ -13,7 +14,7 @@ namespace Etdb.UserService.Domain.Entities
             DateTime registeredSince, ICollection<Guid> roleIds,
             ICollection<Email> emails,
             AuthenticationProvider authenticationProvider = AuthenticationProvider.UsernamePassword,
-            string password = null, byte[] salt = null, UserProfileImage profileImage = null) : base(id)
+            string password = null, byte[] salt = null, ICollection<ProfileImage> profileImages = null, ICollection<SignInLog> signInLogs = null) : base(id)
         {
             this.UserName = userName;
             this.FirstName = firstName;
@@ -25,7 +26,8 @@ namespace Etdb.UserService.Domain.Entities
             this.AuthenticationProvider = authenticationProvider;
             this.Password = password;
             this.Salt = salt;
-            this.ProfileImage = profileImage;
+            this.ProfileImages = profileImages ?? new List<ProfileImage>();
+            this.SignInLogs = signInLogs ?? new List<SignInLog>();
         }
 
         public string UserName { get; private set; }
@@ -38,8 +40,6 @@ namespace Etdb.UserService.Domain.Entities
 
         public DateTime RegisteredSince { get; private set; }
 
-        public UserProfileImage ProfileImage { get; private set; }
-
         public ICollection<Guid> RoleIds { get; private set; }
 
         public ICollection<Email> Emails { get; private set; }
@@ -49,5 +49,18 @@ namespace Etdb.UserService.Domain.Entities
         public string Password { get; private set; }
 
         public byte[] Salt { get; private set; }
+
+        public ICollection<ProfileImage> ProfileImages { get; private set; }
+
+        public ICollection<SignInLog> SignInLogs { get; private set; }
+
+        public void AddSignInLog(SignInLog signInLog) => this.SignInLogs.Add(signInLog);
+
+        public void AddEmailAddress(Email email) => this.Emails.Add(email);
+
+        public void RemoveEmailAddress(Func<Email, bool> removePredicate)
+            => this.Emails = this.Emails.Where(removePredicate).ToArray();
+
+        public void AddProfileImage(ProfileImage profileImage) => this.ProfileImages.Add(profileImage);
     }
 }

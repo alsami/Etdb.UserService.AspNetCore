@@ -5,6 +5,7 @@ using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
+using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Structures;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
@@ -19,15 +20,12 @@ namespace Etdb.UserService.Authentication.Strategies
     public class FacebookAuthenticationStrategy : ExternalAuthenticationStrategyBase, IFacebookAuthenticationStrategy
     {
         private readonly ILogger<FacebookAuthenticationStrategy> logger;
-        private readonly IBus bus;
-        private readonly IHttpClientFactory httpClientFactory;
 
-        public FacebookAuthenticationStrategy(IHttpClientFactory httpClientFactory,
-            ILogger<FacebookAuthenticationStrategy> logger, IBus bus) : base(bus)
+        public FacebookAuthenticationStrategy(
+            ILogger<FacebookAuthenticationStrategy> logger, IBus bus,
+            IExternalIdentityServerClient externalIdentityServerClient) : base(bus, externalIdentityServerClient)
         {
-            this.httpClientFactory = httpClientFactory;
             this.logger = logger;
-            this.bus = bus;
         }
 
         protected override string UserProfileUrl => "https://graph.facebook.com/v3.2/me";
@@ -40,9 +38,7 @@ namespace Etdb.UserService.Authentication.Strategies
                 .Append("&fields=id,email,name,gender,birthday,picture")
                 .ToString();
 
-            var client = this.httpClientFactory.CreateClient();
-
-            var response = await client.GetAsync(url);
+            var response = await this.ExternalIdentityServerClient.Client.GetAsync(url);
 
             var json = await response.Content.ReadAsStringAsync();
 
@@ -65,7 +61,7 @@ namespace Etdb.UserService.Authentication.Strategies
                 return this.NotEqualSignInProviderResult;
             }
 
-            var command = await this.CreateCommandAsync(client, facebookUser);
+            var command = await this.CreateCommandAsync(this.ExternalIdentityServerClient.Client, facebookUser);
 
             var registeredUser = await this.RegisterUserAsync(command);
 
@@ -75,8 +71,8 @@ namespace Etdb.UserService.Authentication.Strategies
         private async Task<UserRegisterCommand> CreateCommandAsync(HttpClient client, FacebookUserProfile facebookUser)
         {
             var profileImageAddCommand = !string.IsNullOrWhiteSpace(facebookUser.Picture?.Data?.Url)
-                ? new UserProfileImageAddCommand("facebook_photo.jpg", new ContentType("image/*"),
-                    await client.GetByteArrayAsync(facebookUser.Picture.Data.Url))
+                ? new ProfileImageAddCommand("facebook_photo.jpg", new ContentType("image/*"),
+                    await client.GetByteArrayAsync(facebookUser.Picture.Data.Url), true)
                 : null;
 
             var firstIndexOfWhitespace = facebookUser.Name.IndexOf(" ", StringComparison.Ordinal);
@@ -85,9 +81,9 @@ namespace Etdb.UserService.Authentication.Strategies
             var lastName = facebookUser.Name.Substring(firstIndexOfWhitespace + 1,
                 facebookUser.Name.Length - 1 - firstIndexOfWhitespace);
 
-            return new UserRegisterCommand(facebookUser.Email, firstName, lastName, new List<EmailAddCommand>()
+            return new UserRegisterCommand(Guid.NewGuid(), facebookUser.Email, firstName, lastName, new List<EmailAddCommand>()
             {
-                new EmailAddCommand(facebookUser.Email, true, true)
+                new EmailAddCommand(Guid.NewGuid(), facebookUser.Email, true, true)
             }, (int) this.AuthenticationProvider, profileImageAddCommand: profileImageAddCommand);
         }
 

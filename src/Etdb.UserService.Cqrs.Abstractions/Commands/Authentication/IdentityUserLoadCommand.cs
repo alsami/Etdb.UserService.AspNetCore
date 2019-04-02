@@ -1,5 +1,5 @@
 using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Presentation;
+using Etdb.UserService.Presentation.Authentication;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Authentication
 {

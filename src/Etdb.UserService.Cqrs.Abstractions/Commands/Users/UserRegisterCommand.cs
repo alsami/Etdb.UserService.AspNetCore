@@ -1,16 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Cqrs.Abstractions.Base;
-using Etdb.UserService.Presentation;
+using Etdb.UserService.Presentation.Users;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 {
     public class UserRegisterCommand : UserNameCommand, IResponseCommand<UserDto>
     {
-        public UserRegisterCommand(string userName, string firstName, string name, ICollection<EmailAddCommand> emails,
+        public UserRegisterCommand(Guid id, string userName, string firstName, string name, ICollection<EmailAddCommand> emails,
             int loginProvider, PasswordAddCommand passwordAddCommand = null,
-            UserProfileImageAddCommand profileImageAddCommand = null) : base(
-            userName)
+            ProfileImageAddCommand profileImageAddCommand = null) : base(
+            id, userName)
         {
             this.FirstName = firstName;
             this.Name = name;
@@ -29,6 +30,6 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
         public int LoginProvider { get; }
 
         public PasswordAddCommand PasswordAddCommand { get; }
-        public UserProfileImageAddCommand ProfileImageAddCommand { get; }
+        public ProfileImageAddCommand ProfileImageAddCommand { get; }
     }
 }

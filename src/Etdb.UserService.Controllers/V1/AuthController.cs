@@ -5,7 +5,8 @@ using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.ServiceBase.Extensions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Authentication;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
-using Etdb.UserService.Presentation;
+using Etdb.UserService.Presentation.Authentication;
+using Etdb.UserService.Presentation.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

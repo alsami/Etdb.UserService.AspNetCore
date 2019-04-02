@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Etdb.UserService.Bootstrap.Extensions
 {
-    internal static class ApplicationBuilderExtensions
+    public static class ApplicationBuilderExtensions
     {
         public static IApplicationBuilder SetupSwagger(this IApplicationBuilder app, IHostingEnvironment environment,
             string jsonUri,

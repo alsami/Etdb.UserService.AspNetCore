@@ -13,7 +13,7 @@ namespace Etdb.UserService.Repositories
         {
             $"{nameof(User).ToLower()}s",
             $"{nameof(SecurityRole).ToLower()}s",
-            $"{nameof(LoginLog).ToLower()}s"
+            $"{nameof(SignInLog).ToLower()}s"
         };
 
         public UserServiceDbContext(IOptions<DocumentDbContextOptions> options) : base(options)
@@ -28,13 +28,13 @@ namespace Etdb.UserService.Repositories
             UseIgnoreNullValuesConvention();
             UseEnumStringRepresentation();
 
-            foreach (var collectionName in this.collections)
-            {
-                if (!this.CollectionExists(collectionName))
-                {
-                    this.CreateCollection(collectionName);
-                }
-            }
+            //foreach (var collectionName in this.collections)
+            //{
+            //    if (!this.CollectionExists(collectionName))
+            //    {
+            //        this.CreateCollection(collectionName);
+            //    }
+            //}
         }
 
         private static void UseIgnoreNullValuesConvention()

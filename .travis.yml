@@ -1,16 +1,16 @@
 dist: bionic
 language: csharp
-solution: etdb-userservice-aspnet-core.sln
+solution: Etdb.UserService.AspNetCore.sln
 mono: none
-dotnet: 2.2.105
+dotnet: 2.2.202
 env:
   global:
-    - DOTNET_SKIP_FIRST_TIME_EXPERIENCE=true
-    - DOTNET_CLI_TELEMETRY_OPTOUT=true
+    - DocumentDbContextOptions__ConnectionString="mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@localhost:27017"
+    - DocumentDbContextOptions__DatabaseName="Etdb_UserService_Dev_Testing"
+    - RedisConfiguration__Connection="${RedisConnection}"
 stages:
   - build
   - test
-  - publish
 jobs:
   include:
     - stage: build
@@ -18,12 +18,11 @@ jobs:
       script: dotnet restore && dotnet build
     - stage: test
       name: run-tests
-      services: mongodb
+      services: 
+        - mongodb
+        - redis-server
       before_script:
         - sh setup-mongodb-user.sh "$MONGODB_USERNAME" "$MONGODB_PASSWORD"
+        - sh scaffold-database.sh
       script: ./run-tests.sh
-    - stage: publish
-      name: publish-packages
-      if: tag IS present
-      script: ./publish-packages.sh "$NUGET_SOURCE" "$ETDB_NUGET_APIKEY" "$TRAVIS_TAG"
 

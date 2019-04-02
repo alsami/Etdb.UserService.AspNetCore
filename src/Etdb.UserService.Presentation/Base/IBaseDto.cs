@@ -2,8 +2,8 @@
 
 namespace Etdb.UserService.Presentation.Base
 {
-    public interface IBaseDto<TId> where TId : IEquatable<TId>
+    public interface IBaseDto<out TId> where TId : IEquatable<TId>
     {
-        TId Id { get; set; }
+        TId Id { get; }
     }
 }

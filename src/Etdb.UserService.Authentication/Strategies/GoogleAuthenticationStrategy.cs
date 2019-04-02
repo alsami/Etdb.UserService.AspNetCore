@@ -1,7 +1,9 @@
+using System;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
+using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Structures;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
@@ -16,15 +18,10 @@ namespace Etdb.UserService.Authentication.Strategies
     public class GoogleAuthenticationStrategy : ExternalAuthenticationStrategyBase, IGoogleAuthenticationStrategy
     {
         private readonly ILogger<GoogleAuthenticationStrategy> logger;
-        private readonly IHttpClientFactory httpClientFactory;
-        private readonly IBus bus;
 
-        public GoogleAuthenticationStrategy(IHttpClientFactory httpClientFactory,
-            ILogger<GoogleAuthenticationStrategy> logger, IBus bus) : base(bus)
+        public GoogleAuthenticationStrategy(ILogger<GoogleAuthenticationStrategy> logger, IBus bus, IExternalIdentityServerClient externalIdentityServerClient) : base(bus, externalIdentityServerClient)
         {
-            this.httpClientFactory = httpClientFactory;
             this.logger = logger;
-            this.bus = bus;
         }
 
         protected override string UserProfileUrl => "https://www.googleapis.com/oauth2/v2/userinfo";
@@ -32,9 +29,7 @@ namespace Etdb.UserService.Authentication.Strategies
 
         public async Task<GrantValidationResult> AuthenticateAsync(string token)
         {
-            var client = this.httpClientFactory.CreateClient();
-
-            var response = await client.GetAsync($"{this.UserProfileUrl}?access_token={token}");
+            var response = await this.ExternalIdentityServerClient.Client.GetAsync($"{this.UserProfileUrl}?access_token={token}");
 
             var json = await response.Content.ReadAsStringAsync();
 
@@ -58,7 +53,7 @@ namespace Etdb.UserService.Authentication.Strategies
                 return this.NotEqualSignInProviderResult;
             }
 
-            var command = await CreateCommandAsync(client, googleProfile);
+            var command = await CreateCommandAsync(this.ExternalIdentityServerClient.Client, googleProfile);
 
             var registeredUser = await this.RegisterUserAsync(command);
 
@@ -67,13 +62,13 @@ namespace Etdb.UserService.Authentication.Strategies
 
         private static async Task<UserRegisterCommand> CreateCommandAsync(HttpClient client,
             GoogleUserProfile googleProfile)
-            => new UserRegisterCommand(googleProfile.Email, googleProfile.Given_Name,
+            => new UserRegisterCommand(Guid.NewGuid(), googleProfile.Email, googleProfile.Given_Name,
                 googleProfile.Family_Name, new[]
                 {
-                    new EmailAddCommand(googleProfile.Email, true, true),
-                }, (int) AuthenticationProvider.Google, profileImageAddCommand: new UserProfileImageAddCommand(
+                    new EmailAddCommand(Guid.NewGuid(), googleProfile.Email, true, true),
+                }, (int) AuthenticationProvider.Google, profileImageAddCommand: new ProfileImageAddCommand(
                     "google_photo.jpg",
-                    new ContentType("image/*"), await client.GetByteArrayAsync(googleProfile.Picture)));
+                    new ContentType("image/*"), await client.GetByteArrayAsync(googleProfile.Picture), true));
 
 
         private GrantValidationResult ErrorValidationResult(string json)

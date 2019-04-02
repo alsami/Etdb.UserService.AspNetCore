@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
+using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Domain.Enums;
-using Etdb.UserService.Presentation;
+using Etdb.UserService.Presentation.Users;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using Newtonsoft.Json;
@@ -16,10 +17,12 @@ namespace Etdb.UserService.Authentication.Strategies
     public abstract class ExternalAuthenticationStrategyBase
     {
         private readonly IBus bus;
+        protected readonly IExternalIdentityServerClient ExternalIdentityServerClient;
 
-        protected ExternalAuthenticationStrategyBase(IBus bus)
+        protected ExternalAuthenticationStrategyBase(IBus bus, IExternalIdentityServerClient externalIdentityServerClient)
         {
             this.bus = bus;
+            this.ExternalIdentityServerClient = externalIdentityServerClient;
         }
 
         protected abstract string UserProfileUrl { get; }

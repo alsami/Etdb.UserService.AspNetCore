@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
+using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Domain.Enums;
 using IdentityServer4.Validation;
@@ -8,7 +9,8 @@ namespace Etdb.UserService.Authentication.Strategies
 {
     public class TwitterAuthenticationStrategy : ExternalAuthenticationStrategyBase, ITwitterAuthenticationStrategy
     {
-        public TwitterAuthenticationStrategy(IBus bus) : base(bus)
+        public TwitterAuthenticationStrategy(IBus bus, IExternalIdentityServerClient externalIdentityServerClient) :
+            base(bus, externalIdentityServerClient)
         {
         }
 

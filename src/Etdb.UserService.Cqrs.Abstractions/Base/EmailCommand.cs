@@ -14,8 +14,9 @@ namespace Etdb.UserService.Cqrs.Abstractions.Base
 
         public bool IsExternal { get; }
 
-        protected EmailCommand(string address, bool isPrimary, bool isExternal)
+        protected EmailCommand(Guid id, string address, bool isPrimary, bool isExternal)
         {
+            this.Id = id;
             this.Address = address;
             this.IsPrimary = isPrimary;
             this.IsExternal = isExternal;

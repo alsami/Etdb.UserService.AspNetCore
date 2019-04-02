@@ -3,6 +3,7 @@ using Etdb.ServiceBase.Constants;
 using Etdb.UserService.Authentication.Configuration;
 using Etdb.UserService.Bootstrap.Extensions;
 using Etdb.UserService.Misc.Configuration;
+using Etdb.UserService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -39,7 +40,9 @@ namespace Etdb.UserService.Bootstrap
                 this.configuration.GetSection(nameof(IdentityServerConfiguration))
                     .Get<IdentityServerConfiguration>();
 
-            services.ConfigureMvc()
+            services
+                .AddSingleton(new ContextLessRouteProvider())
+                .ConfigureMvc()
                 .ConfigureCors(this.environment, allowedOrigins, Startup.CorsPolicyName)
                 .ConfigureAllowedOriginsOptions(this.configuration)
                 .ConfigureIdentityServerAuthorization(identityServerConfiguration)
@@ -48,7 +51,7 @@ namespace Etdb.UserService.Bootstrap
                 .ConfigureAuthorizationPolicies()
                 .ConfigureDistributedCaching(this.configuration)
                 .ConfigureDocumentDbContextOptions(this.configuration)
-                .ConfigureIdentityServerOptions(this.configuration)
+                .ConfigureIdentityServerConfigurationOptions(this.configuration)
                 .ConfigureFileStoreOptions(this.configuration, this.environment)
                 .ConfigureCompression()
                 .ConfigureHttpClients()
@@ -72,7 +75,7 @@ namespace Etdb.UserService.Bootstrap
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
-            containerBuilder.SetupDependencies(this.environment, this.configuration);
+            containerBuilder.SetupDependencies();
         }
     }
 }

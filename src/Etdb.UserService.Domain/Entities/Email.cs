@@ -7,12 +7,14 @@ namespace Etdb.UserService.Domain.Entities
 {
     public class Email : GuidDocument
     {
-        public Email(Guid id, string address, bool isPrimary, bool isExternal) : base(id)
+        public Email(Guid id, Guid userId, string address, bool isPrimary, bool isExternal) : base(id)
         {
             this.Address = address;
             this.IsPrimary = isPrimary;
             this.IsExternal = isExternal;
         }
+
+        public Guid UserId { get; }
 
         public string Address { get; private set; }
 

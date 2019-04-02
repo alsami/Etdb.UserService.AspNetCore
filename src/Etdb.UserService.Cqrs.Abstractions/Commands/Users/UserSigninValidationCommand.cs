@@ -1,10 +1,10 @@
 using System.Net;
 using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Presentation;
+using Etdb.UserService.Presentation.Authentication;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 {
-    public class UserSigninValidationCommand : IResponseCommand<UserLoginValidationDto>
+    public class UserSignInValidationCommand : IResponseCommand<SignInValidationDto>
     {
         public string UserName { get; }
 
@@ -12,7 +12,7 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 
         public IPAddress IpAddress { get; }
 
-        public UserSigninValidationCommand(string userName, string password, IPAddress ipAddress)
+        public UserSignInValidationCommand(string userName, string password, IPAddress ipAddress)
         {
             this.UserName = userName;
             this.Password = password;

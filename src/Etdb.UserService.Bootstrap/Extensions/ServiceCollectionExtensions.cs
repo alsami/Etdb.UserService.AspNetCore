@@ -1,14 +1,19 @@
 ﻿using System.IO;
 using System.IO.Compression;
+using System.Threading;
 using Etdb.ServiceBase.Constants;
 using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.ServiceBase.Filter;
+using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Authentication.Configuration;
+using Etdb.UserService.Authentication.Services;
 using Etdb.UserService.Bootstrap.Configuration;
 using Etdb.UserService.Extensions;
-using Etdb.UserService.Filter;
+using Etdb.UserService.Filter.Exception;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Misc.Constants;
+using Etdb.UserService.Services;
+using Etdb.UserService.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -25,7 +30,7 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace Etdb.UserService.Bootstrap.Extensions
 {
-    internal static class ServiceCollectionExtensions
+    public static class ServiceCollectionExtensions
     {
         private const string FilesLocalSubpath = "Files";
 
@@ -69,7 +74,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
             });
         }
 
-        public static IServiceCollection ConfigureIdentityServerOptions(this IServiceCollection services,
+        public static IServiceCollection ConfigureIdentityServerConfigurationOptions(this IServiceCollection services,
             IConfiguration configuration)
         {
             return services.Configure<IdentityServerConfiguration>(options =>
@@ -137,6 +142,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
                         .Build());
 
                     options.Filters.Add(requireAuthenticatedUserPolicy);
+                    
                     options.Filters.Add<UnhandledExceptionFilter>();
                     options.Filters.Add<IdentityServerExceptionFilter>();
                     options.Filters.Add<AccessDeniedExceptionFilter>();
@@ -157,7 +163,13 @@ namespace Etdb.UserService.Bootstrap.Extensions
 
         public static IServiceCollection ConfigureHttpClients(this IServiceCollection services)
         {
-            return services.AddHttpClient();
+            services.AddHttpClient<IIdentityServerClient, IdentityServerClient>()
+                .SetHandlerLifetime(Timeout.InfiniteTimeSpan);
+
+            services.AddHttpClient<IExternalIdentityServerClient, ExternalIdentityServerClient>()
+                .SetHandlerLifetime(Timeout.InfiniteTimeSpan);
+
+            return services;
         }
 
         public static IServiceCollection ConfigureCors(this IServiceCollection services,

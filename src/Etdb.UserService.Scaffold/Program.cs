@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using Etdb.ServiceBase.DocumentRepository.Abstractions;
+﻿using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.UserService.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,10 +8,13 @@ namespace Etdb.UserService.Scaffold
 {
     public class Program
     {
-        public static void Main(string[] args)
+        private const string UserSecretsId = "Etdb_UserService";
+
+        public static void Main(string[] _)
         {
             var configuration = new ConfigurationBuilder()
-                .AddJsonFile(Path.Combine(AppContext.BaseDirectory, "appsettings.json"))
+                .AddEnvironmentVariables()
+                .AddUserSecrets(Program.UserSecretsId)
                 .Build();
 
             var service = new ServiceCollection();

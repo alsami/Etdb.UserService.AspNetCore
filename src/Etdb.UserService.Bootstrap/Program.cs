@@ -4,6 +4,7 @@ using System.Reflection;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 
@@ -32,6 +33,15 @@ namespace Etdb.UserService.Bootstrap
         private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureServices(services => services.AddAutofac())
+                .ConfigureAppConfiguration((context, builder) =>
+                {
+                    if (!context.HostingEnvironment.IsDevelopment())
+                    {
+                        return;
+                    }
+                    
+                    builder.AddUserSecrets("Etdb_UserService");
+                })
                 .CaptureStartupErrors(true)
                 .UseSetting(WebHostDefaults.DetailedErrorsKey, true.ToString())
                 .UseContentRoot(AppContext.BaseDirectory)

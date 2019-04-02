@@ -1,6 +1,6 @@
 namespace Etdb.UserService.Authentication.Structures
 {
-    internal class StandardizedAuthError
+    public class StandardizedAuthError
     {
         public string Message { get; }
 

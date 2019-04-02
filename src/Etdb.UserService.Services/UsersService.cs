@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
+using Etdb.UserService.Services.Abstractions.Models;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 
@@ -21,6 +24,7 @@ namespace Etdb.UserService.Services
         private readonly IUsersRepository usersRepository;
         private readonly IFileService fileService;
         private readonly IOptions<FilestoreConfiguration> fileStoreOptions;
+        private const int MaxFailedLoginCount = 3;
 
         public UsersService(IUsersRepository usersRepository, IDistributedCache cache, IFileService fileService,
             IOptions<FilestoreConfiguration> fileStoreOptions)
@@ -31,8 +35,19 @@ namespace Etdb.UserService.Services
             this.fileStoreOptions = fileStoreOptions;
         }
 
-        public async Task AddAsync(User user)
+        public async Task AddAsync(User user, ICollection<ProfileImageMetaInfo> profileImageMetaInfos = null)
         {
+            if (profileImageMetaInfos != null)
+            {
+                var storeTasks = profileImageMetaInfos.Select(async profileImageMeta =>
+                    await this.fileService.StoreBinaryAsync(
+                        Path.Combine(this.fileStoreOptions.Value.ImagePath, user.Id.ToString()),
+                        profileImageMeta.ProfileImage.Name,
+                        profileImageMeta.Image));
+
+                await Task.WhenAll(storeTasks);
+            }
+            
             await this.usersRepository.AddAsync(user);
 
             await this.cache.AddOrUpdateAsync(user.Id, user);
@@ -56,25 +71,25 @@ namespace Etdb.UserService.Services
 
             await this.cache.AddOrUpdateAsync(user.Id, user);
         }
-
-        public async Task<User> EditProfileImageAsync(User user, UserProfileImage userProfileImage, byte[] file)
+        
+        public async Task<User> EditProfileImageAsync(User user, ProfileImage profileImage, byte[] file)
         {
-            if (user.ProfileImage != null)
+            if (user.ProfileImages.Any())
             {
                 this.fileService.DeleteBinary(Path.Combine(this.fileStoreOptions.Value.ImagePath,
                     user.Id.ToString(),
-                    user.ProfileImage.Name));
+                    user.ProfileImages.First().Name));
             }
 
             await this.fileService.StoreBinaryAsync(
-                Path.Combine(this.fileStoreOptions.Value.ImagePath, user.Id.ToString()), userProfileImage.Name,
+                Path.Combine(this.fileStoreOptions.Value.ImagePath, user.Id.ToString()), profileImage.Name,
                 file);
 
             var updatedUser = new User(user.Id, user.UserName, user.FirstName,
                 user.Name, user.Biography,
                 user.RegisteredSince, user.RoleIds, user.Emails,
                 user.AuthenticationProvider,
-                user.Password, user.Salt, userProfileImage);
+                user.Password, user.Salt, user.ProfileImages);
 
             await this.EditAsync(updatedUser);
 
@@ -98,6 +113,48 @@ namespace Etdb.UserService.Services
             }
 
             return user;
+        }
+
+        public async Task<bool> IsUserLocked(Guid id)
+        {
+            var user = await this.usersRepository.FindAsync(id);
+
+            if (user.AuthenticationProvider != AuthenticationProvider.UsernamePassword)
+            {
+                return false;
+            }
+
+            if (user.SignInLogs == null)
+            {
+                return false;
+            }
+            
+            var signInLogs = user.SignInLogs
+                .OrderByDescending(log => log.LoggedAt)
+                .ToArray();
+
+            if (signInLogs.Length < UsersService.MaxFailedLoginCount ||
+                signInLogs.FirstOrDefault(signInLog => signInLog.SignInType == SignInType.Succeeded) != null)
+            {
+                return false;
+            }
+
+            var foundFailedLoginsInARow = 0;
+
+            foreach (var signInLog in signInLogs)
+            {
+                if (signInLog.SignInType != SignInType.Failed)
+                {
+                    foundFailedLoginsInARow = 0;
+                    continue;
+                }
+
+                foundFailedLoginsInARow++;
+
+                if (foundFailedLoginsInARow == UsersService.MaxFailedLoginCount) break;
+            }
+
+            return foundFailedLoginsInARow == UsersService.MaxFailedLoginCount;
         }
 
         public async Task<User> FindByUserNameAsync(string userName)

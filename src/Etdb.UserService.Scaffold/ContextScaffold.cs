@@ -5,14 +5,31 @@ using Etdb.ServiceBase.Cryptography.Hashing;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Repositories;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Etdb.UserService.Scaffold
 {
-    internal class ContextScaffold
+    public class ContextScaffold
     {
+        private static readonly string[] Collections =
+        {
+            $"{nameof(User).ToLower()}s",
+            $"{nameof(SecurityRole).ToLower()}s",
+            $"{nameof(SignInLog).ToLower()}s"
+        };
+
+        private static readonly object LockObject = new object();
+
         public static void Scaffold(UserServiceDbContext context)
         {
+            foreach (var collectionName in ContextScaffold.Collections)
+            {
+                if (CollectionExists(collectionName, context.Database)) continue;
+
+                CreateCollection(collectionName, context.Database);
+            }
+
             var securityRoleCollection =
                 context.Database.GetCollection<SecurityRole>($"{nameof(SecurityRole).ToLower()}s");
 
@@ -61,10 +78,26 @@ namespace Etdb.UserService.Scaffold
             adminUser = new User(adminGuid, "admin", null, null, null,
                 DateTime.UtcNow,
                 new[] {memberRole.Id, adminRole.Id},
-                new List<Email> {new Email(Guid.NewGuid(), "admin@etdb.com", true, false)},
+                new List<Email> {new Email(Guid.NewGuid(), adminGuid, "admin@etdb.com", true, false)},
                 password: hasher.CreateSaltedHash("1234", salt), salt: salt);
 
             usersCollection.InsertOne(adminUser);
         }
+
+        private static bool CollectionExists(string collectionName, IMongoDatabase database)
+        {
+            var filter = new BsonDocument("name", collectionName);
+
+            var collections = database.ListCollections(new ListCollectionsOptions
+            {
+                Filter = filter
+            });
+
+            return collections.Any();
+        }
+
+        private static void CreateCollection(string collectionName, IMongoDatabase database,
+            CreateCollectionOptions options = null)
+            => database.CreateCollection(collectionName, options);
     }
 }
