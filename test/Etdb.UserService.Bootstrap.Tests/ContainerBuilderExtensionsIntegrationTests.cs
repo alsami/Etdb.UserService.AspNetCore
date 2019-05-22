@@ -30,24 +30,20 @@ namespace Etdb.UserService.Bootstrap.Tests
 
             var container = containerBuilder.Build();
             
-            Assert.True(container.IsRegistered<IRedisLockManager>());
-            Assert.True(container.IsRegistered<IExternalAuthenticationStrategy>());
-            Assert.True(container.IsRegistered<IProfileImageUrlFactory>());
-            Assert.True(container.IsRegistered<IActionContextAccessor>());
-            Assert.True(container.IsRegistered<IHasher>());
-            Assert.True(container.IsRegistered<IFileService>());
-            Assert.True(container.IsRegistered<DocumentDbContext>());
-            Assert.True(container.IsRegistered<IBus>());
-            Assert.True(container.IsRegistered<IHttpContextAccessor>());
-            Assert.True(container.IsRegistered<IProfileService>());
-            Assert.True(container.IsRegistered<IResourceOwnerPasswordValidator>());
-            Assert.True(container.IsRegistered<IGoogleAuthenticationStrategy>());
-            Assert.True(container.IsRegistered<IFacebookAuthenticationStrategy>());
-            Assert.True(container.IsRegistered<IExtensionGrantValidator>());
-            Assert.True(container.IsRegistered<IPersistedGrantStore>());
-            Assert.True(container.IsRegistered<IUsersService>());
-            Assert.True(container.IsRegistered<IResourceLockingAdapter>());
-            Assert.True(container.IsRegistered<Func<AuthenticationProvider, IExternalAuthenticationStrategy>>());
+            Assert.True(container.IsRegistered<IRedisLockManager>(), $"{nameof(IRedisLockManager)} not registered");
+            Assert.True(container.IsRegistered<IExternalAuthenticationStrategy>(), $"{nameof(IExternalAuthenticationStrategy)} not registered");
+            Assert.True(container.IsRegistered<IProfileImageUrlFactory>(), $"{nameof(IProfileImageUrlFactory)} not registered");
+            Assert.True(container.IsRegistered<IActionContextAccessor>(), $"{nameof(IActionContextAccessor)} not registered");
+            Assert.True(container.IsRegistered<IHasher>(), $"{nameof(IHasher)} not registered");
+            Assert.True(container.IsRegistered<IFileService>(), $"{nameof(IFileService)} not registered");
+            Assert.True(container.IsRegistered<DocumentDbContext>(), $"{nameof(DocumentDbContext)} not registered");
+            Assert.True(container.IsRegistered<IBus>(), $"{nameof(IBus)} not registered");
+            Assert.True(container.IsRegistered<IHttpContextAccessor>(), $"{nameof(IHttpContextAccessor)} not registered");
+            Assert.True(container.IsRegistered<IGoogleAuthenticationStrategy>(), $"{nameof(IGoogleAuthenticationStrategy)} not registered");
+            Assert.True(container.IsRegistered<IFacebookAuthenticationStrategy>(), $"{nameof(IFacebookAuthenticationStrategy)} not registered");
+            Assert.True(container.IsRegistered<IUsersService>(), $"{nameof(IUsersService)} not registered");
+            Assert.True(container.IsRegistered<IResourceLockingAdapter>(), $"{nameof(IResourceLockingAdapter)} not registered");
+            Assert.True(container.IsRegistered<Func<AuthenticationProvider, IExternalAuthenticationStrategy>>(), $"{nameof(Func<AuthenticationProvider, IExternalAuthenticationStrategy>)} not registered");
         }
     }
 }

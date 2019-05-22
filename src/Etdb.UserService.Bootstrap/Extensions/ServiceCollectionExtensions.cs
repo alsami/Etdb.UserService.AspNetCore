@@ -1,19 +1,19 @@
 ﻿using System.IO;
 using System.IO.Compression;
 using System.Threading;
-using Etdb.ServiceBase.Constants;
 using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.ServiceBase.Filter;
 using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Authentication.Configuration;
 using Etdb.UserService.Authentication.Services;
-using Etdb.UserService.Bootstrap.Configuration;
+using Etdb.UserService.Authentication.Validator;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Filter.Exception;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
+using IdentityServer4.Contrib.Caching.Redis.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -22,8 +22,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Swashbuckle.AspNetCore.Swagger;
@@ -105,22 +105,6 @@ namespace Etdb.UserService.Bootstrap.Extensions
             return services.AddSwaggerGen(options => options.SwaggerDoc(title, info));
         }
 
-        public static IServiceCollection ConfigureDistributedCaching(this IServiceCollection services,
-            IConfiguration configuration)
-        {
-            services.Configure<RedisConfiguration>(options => configuration
-                .GetSection(nameof(RedisConfiguration))
-                .Bind(options));
-
-
-            return services.AddDistributedRedisCache(options =>
-            {
-                options.Configuration = services.BuildServiceProvider()
-                    .GetRequiredService<IOptions<RedisConfiguration>>().Value.Connection;
-                options.InstanceName = $"{ServiceNames.UserService}_";
-            });
-        }
-
         public static IServiceCollection ConfigureAllowedOriginsOptions(this IServiceCollection services,
             IConfiguration configuration)
         {
@@ -194,14 +178,18 @@ namespace Etdb.UserService.Bootstrap.Extensions
         }
 
         public static IServiceCollection ConfigureIdentityServerAuthorization(this IServiceCollection services,
-            IdentityServerConfiguration identityServerConfiguration)
+            IdentityServerConfiguration identityServerConfiguration, RedisCacheOptions redisCacheOptions)
         {
             services.AddIdentityServer(options =>
                     options.Authentication.CookieAuthenticationScheme = ServiceCollectionExtensions.CookieName)
                 .AddDeveloperSigningCredential()
                 .AddInMemoryIdentityResources(IdentityResourceConfiguration.GetIdentityResource())
                 .AddInMemoryApiResources(ApiResourceConfiguration.GetApiResource())
-                .AddInMemoryClients(ClientConfiguration.GetClients(identityServerConfiguration));
+                .AddInMemoryClients(ClientConfiguration.GetClients(identityServerConfiguration))
+                .AddProfileService<ProfileService>()
+                .AddResourceOwnerValidator<ResourceOwnerPasswordGrantValidator>()
+                .AddExtensionGrantValidator<ExternalGrantValidator>()
+                .AddDistributedRedisCache(redisCacheOptions.Configuration, redisCacheOptions.InstanceName);
 
             return services;
         }

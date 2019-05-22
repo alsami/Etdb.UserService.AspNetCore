@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using Elders.RedLock;
 using Etdb.UserService.Services.Abstractions;
@@ -8,23 +9,24 @@ namespace Etdb.UserService.Services
     public class ResourceLockingAdapter : IResourceLockingAdapter
     {
         private readonly IRedisLockManager redisLockManager;
-        private const string LockPrefix = "resourcelock_";
+        private const string LockPrefix = "_Resource_Lock_";
 
         public ResourceLockingAdapter(IRedisLockManager redisLockManager)
         {
             this.redisLockManager = redisLockManager;
         }
 
-        public async Task<bool> LockAsync(object key, TimeSpan lockSpan)
-        {
-            return await this.redisLockManager
-                .LockAsync($"{ResourceLockingAdapter.LockPrefix}{key}", lockSpan);
-        }
+        public Task<bool> LockAsync(object key, TimeSpan lockSpan) => this.redisLockManager
+            .LockAsync(GetCombinedKey(key), lockSpan);
 
-        public async Task UnlockAsync(object key)
-        {
-            await this.redisLockManager
-                .UnlockAsync($"{ResourceLockingAdapter.LockPrefix}{key}");
-        }
+        public Task UnlockAsync(object key) => this.redisLockManager
+            .UnlockAsync(GetCombinedKey(key));
+
+        private static string GetCombinedKey(object key)
+            => $"{ResourceLockingAdapter.LockPrefix}{GetTypeName(key)}{key}";
+
+        private static string GetTypeName(object key)
+            => key.GetType().GetTypeInfo().Name;
+
     }
 }

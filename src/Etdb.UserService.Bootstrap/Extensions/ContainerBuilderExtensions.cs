@@ -19,18 +19,17 @@ using Etdb.UserService.Authentication.Services;
 using Etdb.UserService.Authentication.Strategies;
 using Etdb.UserService.Authentication.Validator;
 using Etdb.UserService.AutoMapper.Profiles;
-using Etdb.UserService.Bootstrap.Configuration;
 using Etdb.UserService.Cqrs.CommandHandler.Users;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Repositories;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
 using IdentityServer4.Services;
-using IdentityServer4.Stores;
 using IdentityServer4.Validation;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Bootstrap.Extensions
@@ -51,12 +50,8 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .RegisterTypeAsSingleton<UserServiceDbContext, DocumentDbContext>()
                 .RegisterTypeAsScoped<Bus, IBus>()
                 .RegisterTypeAsScoped<HttpContextAccessor, IHttpContextAccessor>()
-                .RegisterTypeAsScoped<ProfileService, IProfileService>()
-                .RegisterTypeAsScoped<ResourceOwnerPasswordGrantValidator, IResourceOwnerPasswordValidator>()
                 .RegisterTypeAsScoped<GoogleAuthenticationStrategy, IGoogleAuthenticationStrategy>()
                 .RegisterTypeAsScoped<FacebookAuthenticationStrategy, IFacebookAuthenticationStrategy>()
-                .RegisterTypeAsScoped<ExternalGrantValidator, IExtensionGrantValidator>()
-                .RegisterTypeAsScoped<CachedGrantStoreService, IPersistedGrantStore>()
                 .RegisterTypeAsScoped<UsersService, IUsersService>()
                 .RegisterTypeAsScoped<ResourceLockingAdapter, IResourceLockingAdapter>()
                 .RegisterTypeAsScoped<ApplicationUser, IApplicationUser>()
@@ -69,7 +64,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
             new RedisLockManager(new RedLockOptions
             {
                 LockRetryCount = 2
-            }, componentContext.Resolve<IOptions<RedisConfiguration>>().Value.Connection);
+            }, componentContext.Resolve<IOptions<RedisCacheOptions>>().Value.Configuration);
 
         private static IExternalAuthenticationStrategy ExternalAuthenticationStrategyResolver(
             IComponentContext componentContext,
@@ -77,7 +72,6 @@ namespace Etdb.UserService.Bootstrap.Extensions
         {
             var provider = @params.TypedAs<AuthenticationProvider>();
 
-            // ReSharper disable once SwitchStatementMissingSomeCases
             switch (provider)
             {
                 case AuthenticationProvider.Google:
@@ -92,6 +86,8 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 {
                     throw new NotImplementedException();
                 }
+                case AuthenticationProvider.UsernamePassword:
+                    throw new ArgumentOutOfRangeException(nameof(provider));
                 default:
                     throw new ArgumentOutOfRangeException(nameof(provider));
             }

@@ -13,7 +13,7 @@ namespace Etdb.UserService.Bootstrap
     public class Program
     {
         private static readonly string LogPath = Path.Combine(AppContext.BaseDirectory, "Logs",
-            $"{Assembly.GetEntryAssembly().GetName().Name}.log");
+            $"{Assembly.GetExecutingAssembly().GetName().Name}.log");
 
         public static void Main(string[] args)
         {

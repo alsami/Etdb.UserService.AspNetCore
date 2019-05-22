@@ -2,12 +2,13 @@ dist: bionic
 language: csharp
 solution: Etdb.UserService.AspNetCore.sln
 mono: none
-dotnet: 2.2.202
+dotnet: 2.2.300
 env:
   global:
     - DocumentDbContextOptions__ConnectionString="mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@localhost:27017"
     - DocumentDbContextOptions__DatabaseName="Etdb_UserService_Dev_Testing"
-    - RedisConfiguration__Connection="${RedisConnection}"
+    - RedisCacheOptions__Configuration="${RedisConnection}"
+    - RedisCacheOptions__InstanceName="Etdb_UserService_Travis"
 stages:
   - build
   - test

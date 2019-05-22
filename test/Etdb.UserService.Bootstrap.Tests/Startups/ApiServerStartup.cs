@@ -4,6 +4,7 @@ using System.Net.Http;
 using Autofac;
 using Etdb.ServiceBase.Constants;
 using Etdb.UserService.Bootstrap.Extensions;
+using Etdb.UserService.Bootstrap.Tests.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;

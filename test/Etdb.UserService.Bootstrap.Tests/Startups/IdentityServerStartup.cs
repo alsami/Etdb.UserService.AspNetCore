@@ -5,11 +5,15 @@ using Autofac;
 using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Authentication.Configuration;
 using Etdb.UserService.Authentication.Services;
+using Etdb.UserService.Authentication.Validator;
 using Etdb.UserService.Bootstrap.Extensions;
+using Etdb.UserService.Bootstrap.Tests.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Services;
+using IdentityServer4.Contrib.Caching.Redis.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using IHostingEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
@@ -38,7 +42,11 @@ namespace Etdb.UserService.Bootstrap.Tests.Startups
             var identityServerConfiguration = configuration
                 .GetSection(nameof(IdentityServerConfiguration))
                 .Get<IdentityServerConfiguration>();
-            
+
+            var redisCacheOptions = configuration
+                .GetSection(nameof(RedisCacheOptions))
+                .Get<RedisCacheOptions>();
+
             this.hostingEnvironment.EnvironmentName = EnvironmentName.Development;
 
             services
@@ -48,7 +56,11 @@ namespace Etdb.UserService.Bootstrap.Tests.Startups
                 .AddDeveloperSigningCredential()
                 .AddInMemoryIdentityResources(IdentityResourceConfiguration.GetIdentityResource())
                 .AddInMemoryApiResources(ApiResourceConfiguration.GetApiResource())
-                .AddInMemoryClients(ClientConfiguration.GetClients(identityServerConfiguration));
+                .AddInMemoryClients(ClientConfiguration.GetClients(identityServerConfiguration))
+                .AddProfileService<ProfileService>()
+                .AddResourceOwnerValidator<ResourceOwnerPasswordGrantValidator>()
+                .AddExtensionGrantValidator<ExternalGrantValidator>()
+                .AddDistributedRedisCache(redisCacheOptions.Configuration, redisCacheOptions.InstanceName);
 
             services.ConfigureAuthorizationPolicies()
                 .ConfigureDistributedCaching(configuration)

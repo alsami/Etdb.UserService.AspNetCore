@@ -128,11 +128,20 @@ namespace Etdb.UserService.Bootstrap.Tests
             var externalAuthenticationResponse =
                 await httpClient.PostAsJsonAsync("api/v1/auth/external-authentication", authenticationDto);
 
-            this.TestServerFixture.ExternalIdentityHttpMessageHandlerMock
-                .Protected()
-                .Verify<Task<HttpResponseMessage>>(AuthControllerTests.SendAsyncMethodName, Times.Once(),
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>());
+            try
+            {
+                this.TestServerFixture.ExternalIdentityHttpMessageHandlerMock
+                    .Protected()
+                    .Verify<Task<HttpResponseMessage>>(AuthControllerTests.SendAsyncMethodName, Times.Once(),
+                        ItExpr.IsAny<HttpRequestMessage>(),
+                        ItExpr.IsAny<CancellationToken>());
+            }
+            catch (Exception)
+            {
+                Assert.True(externalAuthenticationResponse.IsSuccessStatusCode,
+                    await externalAuthenticationResponse.Content.ReadAsStringAsync());
+                throw;
+            }
 
             Assert.False(externalAuthenticationResponse.IsSuccessStatusCode);
             Assert.Equal(HttpStatusCode.Unauthorized, externalAuthenticationResponse.StatusCode);

@@ -5,6 +5,7 @@ using Etdb.UserService.Bootstrap.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,16 +41,19 @@ namespace Etdb.UserService.Bootstrap
                 this.configuration.GetSection(nameof(IdentityServerConfiguration))
                     .Get<IdentityServerConfiguration>();
 
+            var redisCacheOptions =
+                this.configuration.GetSection(nameof(RedisCacheOptions))
+                    .Get<RedisCacheOptions>();
+
             services
                 .AddSingleton(new ContextLessRouteProvider())
                 .ConfigureMvc()
                 .ConfigureCors(this.environment, allowedOrigins, Startup.CorsPolicyName)
                 .ConfigureAllowedOriginsOptions(this.configuration)
-                .ConfigureIdentityServerAuthorization(identityServerConfiguration)
+                .ConfigureIdentityServerAuthorization(identityServerConfiguration, redisCacheOptions)
                 .ConfigureIdentityServerAuthentication(this.environment, Startup.AuthenticationSchema,
                     ServiceNames.UserService, identityServerConfiguration.Authority)
                 .ConfigureAuthorizationPolicies()
-                .ConfigureDistributedCaching(this.configuration)
                 .ConfigureDocumentDbContextOptions(this.configuration)
                 .ConfigureIdentityServerConfigurationOptions(this.configuration)
                 .ConfigureFileStoreOptions(this.configuration, this.environment)
