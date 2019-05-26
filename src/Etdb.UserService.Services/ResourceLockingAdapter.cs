@@ -27,6 +27,5 @@ namespace Etdb.UserService.Services
 
         private static string GetTypeName(object key)
             => key.GetType().GetTypeInfo().Name;
-
     }
 }

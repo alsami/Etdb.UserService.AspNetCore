@@ -8,7 +8,7 @@ namespace Etdb.UserService.Extensions
 {
     public static class DistributedCacheExtensions
     {
-        public static async Task AddOrUpdateAsync<T, TKey>(this IDistributedCache cache, TKey key, T @object,
+        public static async Task AddAsync<T, TKey>(this IDistributedCache cache, TKey key, T @object,
             DistributedCacheEntryOptions options = null, CancellationToken token = default)
             where T : class where TKey : IEquatable<TKey>
         {
@@ -16,13 +16,6 @@ namespace Etdb.UserService.Extensions
             {
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1)
             };
-
-            var entry = await cache.GetAsync(key.ToString(), token);
-
-            if (entry != null)
-            {
-                await cache.RemoveAsync(key.ToString(), token);
-            }
 
             await cache.SetStringAsync(key.ToString(), JsonConvert.SerializeObject(@object), usedOptions, token);
         }
@@ -32,10 +25,7 @@ namespace Etdb.UserService.Extensions
         {
             var @string = await cache.GetStringAsync(key.ToString(), token);
 
-            if (!string.IsNullOrWhiteSpace(@string))
-            {
-                return JsonConvert.DeserializeObject<T>(@string);
-            }
+            if (!string.IsNullOrWhiteSpace(@string)) return JsonConvert.DeserializeObject<T>(@string);
 
             await cache.RemoveAsync(key.ToString(), token);
 

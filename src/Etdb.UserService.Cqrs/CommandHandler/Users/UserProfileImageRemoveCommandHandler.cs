@@ -32,9 +32,9 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             this.fileStoreOptions = fileStoreOptions;
         }
 
-        public async Task<Unit> Handle(ProfileImageRemoveCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(ProfileImageRemoveCommand command, CancellationToken cancellationToken)
         {
-            var existingUser = await this.usersService.FindByIdAsync(request.UserId);
+            var existingUser = await this.usersService.FindByIdAsync(command.UserId);
 
             if (existingUser == null)
             {
@@ -45,20 +45,12 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             {
                 throw WellknownExceptions.UserResourceLockException(existingUser.Id);
             }
+            
+            existingUser.RemoveProfimeImage(image => image.Id == command.Id);
 
-            this.fileService.DeleteBinary(Path.Combine(this.fileStoreOptions.Value.ImagePath,
-                existingUser.Id.ToString(),
-                existingUser.ProfileImages.First().Name));
-
-            var updatedUser = new User(existingUser.Id, existingUser.UserName, existingUser.FirstName,
-                existingUser.Name, existingUser.Biography,
-                existingUser.RegisteredSince, existingUser.RoleIds, existingUser.Emails,
-                existingUser.AuthenticationProvider, existingUser.Password, existingUser.Salt);
-
-            await this.usersService.EditAsync(updatedUser);
+            await this.usersService.EditAsync(existingUser);
 
             await this.resourceLockingAdapter.UnlockAsync(existingUser.Id);
-
 
             return Unit.Value;
         }

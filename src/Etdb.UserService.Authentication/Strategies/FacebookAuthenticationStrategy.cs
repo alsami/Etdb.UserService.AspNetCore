@@ -70,9 +70,11 @@ namespace Etdb.UserService.Authentication.Strategies
 
         private async Task<UserRegisterCommand> CreateCommandAsync(HttpClient client, FacebookUserProfile facebookUser)
         {
+            var userId = Guid.NewGuid();
+
             var profileImageAddCommand = !string.IsNullOrWhiteSpace(facebookUser.Picture?.Data?.Url)
-                ? new ProfileImageAddCommand("facebook_photo.jpg", new ContentType("image/*"),
-                    await client.GetByteArrayAsync(facebookUser.Picture.Data.Url), true)
+                ? new ProfileImageAddCommand(userId, "facebook_photo.jpg", new ContentType("image/*"),
+                    await client.GetByteArrayAsync(facebookUser.Picture.Data.Url))
                 : null;
 
             var firstIndexOfWhitespace = facebookUser.Name.IndexOf(" ", StringComparison.Ordinal);
@@ -81,10 +83,11 @@ namespace Etdb.UserService.Authentication.Strategies
             var lastName = facebookUser.Name.Substring(firstIndexOfWhitespace + 1,
                 facebookUser.Name.Length - 1 - firstIndexOfWhitespace);
 
-            return new UserRegisterCommand(Guid.NewGuid(), facebookUser.Email, firstName, lastName, new List<EmailAddCommand>()
-            {
-                new EmailAddCommand(Guid.NewGuid(), facebookUser.Email, true, true)
-            }, (int) this.AuthenticationProvider, profileImageAddCommand: profileImageAddCommand);
+            return new UserRegisterCommand(userId, facebookUser.Email, firstName, lastName,
+                new List<EmailAddCommand>()
+                {
+                    new EmailAddCommand(Guid.NewGuid(), facebookUser.Email, true, true)
+                }, (int) this.AuthenticationProvider, profileImageAddCommand: profileImageAddCommand);
         }
 
         private GrantValidationResult ErrorValidationResult(string json)

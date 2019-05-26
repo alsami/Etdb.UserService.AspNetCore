@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using IdentityModel;
@@ -68,10 +69,12 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
                 });
             }
 
-            if (user.ProfileImages.Any())
+            if (user.ProfileImages.Any(profileImage => profileImage.IsPrimary))
             {
                 claims.Add(new Claim(JwtClaimTypes.Picture,
-                    this.profileImageUrlFactory.GenerateUrl(user)));
+                    this.profileImageUrlFactory.GenerateUrl(
+                        user.ProfileImages.First(profileImage => profileImage.IsPrimary),
+                        RouteNames.ProfileImages.ProfileImageLoadRoute)));
             }
 
             claims.Add(new Claim(JwtClaimTypes.IdentityProvider, user.AuthenticationProvider.ToString()));

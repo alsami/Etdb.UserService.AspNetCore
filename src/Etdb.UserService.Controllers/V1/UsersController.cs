@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Etdb.UserService.Controllers.V1
 {
-    [Route("api/v1/[controller]", Name = ControllerNames.UsersController)]
+    [Route("api/v1/[controller]")]
     public class UsersController : Controller
     {
         private readonly IBus bus;
@@ -30,7 +30,6 @@ namespace Etdb.UserService.Controllers.V1
         }
 
 
-
         [HttpPatch("{id:Guid}/password")]
         public async Task<IActionResult> PasswordChangeAsync(CancellationToken cancellationToken, Guid id,
             [FromBody] UserPasswordChangeDto dto)
@@ -41,7 +40,7 @@ namespace Etdb.UserService.Controllers.V1
 
             return this.NoContent();
         }
-        
+
         [HttpPatch("{id:Guid}/profileinfo")]
         public async Task<IActionResult> ProfileInfoChangeAsync(CancellationToken cancellationToken, Guid id,
             [FromBody] UserProfileInfoChangeDto dto)

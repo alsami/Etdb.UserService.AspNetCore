@@ -43,7 +43,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
             if (!passwordIsValid)
             {
-                await this.PublishSignInEvent(SignInType.Failed, user.Id, command.IpAddress, "Given password is invalid!",
+                await this.PublishSignInEvent(SignInType.Failed, user.Id, command.IpAddress,
+                    "Given password is invalid!",
                     cancellationToken);
 
                 return FailedSignIn(SignInFailure.InvalidPassword);
@@ -59,7 +60,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
             return new SignInValidationDto(true, userId: user.Id);
         }
-        
+
         private static SignInValidationDto FailedSignIn(SignInFailure signInFailure)
             => new SignInValidationDto(false, signInFailure);
 

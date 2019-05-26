@@ -12,7 +12,8 @@ namespace Etdb.UserService.AutoMapper.Converters
         public UserRegisterCommand Convert(UserRegisterDto source, UserRegisterCommand destination,
             ResolutionContext context)
         {
-            var emailsToAdd = source.Emails?.Select(email => new EmailAddCommand(Guid.NewGuid(), email.Address, email.IsPrimary, false))
+            var emailsToAdd = source.Emails?.Select(email =>
+                    new EmailAddCommand(Guid.NewGuid(), email.Address, email.IsPrimary, false))
                 .ToArray();
 
             var passwordAddCommand = new PasswordAddCommand(source.Password);

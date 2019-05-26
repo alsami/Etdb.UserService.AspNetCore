@@ -14,7 +14,8 @@ namespace Etdb.UserService.Domain.Entities
             DateTime registeredSince, ICollection<Guid> roleIds,
             ICollection<Email> emails,
             AuthenticationProvider authenticationProvider = AuthenticationProvider.UsernamePassword,
-            string password = null, byte[] salt = null, ICollection<ProfileImage> profileImages = null, ICollection<SignInLog> signInLogs = null) : base(id)
+            string password = null, byte[] salt = null, ICollection<ProfileImage> profileImages = null,
+            ICollection<SignInLog> signInLogs = null) : base(id)
         {
             this.UserName = userName;
             this.FirstName = firstName;
@@ -58,9 +59,18 @@ namespace Etdb.UserService.Domain.Entities
 
         public void AddEmailAddress(Email email) => this.Emails.Add(email);
 
-        public void RemoveEmailAddress(Func<Email, bool> removePredicate)
-            => this.Emails = this.Emails.Where(removePredicate).ToArray();
+        public void RemoveEmailAddress(Func<Email, bool> predicated)
+            => this.Emails = this.Emails.Where(predicated).ToArray();
 
         public void AddProfileImage(ProfileImage profileImage) => this.ProfileImages.Add(profileImage);
+
+        public void RemoveProfimeImage(Func<ProfileImage, bool> predicate)
+        {
+            var image = this.ProfileImages.FirstOrDefault(predicate);
+
+            if (image == null) return;
+
+            this.ProfileImages.Remove(image);
+        }
     }
 }

@@ -4,6 +4,6 @@ namespace Etdb.UserService.Services.Abstractions
 {
     public interface IProfileImageUrlFactory
     {
-        string GenerateUrl(User user);
+        string GenerateUrl(ProfileImage profileImage, string route);
     }
 }

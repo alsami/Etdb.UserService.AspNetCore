@@ -55,7 +55,7 @@ namespace Etdb.UserService.Authentication.Validator
 
                 return;
             }
-            
+
             context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant,
                 ResourceOwnerPasswordGrantValidator.UserLockedOutError);
         }

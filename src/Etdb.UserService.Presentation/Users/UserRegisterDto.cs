@@ -14,7 +14,8 @@ namespace Etdb.UserService.Presentation.Users
 
         public ICollection<AddEmailDto> Emails { get; }
 
-        public UserRegisterDto(string firstName, string name, string userName, string password, ICollection<AddEmailDto> emails)
+        public UserRegisterDto(string firstName, string name, string userName, string password,
+            ICollection<AddEmailDto> emails)
         {
             this.FirstName = firstName;
             this.Name = name;

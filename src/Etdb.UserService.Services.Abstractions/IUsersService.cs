@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Services.Abstractions.Models;
@@ -8,11 +7,11 @@ namespace Etdb.UserService.Services.Abstractions
 {
     public interface IUsersService
     {
-        Task AddAsync(User user, ICollection<ProfileImageMetaInfo> profileImageMetaInfos = null);
+        Task AddAsync(User user, params ProfileImageMetaInfo[] profileImageMetaInfos);
 
         Task EditAsync(User user);
 
-        Task<User> EditProfileImageAsync(User user, ProfileImage profileImage, byte[] file);
+        Task EditAsync(User user, params ProfileImageMetaInfo[] profileImageMetaInfos);
 
         Task<User> FindByIdAsync(Guid id);
 

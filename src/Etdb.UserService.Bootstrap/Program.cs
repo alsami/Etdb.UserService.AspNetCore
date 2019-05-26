@@ -39,7 +39,7 @@ namespace Etdb.UserService.Bootstrap
                     {
                         return;
                     }
-                    
+
                     builder.AddUserSecrets("Etdb_UserService");
                 })
                 .CaptureStartupErrors(true)

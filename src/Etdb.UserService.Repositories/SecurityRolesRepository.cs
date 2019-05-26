@@ -5,9 +5,9 @@ using Etdb.UserService.Repositories.Abstractions;
 
 namespace Etdb.UserService.Repositories
 {
-    public class SecurityRoleRepository : GenericDocumentRepository<SecurityRole, Guid>, ISecurityRolesRepository
+    public class SecurityRolesRepository : GenericDocumentRepository<SecurityRole, Guid>, ISecurityRolesRepository
     {
-        public SecurityRoleRepository(DocumentDbContext context) : base(context)
+        public SecurityRolesRepository(DocumentDbContext context) : base(context)
         {
         }
     }

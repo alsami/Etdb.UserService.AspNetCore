@@ -44,7 +44,7 @@ namespace Etdb.UserService.Bootstrap.Tests.Startups
                 .Get<IdentityServerConfiguration>();
 
             this.hostingEnvironment.EnvironmentName = EnvironmentName.Development;
-            
+
             services
                 .AddSingleton(new ContextLessRouteProvider())
                 .ConfigureMvc()
@@ -55,7 +55,7 @@ namespace Etdb.UserService.Bootstrap.Tests.Startups
                 .ConfigureIdentityServerConfigurationOptions(configuration)
                 .ConfigureFileStoreOptions(configuration, this.hostingEnvironment)
                 .ConfigureCompression();
-            
+
             services.AddAuthentication(ApiServerStartup.AuthenticationSchema)
                 .AddIdentityServerAuthentication(options =>
                 {
@@ -64,7 +64,6 @@ namespace Etdb.UserService.Bootstrap.Tests.Startups
                     options.ApiName = ServiceNames.UserService;
                     options.JwtBackChannelHandler = this.identityTestServer.CreateHandler();
                 });
-
         }
 
         public void Configure(IApplicationBuilder app)

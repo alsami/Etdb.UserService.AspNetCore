@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -9,6 +10,7 @@ using Etdb.UserService.Cqrs.Misc;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Presentation.Users;
 using Etdb.UserService.Services.Abstractions;
+using Etdb.UserService.Services.Abstractions.Models;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {
@@ -29,27 +31,28 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
         public async Task<UserDto> Handle(ProfileImageAddCommand command, CancellationToken cancellationToken)
         {
-            var existingUser = await this.usersService.FindByIdAsync(command.UserId);
+            var user = await this.usersService.FindByIdAsync(command.UserId);
 
-            if (existingUser == null)
+            if (user == null)
             {
                 throw new ResourceNotFoundException("The requested user could not be found");
             }
 
-            if (!await this.resourceLockingAdapter.LockAsync(existingUser.Id, TimeSpan.FromSeconds(30)))
-            {
-                throw WellknownExceptions.UserResourceLockException(existingUser.Id);
-            }
+            if (!await this.resourceLockingAdapter.LockAsync(user.Id, TimeSpan.FromSeconds(30)))
+                throw WellknownExceptions.UserResourceLockException(user.Id);
 
-            var userProfileImage =
-                ProfileImage.Create(Guid.NewGuid(), command.FileName, command.FileContentType.MediaType, command.IsPrimary);
+            var profileImageMetaInfo = new ProfileImageMetaInfo(ProfileImage.Create(Guid.NewGuid(),
+                    user.Id,
+                    command.FileName,
+                    command.FileContentType.MediaType,
+                    !user.ProfileImages.Any()),
+                command.FileBytes);
 
-            var updatedUser =
-                await this.usersService.EditProfileImageAsync(existingUser, userProfileImage, command.FileBytes);
+            await this.usersService.EditAsync(user, profileImageMetaInfo);
 
-            await this.resourceLockingAdapter.UnlockAsync(existingUser.Id);
+            await this.resourceLockingAdapter.UnlockAsync(user.Id);
 
-            return this.mapper.Map<UserDto>(updatedUser);
+            return this.mapper.Map<UserDto>(user);
         }
     }
 }

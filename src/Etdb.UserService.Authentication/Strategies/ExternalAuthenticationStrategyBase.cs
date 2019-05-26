@@ -19,7 +19,8 @@ namespace Etdb.UserService.Authentication.Strategies
         private readonly IBus bus;
         protected readonly IExternalIdentityServerClient ExternalIdentityServerClient;
 
-        protected ExternalAuthenticationStrategyBase(IBus bus, IExternalIdentityServerClient externalIdentityServerClient)
+        protected ExternalAuthenticationStrategyBase(IBus bus,
+            IExternalIdentityServerClient externalIdentityServerClient)
         {
             this.bus = bus;
             this.ExternalIdentityServerClient = externalIdentityServerClient;

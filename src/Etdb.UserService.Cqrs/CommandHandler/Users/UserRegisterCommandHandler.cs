@@ -39,7 +39,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             ICommandValidation<UserRegisterCommand> userRegisterCommandValidation,
             ICommandValidation<EmailAddCommand> emailAddCommandValidation,
             ICommandValidation<PasswordAddCommand> passwordCommandValidation,
-            ISecurityRolesRepository rolesRepository, IHasher hasher, IMapper mapper, IOptions<FilestoreConfiguration> fileStoreOptions, IFileService fileService)
+            ISecurityRolesRepository rolesRepository, IHasher hasher, IMapper mapper,
+            IOptions<FilestoreConfiguration> fileStoreOptions, IFileService fileService)
         {
             this.usersService = usersService;
             this.userRegisterCommandValidation = userRegisterCommandValidation;
@@ -70,22 +71,15 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
                 throw new GeneralValidationException("Error validating user registration!", errors);
             }
 
-            var (user, profileImageMetaInfo) = await this.GenerateUserAsync(command, provider);
+            var (user, profileImageMetaInfos) = await this.GenerateUserAsync(command, provider);
 
-            var profileImageIsNull = profileImageMetaInfo == null;
-            
-            if (!profileImageIsNull) user.AddProfileImage(profileImageMetaInfo.ProfileImage);
-
-            await this.usersService.AddAsync(user, 
-                !profileImageIsNull ? new[]
-            {
-                profileImageMetaInfo
-            } : null);
+            await this.usersService.AddAsync(user, profileImageMetaInfos.ToArray());
 
             return this.mapper.Map<UserDto>(user);
         }
 
-        private async Task<(User, ProfileImageMetaInfo)> GenerateUserAsync(UserRegisterCommand command, AuthenticationProvider provider)
+        private async Task<(User, IEnumerable<ProfileImageMetaInfo>)> GenerateUserAsync(UserRegisterCommand command,
+            AuthenticationProvider provider)
         {
             var emails = GenerateEmails(command, provider);
 
@@ -93,34 +87,41 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
             var profileImageMetaInfo = GenerateProfileImageMetaInfoWhenAvailable(command);
 
+            var profileImageMetaInfos = profileImageMetaInfo == null
+                ? Array.Empty<ProfileImageMetaInfo>()
+                : new[] {profileImageMetaInfo};
+
             if (provider != AuthenticationProvider.UsernamePassword)
             {
-                var userFromExternalAuthentication = new User(command.Id, command.UserName, command.FirstName, command.Name, null,
+                var userFromExternalAuthentication = new User(command.Id, command.UserName, command.FirstName,
+                    command.Name, null,
                     DateTime.UtcNow, roles, emails, provider);
 
-                return (userFromExternalAuthentication, profileImageMetaInfo);
+                return (userFromExternalAuthentication, profileImageMetaInfos);
             }
 
             var salt = this.hasher.GenerateSalt();
 
-            var userFromInternalAuthentication = new User(command.Id, command.UserName, command.FirstName, command.Name, null,
+            var userFromInternalAuthentication = new User(command.Id, command.UserName, command.FirstName, command.Name,
+                null,
                 DateTime.UtcNow, roles, emails,
                 password: this.hasher.CreateSaltedHash(command.PasswordAddCommand.NewPassword, salt), salt: salt);
-            
-            return (userFromInternalAuthentication, profileImageMetaInfo);
+
+            return (userFromInternalAuthentication, profileImageMetaInfos);
         }
 
         private static ProfileImageMetaInfo GenerateProfileImageMetaInfoWhenAvailable(UserRegisterCommand command)
         {
             if (command.ProfileImageAddCommand == null) return null;
-            
-            return new ProfileImageMetaInfo(ProfileImage.Create(command.Id,
+
+            return new ProfileImageMetaInfo(ProfileImage.Create(Guid.NewGuid(),
+                    command.Id,
                     command.ProfileImageAddCommand.FileName,
                     command.ProfileImageAddCommand.FileContentType.MediaType,
-                    command.ProfileImageAddCommand.IsPrimary),
+                    true),
                 command.ProfileImageAddCommand.FileBytes);
         }
-        
+
         private static ICollection<Email> GenerateEmails(UserRegisterCommand command, AuthenticationProvider provider)
             => command
                 .Emails
@@ -131,7 +132,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
         private async Task<ICollection<Guid>> GenerateRoleIdsAsync()
         {
             var memberRole = await this.rolesRepository.FindAsync(role => role.Name == RoleNames.Member);
-            
+
             if (memberRole == null) throw new ApplicationException("Required minimum data not available!");
 
             return new[]
@@ -139,7 +140,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
                 memberRole.Id
             };
         }
-        
+
         private async Task<ICollection<ValidationResult>> ValidateRequestAsync(UserRegisterCommand command,
             AuthenticationProvider provider)
         {

@@ -26,7 +26,7 @@ namespace Etdb.UserService.Bootstrap.Tests
             this.ConfigurationFixture = configurationFixture;
             this.TestServerFixture = testServerFixture;
         }
-        
+
         protected string GetClientId() => this.ConfigurationFixture
             .Configuration
             .GetSection(nameof(IdentityServerConfiguration))
@@ -38,15 +38,15 @@ namespace Etdb.UserService.Bootstrap.Tests
         protected async Task<TokenResponse> GetTokenAsync(UserRegisterDto registerDto)
         {
             var proxy = new IdentityServerProxy(this.TestServerFixture.IdentityServer);
-            
+
             var tokenResponse = await proxy.GetResourceOwnerPasswordAccessTokenAsync(
                 new ClientConfiguration(this.GetClientId(), this.GetClientSecret()),
-                new UserLoginConfiguration(registerDto.UserName, registerDto.Password), 
+                new UserLoginConfiguration(registerDto.UserName, registerDto.Password),
                 string.Join(" ", this.GetClientScopes()));
 
             return tokenResponse;
         }
-        
+
         protected static async Task<UserRegisterDto> RegisterAsync(HttpClient httpClient)
         {
             var registerDto = CreateRandom();

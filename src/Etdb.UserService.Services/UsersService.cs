@@ -7,12 +7,10 @@ using System.Threading.Tasks;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.Enums;
-using Etdb.UserService.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using Etdb.UserService.Services.Abstractions.Models;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Services
@@ -20,100 +18,42 @@ namespace Etdb.UserService.Services
     // ReSharper disable SpecifyStringComparison
     public class UsersService : IUsersService
     {
-        private readonly IDistributedCache cache;
         private readonly IUsersRepository usersRepository;
         private readonly IFileService fileService;
         private readonly IOptions<FilestoreConfiguration> fileStoreOptions;
         private const int MaxFailedLoginCount = 3;
 
-        public UsersService(IUsersRepository usersRepository, IDistributedCache cache, IFileService fileService,
+        public UsersService(IUsersRepository usersRepository, IFileService fileService,
             IOptions<FilestoreConfiguration> fileStoreOptions)
         {
             this.usersRepository = usersRepository;
-            this.cache = cache;
             this.fileService = fileService;
             this.fileStoreOptions = fileStoreOptions;
         }
 
-        public async Task AddAsync(User user, ICollection<ProfileImageMetaInfo> profileImageMetaInfos = null)
+        public async Task AddAsync(User user, params ProfileImageMetaInfo[] profileImageMetaInfos)
         {
-            if (profileImageMetaInfos != null)
+            if (profileImageMetaInfos.Any())
             {
-                var storeTasks = profileImageMetaInfos.Select(async profileImageMeta =>
-                    await this.fileService.StoreBinaryAsync(
-                        Path.Combine(this.fileStoreOptions.Value.ImagePath, user.Id.ToString()),
-                        profileImageMeta.ProfileImage.Name,
-                        profileImageMeta.Image));
-
-                await Task.WhenAll(storeTasks);
+                await this.StoreProfileImagesAsync(user, profileImageMetaInfos);
             }
-            
+
             await this.usersRepository.AddAsync(user);
-
-            await this.cache.AddOrUpdateAsync(user.Id, user);
-
-            var emailCachingTasks = user
-                .Emails
-                .Select(async email => await this.cache.AddOrUpdateAsync(email.Id, email))
-                .ToArray();
-
-            await Task.WhenAll(emailCachingTasks);
         }
 
-        public async Task EditAsync(User user)
+        public async Task EditAsync(User user, params ProfileImageMetaInfo[] profileImageMetaInfos)
         {
-            var saved = await this.usersRepository.EditAsync(user);
-
-            if (!saved)
+            if (profileImageMetaInfos.Any())
             {
-                return;
+                await this.StoreProfileImagesAsync(user, profileImageMetaInfos);
             }
 
-            await this.cache.AddOrUpdateAsync(user.Id, user);
-        }
-        
-        public async Task<User> EditProfileImageAsync(User user, ProfileImage profileImage, byte[] file)
-        {
-            if (user.ProfileImages.Any())
-            {
-                this.fileService.DeleteBinary(Path.Combine(this.fileStoreOptions.Value.ImagePath,
-                    user.Id.ToString(),
-                    user.ProfileImages.First().Name));
-            }
-
-            await this.fileService.StoreBinaryAsync(
-                Path.Combine(this.fileStoreOptions.Value.ImagePath, user.Id.ToString()), profileImage.Name,
-                file);
-
-            var updatedUser = new User(user.Id, user.UserName, user.FirstName,
-                user.Name, user.Biography,
-                user.RegisteredSince, user.RoleIds, user.Emails,
-                user.AuthenticationProvider,
-                user.Password, user.Salt, user.ProfileImages);
-
-            await this.EditAsync(updatedUser);
-
-            return updatedUser;
+            await this.usersRepository.EditAsync(user);
         }
 
-        public async Task<User> FindByIdAsync(Guid id)
-        {
-            var cachedUser = await this.cache.FindAsync<User, Guid>(id);
+        public Task EditAsync(User user) => this.usersRepository.EditAsync(user);
 
-            if (cachedUser != null)
-            {
-                return cachedUser;
-            }
-
-            var user = await this.usersRepository.FindAsync(id);
-
-            if (user != null)
-            {
-                await this.cache.AddOrUpdateAsync(user.Id, user);
-            }
-
-            return user;
-        }
+        public Task<User> FindByIdAsync(Guid id) => this.usersRepository.FindAsync(id);
 
         public async Task<bool> IsUserLocked(Guid id)
         {
@@ -128,7 +68,7 @@ namespace Etdb.UserService.Services
             {
                 return false;
             }
-            
+
             var signInLogs = user.SignInLogs
                 .OrderByDescending(log => log.LoggedAt)
                 .ToArray();
@@ -157,33 +97,18 @@ namespace Etdb.UserService.Services
             return foundFailedLoginsInARow == UsersService.MaxFailedLoginCount;
         }
 
-        public async Task<User> FindByUserNameAsync(string userName)
+        public Task<User> FindByUserNameAsync(string userName)
         {
-            var user = await this.usersRepository.FindAsync(UserNameEqualsExpression(userName));
+            if (string.IsNullOrWhiteSpace(userName)) throw new ArgumentException(nameof(userName));
 
-            if (user != null)
-            {
-                await this.cache.AddOrUpdateAsync(user.Id, user);
-            }
-
-            return user;
+            return this.usersRepository.FindAsync(UserNameEqualsExpression(userName));
         }
 
-        public async Task<User> FindByUserNameOrEmailAsync(string userNameOrEmail)
+        public Task<User> FindByUserNameOrEmailAsync(string userNameOrEmail)
         {
-            if (string.IsNullOrWhiteSpace(userNameOrEmail))
-            {
-                throw new ArgumentException(nameof(userNameOrEmail));
-            }
+            if (string.IsNullOrWhiteSpace(userNameOrEmail)) throw new ArgumentException(nameof(userNameOrEmail));
 
-            var user = await this.usersRepository.FindAsync(UserOrEmailEqualsExpression(userNameOrEmail));
-
-            if (user != null)
-            {
-                await this.cache.AddOrUpdateAsync(user.Id, user);
-            }
-
-            return user;
+            return this.usersRepository.FindAsync(UserOrEmailEqualsExpression(userNameOrEmail));
         }
 
         public Email FindEmailAddress(string emailAddress)
@@ -195,6 +120,26 @@ namespace Etdb.UserService.Services
 
             return email;
         }
+
+        private Task StoreProfileImagesAsync(User user, IEnumerable<ProfileImageMetaInfo> profileImageMetaInfos)
+        {
+            var storeTasks = profileImageMetaInfos.Select(async profileImageMetaInfo =>
+            {
+                var relativePath = Path.Combine(this.fileStoreOptions.Value.ImagePath,
+                    profileImageMetaInfo.ProfileImage.Subpath());
+                
+                // TODO: fix path creation in file-service
+                var absolutePath = Path.Combine(this.fileStoreOptions.Value.ImagePath, profileImageMetaInfo.ProfileImage.RelativePath());
+                
+                this.fileService.DeleteBinary(absolutePath);
+                
+                await this.fileService.StoreBinaryAsync(relativePath, profileImageMetaInfo.ProfileImage.Name, profileImageMetaInfo.Image);
+
+                user.AddProfileImage(profileImageMetaInfo.ProfileImage);
+            });
+
+            return Task.WhenAll(storeTasks);
+        } 
 
         private static Expression<Func<User, bool>> UserNameEqualsExpression(string userName) =>
             user => user.UserName.ToLower() == userName.ToLower();

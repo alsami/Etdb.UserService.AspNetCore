@@ -19,7 +19,8 @@ namespace Etdb.UserService.Authentication.Strategies
     {
         private readonly ILogger<GoogleAuthenticationStrategy> logger;
 
-        public GoogleAuthenticationStrategy(ILogger<GoogleAuthenticationStrategy> logger, IBus bus, IExternalIdentityServerClient externalIdentityServerClient) : base(bus, externalIdentityServerClient)
+        public GoogleAuthenticationStrategy(ILogger<GoogleAuthenticationStrategy> logger, IBus bus,
+            IExternalIdentityServerClient externalIdentityServerClient) : base(bus, externalIdentityServerClient)
         {
             this.logger = logger;
         }
@@ -29,7 +30,8 @@ namespace Etdb.UserService.Authentication.Strategies
 
         public async Task<GrantValidationResult> AuthenticateAsync(string token)
         {
-            var response = await this.ExternalIdentityServerClient.Client.GetAsync($"{this.UserProfileUrl}?access_token={token}");
+            var response =
+                await this.ExternalIdentityServerClient.Client.GetAsync($"{this.UserProfileUrl}?access_token={token}");
 
             var json = await response.Content.ReadAsStringAsync();
 
@@ -62,13 +64,21 @@ namespace Etdb.UserService.Authentication.Strategies
 
         private static async Task<UserRegisterCommand> CreateCommandAsync(HttpClient client,
             GoogleUserProfile googleProfile)
-            => new UserRegisterCommand(Guid.NewGuid(), googleProfile.Email, googleProfile.Given_Name,
+        {
+            var userId = Guid.NewGuid();
+
+            var emailAddCommand = new EmailAddCommand(Guid.NewGuid(), googleProfile.Email, true, true);
+
+            var profileImageAddCommand = new ProfileImageAddCommand(userId,
+                "google_photo.jpg",
+                new ContentType("image/*"), await client.GetByteArrayAsync(googleProfile.Picture));
+
+            return new UserRegisterCommand(userId, googleProfile.Email, googleProfile.Given_Name,
                 googleProfile.Family_Name, new[]
                 {
-                    new EmailAddCommand(Guid.NewGuid(), googleProfile.Email, true, true),
-                }, (int) AuthenticationProvider.Google, profileImageAddCommand: new ProfileImageAddCommand(
-                    "google_photo.jpg",
-                    new ContentType("image/*"), await client.GetByteArrayAsync(googleProfile.Picture), true));
+                    emailAddCommand
+                }, (int) AuthenticationProvider.Google, profileImageAddCommand: profileImageAddCommand);
+        }
 
 
         private GrantValidationResult ErrorValidationResult(string json)

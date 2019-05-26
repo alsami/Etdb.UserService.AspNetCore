@@ -126,7 +126,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
                         .Build());
 
                     options.Filters.Add(requireAuthenticatedUserPolicy);
-                    
+
                     options.Filters.Add<UnhandledExceptionFilter>();
                     options.Filters.Add<IdentityServerExceptionFilter>();
                     options.Filters.Add<AccessDeniedExceptionFilter>();

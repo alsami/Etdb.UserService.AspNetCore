@@ -12,13 +12,15 @@ namespace Etdb.UserService.AspNetCore.Extensions
                actionDescriptor.AllowsAnonymousForController(withInheritance);
 
         // ReSharper disable twice MemberCanBePrivate.Global
-        public static bool AllowsAnonymousAccessForAction(this ActionDescriptor actionDescriptor, bool withInheritance = true)
+        public static bool AllowsAnonymousAccessForAction(this ActionDescriptor actionDescriptor,
+            bool withInheritance = true)
             => ((ControllerActionDescriptor) actionDescriptor).MethodInfo.IsDefined(typeof(AllowAnonymousAttribute),
                 withInheritance);
 
         public static bool AllowsAnonymousForController(this ActionDescriptor actionDescriptor,
-            bool withInheritance = true) 
-            => ((ControllerActionDescriptor) actionDescriptor).ControllerTypeInfo.IsDefined(typeof(AllowAnonymousAttribute),
+            bool withInheritance = true)
+            => ((ControllerActionDescriptor) actionDescriptor).ControllerTypeInfo.IsDefined(
+                typeof(AllowAnonymousAttribute),
                 withInheritance);
     }
 }

@@ -6,7 +6,7 @@ namespace Etdb.UserService.Presentation.Authentication
     public class SignInValidationDto
     {
         public bool IsValid { get; }
-        
+
         public SignInFailure? signInFailure { get; }
 
         public Guid UserId { get; }

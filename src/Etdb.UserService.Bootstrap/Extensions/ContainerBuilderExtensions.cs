@@ -15,17 +15,13 @@ using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.ServiceBase.Services;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
-using Etdb.UserService.Authentication.Services;
 using Etdb.UserService.Authentication.Strategies;
-using Etdb.UserService.Authentication.Validator;
 using Etdb.UserService.AutoMapper.Profiles;
 using Etdb.UserService.Cqrs.CommandHandler.Users;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Repositories;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
-using IdentityServer4.Services;
-using IdentityServer4.Validation;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -78,14 +74,17 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 {
                     return componentContext.Resolve<IGoogleAuthenticationStrategy>();
                 }
+
                 case AuthenticationProvider.Facebook:
                 {
                     return componentContext.Resolve<IFacebookAuthenticationStrategy>();
                 }
+
                 case AuthenticationProvider.Twitter:
                 {
                     throw new NotImplementedException();
                 }
+
                 case AuthenticationProvider.UsernamePassword:
                     throw new ArgumentOutOfRangeException(nameof(provider));
                 default:

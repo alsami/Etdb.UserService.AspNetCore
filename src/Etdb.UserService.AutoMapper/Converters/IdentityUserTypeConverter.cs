@@ -17,17 +17,17 @@ namespace Etdb.UserService.AutoMapper.Converters
             var firstName = claims.FirstOrDefault(claim => claim.Type == JwtClaimTypes.GivenName)?.Value;
             var lastName = claims.FirstOrDefault(claim => claim.Type == JwtClaimTypes.FamilyName)?.Value;
 
-            return new IdentityUserDto(Guid.Parse(claims.First(claim => claim.Type == JwtClaimTypes.Subject).Value), 
-                firstName, lastName, 
-                claims.First(claim => claim.Type == JwtClaimTypes.PreferredUserName).Value, 
+            return new IdentityUserDto(Guid.Parse(claims.First(claim => claim.Type == JwtClaimTypes.Subject).Value),
+                firstName, lastName,
+                claims.First(claim => claim.Type == JwtClaimTypes.PreferredUserName).Value,
                 claims
-                .Where(claim => claim.Type == JwtClaimTypes.Email)
-                .Select(claim => claim.Value)
-                .ToArray(), 
+                    .Where(claim => claim.Type == JwtClaimTypes.Email)
+                    .Select(claim => claim.Value)
+                    .ToArray(),
                 claims
-                .Where(claim => claim.Type == JwtClaimTypes.Role)
-                .Select(claim => claim.Value)
-                .ToArray(), claims.First(claim => claim.Type == JwtClaimTypes.IdentityProvider).Value, 
+                    .Where(claim => claim.Type == JwtClaimTypes.Role)
+                    .Select(claim => claim.Value)
+                    .ToArray(), claims.First(claim => claim.Type == JwtClaimTypes.IdentityProvider).Value,
                 claims.FirstOrDefault(claim => claim.Type == JwtClaimTypes.Picture)?.Value);
         }
     }

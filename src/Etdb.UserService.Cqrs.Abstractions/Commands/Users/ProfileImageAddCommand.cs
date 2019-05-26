@@ -7,30 +7,20 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 {
     public class ProfileImageAddCommand : IResponseCommand<UserDto>
     {
-        public ProfileImageAddCommand(Guid userId, string fileName, ContentType fileContentType, byte[] fileBytes, bool isPrimary)
+        public ProfileImageAddCommand(Guid userId, string fileName, ContentType fileContentType, byte[] fileBytes)
         {
             this.UserId = userId;
             this.FileName = fileName;
             this.FileContentType = fileContentType;
             this.FileBytes = fileBytes;
-            this.IsPrimary = isPrimary;
         }
 
-        public ProfileImageAddCommand(string fileName, ContentType fileContentType, byte[] fileBytes, bool isPrimary)
-        {
-            this.FileName = fileName;
-            this.FileContentType = fileContentType;
-            this.FileBytes = fileBytes;
-            this.IsPrimary = isPrimary;
-        }
 
-        public Guid UserId { get; } = Guid.Empty;
+        public Guid UserId { get; }
 
         public string FileName { get; }
 
         public ContentType FileContentType { get; }
-        
-        public bool IsPrimary { get; }
 
         public byte[] FileBytes { get; }
     }

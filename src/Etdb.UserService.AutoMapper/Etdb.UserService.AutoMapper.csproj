@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Cqrs.Abstractions\Etdb.UserService.Cqrs.Abstractions.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Domain\Etdb.UserService.Domain.csproj" />
+    <ProjectReference Include="..\Etdb.UserService.Misc\Etdb.UserService.Misc.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Presentation\Etdb.UserService.Presentation.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Services.Abstractions\Etdb.UserService.Services.Abstractions.csproj" />
   </ItemGroup>

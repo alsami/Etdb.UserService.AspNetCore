@@ -8,7 +8,8 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 {
     public class UserRegisterCommand : UserNameCommand, IResponseCommand<UserDto>
     {
-        public UserRegisterCommand(Guid id, string userName, string firstName, string name, ICollection<EmailAddCommand> emails,
+        public UserRegisterCommand(Guid id, string userName, string firstName, string name,
+            ICollection<EmailAddCommand> emails,
             int loginProvider, PasswordAddCommand passwordAddCommand = null,
             ProfileImageAddCommand profileImageAddCommand = null) : base(
             id, userName)

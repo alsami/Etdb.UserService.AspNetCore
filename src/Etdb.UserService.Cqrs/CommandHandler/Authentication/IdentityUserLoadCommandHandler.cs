@@ -18,7 +18,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
         private readonly IOptions<IdentityServerConfiguration> identityServerOptions;
         private readonly IIdentityServerClient identityServerClient;
 
-        public IdentityUserLoadCommandHandler(IOptions<IdentityServerConfiguration> identityServerOptions, IMapper mapper, IIdentityServerClient identityServerClient)
+        public IdentityUserLoadCommandHandler(IOptions<IdentityServerConfiguration> identityServerOptions,
+            IMapper mapper, IIdentityServerClient identityServerClient)
         {
             this.identityServerOptions = identityServerOptions;
             this.mapper = mapper;

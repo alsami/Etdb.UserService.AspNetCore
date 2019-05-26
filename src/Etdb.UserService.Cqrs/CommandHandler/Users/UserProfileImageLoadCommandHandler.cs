@@ -33,20 +33,15 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
         {
             var user = await this.usersService.FindByIdAsync(request.UserId);
 
-            if (user == null)
-            {
-                throw new ResourceNotFoundException("The requested user could not be found!");
-            }
+            if (user == null) throw new ResourceNotFoundException("The requested user could not be found!");
 
             var wantedImage = user.ProfileImages.FirstOrDefault(image => image.Id == request.Id);
 
             if (wantedImage == null)
-            {
-                throw new ResourceNotFoundException("The requested user does not have a profile image!");
-            }
+                throw new ResourceNotFoundException("The requested profile-image was not found!");
 
             var binary = await this.fileService.ReadBinaryAsync(
-                Path.Combine(this.fileStoreOptions.Value.ImagePath, user.Id.ToString()), wantedImage.Name);
+                Path.Combine(this.fileStoreOptions.Value.ImagePath, wantedImage.RelativePath()));
 
             return new FileDownloadInfoDto(wantedImage.MediaType, wantedImage.Name, binary);
         }

@@ -23,7 +23,8 @@ namespace Etdb.UserService.Presentation.Authentication
 
         public string ProfileImageUrl { get; }
 
-        public IdentityUserDto(Guid id, string firstName, string lastName, string userName, string[] emails, string[] roles, string authenticationProvider, string profileImageUrl)
+        public IdentityUserDto(Guid id, string firstName, string lastName, string userName, string[] emails,
+            string[] roles, string authenticationProvider, string profileImageUrl)
         {
             this.Id = id;
             this.FirstName = firstName;

@@ -2,6 +2,11 @@
 {
     public class RouteNames
     {
-        public const string ProfileImageUrlRoute = "LoadProfileImage";
+        public class ProfileImages
+        {
+            public const string ProfileImageLoadRoute = "LoadProfileImage";
+
+            public const string ProfileImageDeleteRoute = "DeleteProfileImage";
+        }
     }
 }

@@ -20,25 +20,27 @@ namespace Etdb.UserService.Presentation.Users
 
         public DateTime RegisteredSince { get; }
 
-        public string ProfileImageUrl { get; }
-
         public string SignInProvider { get; }
 
         public bool IsExternalUser { get; }
 
         public ICollection<EmailDto> Emails { get; }
+        
+        public ICollection<ProfileImageMetaInfoDto> ProfileImageMetaInfos { get; }
 
-        public UserDto(Guid id, string userName, string firstName, string name, string biography, DateTime registeredSince, string profileImageUrl, string signInProvider, bool isExternalUser, ICollection<EmailDto> emails) : base(id)
+        public UserDto(Guid id, string userName, string firstName, string name, string biography,
+            DateTime registeredSince, string signInProvider, bool isExternalUser,
+            ICollection<EmailDto> emails, ICollection<ProfileImageMetaInfoDto> profileImageMetaInfos) : base(id)
         {
             this.UserName = userName;
             this.FirstName = firstName;
             this.Name = name;
             this.Biography = biography;
             this.RegisteredSince = registeredSince;
-            this.ProfileImageUrl = profileImageUrl;
             this.SignInProvider = signInProvider;
             this.IsExternalUser = isExternalUser;
             this.Emails = emails;
+            this.ProfileImageMetaInfos = profileImageMetaInfos;
         }
     }
 }

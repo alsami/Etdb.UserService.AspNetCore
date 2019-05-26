@@ -25,9 +25,9 @@ namespace Etdb.UserService.Authentication.Services
                 AbsoluteExpiration = grant.Expiration.GetValueOrDefault()
             };
 
-            await this.cache.AddOrUpdateAsync(grant.Key, grant, cachingOptions);
+            await this.cache.AddAsync(grant.Key, grant, cachingOptions);
 
-            await this.cache.AddOrUpdateAsync($"{CachedGrantStoreService.TokenKeyPrefix}{grant.SubjectId}", grant,
+            await this.cache.AddAsync($"{CachedGrantStoreService.TokenKeyPrefix}{grant.SubjectId}", grant,
                 cachingOptions);
         }
 

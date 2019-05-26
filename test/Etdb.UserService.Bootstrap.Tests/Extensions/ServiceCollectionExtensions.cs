@@ -1,8 +1,6 @@
-﻿using Etdb.ServiceBase.Constants;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
+﻿using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Bootstrap.Tests.Extensions
 {

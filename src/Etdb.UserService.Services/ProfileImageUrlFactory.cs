@@ -28,7 +28,7 @@ namespace Etdb.UserService.Services
             this.contextLessRouteProvider = contextLessRouteProvider;
         }
 
-        public string GenerateUrl(User user)
+        public string GenerateUrl(ProfileImage profileImage, string route)
         {
             var context = this.actionContextAccessor.ActionContext ??
                           new ActionContext(this.httpContextAccessor.HttpContext,
@@ -40,10 +40,10 @@ namespace Etdb.UserService.Services
             var urlHelper =
                 this.urlHelperFactory.GetUrlHelper(context);
 
-            var url = urlHelper.Link(RouteNames.ProfileImageUrlRoute, new
+            var url = urlHelper.Link(route, new
             {
-                userId = user.Id,
-                id = user.ProfileImages.First().Id
+                userId = profileImage.UserId,
+                id = profileImage.Id,
             });
 
             return url;

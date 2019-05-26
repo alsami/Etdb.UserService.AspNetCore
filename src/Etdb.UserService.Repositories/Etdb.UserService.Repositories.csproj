@@ -6,8 +6,10 @@
     <PackageReference Include="Etdb.ServiceBase.Constants" Version="2.2.0" />
     <PackageReference Include="Etdb.ServiceBase.Cryptography" Version="2.2.0" />
     <PackageReference Include="Etdb.ServiceBase.DocumentRepository" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Etdb.UserService.Extensions\Etdb.UserService.Extensions.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Repositories.Abstractions\Etdb.UserService.Repositories.Abstractions.csproj" />
   </ItemGroup>
 </Project>
