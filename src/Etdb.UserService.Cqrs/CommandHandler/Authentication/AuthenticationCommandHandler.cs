@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.UserService.Cqrs.Abstractions.Base;
+using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Misc.Exceptions;
 using Etdb.UserService.Presentation.Authentication;
@@ -53,12 +54,13 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
             }
 
             return new AccessTokenDto(tokenResponse.AccessToken, tokenResponse.RefreshToken,
-                DateTime.UtcNow.AddSeconds(tokenResponse.ExpiresIn), tokenResponse.TokenType);
+                DateTime.UtcNow.AddSeconds(tokenResponse.ExpiresIn), tokenResponse.TokenType, command.AuthenticationProvider);
         }
 
         protected abstract Task<TokenResponse> RequestTokenAsync(TCommand command, HttpClient client,
             Client identityClient,
             DiscoveryResponse discoveryResponse, CancellationToken cancellationToken = default);
+
 
         private bool TryFindClient(TCommand command, out Client client)
         {

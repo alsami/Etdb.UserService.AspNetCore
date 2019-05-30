@@ -1,6 +1,6 @@
 ﻿namespace Etdb.UserService.Presentation.Authentication
 {
-    public class UserExternalAuthenticationDto
+    public class ExternalAuthenticationDto
     {
         public string ClientId { get; }
 
@@ -8,7 +8,7 @@
 
         public string Provider { get; }
 
-        public UserExternalAuthenticationDto(string clientId, string token, string provider)
+        public ExternalAuthenticationDto(string clientId, string token, string provider)
         {
             this.ClientId = clientId;
             this.Token = token;

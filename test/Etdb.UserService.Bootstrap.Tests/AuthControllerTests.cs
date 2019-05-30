@@ -44,7 +44,7 @@ namespace Etdb.UserService.Bootstrap.Tests
             var registerDto = await RegisterAsync(httpClient);
 
             var authenticationDto =
-                new UserInternalAuthenticationDto(registerDto.UserName, registerDto.Password, this.GetClientId());
+                new InternalAuthenticationDto(registerDto.UserName, registerDto.Password, this.GetClientId());
 
             var authenticationResponse = await AuthenticateAsync(authenticationDto, httpClient);
 
@@ -60,7 +60,7 @@ namespace Etdb.UserService.Bootstrap.Tests
 
             var registerDto = await RegisterAsync(httpClient);
 
-            var authenticationDto = new UserInternalAuthenticationDto(registerDto.UserName,
+            var authenticationDto = new InternalAuthenticationDto(registerDto.UserName,
                 $"{registerDto.Password}ssadasdsadasdsa", this.GetClientId());
 
             var authenticationResponse = await AuthenticateAsync(authenticationDto, httpClient);
@@ -111,7 +111,7 @@ namespace Etdb.UserService.Bootstrap.Tests
         {
             var httpClient = this.TestServerFixture.ApiServer.CreateClient();
 
-            var authenticationDto = new UserExternalAuthenticationDto(this.GetClientId(), Guid.NewGuid().ToString(),
+            var authenticationDto = new ExternalAuthenticationDto(this.GetClientId(), Guid.NewGuid().ToString(),
                 AuthenticationProvider.Google.ToString());
 
             this.TestServerFixture.ExternalIdentityHttpMessageHandlerMock

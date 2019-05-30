@@ -5,10 +5,10 @@ using Etdb.UserService.Presentation.Authentication;
 namespace Etdb.UserService.AutoMapper.Converters
 {
     public class
-        UserExternalAuthenticationCommandTypeConverter : ITypeConverter<UserExternalAuthenticationDto,
+        ExternalAuthenticationCommandTypeConverter : ITypeConverter<ExternalAuthenticationDto,
             ExternalAuthenticationCommand>
     {
-        public ExternalAuthenticationCommand Convert(UserExternalAuthenticationDto source,
+        public ExternalAuthenticationCommand Convert(ExternalAuthenticationDto source,
             ExternalAuthenticationCommand destination, ResolutionContext context) =>
             new ExternalAuthenticationCommand(source.ClientId, source.Token, source.Provider);
     }

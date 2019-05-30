@@ -36,7 +36,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
                 Parameters = new Dictionary<string, string>
                 {
                     {ExternalAuthenticationCommandHandler.TokenKey, command.Token},
-                    {ExternalAuthenticationCommandHandler.ProviderKey, command.Provider},
+                    {ExternalAuthenticationCommandHandler.ProviderKey, command.AuthenticationProvider},
                     {ExternalAuthenticationCommandHandler.ScopeKey, string.Join(" ", identityClient.Scopes)}
                 }
             }, cancellationToken);

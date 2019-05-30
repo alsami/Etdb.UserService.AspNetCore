@@ -78,7 +78,7 @@ namespace Etdb.UserService.Bootstrap.Tests
 
 
         protected static Task<HttpResponseMessage> AuthenticateAsync(
-            UserInternalAuthenticationDto internalAuthenticationDto, HttpClient client)
+            InternalAuthenticationDto internalAuthenticationDto, HttpClient client)
             => client.PostAsJsonAsync("api/v1/auth/authentication", internalAuthenticationDto);
 
 

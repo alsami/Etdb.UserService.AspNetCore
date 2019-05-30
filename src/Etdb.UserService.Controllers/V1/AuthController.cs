@@ -43,7 +43,7 @@ namespace Etdb.UserService.Controllers.V1
 
         [AllowAnonymous]
         [HttpPost("authentication")]
-        public Task<AccessTokenDto> AuthenticationAsync([FromBody] UserInternalAuthenticationDto authenticationDto)
+        public Task<AccessTokenDto> AuthenticationAsync([FromBody] InternalAuthenticationDto authenticationDto)
         {
             var command = this.mapper.Map<InternalAuthenticationCommand>(authenticationDto);
 
@@ -53,7 +53,7 @@ namespace Etdb.UserService.Controllers.V1
         [AllowAnonymous]
         [HttpPost("external-authentication")]
         public Task<AccessTokenDto> ExternalAuthenticationAsync(
-            [FromBody] UserExternalAuthenticationDto authenticationDto)
+            [FromBody] ExternalAuthenticationDto authenticationDto)
         {
             var command = this.mapper.Map<ExternalAuthenticationCommand>(authenticationDto);
 
@@ -61,10 +61,10 @@ namespace Etdb.UserService.Controllers.V1
         }
 
         [AllowAnonymous]
-        [HttpGet("refresh-authentication/{refreshToken}/{clientId}")]
-        public Task<AccessTokenDto> RefreshAuthenticationAsync(string refreshToken, string clientId)
+        [HttpGet("refresh-authentication/{refreshToken}/{clientId}/{authenticationProvider}")]
+        public Task<AccessTokenDto> RefreshAuthenticationAsync(string refreshToken, string clientId, string authenticationProvider)
             => this.bus.SendCommandAsync<RefreshAuthenticationCommand, AccessTokenDto>(
-                new RefreshAuthenticationCommand(refreshToken, clientId));
+                new RefreshAuthenticationCommand(refreshToken, clientId, authenticationProvider));
 
         [HttpGet("user-identity/{accessToken}")]
         public Task<IdentityUserDto> UserIdentityAsync(string accessToken)

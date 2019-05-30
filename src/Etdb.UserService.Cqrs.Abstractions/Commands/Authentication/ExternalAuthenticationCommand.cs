@@ -6,13 +6,11 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands.Authentication
     {
         public string Token { get; }
 
-        public string Provider { get; }
 
         public ExternalAuthenticationCommand(string clientId, string token,
-            string provider) : base(clientId)
+            string authenticationProvider) : base(clientId, authenticationProvider)
         {
             this.Token = token;
-            this.Provider = provider;
         }
     }
 }

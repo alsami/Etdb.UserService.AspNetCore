@@ -7,7 +7,7 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands.Authentication
         public string Username { get; }
         public string Password { get; }
 
-        public InternalAuthenticationCommand(string username, string password, string clientId) : base(clientId)
+        public InternalAuthenticationCommand(string username, string password, string clientId, string authenticationProvider) : base(clientId, authenticationProvider)
         {
             this.Username = username;
             this.Password = password;

@@ -1,12 +1,12 @@
 ﻿namespace Etdb.UserService.Presentation.Authentication
 {
-    public class UserInternalAuthenticationDto
+    public class InternalAuthenticationDto
     {
         public string Username { get; }
         public string Password { get; }
         public string ClientId { get; }
 
-        public UserInternalAuthenticationDto(string username, string password, string clientId)
+        public InternalAuthenticationDto(string username, string password, string clientId)
         {
             this.Username = username;
             this.Password = password;
