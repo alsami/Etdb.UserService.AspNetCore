@@ -127,19 +127,21 @@ namespace Etdb.UserService.Services
             {
                 var relativePath = Path.Combine(this.fileStoreOptions.Value.ImagePath,
                     profileImageMetaInfo.ProfileImage.Subpath());
-                
+
                 // TODO: fix path creation in file-service
-                var absolutePath = Path.Combine(this.fileStoreOptions.Value.ImagePath, profileImageMetaInfo.ProfileImage.RelativePath());
-                
+                var absolutePath = Path.Combine(this.fileStoreOptions.Value.ImagePath,
+                    profileImageMetaInfo.ProfileImage.RelativePath());
+
                 this.fileService.DeleteBinary(absolutePath);
-                
-                await this.fileService.StoreBinaryAsync(relativePath, profileImageMetaInfo.ProfileImage.Name, profileImageMetaInfo.Image);
+
+                await this.fileService.StoreBinaryAsync(relativePath, profileImageMetaInfo.ProfileImage.Name,
+                    profileImageMetaInfo.Image);
 
                 user.AddProfileImage(profileImageMetaInfo.ProfileImage);
             });
 
             return Task.WhenAll(storeTasks);
-        } 
+        }
 
         private static Expression<Func<User, bool>> UserNameEqualsExpression(string userName) =>
             user => user.UserName.ToLower() == userName.ToLower();

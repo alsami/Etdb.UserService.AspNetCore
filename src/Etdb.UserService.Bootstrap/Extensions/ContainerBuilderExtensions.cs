@@ -39,7 +39,6 @@ namespace Etdb.UserService.Bootstrap.Extensions
                     .AddAutoMapper(typeof(UsersProfile).Assembly))
                 .RegisterResolver<RedisLockManager, IRedisLockManager>(RedisLockManagerResolver)
                 .RegisterResolver(ExternalAuthenticationStrategyResolver)
-                .RegisterTypeAsSingleton<ProfileImageUrlFactory, IProfileImageUrlFactory>()
                 .RegisterTypeAsSingleton<ActionContextAccessor, IActionContextAccessor>()
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypeAsSingleton<FileService, IFileService>()
@@ -51,6 +50,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .RegisterTypeAsScoped<UsersService, IUsersService>()
                 .RegisterTypeAsScoped<ResourceLockingAdapter, IResourceLockingAdapter>()
                 .RegisterTypeAsScoped<ApplicationUser, IApplicationUser>()
+                .AddGenericAsSingleton(typeof(UserChildUrlFactory<>), typeof(IUserChildUrlFactory<>))
                 .AddClosedTypeAsScoped(typeof(ICommandValidation<>),
                     new[] {typeof(UserRegisterCommandHandler).Assembly})
                 .AddClosedTypeAsScoped(typeof(IDocumentRepository<,>), new[] {typeof(UserServiceDbContext).Assembly});

@@ -18,14 +18,13 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
     {
         private readonly IUsersService usersService;
         private readonly ISecurityRolesRepository rolesRepository;
-        private readonly IProfileImageUrlFactory profileImageUrlFactory;
+        private readonly IUserChildUrlFactory<ProfileImage> profileImageUrlFactory;
 
-        public UserClaimsLoadCommandHandler(ISecurityRolesRepository rolesRepository,
-            IProfileImageUrlFactory profileImageUrlFactory, IUsersService usersService)
+        public UserClaimsLoadCommandHandler(ISecurityRolesRepository rolesRepository, IUsersService usersService, IUserChildUrlFactory<ProfileImage> profileImageUrlFactory)
         {
             this.rolesRepository = rolesRepository;
-            this.profileImageUrlFactory = profileImageUrlFactory;
             this.usersService = usersService;
+            this.profileImageUrlFactory = profileImageUrlFactory;
         }
 
         public async Task<IEnumerable<Claim>> Handle(UserClaimsLoadCommand command, CancellationToken cancellationToken)

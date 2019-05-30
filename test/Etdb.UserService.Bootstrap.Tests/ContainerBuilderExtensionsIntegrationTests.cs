@@ -7,6 +7,7 @@ using Etdb.ServiceBase.DocumentRepository;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Bootstrap.Extensions;
+using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Services.Abstractions;
 using Microsoft.AspNetCore.Http;
@@ -30,8 +31,8 @@ namespace Etdb.UserService.Bootstrap.Tests
             Assert.True(container.IsRegistered<IRedisLockManager>(), $"{nameof(IRedisLockManager)} not registered");
             Assert.True(container.IsRegistered<IExternalAuthenticationStrategy>(),
                 $"{nameof(IExternalAuthenticationStrategy)} not registered");
-            Assert.True(container.IsRegistered<IProfileImageUrlFactory>(),
-                $"{nameof(IProfileImageUrlFactory)} not registered");
+            Assert.True(container.IsRegistered<IUserChildUrlFactory<ProfileImage>>(),
+                $"{nameof(IUserChildUrlFactory<ProfileImage>)} not registered");
             Assert.True(container.IsRegistered<IActionContextAccessor>(),
                 $"{nameof(IActionContextAccessor)} not registered");
             Assert.True(container.IsRegistered<IHasher>(), $"{nameof(IHasher)} not registered");

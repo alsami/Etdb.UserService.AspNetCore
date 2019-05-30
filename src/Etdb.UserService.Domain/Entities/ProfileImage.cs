@@ -8,20 +8,17 @@ using Newtonsoft.Json;
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 namespace Etdb.UserService.Domain.Entities
 {
-    public class ProfileImage : GuidDocument
+    public class ProfileImage : UserChildDocument
     {
         [JsonConstructor]
         private ProfileImage(Guid id, Guid userId, string name, string originalName, string mediaType,
-            bool isPrimary) : base(id)
+            bool isPrimary) : base(id, userId)
         {
-            this.UserId = userId;
             this.Name = name;
             this.OriginalName = originalName;
             this.MediaType = mediaType;
             this.IsPrimary = isPrimary;
         }
-
-        public Guid UserId { get; private set; }
 
         public string Name { get; private set; }
 

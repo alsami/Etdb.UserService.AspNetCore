@@ -8,6 +8,7 @@ namespace Etdb.UserService.Domain.Base
     {
         [BsonId]
         // ReSharper disable once MemberCanBePrivate.Global
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         public Guid Id { get; protected set; }
 
         protected GuidDocument(Guid id)

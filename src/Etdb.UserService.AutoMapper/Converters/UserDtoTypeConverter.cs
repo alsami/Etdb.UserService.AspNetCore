@@ -11,9 +11,9 @@ namespace Etdb.UserService.AutoMapper.Converters
 {
     public class UserDtoTypeConverter : ITypeConverter<User, UserDto>
     {
-        private readonly IProfileImageUrlFactory profileImageUrlFactory;
+        private readonly IUserChildUrlFactory<ProfileImage> profileImageUrlFactory;
 
-        public UserDtoTypeConverter(IProfileImageUrlFactory profileImageUrlFactory)
+        public UserDtoTypeConverter(IUserChildUrlFactory<ProfileImage> profileImageUrlFactory)
         {
             this.profileImageUrlFactory = profileImageUrlFactory;
         }
