@@ -3,7 +3,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
-using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Presentation.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

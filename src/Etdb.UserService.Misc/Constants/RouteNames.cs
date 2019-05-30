@@ -1,12 +1,23 @@
-﻿namespace Etdb.UserService.Misc.Constants
+﻿using System.Threading;
+
+namespace Etdb.UserService.Misc.Constants
 {
     public class RouteNames
     {
         public class ProfileImages
         {
-            public const string ProfileImageLoadRoute = "LoadProfileImage";
+            public const string LoadRoute = "LoadProfileImage";
 
-            public const string ProfileImageDeleteRoute = "DeleteProfileImage";
+            public const string DeleteRoute = "DeleteProfileImage";
+        }
+
+        public class Emails
+        {
+            public const string LoadAllRoute = "LoadEmails";
+
+            public const string PatchRoute = "PatchEmail";
+
+            public const string DeleteRoute = "DeleteEmail";
         }
     }
 }

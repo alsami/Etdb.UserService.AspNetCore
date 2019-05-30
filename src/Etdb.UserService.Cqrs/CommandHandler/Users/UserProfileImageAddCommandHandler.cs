@@ -15,7 +15,7 @@ using Etdb.UserService.Services.Abstractions.Models;
 namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {
     // ReSharper disable once UnusedMember.Global
-    public class UserProfileImageAddCommandHandler : IResponseCommandHandler<ProfileImageAddCommand, UserDto>
+    public class UserProfileImageAddCommandHandler : IResponseCommandHandler<ProfileImageAddCommand, ProfileImageMetaInfoDto>
     {
         private readonly IUsersService usersService;
         private readonly IResourceLockingAdapter resourceLockingAdapter;
@@ -29,7 +29,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             this.resourceLockingAdapter = resourceLockingAdapter;
         }
 
-        public async Task<UserDto> Handle(ProfileImageAddCommand command, CancellationToken cancellationToken)
+        public async Task<ProfileImageMetaInfoDto> Handle(ProfileImageAddCommand command, CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByIdAsync(command.UserId);
 
@@ -41,18 +41,19 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             if (!await this.resourceLockingAdapter.LockAsync(user.Id, TimeSpan.FromSeconds(30)))
                 throw WellknownExceptions.UserResourceLockException(user.Id);
 
-            var profileImageMetaInfo = new ProfileImageMetaInfo(ProfileImage.Create(Guid.NewGuid(),
-                    user.Id,
-                    command.FileName,
-                    command.FileContentType.MediaType,
-                    !user.ProfileImages.Any()),
-                command.FileBytes);
+            var profileImage = ProfileImage.Create(Guid.NewGuid(),
+                user.Id,
+                command.FileName,
+                command.FileContentType.MediaType,
+                !user.ProfileImages.Any());
+
+            var profileImageMetaInfo = new ProfileImageMetaInfo(profileImage, command.FileBytes);
 
             await this.usersService.EditAsync(user, profileImageMetaInfo);
 
             await this.resourceLockingAdapter.UnlockAsync(user.Id);
 
-            return this.mapper.Map<UserDto>(user);
+            return this.mapper.Map<ProfileImageMetaInfoDto>(profileImage);
         }
     }
 }

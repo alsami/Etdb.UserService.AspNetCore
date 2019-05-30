@@ -5,7 +5,7 @@ using Etdb.UserService.Presentation.Users;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 {
-    public class ProfileImageAddCommand : IResponseCommand<UserDto>
+    public class ProfileImageAddCommand : IResponseCommand<ProfileImageMetaInfoDto>
     {
         public ProfileImageAddCommand(Guid userId, string fileName, ContentType fileContentType, byte[] fileBytes)
         {

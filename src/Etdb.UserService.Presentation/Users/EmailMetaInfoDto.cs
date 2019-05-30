@@ -2,7 +2,7 @@ using System;
 
 namespace Etdb.UserService.Presentation.Users
 {
-    public class ProfileImageMetaInfoDto
+    public class EmailMetaInfoDto
     {
         public Guid Id { get; }
 
@@ -12,12 +12,15 @@ namespace Etdb.UserService.Presentation.Users
 
         public bool IsPrimary { get; }
 
-        public ProfileImageMetaInfoDto(Guid id, string url, string removeUrl, bool isPrimary)
+        public bool IsExternal { get; }
+
+        public EmailMetaInfoDto(Guid id, string url, string removeUrl, bool isPrimary, bool isExternal)
         {
             this.Id = id;
             this.Url = url;
             this.RemoveUrl = removeUrl;
             this.IsPrimary = isPrimary;
+            this.IsExternal = isExternal;
         }
     }
 }

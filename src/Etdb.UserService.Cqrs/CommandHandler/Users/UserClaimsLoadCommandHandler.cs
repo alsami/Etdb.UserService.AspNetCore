@@ -68,12 +68,15 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
                 });
             }
 
-            if (user.ProfileImages.Any(profileImage => profileImage.IsPrimary))
+            if (user.ProfileImages.Any())
             {
+                var usedImage = user.ProfileImages.FirstOrDefault(image => image.IsPrimary) ??
+                                user.ProfileImages.First();
+                
                 claims.Add(new Claim(JwtClaimTypes.Picture,
                     this.profileImageUrlFactory.GenerateUrl(
-                        user.ProfileImages.First(profileImage => profileImage.IsPrimary),
-                        RouteNames.ProfileImages.ProfileImageLoadRoute)));
+                        usedImage,
+                        RouteNames.ProfileImages.LoadRoute)));
             }
 
             claims.Add(new Claim(JwtClaimTypes.IdentityProvider, user.AuthenticationProvider.ToString()));

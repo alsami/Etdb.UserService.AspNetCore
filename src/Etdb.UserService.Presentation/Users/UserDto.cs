@@ -23,14 +23,14 @@ namespace Etdb.UserService.Presentation.Users
         public string SignInProvider { get; }
 
         public bool IsExternalUser { get; }
-
-        public ICollection<EmailDto> Emails { get; }
         
+        public EmailMentaInfoContainer EmailMentaInfoContainer { get; }
+
         public ICollection<ProfileImageMetaInfoDto> ProfileImageMetaInfos { get; }
 
         public UserDto(Guid id, string userName, string firstName, string name, string biography,
             DateTime registeredSince, string signInProvider, bool isExternalUser,
-            ICollection<EmailDto> emails, ICollection<ProfileImageMetaInfoDto> profileImageMetaInfos) : base(id)
+            EmailMentaInfoContainer emailMentaInfoContainer, ICollection<ProfileImageMetaInfoDto> profileImageMetaInfos) : base(id)
         {
             this.UserName = userName;
             this.FirstName = firstName;
@@ -39,7 +39,7 @@ namespace Etdb.UserService.Presentation.Users
             this.RegisteredSince = registeredSince;
             this.SignInProvider = signInProvider;
             this.IsExternalUser = isExternalUser;
-            this.Emails = emails;
+            this.EmailMentaInfoContainer = emailMentaInfoContainer;
             this.ProfileImageMetaInfos = profileImageMetaInfos;
         }
     }

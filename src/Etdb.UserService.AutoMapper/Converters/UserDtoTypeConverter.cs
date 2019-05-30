@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using AutoMapper;
 using Etdb.UserService.Domain.Entities;
@@ -12,22 +11,31 @@ namespace Etdb.UserService.AutoMapper.Converters
     public class UserDtoTypeConverter : ITypeConverter<User, UserDto>
     {
         private readonly IUserChildUrlFactory<ProfileImage> profileImageUrlFactory;
+        private readonly IUserChildUrlFactory<Email> emailUrlFactory;
 
-        public UserDtoTypeConverter(IUserChildUrlFactory<ProfileImage> profileImageUrlFactory)
+        public UserDtoTypeConverter(IUserChildUrlFactory<ProfileImage> profileImageUrlFactory, IUserChildUrlFactory<Email> emailUrlFactory)
         {
             this.profileImageUrlFactory = profileImageUrlFactory;
+            this.emailUrlFactory = emailUrlFactory;
         }
 
         public UserDto Convert(User source, UserDto destination, ResolutionContext context)
         {
-            var emails = source.Emails.Select(email => new EmailDto(email.Id, email.Address, email.IsPrimary))
+            
+            var emaiMetaInfos = source.Emails.Select(email => new EmailMetaInfoDto(email.Id,
+                    this.emailUrlFactory.GenerateUrl(email, RouteNames.ProfileImages.LoadRoute),
+                    this.emailUrlFactory.GenerateUrl(email,
+                        RouteNames.ProfileImages.DeleteRoute),
+                    email.IsPrimary, email.IsExternal))
                 .ToArray();
+            
+            var emailMetaInfoContainer = new EmailMentaInfoContainer(this.emailUrlFactory.GenerateUrl(source.Emails.First(), RouteNames.Emails.LoadAllRoute), emaiMetaInfos);
 
             var profileImageMetaInfos = source.ProfileImages.Select(image =>
                     new ProfileImageMetaInfoDto(image.Id,
-                        this.profileImageUrlFactory.GenerateUrl(image, RouteNames.ProfileImages.ProfileImageLoadRoute),
+                        this.profileImageUrlFactory.GenerateUrl(image, RouteNames.ProfileImages.LoadRoute),
                         this.profileImageUrlFactory.GenerateUrl(image,
-                            RouteNames.ProfileImages.ProfileImageDeleteRoute),
+                            RouteNames.ProfileImages.DeleteRoute),
                         image.IsPrimary))
                 .ToArray();
 
@@ -38,7 +46,7 @@ namespace Etdb.UserService.AutoMapper.Converters
                 source.RegisteredSince,
                 source.AuthenticationProvider.ToString(),
                 source.AuthenticationProvider != AuthenticationProvider.UsernamePassword,
-                emails,
+                emailMetaInfoContainer,
                 profileImageMetaInfos
             );
         }
