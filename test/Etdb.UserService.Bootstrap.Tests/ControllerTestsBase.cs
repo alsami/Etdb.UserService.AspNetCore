@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Etdb.UserService.Bootstrap.Tests.Fixtures;
+using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Presentation.Authentication;
 using Etdb.UserService.Presentation.Users;
@@ -73,8 +74,8 @@ namespace Etdb.UserService.Bootstrap.Tests
             return client.GetAsync($"api/v1/auth/user-identity/{accessToken}");
         }
 
-        protected Task<HttpResponseMessage> RefreshAuthenticationAsync(string refreshToken, HttpClient client)
-            => client.GetAsync($"api/v1/auth/refresh-authentication/{refreshToken}/{this.GetClientId()}");
+        protected Task<HttpResponseMessage> RefreshAuthenticationAsync(string refreshToken, HttpClient client, AuthenticationProvider authenticationProvider)
+            => client.GetAsync($"api/v1/auth/refresh-authentication/{refreshToken}/{this.GetClientId()}/{authenticationProvider.ToString()}");
 
 
         protected static Task<HttpResponseMessage> AuthenticateAsync(

@@ -99,7 +99,7 @@ namespace Etdb.UserService.Bootstrap.Tests
             var tokenResponse = await this.GetTokenAsync(registerDto);
 
             var refreshAuthenticationResponse =
-                await this.RefreshAuthenticationAsync(tokenResponse.RefreshToken, httpClient);
+                await this.RefreshAuthenticationAsync(tokenResponse.RefreshToken, httpClient, AuthenticationProvider.UsernamePassword);
 
             Assert.True(refreshAuthenticationResponse.IsSuccessStatusCode,
                 await refreshAuthenticationResponse.Content.ReadAsStringAsync() ??
