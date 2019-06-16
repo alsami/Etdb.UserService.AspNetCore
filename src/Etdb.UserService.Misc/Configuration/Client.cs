@@ -10,7 +10,6 @@
 
         public string[] Scopes { get; set; }
 
-
         public string[] GrantTypes { get; set; }
 
         public string[] Origins { get; set; }
