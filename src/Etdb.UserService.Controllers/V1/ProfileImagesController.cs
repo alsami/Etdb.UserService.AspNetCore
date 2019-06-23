@@ -26,7 +26,7 @@ namespace Etdb.UserService.Controllers.V1
 
         [AllowAnonymous]
         [HttpGet("{id:Guid}", Name = RouteNames.ProfileImages.LoadRoute)]
-        public async Task<IActionResult> ProfileImageLoadAsync(CancellationToken cancellationToken, Guid id,
+        public async Task<IActionResult> LoadAsync(CancellationToken cancellationToken, Guid id,
             Guid userId)
         {
             var profileImageDownloadInfo =
@@ -41,7 +41,7 @@ namespace Etdb.UserService.Controllers.V1
         }
 
         [HttpPost]
-        public async Task<ProfileImageMetaInfoDto> ProfileImageUploadAsync(CancellationToken cancellationToken, Guid userId,
+        public async Task<ProfileImageMetaInfoDto> UploadAsync(CancellationToken cancellationToken, Guid userId,
             [FromForm] IFormFile file)
         {
             var command = new ProfileImageAddCommand(userId,
@@ -53,8 +53,18 @@ namespace Etdb.UserService.Controllers.V1
             return user;
         }
 
+        [HttpPatch("{id:Guid}")]
+        public async Task<IActionResult> PrimaryImageAsync(CancellationToken cancellationToken, Guid userId, Guid id)
+        {
+            var command = new ProfileImageSetPrimaryCommand(id, userId);
+
+            await this.bus.SendCommandAsync(command, cancellationToken);
+
+            return this.NoContent();
+        }
+
         [HttpDelete("{id:Guid}", Name = RouteNames.ProfileImages.DeleteRoute)]
-        public async Task<IActionResult> ProfileImageRemoveAsync(CancellationToken cancellationToken, Guid userId,
+        public async Task<IActionResult> RemoveAsync(CancellationToken cancellationToken, Guid userId,
             Guid id)
         {
             var command = new ProfileImageRemoveCommand(userId, id);

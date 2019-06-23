@@ -51,8 +51,6 @@ namespace Etdb.UserService.Bootstrap.Extensions
                     {
                         "application/json",
                         "application/json; charset=utf-8",
-                        "image/*",
-                        "application/octet"
                     };
                 });
         }

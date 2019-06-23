@@ -8,6 +8,9 @@ namespace Etdb.UserService.Cqrs.Misc
     {
         public static ResourceNotFoundException UserNotFoundException() =>
             new ResourceNotFoundException("Requested user was not found!");
+        
+        public static ResourceNotFoundException ProfileImageNotFoundException() =>
+            new ResourceNotFoundException("Requested profile image does not exist!");
 
         public static ResourceLockedException UserResourceLockException(Guid id) =>
             new ResourceLockedException(typeof(User), id, "User cannot be changed currently! Please try again later.");
