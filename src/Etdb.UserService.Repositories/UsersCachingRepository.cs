@@ -24,13 +24,6 @@ namespace Etdb.UserService.Repositories
             await base.AddAsync(user, collectionName, partitionKey);
 
             await this.cache.AddAsync(user.Id, user);
-
-            var emailCachingTasks = user
-                .Emails
-                .Select(async email => await this.cache.AddAsync(email.Id, email))
-                .ToArray();
-
-            await Task.WhenAll(emailCachingTasks);
         }
 
         public override async Task<bool> EditAsync(User user, string collectionName = null, string partitionKey = null)
