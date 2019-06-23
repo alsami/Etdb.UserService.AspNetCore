@@ -2,6 +2,7 @@
     <PropertyGroup>
         <LangVersion>7.2</LangVersion>
         <Copyright>2019©Sami Al Khatib</Copyright>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>git://github.com/alsami/etdb-userservice-aspnet-core</RepositoryUrl>
     </PropertyGroup>
