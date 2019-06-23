@@ -28,6 +28,16 @@ namespace Etdb.UserService.Controllers.V1
             return this.bus.SendCommandAsync<UserLoadCommand, UserDto>(command, cancellationToken);
         }
 
+        [AllowAnonymous]
+        [HttpGet("availability/{userName}")]
+        public Task<UserNameAvailabilityDto> AvailibilityAsync(CancellationToken cancellationToken,
+            string userName)
+        {
+            var command = new UserNameAvailabilityCheckCommand(userName);
+
+            return this.bus.SendCommandAsync<UserNameAvailabilityCheckCommand, UserNameAvailabilityDto>(command, cancellationToken);
+        }
+
 
         [HttpPatch("{id:Guid}/password")]
         public async Task<IActionResult> PasswordChangeAsync(CancellationToken cancellationToken, Guid id,
