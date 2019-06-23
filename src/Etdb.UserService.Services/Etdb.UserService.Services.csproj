@@ -14,6 +14,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.8.1" />
-    <PackageReference Include="RedLock" Version="4.0.0" />
+    <PackageReference Include="RedLock" Version="4.0.1" />
   </ItemGroup>
 </Project>
