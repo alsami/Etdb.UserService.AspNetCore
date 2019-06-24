@@ -58,14 +58,19 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
             claims.AddRange(user.Emails.Select(email => new Claim(JwtClaimTypes.Email, email.Address)).ToArray());
 
+            if (user.FirstName != null)
+            {
+                claims.Add(new Claim(JwtClaimTypes.GivenName, user.FirstName));
+            }
+
+            if (user.Name != null)
+            {
+                claims.Add(new Claim(JwtClaimTypes.FamilyName, user.Name));
+            }
+
             if (user.FirstName != null && user.Name != null)
             {
-                claims.AddRange(new[]
-                {
-                    new Claim(JwtClaimTypes.Name, $"{user.FirstName} {user.Name}"),
-                    new Claim(JwtClaimTypes.GivenName, user.FirstName),
-                    new Claim(JwtClaimTypes.FamilyName, user.Name)
-                });
+                claims.Add(new Claim(JwtClaimTypes.Name, $"{user.FirstName} {user.Name}"));
             }
 
             if (user.ProfileImages.Any())
