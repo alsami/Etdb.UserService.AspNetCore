@@ -6,12 +6,12 @@ namespace Etdb.UserService.Cqrs.Abstractions.Base
     {
         public Guid Id { get; }
 
-        public string UserName { get; }
+        public string WantedUserName { get; }
 
-        protected UserNameCommand(Guid id, string userName)
+        protected UserNameCommand(Guid id, string wantedUserName)
         {
             this.Id = id;
-            this.UserName = userName;
+            this.WantedUserName = wantedUserName;
         }
     }
 }

@@ -72,5 +72,9 @@ namespace Etdb.UserService.Domain.Entities
 
             this.ProfileImages.Remove(image);
         }
+
+        public User ChangeUserName(string userName) => new User(this.Id, userName, this.FirstName, this.Name,
+            this.Biography, this.RegisteredSince, this.RoleIds, this.Emails, this.AuthenticationProvider, this.Password,
+            this.Salt, this.ProfileImages, this.SignInLogs);
     }
 }

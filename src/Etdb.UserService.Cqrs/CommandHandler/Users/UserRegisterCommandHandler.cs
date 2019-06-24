@@ -32,15 +32,12 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
         private readonly ISecurityRolesRepository rolesRepository;
         private readonly IHasher hasher;
         private readonly IMapper mapper;
-        private readonly IFileService fileService;
-        private readonly IOptions<FilestoreConfiguration> fileStoreOptions;
 
         public UserRegisterCommandHandler(IUsersService usersService,
             ICommandValidation<UserRegisterCommand> userRegisterCommandValidation,
             ICommandValidation<EmailAddCommand> emailAddCommandValidation,
             ICommandValidation<PasswordAddCommand> passwordCommandValidation,
-            ISecurityRolesRepository rolesRepository, IHasher hasher, IMapper mapper,
-            IOptions<FilestoreConfiguration> fileStoreOptions, IFileService fileService)
+            ISecurityRolesRepository rolesRepository, IHasher hasher, IMapper mapper)
         {
             this.usersService = usersService;
             this.userRegisterCommandValidation = userRegisterCommandValidation;
@@ -49,8 +46,6 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             this.rolesRepository = rolesRepository;
             this.hasher = hasher;
             this.mapper = mapper;
-            this.fileStoreOptions = fileStoreOptions;
-            this.fileService = fileService;
         }
 
         public async Task<UserDto> Handle(UserRegisterCommand command, CancellationToken cancellationToken)
@@ -93,7 +88,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
             if (provider != AuthenticationProvider.UsernamePassword)
             {
-                var userFromExternalAuthentication = new User(command.Id, command.UserName, command.FirstName,
+                var userFromExternalAuthentication = new User(command.Id, command.WantedUserName, command.FirstName,
                     command.Name, null,
                     DateTime.UtcNow, roles, emails, provider);
 
@@ -102,7 +97,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
             var salt = this.hasher.GenerateSalt();
 
-            var userFromInternalAuthentication = new User(command.Id, command.UserName, command.FirstName, command.Name,
+            var userFromInternalAuthentication = new User(command.Id, command.WantedUserName, command.FirstName, command.Name,
                 null,
                 DateTime.UtcNow, roles, emails,
                 password: this.hasher.CreateSaltedHash(command.PasswordAddCommand.NewPassword, salt), salt: salt);

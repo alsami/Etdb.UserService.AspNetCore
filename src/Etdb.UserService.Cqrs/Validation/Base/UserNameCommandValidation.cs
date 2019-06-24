@@ -19,7 +19,7 @@ namespace Etdb.UserService.Cqrs.Validation.Base
 
         protected void RegisterUserNameRules()
         {
-            this.RuleFor(command => command.UserName)
+            this.RuleFor(command => command.WantedUserName)
                 .NotEmpty()
                 .NotNull()
                 .WithMessage("Username must be given!")
@@ -35,7 +35,7 @@ namespace Etdb.UserService.Cqrs.Validation.Base
 
         private async Task<bool> IsUserNameAvailable(UserNameCommand command)
         {
-            var user = await this.usersService.FindByUserNameAsync(command.UserName);
+            var user = await this.usersService.FindByUserNameAsync(command.WantedUserName);
 
             return user == null || user.Id == command.Id;
         }
