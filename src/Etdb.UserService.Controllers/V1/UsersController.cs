@@ -29,7 +29,7 @@ namespace Etdb.UserService.Controllers.V1
         }
 
         [AllowAnonymous]
-        [HttpGet("availability/{userName}")]
+        [HttpGet("availability/{*userName}")]
         public Task<UserNameAvailabilityDto> AvailabilityAsync(CancellationToken cancellationToken,
             string userName)
         {

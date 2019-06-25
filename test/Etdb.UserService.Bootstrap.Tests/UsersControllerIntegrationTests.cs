@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Net;
 using System.Net.Mime;
+using System.Security.Policy;
 using System.Threading.Tasks;
+using System.Web;
 using Etdb.UserService.Bootstrap.Tests.Common;
 using Etdb.UserService.Bootstrap.Tests.Fixtures;
 using Etdb.UserService.Presentation.Users;
@@ -17,13 +19,21 @@ namespace Etdb.UserService.Bootstrap.Tests
         {
         }
 
-        [Fact]
-        public async Task UsersController_AvailabilityAsync_Available_UserName_Succeeds()
+        [Theory]
+        [InlineData("abc")]
+        [InlineData("&/21321")]
+        [InlineData("anton_bertta-121")]
+        [InlineData("joseph-maria.stift")]
+        [InlineData("sadsadasdasd")]
+        [InlineData("sadsadsadsadsss")]
+        public async Task UsersController_AvailabilityAsync_Available_UserName_Succeeds(string userName)
         {
             var httpClient = this.TestServerFixture.ApiServer.CreateClient();
 
+            var url = $"api/v1/users/availability/{HttpUtility.UrlEncode(userName)}";
+
             var availabilityResponse =
-                await httpClient.GetAsync($"api/v1/users/availability/{Guid.NewGuid().ToString().Replace("-", "")}");
+                await httpClient.GetAsync(url);
 
             Assert.True(availabilityResponse.IsSuccessStatusCode,
                 "user-name availability check was expected to be successful!");
