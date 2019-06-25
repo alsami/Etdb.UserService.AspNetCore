@@ -50,14 +50,14 @@ namespace Etdb.UserService.Bootstrap.Tests.Common
 
         protected static async Task<UserRegisterDto> RegisterAsync(HttpClient httpClient)
         {
-            var registerDto = CreateRandom();
+            var registerDto = CreateRandomRegistrationDto();
 
             await RegisterAsync(registerDto, httpClient);
 
             return registerDto;
         }
 
-        protected static UserRegisterDto CreateRandom()
+        protected static UserRegisterDto CreateRandomRegistrationDto()
             => new UserRegisterDto("etdb", "etdb",
                 Guid.NewGuid().ToString().Replace("-", ""), "supersecret-password",
                 new List<AddEmailDto>

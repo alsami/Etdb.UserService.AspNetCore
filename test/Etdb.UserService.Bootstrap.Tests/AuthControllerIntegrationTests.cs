@@ -29,7 +29,7 @@ namespace Etdb.UserService.Bootstrap.Tests
         {
             var httpClient = this.TestServerFixture.ApiServer.CreateClient();
 
-            var registerDto = CreateRandom();
+            var registerDto = CreateRandomRegistrationDto();
 
             var registerResponse = await RegisterAsync(registerDto, httpClient);
 
