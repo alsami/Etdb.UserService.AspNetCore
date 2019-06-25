@@ -15,7 +15,7 @@ namespace Etdb.UserService.Domain.Entities
             ICollection<Email> emails,
             AuthenticationProvider authenticationProvider = AuthenticationProvider.UsernamePassword,
             string password = null, byte[] salt = null, ICollection<ProfileImage> profileImages = null,
-            ICollection<SignInLog> signInLogs = null) : base(id)
+            ICollection<AuthenticationLog> signInLogs = null) : base(id)
         {
             this.UserName = userName;
             this.FirstName = firstName;
@@ -28,7 +28,7 @@ namespace Etdb.UserService.Domain.Entities
             this.Password = password;
             this.Salt = salt;
             this.ProfileImages = profileImages ?? new List<ProfileImage>();
-            this.SignInLogs = signInLogs ?? new List<SignInLog>();
+            this.AuthenticationLogs = signInLogs ?? new List<AuthenticationLog>();
         }
 
         public string UserName { get; private set; }
@@ -53,9 +53,9 @@ namespace Etdb.UserService.Domain.Entities
 
         public ICollection<ProfileImage> ProfileImages { get; private set; }
 
-        public ICollection<SignInLog> SignInLogs { get; private set; }
+        public ICollection<AuthenticationLog> AuthenticationLogs { get; private set; }
 
-        public void AddSignInLog(SignInLog signInLog) => this.SignInLogs.Add(signInLog);
+        public void AddAuthenticationLog(AuthenticationLog authenticationLog) => this.AuthenticationLogs.Add(authenticationLog);
 
         public void AddEmailAddress(Email email) => this.Emails.Add(email);
 
@@ -75,6 +75,6 @@ namespace Etdb.UserService.Domain.Entities
 
         public User ChangeUserName(string userName) => new User(this.Id, userName, this.FirstName, this.Name,
             this.Biography, this.RegisteredSince, this.RoleIds, this.Emails, this.AuthenticationProvider, this.Password,
-            this.Salt, this.ProfileImages, this.SignInLogs);
+            this.Salt, this.ProfileImages, this.AuthenticationLogs);
     }
 }

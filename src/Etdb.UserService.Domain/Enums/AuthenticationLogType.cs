@@ -1,6 +1,6 @@
 ﻿namespace Etdb.UserService.Domain.Enums
 {
-    public enum SignInType
+    public enum AuthenticationLogType
     {
         Succeeded = 1,
         Failed = 256

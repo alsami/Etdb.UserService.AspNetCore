@@ -1,6 +1,6 @@
 namespace Etdb.UserService.Presentation.Enums
 {
-    public enum SignInFailure
+    public enum AuthenticationFailure
     {
         Unavailable = 0,
         InvalidPassword = 1,

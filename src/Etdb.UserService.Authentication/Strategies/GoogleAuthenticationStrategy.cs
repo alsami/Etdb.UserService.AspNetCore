@@ -10,6 +10,7 @@ using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Domain.Enums;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -19,26 +20,25 @@ namespace Etdb.UserService.Authentication.Strategies
     {
         private readonly ILogger<GoogleAuthenticationStrategy> logger;
 
-        public GoogleAuthenticationStrategy(ILogger<GoogleAuthenticationStrategy> logger, IBus bus,
-            IExternalIdentityServerClient externalIdentityServerClient) : base(bus, externalIdentityServerClient)
+        private static string UserProfileUrl => "https://www.googleapis.com/oauth2/v2/userinfo";
+
+        public GoogleAuthenticationStrategy(IBus bus, IExternalIdentityServerClient externalIdentityServerClient,
+            IHttpContextAccessor httpContextAccessor, ILogger<GoogleAuthenticationStrategy> logger) : base(bus,
+            externalIdentityServerClient, httpContextAccessor)
         {
             this.logger = logger;
         }
 
-        protected override string UserProfileUrl => "https://www.googleapis.com/oauth2/v2/userinfo";
         protected override AuthenticationProvider AuthenticationProvider => AuthenticationProvider.Google;
 
         public async Task<GrantValidationResult> AuthenticateAsync(string token)
         {
             var response =
-                await this.ExternalIdentityServerClient.Client.GetAsync($"{this.UserProfileUrl}?access_token={token}");
+                await this.ExternalIdentityServerClient.Client.GetAsync($"{UserProfileUrl}?access_token={token}");
 
             var json = await response.Content.ReadAsStringAsync();
 
-            if (!response.IsSuccessStatusCode)
-            {
-                return this.ErrorValidationResult(json);
-            }
+            if (!response.IsSuccessStatusCode) return this.ErrorValidationResult(json);
 
             var googleProfile =
                 JsonConvert.DeserializeObject<GoogleUserProfile>(json, this.SerializeSettings);
@@ -48,9 +48,11 @@ namespace Etdb.UserService.Authentication.Strategies
             if (existingUser != null)
             {
                 if (this.AreSignInProvidersEqual(existingUser))
-                {
                     return await this.SuccessValidationResultAsync(existingUser);
-                }
+
+                await this.PublishAuthenticationEvent(this.CreateUserAuthenticatedEvent(existingUser,
+                    AuthenticationLogType.Failed,
+                    $"User is already registered using provider {existingUser.SignInProvider}"));
 
                 return this.NotEqualSignInProviderResult;
             }

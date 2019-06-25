@@ -5,12 +5,12 @@ using Etdb.UserService.Domain.Entities;
 
 namespace Etdb.UserService.AutoMapper.Profiles
 {
-    public class SignInLogProfile : Profile
+    public class AuthenticationLogProfie : Profile
     {
-        public SignInLogProfile()
+        public AuthenticationLogProfie()
         {
-            this.CreateMap<UserSignedInEvent, SignInLog>()
-                .ConvertUsing<SignInLogConverter>();
+            this.CreateMap<UserAuthenticatedEvent, AuthenticationLog>()
+                .ConvertUsing<AuthenticationLogConverter>();
         }
     }
 }

@@ -16,10 +16,7 @@ namespace Etdb.UserService.Scaffold
         {
             $"{nameof(User).ToLower()}s",
             $"{nameof(SecurityRole).ToLower()}s",
-            $"{nameof(SignInLog).ToLower()}s"
         };
-
-        private static readonly object LockObject = new object();
 
         public static void Scaffold(UserServiceDbContext context)
         {

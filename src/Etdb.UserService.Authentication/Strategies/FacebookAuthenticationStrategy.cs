@@ -9,9 +9,11 @@ using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Structures;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
+using Etdb.UserService.Cqrs.Abstractions.Events.Authentication;
 using Etdb.UserService.Domain.Enums;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
@@ -21,19 +23,20 @@ namespace Etdb.UserService.Authentication.Strategies
     {
         private readonly ILogger<FacebookAuthenticationStrategy> logger;
 
-        public FacebookAuthenticationStrategy(
-            ILogger<FacebookAuthenticationStrategy> logger, IBus bus,
-            IExternalIdentityServerClient externalIdentityServerClient) : base(bus, externalIdentityServerClient)
+
+        private static string UserProfileUrl => "https://graph.facebook.com/v3.2/me";
+        protected override AuthenticationProvider AuthenticationProvider => AuthenticationProvider.Facebook;
+
+        public FacebookAuthenticationStrategy(IBus bus, IExternalIdentityServerClient externalIdentityServerClient,
+            IHttpContextAccessor httpContextAccessor, ILogger<FacebookAuthenticationStrategy> logger) : base(bus,
+            externalIdentityServerClient, httpContextAccessor)
         {
             this.logger = logger;
         }
 
-        protected override string UserProfileUrl => "https://graph.facebook.com/v3.2/me";
-        protected override AuthenticationProvider AuthenticationProvider => AuthenticationProvider.Facebook;
-
         public async Task<GrantValidationResult> AuthenticateAsync(string token)
         {
-            var url = new StringBuilder(this.UserProfileUrl)
+            var url = new StringBuilder(UserProfileUrl)
                 .Append($"?access_token={token}")
                 .Append("&fields=id,email,name,gender,birthday,picture")
                 .ToString();
@@ -54,9 +57,11 @@ namespace Etdb.UserService.Authentication.Strategies
             if (existingUser != null)
             {
                 if (this.AreSignInProvidersEqual(existingUser))
-                {
                     return await this.SuccessValidationResultAsync(existingUser);
-                }
+
+                await this.PublishAuthenticationEvent(this.CreateUserAuthenticatedEvent(existingUser,
+                    AuthenticationLogType.Failed,
+                    $"User is already registered using provider {existingUser.SignInProvider}"));
 
                 return this.NotEqualSignInProviderResult;
             }

@@ -64,17 +64,17 @@ namespace Etdb.UserService.Services
                 return false;
             }
 
-            if (user.SignInLogs == null)
+            if (user.AuthenticationLogs == null)
             {
                 return false;
             }
 
-            var signInLogs = user.SignInLogs
+            var signInLogs = user.AuthenticationLogs
                 .OrderByDescending(log => log.LoggedAt)
                 .ToArray();
 
             if (signInLogs.Length < UsersService.MaxFailedLoginCount ||
-                signInLogs.FirstOrDefault(signInLog => signInLog.SignInType == SignInType.Succeeded) != null)
+                signInLogs.FirstOrDefault(signInLog => signInLog.AuthenticationLogType == AuthenticationLogType.Succeeded) != null)
             {
                 return false;
             }
@@ -83,7 +83,7 @@ namespace Etdb.UserService.Services
 
             foreach (var signInLog in signInLogs)
             {
-                if (signInLog.SignInType != SignInType.Failed)
+                if (signInLog.AuthenticationLogType != AuthenticationLogType.Failed)
                 {
                     foundFailedLoginsInARow = 0;
                     continue;

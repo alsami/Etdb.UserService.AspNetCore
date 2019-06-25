@@ -14,28 +14,28 @@ using Etdb.UserService.Services.Abstractions;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {
-    public class UserSignInValidationCommandHandler :
-        IResponseCommandHandler<UserSignInValidationCommand, SignInValidationDto>
+    public class UserAuthenticationValidationCommandHandler :
+        IResponseCommandHandler<UserAuthenticationValidationCommand, AuthenticationValidationDto>
     {
         private readonly IUsersService usersService;
         private readonly IHasher hasher;
         private readonly IBus bus;
 
-        public UserSignInValidationCommandHandler(IUsersService usersService, IHasher hasher, IBus bus)
+        public UserAuthenticationValidationCommandHandler(IUsersService usersService, IHasher hasher, IBus bus)
         {
             this.usersService = usersService;
             this.hasher = hasher;
             this.bus = bus;
         }
 
-        public async Task<SignInValidationDto> Handle(UserSignInValidationCommand command,
+        public async Task<AuthenticationValidationDto> Handle(UserAuthenticationValidationCommand command,
             CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByUserNameOrEmailAsync(command.UserName);
 
             if (user == null)
             {
-                return FailedSignIn(SignInFailure.Unavailable);
+                return FailedAuthentication(AuthenticationFailure.Unavailable);
             }
 
             var passwordIsValid = this.hasher.CreateSaltedHash(command.Password, user.Salt)
@@ -43,31 +43,31 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
             if (!passwordIsValid)
             {
-                await this.PublishSignInEvent(SignInType.Failed, user.Id, command.IpAddress,
+                await this.PublishAuthenticationEvent(AuthenticationLogType.Failed, user.Id, command.IpAddress,
                     "Given password is invalid!",
                     cancellationToken);
 
-                return FailedSignIn(SignInFailure.InvalidPassword);
+                return FailedAuthentication(AuthenticationFailure.InvalidPassword);
             }
 
             if (await this.usersService.IsUserLocked(user.Id))
             {
-                return FailedSignIn(SignInFailure.LockedOut);
+                return FailedAuthentication(AuthenticationFailure.LockedOut);
             }
 
-            await this.PublishSignInEvent(SignInType.Succeeded, user.Id, command.IpAddress,
+            await this.PublishAuthenticationEvent(AuthenticationLogType.Succeeded, user.Id, command.IpAddress,
                 cancellationToken: cancellationToken);
 
-            return new SignInValidationDto(true, userId: user.Id);
+            return new AuthenticationValidationDto(true, userId: user.Id);
         }
 
-        private static SignInValidationDto FailedSignIn(SignInFailure signInFailure)
-            => new SignInValidationDto(false, signInFailure);
+        private static AuthenticationValidationDto FailedAuthentication(AuthenticationFailure authenticationFailure)
+            => new AuthenticationValidationDto(false, authenticationFailure);
 
-        private Task PublishSignInEvent(SignInType signInType, Guid userId, IPAddress ipAddress,
+        private Task PublishAuthenticationEvent(AuthenticationLogType authenticationLogType, Guid userId, IPAddress ipAddress,
             string additionalInfo = null, CancellationToken cancellationToken = default)
             => this.bus.RaiseEventAsync(
-                new UserSignedInEvent(signInType.ToString(), ipAddress, userId, DateTime.UtcNow, additionalInfo),
+                new UserAuthenticatedEvent(authenticationLogType.ToString(), ipAddress, userId, DateTime.UtcNow, additionalInfo),
                 cancellationToken);
     }
 }

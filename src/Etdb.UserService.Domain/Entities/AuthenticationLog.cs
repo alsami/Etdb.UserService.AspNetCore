@@ -5,23 +5,21 @@ using Etdb.UserService.Domain.Enums;
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 namespace Etdb.UserService.Domain.Entities
 {
-    public class SignInLog : GuidDocument
+    public class AuthenticationLog : UserChildDocument
     {
-        public SignInLog(Guid id, Guid userId, DateTime loggedAt, SignInType signInType, string ipAddress,
-            string additionalInformation) : base(id)
+        public AuthenticationLog(Guid id, Guid userId, DateTime loggedAt, AuthenticationLogType authenticationLogType, string ipAddress,
+            string additionalInformation) : base(id, userId)
         {
             this.UserId = userId;
             this.LoggedAt = loggedAt;
-            this.SignInType = signInType;
+            this.AuthenticationLogType = authenticationLogType;
             this.IpAddress = ipAddress;
             this.AdditionalInformation = additionalInformation;
         }
 
-        public Guid UserId { get; private set; }
-
         public DateTime LoggedAt { get; private set; }
 
-        public SignInType SignInType { get; private set; }
+        public AuthenticationLogType AuthenticationLogType { get; private set; }
 
         public string IpAddress { get; private set; }
 

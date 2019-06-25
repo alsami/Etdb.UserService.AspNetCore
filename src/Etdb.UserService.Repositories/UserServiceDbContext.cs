@@ -13,7 +13,7 @@ namespace Etdb.UserService.Repositories
         {
             $"{nameof(User).ToLower()}s",
             $"{nameof(SecurityRole).ToLower()}s",
-            $"{nameof(SignInLog).ToLower()}s"
+            $"{nameof(AuthenticationLog).ToLower()}s"
         };
 
         public UserServiceDbContext(IOptions<DocumentDbContextOptions> options) : base(options)

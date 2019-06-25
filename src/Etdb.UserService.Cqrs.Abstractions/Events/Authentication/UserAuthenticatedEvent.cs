@@ -4,9 +4,9 @@ using Etdb.ServiceBase.Cqrs.Abstractions.Messages;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Events.Authentication
 {
-    public class UserSignedInEvent : IEvent
+    public class UserAuthenticatedEvent : IEvent
     {
-        public string SignInEventType { get; }
+        public string AuthenticationLogType { get; }
 
         public IPAddress IpAddress { get; }
 
@@ -16,10 +16,10 @@ namespace Etdb.UserService.Cqrs.Abstractions.Events.Authentication
 
         public string AdditionalInfo { get; }
 
-        public UserSignedInEvent(string signInEventType, IPAddress ipAddress, Guid userId, DateTime loggedAt,
+        public UserAuthenticatedEvent(string authenticationLogType, IPAddress ipAddress, Guid userId, DateTime loggedAt,
             string additionalInfo)
         {
-            this.SignInEventType = signInEventType;
+            this.AuthenticationLogType = authenticationLogType;
             this.IpAddress = ipAddress;
             this.UserId = userId;
             this.LoggedAt = loggedAt;

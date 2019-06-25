@@ -12,15 +12,15 @@ using Microsoft.Extensions.Logging;
 
 namespace Etdb.UserService.Cqrs.EventHandler.Users
 {
-    public class UserSignedInEventHandler : IEventHandler<UserSignedInEvent>
+    public class UserAuthenticatedEventHandler : IEventHandler<UserAuthenticatedEvent>
     {
         private readonly IMapper mapper;
-        private readonly ILogger<UserSignedInEventHandler> logger;
+        private readonly ILogger<UserAuthenticatedEventHandler> logger;
         private readonly IUsersRepository usersRepository;
         private readonly IResourceLockingAdapter resourceLockingAdapter;
 
-        public UserSignedInEventHandler(IUsersRepository usersRepository,
-            IResourceLockingAdapter resourceLockingAdapter, IMapper mapper, ILogger<UserSignedInEventHandler> logger)
+        public UserAuthenticatedEventHandler(IUsersRepository usersRepository,
+            IResourceLockingAdapter resourceLockingAdapter, IMapper mapper, ILogger<UserAuthenticatedEventHandler> logger)
         {
             this.usersRepository = usersRepository;
             this.resourceLockingAdapter = resourceLockingAdapter;
@@ -28,7 +28,7 @@ namespace Etdb.UserService.Cqrs.EventHandler.Users
             this.logger = logger;
         }
 
-        public async Task Handle(UserSignedInEvent @event, CancellationToken cancellationToken)
+        public async Task Handle(UserAuthenticatedEvent @event, CancellationToken cancellationToken)
         {
             try
             {
@@ -39,8 +39,9 @@ namespace Etdb.UserService.Cqrs.EventHandler.Users
                     throw WellknownExceptions.UserResourceLockException(user.Id);
                 }
 
-                var signInLog = this.mapper.Map<SignInLog>(@event);
-                user.AddSignInLog(signInLog);
+                var signInLog = this.mapper.Map<AuthenticationLog>(@event);
+                user.AddAuthenticationLog(signInLog);
+                
                 await this.usersRepository.EditAsync(user);
 
                 await this.resourceLockingAdapter.UnlockAsync(user.Id);

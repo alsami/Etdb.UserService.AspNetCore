@@ -3,17 +3,17 @@ using Etdb.UserService.Presentation.Enums;
 
 namespace Etdb.UserService.Presentation.Authentication
 {
-    public class SignInValidationDto
+    public class AuthenticationValidationDto
     {
         public bool IsValid { get; }
 
-        public SignInFailure? signInFailure { get; }
+        public AuthenticationFailure? AuthenticationFailure { get; }
 
         public Guid UserId { get; }
 
-        public SignInValidationDto(bool isValid, SignInFailure? signInFailure = null, Guid? userId = null)
+        public AuthenticationValidationDto(bool isValid, AuthenticationFailure? authenticationFailure = null, Guid? userId = null)
         {
-            this.signInFailure = signInFailure;
+            this.AuthenticationFailure = authenticationFailure;
             this.IsValid = isValid;
             this.UserId = userId.GetValueOrDefault();
         }

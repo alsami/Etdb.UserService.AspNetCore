@@ -28,27 +28,27 @@ namespace Etdb.UserService.Authentication.Validator
 
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
-            var command = new UserSignInValidationCommand(context.UserName, context.Password,
+            var command = new UserAuthenticationValidationCommand(context.UserName, context.Password,
                 this.httpContextAccessor.HttpContext.Connection.RemoteIpAddress);
 
-            var userLoginValidation =
-                await this.bus.SendCommandAsync<UserSignInValidationCommand, SignInValidationDto>(command);
+            var userAuthenticationValidation =
+                await this.bus.SendCommandAsync<UserAuthenticationValidationCommand, AuthenticationValidationDto>(command);
 
-            if (userLoginValidation.IsValid)
+            if (userAuthenticationValidation.IsValid)
             {
                 var claims =
                     await this.bus.SendCommandAsync<UserClaimsLoadCommand, IEnumerable<Claim>>(
-                        new UserClaimsLoadCommand(userLoginValidation.UserId));
+                        new UserClaimsLoadCommand(userAuthenticationValidation.UserId));
 
-                context.Result = new GrantValidationResult(userLoginValidation.UserId.ToString(),
+                context.Result = new GrantValidationResult(userAuthenticationValidation.UserId.ToString(),
                     Misc.Constants.Identity.PasswordAuthenticationMethod,
                     claims, AuthenticationProvider.UsernamePassword.ToString());
 
                 return;
             }
 
-            if (userLoginValidation.signInFailure == SignInFailure.Unavailable ||
-                userLoginValidation.signInFailure == SignInFailure.InvalidPassword)
+            if (userAuthenticationValidation.AuthenticationFailure == AuthenticationFailure.Unavailable ||
+                userAuthenticationValidation.AuthenticationFailure == AuthenticationFailure.InvalidPassword)
             {
                 context.Result = new GrantValidationResult(TokenRequestErrors.InvalidGrant,
                     ResourceOwnerPasswordGrantValidator.InvalidUserOrPasswordError);
