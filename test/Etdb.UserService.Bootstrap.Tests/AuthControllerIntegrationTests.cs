@@ -25,7 +25,7 @@ namespace Etdb.UserService.Bootstrap.Tests
         }
 
         [Fact]
-        public async Task AuthController_Registration_Valid_Input_User_Registered()
+        public async Task AuthController_RegistrationAsync_Valid_Input_User_Registered()
         {
             var httpClient = this.TestServerFixture.ApiServer.CreateClient();
 
@@ -38,7 +38,7 @@ namespace Etdb.UserService.Bootstrap.Tests
         }
 
         [Fact]
-        public async Task AuthController_Authentication_Valid_Credentials_Authenticated()
+        public async Task AuthController_AuthenticationAsync_Valid_Credentials_Authenticated()
         {
             var httpClient = this.TestServerFixture.ApiServer.CreateClient();
 
@@ -55,7 +55,7 @@ namespace Etdb.UserService.Bootstrap.Tests
         }
 
         [Fact]
-        public async Task AuthController_Authentication_Invalid_Credentials_Unauthorized()
+        public async Task AuthController_AuthenticationAsync_Invalid_Credentials_Unauthorized()
         {
             var httpClient = this.TestServerFixture.ApiServer.CreateClient();
 
@@ -71,7 +71,7 @@ namespace Etdb.UserService.Bootstrap.Tests
         }
 
         [Fact]
-        public async Task AuthController_LoadUserInfos_Valid_Credentials_Succeeds()
+        public async Task AuthController_LoadUserInfosAsync_Valid_Credentials_Succeeds()
         {
             var httpClient = this.TestServerFixture.ApiServer.CreateClient();
 
@@ -91,7 +91,7 @@ namespace Etdb.UserService.Bootstrap.Tests
         }
 
         [Fact]
-        public async Task AuthController_RefreshAuthentication_Valid_Token_Succeeds()
+        public async Task AuthController_RefreshAuthenticationAsync_Valid_Token_Succeeds()
         {
             var httpClient = this.TestServerFixture.ApiServer.CreateClient();
 
@@ -108,7 +108,7 @@ namespace Etdb.UserService.Bootstrap.Tests
         }
 
         [Fact]
-        public async Task AuthController_ExternalAuthentication_Invalid_Token_Unauthorized()
+        public async Task AuthController_ExternalAuthenticationAsync_Invalid_Token_Unauthorized()
         {
             var httpClient = this.TestServerFixture.ApiServer.CreateClient();
 
