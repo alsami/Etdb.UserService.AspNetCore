@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Etdb.UserService.Authentication.Structures;
+using Etdb.UserService.Bootstrap.Tests.Common;
 using Etdb.UserService.Bootstrap.Tests.Fixtures;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Presentation.Authentication;
@@ -14,11 +15,11 @@ using Xunit;
 
 namespace Etdb.UserService.Bootstrap.Tests
 {
-    public class AuthControllerTests : ControllerTestsBase
+    public class AuthControllerIntegrationTests : ControllerIntegrationTests
     {
         private const string SendAsyncMethodName = "SendAsync";
 
-        public AuthControllerTests(ConfigurationFixture configurationFixture, TestServerFixture testServerFixture) :
+        public AuthControllerIntegrationTests(ConfigurationFixture configurationFixture, TestServerFixture testServerFixture) :
             base(configurationFixture, testServerFixture)
         {
         }
@@ -116,7 +117,7 @@ namespace Etdb.UserService.Bootstrap.Tests
 
             this.TestServerFixture.ExternalIdentityHttpMessageHandlerMock
                 .Protected()
-                .Setup<Task<HttpResponseMessage>>(AuthControllerTests.SendAsyncMethodName,
+                .Setup<Task<HttpResponseMessage>>(AuthControllerIntegrationTests.SendAsyncMethodName,
                     ItExpr.IsAny<HttpRequestMessage>(),
                     ItExpr.IsAny<CancellationToken>())
                 .ReturnsAsync(() => new HttpResponseMessage(HttpStatusCode.BadRequest)
@@ -132,7 +133,7 @@ namespace Etdb.UserService.Bootstrap.Tests
             {
                 this.TestServerFixture.ExternalIdentityHttpMessageHandlerMock
                     .Protected()
-                    .Verify<Task<HttpResponseMessage>>(AuthControllerTests.SendAsyncMethodName, Times.Once(),
+                    .Verify<Task<HttpResponseMessage>>(AuthControllerIntegrationTests.SendAsyncMethodName, Times.Once(),
                         ItExpr.IsAny<HttpRequestMessage>(),
                         ItExpr.IsAny<CancellationToken>());
             }

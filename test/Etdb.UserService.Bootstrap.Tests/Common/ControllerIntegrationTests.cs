@@ -14,15 +14,15 @@ using IdentityServer4.Contrib.AspNetCore.Testing.Services;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 
-namespace Etdb.UserService.Bootstrap.Tests
+namespace Etdb.UserService.Bootstrap.Tests.Common
 {
-    public abstract class ControllerTestsBase : IClassFixture<ConfigurationFixture>, IClassFixture<TestServerFixture>
+    public abstract class ControllerIntegrationTests : IClassFixture<ConfigurationFixture>, IClassFixture<TestServerFixture>
     {
         // ReSharper disable once MemberCanBePrivate.Global
         protected readonly ConfigurationFixture ConfigurationFixture;
         protected readonly TestServerFixture TestServerFixture;
 
-        protected ControllerTestsBase(ConfigurationFixture configurationFixture, TestServerFixture testServerFixture)
+        protected ControllerIntegrationTests(ConfigurationFixture configurationFixture, TestServerFixture testServerFixture)
         {
             this.ConfigurationFixture = configurationFixture;
             this.TestServerFixture = testServerFixture;
