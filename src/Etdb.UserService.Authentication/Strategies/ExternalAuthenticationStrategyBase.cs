@@ -45,7 +45,7 @@ namespace Etdb.UserService.Authentication.Strategies
         protected bool AreSignInProvidersEqual(UserDto userDto)
         {
             var userSignInProvider =
-                (AuthenticationProvider) Enum.Parse(typeof(AuthenticationProvider), userDto.SignInProvider);
+                (AuthenticationProvider) Enum.Parse(typeof(AuthenticationProvider), userDto.AuthenticationProvider);
 
             return userSignInProvider == this.AuthenticationProvider;
         }

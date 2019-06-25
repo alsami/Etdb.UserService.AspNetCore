@@ -17,5 +17,10 @@
 
             public const string DeleteRoute = "DeleteEmail";
         }
+
+        public class AuthenticationLogs
+        {
+            public const string LoadAllRoute = "LoadAuthenticationLogs";
+        }
     }
 }

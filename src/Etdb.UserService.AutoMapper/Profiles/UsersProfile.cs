@@ -11,12 +11,6 @@ namespace Etdb.UserService.AutoMapper.Profiles
         public UsersProfile()
         {
             this.CreateMap<User, UserDto>()
-//                .ForMember(dest => dest.SignInProvider,
-//                    options => options.MapFrom(src => src.AuthenticationProvider.ToString()))
-//                .ForMember(dest => dest.IsExternalUser,
-//                    options => options.MapFrom(src =>
-//                        src.AuthenticationProvider != AuthenticationProvider.UsernamePassword))
-//                .ForMember(dest => dest.EmailMentaInfoContainer, options => options.Ignore());
                 .ConvertUsing<UserDtoTypeConverter>();
 
             this.CreateMap<UserRegisterDto, UserRegisterCommand>()

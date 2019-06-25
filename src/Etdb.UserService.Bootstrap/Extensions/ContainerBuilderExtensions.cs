@@ -50,7 +50,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .RegisterTypeAsScoped<UsersService, IUsersService>()
                 .RegisterTypeAsScoped<ResourceLockingAdapter, IResourceLockingAdapter>()
                 .RegisterTypeAsScoped<ApplicationUser, IApplicationUser>()
-                .AddGenericAsSingleton(typeof(UserChildUrlFactory<>), typeof(IUserChildUrlFactory<>))
+                .RegisterTypeAsScoped<UserUrlFactory, IUserUrlFactory>()
                 .AddClosedTypeAsScoped(typeof(ICommandValidation<>),
                     new[] {typeof(UserRegisterCommandHandler).Assembly})
                 .AddClosedTypeAsScoped(typeof(IDocumentRepository<,>), new[] {typeof(UserServiceDbContext).Assembly});

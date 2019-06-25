@@ -31,8 +31,8 @@ namespace Etdb.UserService.Bootstrap.Tests
             Assert.True(container.IsRegistered<IRedisLockManager>(), $"{nameof(IRedisLockManager)} not registered");
             Assert.True(container.IsRegistered<IExternalAuthenticationStrategy>(),
                 $"{nameof(IExternalAuthenticationStrategy)} not registered");
-            Assert.True(container.IsRegistered<IUserChildUrlFactory<ProfileImage>>(),
-                $"{nameof(IUserChildUrlFactory<ProfileImage>)} not registered");
+            Assert.True(container.IsRegistered<IUserUrlFactory>(),
+                $"{nameof(IUserUrlFactory)} not registered");
             Assert.True(container.IsRegistered<IActionContextAccessor>(),
                 $"{nameof(IActionContextAccessor)} not registered");
             Assert.True(container.IsRegistered<IHasher>(), $"{nameof(IHasher)} not registered");

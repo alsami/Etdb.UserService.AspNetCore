@@ -9,9 +9,9 @@ namespace Etdb.UserService.AutoMapper.Converters
     public class ProfileImageConverter : ITypeConverter<ProfileImage, ProfileImageMetaInfoDto>
     {
         
-        private readonly IUserChildUrlFactory<ProfileImage> profileImageUrlFactory;
+        private readonly IUserUrlFactory profileImageUrlFactory;
 
-        public ProfileImageConverter(IUserChildUrlFactory<ProfileImage> profileImageUrlFactory)
+        public ProfileImageConverter(IUserUrlFactory profileImageUrlFactory)
         {
             this.profileImageUrlFactory = profileImageUrlFactory;
         }
@@ -19,8 +19,8 @@ namespace Etdb.UserService.AutoMapper.Converters
         public ProfileImageMetaInfoDto Convert(ProfileImage source, ProfileImageMetaInfoDto destination,
             ResolutionContext context)
             => new ProfileImageMetaInfoDto(source.Id,
-                this.profileImageUrlFactory.GenerateUrl(source, RouteNames.ProfileImages.LoadRoute),
-                this.profileImageUrlFactory.GenerateUrl(source,
+                this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(source, RouteNames.ProfileImages.LoadRoute),
+                this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(source,
                     RouteNames.ProfileImages.DeleteRoute),
                 source.IsPrimary);
     }

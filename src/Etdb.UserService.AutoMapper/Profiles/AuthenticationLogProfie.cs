@@ -2,6 +2,7 @@
 using Etdb.UserService.AutoMapper.Converters;
 using Etdb.UserService.Cqrs.Abstractions.Events.Authentication;
 using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Presentation.Authentication;
 
 namespace Etdb.UserService.AutoMapper.Profiles
 {
@@ -11,6 +12,11 @@ namespace Etdb.UserService.AutoMapper.Profiles
         {
             this.CreateMap<UserAuthenticatedEvent, AuthenticationLog>()
                 .ConvertUsing<AuthenticationLogConverter>();
+
+            this.CreateMap<AuthenticationLog, AuthenticationLogDto>()
+                .ConstructUsing(authenticationLog => new AuthenticationLogDto(authenticationLog.LoggedAt,
+                    authenticationLog.AuthenticationLogType.ToString(), authenticationLog.IpAddress,
+                    authenticationLog.AdditionalInformation));
         }
     }
 }

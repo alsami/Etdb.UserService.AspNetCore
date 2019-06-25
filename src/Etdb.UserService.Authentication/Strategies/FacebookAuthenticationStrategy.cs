@@ -61,7 +61,7 @@ namespace Etdb.UserService.Authentication.Strategies
 
                 await this.PublishAuthenticationEvent(this.CreateUserAuthenticatedEvent(existingUser,
                     AuthenticationLogType.Failed,
-                    $"User is already registered using provider {existingUser.SignInProvider}"));
+                    $"User is already registered using provider {existingUser.AuthenticationProvider}"));
 
                 return this.NotEqualSignInProviderResult;
             }

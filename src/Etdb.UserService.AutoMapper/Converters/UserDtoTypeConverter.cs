@@ -10,31 +10,33 @@ namespace Etdb.UserService.AutoMapper.Converters
 {
     public class UserDtoTypeConverter : ITypeConverter<User, UserDto>
     {
-        private readonly IUserChildUrlFactory<ProfileImage> profileImageUrlFactory;
-        private readonly IUserChildUrlFactory<Email> emailUrlFactory;
+        private readonly IUserUrlFactory profileImageUrlFactory;
+        private readonly IUserUrlFactory emailUrlFactory;
+        private readonly IUserUrlFactory authenticationLogUrlFactory;
 
-        public UserDtoTypeConverter(IUserChildUrlFactory<ProfileImage> profileImageUrlFactory, IUserChildUrlFactory<Email> emailUrlFactory)
+        public UserDtoTypeConverter(IUserUrlFactory profileImageUrlFactory, IUserUrlFactory emailUrlFactory, IUserUrlFactory authenticationLogUrlFactory)
         {
             this.profileImageUrlFactory = profileImageUrlFactory;
             this.emailUrlFactory = emailUrlFactory;
+            this.authenticationLogUrlFactory = authenticationLogUrlFactory;
         }
 
         public UserDto Convert(User source, UserDto destination, ResolutionContext context)
         {
             
             var emaiMetaInfos = source.Emails.Select(email => new EmailMetaInfoDto(email.Id,
-                    this.emailUrlFactory.GenerateUrl(email, RouteNames.ProfileImages.LoadRoute),
-                    this.emailUrlFactory.GenerateUrl(email,
+                    this.emailUrlFactory.GenerateUrlWithChildIdParameter(email, RouteNames.ProfileImages.LoadRoute),
+                    this.emailUrlFactory.GenerateUrlWithChildIdParameter(email,
                         RouteNames.ProfileImages.DeleteRoute),
                     email.IsPrimary, email.IsExternal))
                 .ToArray();
             
-            var emailMetaInfoContainer = new EmailMentaInfoContainer(this.emailUrlFactory.GenerateUrl(source.Emails.First(), RouteNames.Emails.LoadAllRoute), emaiMetaInfos);
+            var emailMetaInfoContainer = new EmailMentaInfoContainer(this.emailUrlFactory.GenerateUrlWithChildIdParameter(source.Emails.First(), RouteNames.Emails.LoadAllRoute), emaiMetaInfos);
 
             var profileImageMetaInfos = source.ProfileImages.Select(image =>
                     new ProfileImageMetaInfoDto(image.Id,
-                        this.profileImageUrlFactory.GenerateUrl(image, RouteNames.ProfileImages.LoadRoute),
-                        this.profileImageUrlFactory.GenerateUrl(image,
+                        this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(image, RouteNames.ProfileImages.LoadRoute),
+                        this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(image,
                             RouteNames.ProfileImages.DeleteRoute),
                         image.IsPrimary))
                 .ToArray();
@@ -47,7 +49,8 @@ namespace Etdb.UserService.AutoMapper.Converters
                 source.AuthenticationProvider.ToString(),
                 source.AuthenticationProvider != AuthenticationProvider.UsernamePassword,
                 emailMetaInfoContainer,
-                profileImageMetaInfos
+                profileImageMetaInfos,
+                this.authenticationLogUrlFactory.GenerateUrl(source, RouteNames.AuthenticationLogs.LoadAllRoute)
             );
         }
     }
