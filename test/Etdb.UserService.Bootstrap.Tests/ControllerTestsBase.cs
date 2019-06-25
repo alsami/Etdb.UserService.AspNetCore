@@ -59,7 +59,7 @@ namespace Etdb.UserService.Bootstrap.Tests
 
         protected static UserRegisterDto CreateRandom()
             => new UserRegisterDto("etdb", "etdb",
-                $"{DateTime.UtcNow.Ticks}supersecret-username{DateTime.UtcNow.Ticks}", "supersecret-password",
+                Guid.NewGuid().ToString().Replace("-", ""), "supersecret-password",
                 new List<AddEmailDto>
                 {
                     new AddEmailDto($"{DateTime.UtcNow.Ticks}etdb{DateTime.UtcNow.Ticks}@etbd.com", true)
@@ -74,8 +74,10 @@ namespace Etdb.UserService.Bootstrap.Tests
             return client.GetAsync($"api/v1/auth/user-identity/{accessToken}");
         }
 
-        protected Task<HttpResponseMessage> RefreshAuthenticationAsync(string refreshToken, HttpClient client, AuthenticationProvider authenticationProvider)
-            => client.GetAsync($"api/v1/auth/refresh-authentication/{refreshToken}/{this.GetClientId()}/{authenticationProvider.ToString()}");
+        protected Task<HttpResponseMessage> RefreshAuthenticationAsync(string refreshToken, HttpClient client,
+            AuthenticationProvider authenticationProvider)
+            => client.GetAsync(
+                $"api/v1/auth/refresh-authentication/{refreshToken}/{this.GetClientId()}/{authenticationProvider.ToString()}");
 
 
         protected static Task<HttpResponseMessage> AuthenticateAsync(
