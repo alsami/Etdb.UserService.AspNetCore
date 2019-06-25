@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.UserService.Cqrs.Abstractions.Base;
-using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Misc.Exceptions;
 using Etdb.UserService.Presentation.Authentication;

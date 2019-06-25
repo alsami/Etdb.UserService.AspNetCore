@@ -8,18 +8,15 @@ using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Cqrs.Abstractions.Validation;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Exceptions;
-using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.Enums;
-using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Presentation.Users;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using Etdb.UserService.Services.Abstractions.Models;
 using FluentValidation.Results;
-using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {

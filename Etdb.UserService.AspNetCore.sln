@@ -13,13 +13,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{EEC64864-F
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 		.travis.yml = .travis.yml
+		dev_environment.md = dev_environment.md
 		src\Directory.Build.props = src\Directory.Build.props
 		licence.md = licence.md
 		readme.md = readme.md
 		run-tests.sh = run-tests.sh
 		scaffold-database.sh = scaffold-database.sh
 		setup-mongodb-user.sh = setup-mongodb-user.sh
-		dev_environment.md = dev_environment.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.AutoMapper", "src\Etdb.UserService.AutoMapper\Etdb.UserService.AutoMapper.csproj", "{404C19B7-D968-49A4-B89F-201407BE2892}"
@@ -56,7 +56,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Extensions
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Bootstrap.Tests", "test\Etdb.UserService.Bootstrap.Tests\Etdb.UserService.Bootstrap.Tests.csproj", "{6C7189E2-BADF-43D5-9451-CC91069A694F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.AspNetCore.Extensions", "src\Etdb.UserService.AspNetCore.Extensions\Etdb.UserService.AspNetCore.Extensions.csproj", "{1488DD0F-FD96-486B-A975-B428EC2DC73C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.AspNetCore.Extensions", "src\Etdb.UserService.AspNetCore.Extensions\Etdb.UserService.AspNetCore.Extensions.csproj", "{1488DD0F-FD96-486B-A975-B428EC2DC73C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Policies.AspNetCore", "src\Etdb.UserService.Policies.AspNetCore\Etdb.UserService.Policies.AspNetCore.csproj", "{069A3DD6-AEC3-4841-A320-76F461404853}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -140,6 +142,10 @@ Global
 		{1488DD0F-FD96-486B-A975-B428EC2DC73C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1488DD0F-FD96-486B-A975-B428EC2DC73C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1488DD0F-FD96-486B-A975-B428EC2DC73C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{069A3DD6-AEC3-4841-A320-76F461404853}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{069A3DD6-AEC3-4841-A320-76F461404853}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{069A3DD6-AEC3-4841-A320-76F461404853}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{069A3DD6-AEC3-4841-A320-76F461404853}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,6 +170,7 @@ Global
 		{68162009-82DF-4296-860E-50C531238D89} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{6C7189E2-BADF-43D5-9451-CC91069A694F} = {6D5EBCBA-FB78-425F-8D55-D13C11C9DCB7}
 		{1488DD0F-FD96-486B-A975-B428EC2DC73C} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
+		{069A3DD6-AEC3-4841-A320-76F461404853} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {39A620F8-72B1-4D11-8393-8263B92F8704}

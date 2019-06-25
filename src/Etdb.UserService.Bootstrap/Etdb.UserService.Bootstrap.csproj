@@ -29,6 +29,7 @@
     <ProjectReference Include="..\Etdb.UserService.Cqrs\Etdb.UserService.Cqrs.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Filter\Etdb.UserService.Filter.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Misc\Etdb.UserService.Misc.csproj" />
+    <ProjectReference Include="..\Etdb.UserService.Policies.AspNetCore\Etdb.UserService.Policies.AspNetCore.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Repositories\Etdb.UserService.Repositories.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Services\Etdb.UserService.Services.csproj" />
   </ItemGroup>

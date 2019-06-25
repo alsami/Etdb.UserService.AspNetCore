@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace Etdb.UserService.Misc.Constants
+﻿namespace Etdb.UserService.Misc.Constants
 {
     public class RouteNames
     {

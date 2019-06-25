@@ -11,6 +11,7 @@ using Etdb.UserService.Extensions;
 using Etdb.UserService.Filter.Exception;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Misc.Constants;
+using Etdb.UserService.Policies.AspNetCore.Users;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
 using IdentityServer4.Contrib.Caching.Redis.Extensions;
@@ -210,9 +211,10 @@ namespace Etdb.UserService.Bootstrap.Extensions
         public static IServiceCollection ConfigureAuthorizationPolicies(this IServiceCollection services)
         {
             return services.AddAuthorization(options =>
-            {
-                options.AddPolicy(RolePolicyNames.AdminPolicy, builder => builder.RequireRole(RoleNames.Admin));
-            });
+                {
+                    options.AddPolicy(RolePolicyNames.AdminPolicy, builder => builder.RequireRole(RoleNames.Admin));
+                })
+                .AddScoped<IAuthorizationHandler, AuthenticatedUserIsRequestedUserHandler>();
         }
     }
 }

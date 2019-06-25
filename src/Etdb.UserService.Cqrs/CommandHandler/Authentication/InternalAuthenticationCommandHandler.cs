@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Authentication;
-using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Services.Abstractions;
 using IdentityModel;
