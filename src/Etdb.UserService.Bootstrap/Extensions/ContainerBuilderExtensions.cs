@@ -17,6 +17,7 @@ using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Strategies;
 using Etdb.UserService.AutoMapper.Profiles;
+using Etdb.UserService.Bootstrap.AutofacModules;
 using Etdb.UserService.Cqrs.CommandHandler.Users;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Repositories;
@@ -26,23 +27,24 @@ using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Bootstrap.Extensions
 {
     public static class ContainerBuilderExtensions
     {
-        public static void SetupDependencies(this ContainerBuilder containerBuilder)
+        public static void SetupDependencies(this ContainerBuilder containerBuilder, IHostingEnvironment hostingEnvironment)
         {
             new AutofacFluentBuilder(containerBuilder
                     .AddMediatR(typeof(UserRegisterCommandHandler).Assembly)
                     .AddAutoMapper(typeof(UsersProfile).Assembly))
+                .ApplyModule(new DocumentDbContextModule(hostingEnvironment))
                 .RegisterResolver<RedisLockManager, IRedisLockManager>(RedisLockManagerResolver)
                 .RegisterResolver(ExternalAuthenticationStrategyResolver)
                 .RegisterTypeAsSingleton<ActionContextAccessor, IActionContextAccessor>()
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypeAsSingleton<FileService, IFileService>()
-                .RegisterTypeAsSingleton<UserServiceDbContext, DocumentDbContext>()
                 .RegisterTypeAsScoped<Bus, IBus>()
                 .RegisterTypeAsScoped<HttpContextAccessor, IHttpContextAccessor>()
                 .RegisterTypeAsScoped<GoogleAuthenticationStrategy, IGoogleAuthenticationStrategy>()

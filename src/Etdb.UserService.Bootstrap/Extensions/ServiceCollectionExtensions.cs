@@ -33,7 +33,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        private const string FilesLocalSubpath = "Files";
+        private const string FilesLocalSubPath = "Files";
 
         private static readonly string CookieName =
             typeof(Startup).Assembly.GetName().Name.Replace(".dll", "").Replace(".exe", "");
@@ -61,10 +61,10 @@ namespace Etdb.UserService.Bootstrap.Extensions
         {
             return services.Configure<FilestoreConfiguration>(options =>
             {
-                if (environment.IsDevelopment() || environment.IsLocalDevelopment())
+                if (environment.IsDevelopment() || environment.IsLocalDevelopment() || environment.IsAzureDevelopment())
                 {
                     options.ImagePath = Path.Combine(environment.ContentRootPath,
-                        ServiceCollectionExtensions.FilesLocalSubpath);
+                        ServiceCollectionExtensions.FilesLocalSubPath);
 
                     return;
                 }
@@ -93,7 +93,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
         public static IServiceCollection ConfigureSwaggerGen(this IServiceCollection services,
             IHostingEnvironment environment, Info info, string title)
         {
-            if (!environment.IsDevelopment() || environment.IsLocalDevelopment())
+            if (!environment.IsDevelopment() || !environment.IsLocalDevelopment())
             {
                 return services;
             }
@@ -201,7 +201,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .AddIdentityServerAuthentication(options =>
                 {
                     options.Authority = authority;
-                    options.RequireHttpsMetadata = environment.IsProduction();
+                    options.RequireHttpsMetadata = environment.IsProduction() || environment.IsAzureDevelopment();
                     options.ApiName = apiName;
                 });
 

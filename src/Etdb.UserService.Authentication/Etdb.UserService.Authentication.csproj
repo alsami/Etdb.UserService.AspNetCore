@@ -13,9 +13,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Etdb.ServiceBase.Constants" Version="2.2.0" />
-      <PackageReference Include="Etdb.ServiceBase.Cqrs.Abstractions" Version="2.2.0" />
-      <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="2.2.0" />
+      <PackageReference Include="Etdb.ServiceBase.Constants" Version="2.3.0" />
+      <PackageReference Include="Etdb.ServiceBase.Cqrs.Abstractions" Version="2.3.0" />
+      <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="2.3.0" />
       <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
     </ItemGroup>

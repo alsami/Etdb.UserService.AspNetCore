@@ -12,6 +12,7 @@ using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Services.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.Hosting.Internal;
 using Xunit;
 
 namespace Etdb.UserService.Bootstrap.Tests
@@ -23,7 +24,7 @@ namespace Etdb.UserService.Bootstrap.Tests
         {
             var containerBuilder = new ContainerBuilder();
 
-            containerBuilder.SetupDependencies();
+            containerBuilder.SetupDependencies(new HostingEnvironment());
 
 
             var container = containerBuilder.Build();

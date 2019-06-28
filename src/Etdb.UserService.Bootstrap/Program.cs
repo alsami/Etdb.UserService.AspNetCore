@@ -35,6 +35,8 @@ namespace Etdb.UserService.Bootstrap
                 .ConfigureServices(services => services.AddAutofac())
                 .ConfigureAppConfiguration((context, builder) =>
                 {
+                    context.HostingEnvironment.ContentRootPath = AppContext.BaseDirectory;
+
                     if (!context.HostingEnvironment.IsDevelopment())
                     {
                         return;

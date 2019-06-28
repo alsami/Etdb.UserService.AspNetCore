@@ -4,11 +4,10 @@ using System.Linq;
 using Etdb.ServiceBase.Cryptography.Hashing;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Misc.Constants;
-using Etdb.UserService.Repositories;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace Etdb.UserService.Scaffold
+namespace Etdb.UserService.Repositories
 {
     public class ContextScaffold
     {

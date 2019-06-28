@@ -4,22 +4,17 @@ using Etdb.UserService.Domain.Entities;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Driver;
 
 namespace Etdb.UserService.Repositories
 {
     public class UserServiceDbContext : DocumentDbContext
     {
-        private readonly string[] collections =
-        {
-            $"{nameof(User).ToLower()}s",
-            $"{nameof(SecurityRole).ToLower()}s",
-            $"{nameof(AuthenticationLog).ToLower()}s"
-        };
-
         public UserServiceDbContext(IOptions<DocumentDbContextOptions> options) : base(options)
-        {
-            this.Configure();
-        }
+            => this.Configure();
+
+        public UserServiceDbContext(MongoClientSettings settings, string databaseName) : base(settings, databaseName)
+            => this.Configure();
 
         public sealed override void Configure()
         {
@@ -27,14 +22,6 @@ namespace Etdb.UserService.Repositories
             UseCamelCaseConvention();
             UseIgnoreNullValuesConvention();
             UseEnumStringRepresentation();
-
-            //foreach (var collectionName in this.collections)
-            //{
-            //    if (!this.CollectionExists(collectionName))
-            //    {
-            //        this.CreateCollection(collectionName);
-            //    }
-            //}
         }
 
         private static void UseIgnoreNullValuesConvention()

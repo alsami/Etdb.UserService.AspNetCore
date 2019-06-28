@@ -1,8 +1,10 @@
 ﻿using Autofac;
 using Etdb.ServiceBase.Constants;
+using Etdb.ServiceBase.DocumentRepository;
 using Etdb.UserService.Authentication.Configuration;
 using Etdb.UserService.Bootstrap.Extensions;
 using Etdb.UserService.Misc.Configuration;
+using Etdb.UserService.Repositories;
 using Etdb.UserService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
@@ -75,11 +77,15 @@ namespace Etdb.UserService.Bootstrap
                 .UseCors(Startup.CorsPolicyName)
                 .UseIdentityServer()
                 .SetupMvc();
+
+            var context = (UserServiceDbContext) app.ApplicationServices.GetRequiredService<DocumentDbContext>();
+            
+            ContextScaffold.Scaffold(context);
         }
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
-            containerBuilder.SetupDependencies();
+            containerBuilder.SetupDependencies(this.environment);
         }
     }
 }

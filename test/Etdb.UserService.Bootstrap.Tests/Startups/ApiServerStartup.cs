@@ -75,7 +75,7 @@ namespace Etdb.UserService.Bootstrap.Tests.Startups
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.SetupDependencies();
+            builder.SetupDependencies(this.hostingEnvironment);
             builder.Register(_ =>
                     new IdentityServerClient(new HttpClient(this.identityTestServer.CreateHandler())))
                 .As<IIdentityServerClient>()

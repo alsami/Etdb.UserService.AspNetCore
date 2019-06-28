@@ -78,7 +78,7 @@ namespace Etdb.UserService.Bootstrap.Tests.Startups
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.SetupDependencies();
+            builder.SetupDependencies(this.hostingEnvironment);
 
             builder.RegisterInstance(new ExternalIdentityServerClient(
                     new HttpClient(this.httpMessageHandler)))
