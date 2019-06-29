@@ -57,11 +57,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
             var salt = this.hasher.GenerateSalt();
 
-            var updatedUser = new User(existingUser.Id, existingUser.UserName, existingUser.FirstName,
-                existingUser.Name, existingUser.Biography, existingUser.RegisteredSince,
-                existingUser.RoleIds, existingUser.Emails,
-                existingUser.AuthenticationProvider,
-                this.hasher.CreateSaltedHash(command.NewPassword, salt), salt, existingUser.ProfileImages);
+            var updatedUser = existingUser.MutateCredentials(this.hasher.CreateSaltedHash(command.NewPassword, salt), salt);
 
             await this.usersService.EditAsync(updatedUser);
 

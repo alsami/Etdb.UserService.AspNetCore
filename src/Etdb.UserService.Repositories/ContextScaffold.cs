@@ -71,7 +71,7 @@ namespace Etdb.UserService.Repositories
 
             var adminGuid = Guid.NewGuid();
 
-            adminUser = new User(adminGuid, "admin", null, null, null,
+            adminUser = User.Create(adminGuid, "admin", null, null, null,
                 DateTime.UtcNow,
                 new[] {memberRole.Id, adminRole.Id},
                 new List<Email> {new Email(Guid.NewGuid(), adminGuid, "admin@etdb.com", true, false)},

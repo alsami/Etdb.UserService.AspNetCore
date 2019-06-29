@@ -32,7 +32,7 @@ namespace Etdb.UserService.Domain.Entities
 
         public string RelativePath() => Path.Combine(this.Subpath(), this.Name);
         
-        public ProfileImage SetPrimary(bool primary) => new ProfileImage(this.Id, this.UserId, this.Name, this.OriginalName, this.MediaType, primary);
+        public ProfileImage MutatePrimaryState(bool primary) => new ProfileImage(this.Id, this.UserId, this.Name, this.OriginalName, this.MediaType, primary);
 
         public static ProfileImage Create(Guid id, Guid userId, string originalName, string mediaType, bool isPrimary)
             => new ProfileImage(id, userId, $"{userId}_{originalName}", originalName, mediaType, isPrimary);

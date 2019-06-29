@@ -48,11 +48,11 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
         private static void MutateNewPrimaryImage(User user, ProfileImage selectedImage)
         {
-            var replacedImage = selectedImage.SetPrimary(true);
-
-            user.ProfileImages.Remove(selectedImage);
+            var replacedImage = selectedImage.MutatePrimaryState(true);
             
-            user.ProfileImages.Add(replacedImage);
+            user.RemoveProfimeImage(image => image.Id == selectedImage.Id);
+            
+            user.AddProfileImage(replacedImage);
         }
 
         private static void MutateCurrentPrimaryImage(User user)
@@ -61,11 +61,11 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             
             if (primaryImage == null) return;
 
-            var replacedImage = primaryImage.SetPrimary(false);
+            var replacedImage = primaryImage.MutatePrimaryState(false);
 
-            user.ProfileImages.Remove(primaryImage);
+            user.RemoveProfimeImage(image => image.Id == primaryImage.Id);
             
-            user.ProfileImages.Add(replacedImage);
+            user.AddProfileImage(replacedImage);
         }
     }
 }

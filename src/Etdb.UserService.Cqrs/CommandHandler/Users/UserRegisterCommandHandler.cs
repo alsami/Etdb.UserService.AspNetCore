@@ -85,7 +85,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
             if (provider != AuthenticationProvider.UsernamePassword)
             {
-                var userFromExternalAuthentication = new User(command.Id, command.WantedUserName, command.FirstName,
+                var userFromExternalAuthentication = User.Create(command.Id, command.WantedUserName, command.FirstName,
                     command.Name, null,
                     DateTime.UtcNow, roles, emails, provider);
 
@@ -94,7 +94,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
             var salt = this.hasher.GenerateSalt();
 
-            var userFromInternalAuthentication = new User(command.Id, command.WantedUserName, command.FirstName, command.Name,
+            var userFromInternalAuthentication = User.Create(command.Id, command.WantedUserName, command.FirstName, command.Name,
                 null,
                 DateTime.UtcNow, roles, emails,
                 password: this.hasher.CreateSaltedHash(command.PasswordAddCommand.NewPassword, salt), salt: salt);
