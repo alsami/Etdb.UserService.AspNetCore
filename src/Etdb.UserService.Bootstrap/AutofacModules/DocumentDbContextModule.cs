@@ -3,6 +3,7 @@ using System.Security.Authentication;
 using Autofac;
 using Etdb.ServiceBase.DocumentRepository;
 using Etdb.ServiceBase.DocumentRepository.Abstractions;
+using Etdb.UserService.Bootstrap.Extensions;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Repositories;
 using Microsoft.Extensions.Configuration;

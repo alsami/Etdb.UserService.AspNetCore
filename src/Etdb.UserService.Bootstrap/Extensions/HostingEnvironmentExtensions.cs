@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 
-namespace Etdb.UserService.Extensions
+namespace Etdb.UserService.Bootstrap.Extensions
 {
     public static class HostingEnvironmentExtensions
     {
