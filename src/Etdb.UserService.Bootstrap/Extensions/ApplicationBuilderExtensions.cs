@@ -14,7 +14,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
             string jsonUri,
             string description)
         {
-            if (!environment.IsDevelopment() && !environment.IsLocalDevelopment())
+            if (!environment.IsAnyLocalDevelopment())
             {
                 return app;
             }
@@ -26,12 +26,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
 
         public static IApplicationBuilder SetupHsts(this IApplicationBuilder app, IHostingEnvironment environment)
         {
-            if (environment.IsDevelopment() || environment.IsLocalDevelopment())
-            {
-                return app;
-            }
-
-            return app.UseHsts();
+            return environment.IsAnyLocalDevelopment() ? app : app.UseHsts();
         }
 
         public static IApplicationBuilder SetupForwarding(this IApplicationBuilder app, IHostingEnvironment environment)

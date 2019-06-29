@@ -28,7 +28,7 @@ namespace Etdb.UserService.Bootstrap.AutofacModules
                 {
                     var options = componentContext.Resolve<IOptions<DocumentDbContextOptions>>();
 
-                    if (!hostingEnvironment.IsAzureDevelopment()) return new UserServiceDbContext(options);
+                    if (!this.hostingEnvironment.IsAzureDevelopment()) return new UserServiceDbContext(options);
 
                     var settings = MongoClientSettings.FromUrl(new MongoUrl(options.Value.ConnectionString));
 

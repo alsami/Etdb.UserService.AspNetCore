@@ -93,7 +93,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
         public static IServiceCollection ConfigureSwaggerGen(this IServiceCollection services,
             IHostingEnvironment environment, Info info, string title)
         {
-            if (!environment.IsDevelopment() && !environment.IsLocalDevelopment())
+            if (!environment.IsAnyLocalDevelopment())
             {
                 return services;
             }
@@ -165,7 +165,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
                     builder.AllowAnyHeader()
                         .AllowAnyMethod();
 
-                    if (environment.IsDevelopment() || environment.IsLocalDevelopment())
+                    if (environment.IsAnyLocalDevelopment())
                     {
                         builder.AllowAnyOrigin();
                         return;
