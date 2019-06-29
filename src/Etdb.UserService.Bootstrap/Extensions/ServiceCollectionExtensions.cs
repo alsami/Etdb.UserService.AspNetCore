@@ -7,7 +7,6 @@ using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Authentication.Configuration;
 using Etdb.UserService.Authentication.Services;
 using Etdb.UserService.Authentication.Validator;
-using Etdb.UserService.Extensions;
 using Etdb.UserService.Filter.Exception;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Misc.Constants;
@@ -177,9 +176,9 @@ namespace Etdb.UserService.Bootstrap.Extensions
         }
 
         public static IServiceCollection ConfigureIdentityServerAuthorization(this IServiceCollection services,
-            IdentityServerConfiguration identityServerConfiguration, RedisCacheOptions redisCacheOptions)
+            IdentityServerConfiguration identityServerConfiguration, RedisCacheOptions redisCacheOptions, IHostingEnvironment environment)
         {
-            services.AddIdentityServer(options =>
+            var identityServerBuilder = services.AddIdentityServer(options =>
                     options.Authentication.CookieAuthenticationScheme = ServiceCollectionExtensions.CookieName)
                 .AddDeveloperSigningCredential()
                 .AddInMemoryIdentityResources(IdentityResourceConfiguration.GetIdentityResource())
@@ -187,8 +186,15 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .AddInMemoryClients(ClientConfiguration.GetClients(identityServerConfiguration))
                 .AddProfileService<ProfileService>()
                 .AddResourceOwnerValidator<ResourceOwnerPasswordGrantValidator>()
-                .AddExtensionGrantValidator<ExternalGrantValidator>()
-                .AddDistributedRedisCache(redisCacheOptions.Configuration, redisCacheOptions.InstanceName);
+                .AddExtensionGrantValidator<ExternalGrantValidator>();
+
+            if (environment.IsAzureDevelopment())
+            {
+                identityServerBuilder.AddInMemoryPersistedGrants();
+                return services;
+            } 
+            
+            identityServerBuilder.AddDistributedRedisCache(redisCacheOptions.Configuration, redisCacheOptions.InstanceName);
 
             return services;
         }

@@ -24,8 +24,8 @@ namespace Etdb.UserService.Bootstrap
         private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureServices(ConfigureService)
-                .ConfigureAppConfiguration(ConfigureAppConfiguration)
                 .ConfigureLogging(ConfigureLogging)
+                .ConfigureAppConfiguration(ConfigureAppConfiguration)
                 .CaptureStartupErrors(true)
                 .UseSetting(WebHostDefaults.DetailedErrorsKey, true.ToString())
                 .UseContentRoot(AppContext.BaseDirectory)
@@ -33,7 +33,15 @@ namespace Etdb.UserService.Bootstrap
                 .UseSerilog()
                 .UseKestrel();
 
-        private static void ConfigureService(IServiceCollection services) => services.AddAutofac();
+        private static void ConfigureService(WebHostBuilderContext context, IServiceCollection services) {
+            var environment = ((Microsoft.Extensions.Hosting.IHostingEnvironment) context.HostingEnvironment);
+            
+            environment.EnvironmentName = Environment.GetEnvironmentVariable("ASPNETCORE:Environment")
+                                          ?? Environment.GetEnvironmentVariable("ASPNETCORE__Environment")
+                                          ?? Environment.GetEnvironmentVariable("ASPNETCORE_Environment")
+                                          ?? EnvironmentName.Development;
+            services.AddAutofac();
+        }
 
         private static void ConfigureLogging(WebHostBuilderContext context, ILoggingBuilder _)
         {
@@ -48,20 +56,13 @@ namespace Etdb.UserService.Bootstrap
                     "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
                     theme: AnsiConsoleTheme.Literate)
                 .CreateLogger();
-            
         }
 
         private static void ConfigureAppConfiguration(WebHostBuilderContext context, IConfigurationBuilder builder)
         {
-            var environment = ((Microsoft.Extensions.Hosting.IHostingEnvironment) context.HostingEnvironment);
-
-
-            if (!environment.IsAnyLocalDevelopment())
-            {
-                return;
-            }
-
-            builder.AddUserSecrets("Etdb_UserService");
+            builder
+                .AddUserSecrets("Etdb_UserService")
+                .AddEnvironmentVariables();
         }
     }
 }

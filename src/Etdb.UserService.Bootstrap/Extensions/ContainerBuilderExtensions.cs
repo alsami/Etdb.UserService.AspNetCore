@@ -40,7 +40,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
                     .AddMediatR(typeof(UserRegisterCommandHandler).Assembly)
                     .AddAutoMapper(typeof(UsersProfile).Assembly))
                 .ApplyModule(new DocumentDbContextModule(hostingEnvironment))
-                .RegisterResolver<RedisLockManager, IRedisLockManager>(RedisLockManagerResolver)
+                .ApplyModule(new ResourceCachingModule(hostingEnvironment))
                 .RegisterResolver(ExternalAuthenticationStrategyResolver)
                 .RegisterTypeAsSingleton<ActionContextAccessor, IActionContextAccessor>()
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
@@ -50,7 +50,6 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .RegisterTypeAsScoped<GoogleAuthenticationStrategy, IGoogleAuthenticationStrategy>()
                 .RegisterTypeAsScoped<FacebookAuthenticationStrategy, IFacebookAuthenticationStrategy>()
                 .RegisterTypeAsScoped<UsersService, IUsersService>()
-                .RegisterTypeAsScoped<ResourceLockingAdapter, IResourceLockingAdapter>()
                 .RegisterTypeAsScoped<ApplicationUser, IApplicationUser>()
                 .RegisterTypeAsScoped<UserUrlFactory, IUserUrlFactory>()
                 .AddClosedTypeAsScoped(typeof(ICommandValidation<>),
@@ -58,11 +57,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .AddClosedTypeAsScoped(typeof(IDocumentRepository<,>), new[] {typeof(UserServiceDbContext).Assembly});
         }
 
-        private static IRedisLockManager RedisLockManagerResolver(IComponentContext componentContext) =>
-            new RedisLockManager(new RedLockOptions
-            {
-                LockRetryCount = 2
-            }, componentContext.Resolve<IOptions<RedisCacheOptions>>().Value.Configuration);
+
 
         private static IExternalAuthenticationStrategy ExternalAuthenticationStrategyResolver(
             IComponentContext componentContext,
