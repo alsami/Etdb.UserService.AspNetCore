@@ -36,7 +36,8 @@ namespace Etdb.UserService.Controllers.V1
             return new FileContentResult(profileImageDownloadInfo.File,
                 new MediaTypeHeaderValue(profileImageDownloadInfo.MediaType))
             {
-                FileDownloadName = profileImageDownloadInfo.Name
+                FileDownloadName = profileImageDownloadInfo.Name,
+                EnableRangeProcessing = true
             };
         }
 
