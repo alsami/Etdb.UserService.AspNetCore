@@ -36,12 +36,9 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
                 throw WellknownExceptions.UserResourceLockException(existingUser.Id);
             }
 
-            var user = new User(existingUser.Id, existingUser.UserName, command.FirstName, command.Name,
-                command.Biography, existingUser.RegisteredSince,
-                existingUser.RoleIds, existingUser.Emails, existingUser.AuthenticationProvider, existingUser.Password,
-                existingUser.Salt, existingUser.ProfileImages);
+            var mutatedUser = existingUser.MutateProfileInfo(command.FirstName, command.Name, command.Biography);
 
-            await this.usersService.EditAsync(user);
+            await this.usersService.EditAsync(mutatedUser);
 
             await this.resourceLockingAdapter.UnlockAsync(existingUser.Id);
 

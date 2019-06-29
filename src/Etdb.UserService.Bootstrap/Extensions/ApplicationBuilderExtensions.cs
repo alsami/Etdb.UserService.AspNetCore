@@ -42,6 +42,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
             });
         }
 
+        // ReSharper disable once UnusedMethodReturnValue.Global
         public static IApplicationBuilder SetupMvc(this IApplicationBuilder app)
         {
             //// very hacky shit

@@ -39,7 +39,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
             await this.LockResourcesAndThrowOnFailureAsync(command, userNameResourceLockKey, cancellationToken);
 
-            var replacedUser = user.ChangeUserName(command.WantedUserName);
+            var replacedUser = user.MutateUserName(command.WantedUserName);
 
             await this.usersService.EditAsync(replacedUser);
 
