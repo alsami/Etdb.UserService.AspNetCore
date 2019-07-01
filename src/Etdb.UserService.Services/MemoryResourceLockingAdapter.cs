@@ -11,7 +11,7 @@ namespace Etdb.UserService.Services
     {
         private readonly ILogger<MemoryResourceLockingAdapter> logger;
 
-        private static readonly ConcurrentDictionary<object, DateTime> LockedKeysByDateTime 
+        private static readonly ConcurrentDictionary<object, DateTime> LockedKeysByDateTime
             = new ConcurrentDictionary<object, DateTime>();
 
         public MemoryResourceLockingAdapter(ILogger<MemoryResourceLockingAdapter> logger)
@@ -21,9 +21,11 @@ namespace Etdb.UserService.Services
         }
 
         public Task<bool> LockAsync(object key, TimeSpan lockSpan)
-            => Task.FromResult(MemoryResourceLockingAdapter.LockedKeysByDateTime.TryAdd(key, DateTime.UtcNow.Add(lockSpan)));
+            => Task.FromResult(
+                MemoryResourceLockingAdapter.LockedKeysByDateTime.TryAdd(key, DateTime.UtcNow.Add(lockSpan)));
 
-        public Task UnlockAsync(object key) => Task.FromResult(MemoryResourceLockingAdapter.LockedKeysByDateTime.TryRemove(key, out _));
+        public Task UnlockAsync(object key) =>
+            Task.FromResult(MemoryResourceLockingAdapter.LockedKeysByDateTime.TryRemove(key, out _));
 
         private void RunCleanupThread()
         {
@@ -37,10 +39,10 @@ namespace Etdb.UserService.Services
                     this.logger.LogInformation("Removing value for key {key}!", key);
                     MemoryResourceLockingAdapter.LockedKeysByDateTime.TryRemove(key, out _);
                 }
-                
+
                 Thread.Sleep(TimeSpan.FromMinutes(1));
             });
-            
+
             thread.Start();
         }
     }

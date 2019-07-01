@@ -13,7 +13,8 @@ namespace Etdb.UserService.Presentation.Authentication
 
         public string AuthenticationProvider { get; }
 
-        public AccessTokenDto(string accessToken, string refreshToken, DateTime expiresAt, string tokenType, string authenticationProvider)
+        public AccessTokenDto(string accessToken, string refreshToken, DateTime expiresAt, string tokenType,
+            string authenticationProvider)
         {
             this.AccessToken = accessToken;
             this.RefreshToken = refreshToken;

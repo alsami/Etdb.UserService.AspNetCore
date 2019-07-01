@@ -15,7 +15,8 @@ using Etdb.UserService.Services.Abstractions.Models;
 namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
 {
     // ReSharper disable once UnusedMember.Global
-    public class ProfileImageAddCommandHandler : IResponseCommandHandler<ProfileImageAddCommand, ProfileImageMetaInfoDto>
+    public class
+        ProfileImageAddCommandHandler : IResponseCommandHandler<ProfileImageAddCommand, ProfileImageMetaInfoDto>
     {
         private readonly IUsersService usersService;
         private readonly IResourceLockingAdapter resourceLockingAdapter;
@@ -29,7 +30,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
             this.resourceLockingAdapter = resourceLockingAdapter;
         }
 
-        public async Task<ProfileImageMetaInfoDto> Handle(ProfileImageAddCommand command, CancellationToken cancellationToken)
+        public async Task<ProfileImageMetaInfoDto> Handle(ProfileImageAddCommand command,
+            CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByIdAsync(command.UserId);
 

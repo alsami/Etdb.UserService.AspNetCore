@@ -33,7 +33,8 @@ namespace Etdb.UserService.Authentication.Validator
                 this.httpContextAccessor.HttpContext.Connection.RemoteIpAddress);
 
             var userAuthenticationValidation =
-                await this.bus.SendCommandAsync<UserAuthenticationValidationCommand, AuthenticationValidationDto>(command);
+                await this.bus.SendCommandAsync<UserAuthenticationValidationCommand, AuthenticationValidationDto>(
+                    command);
 
             if (userAuthenticationValidation.IsValid)
             {

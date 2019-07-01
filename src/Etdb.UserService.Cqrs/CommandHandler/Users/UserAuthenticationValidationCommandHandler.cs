@@ -64,10 +64,12 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
         private static AuthenticationValidationDto FailedAuthentication(AuthenticationFailure authenticationFailure)
             => new AuthenticationValidationDto(false, authenticationFailure);
 
-        private Task PublishAuthenticationEvent(AuthenticationLogType authenticationLogType, Guid userId, IPAddress ipAddress,
+        private Task PublishAuthenticationEvent(AuthenticationLogType authenticationLogType, Guid userId,
+            IPAddress ipAddress,
             string additionalInfo = null, CancellationToken cancellationToken = default)
             => this.bus.RaiseEventAsync(
-                new UserAuthenticatedEvent(authenticationLogType.ToString(), ipAddress, userId, DateTime.UtcNow, additionalInfo),
+                new UserAuthenticatedEvent(authenticationLogType.ToString(), ipAddress, userId, DateTime.UtcNow,
+                    additionalInfo),
                 cancellationToken);
     }
 }

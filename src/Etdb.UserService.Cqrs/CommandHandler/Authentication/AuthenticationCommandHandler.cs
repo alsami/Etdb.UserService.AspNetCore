@@ -53,7 +53,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
             }
 
             return new AccessTokenDto(tokenResponse.AccessToken, tokenResponse.RefreshToken,
-                DateTime.UtcNow.AddSeconds(tokenResponse.ExpiresIn), tokenResponse.TokenType, command.AuthenticationProvider);
+                DateTime.UtcNow.AddSeconds(tokenResponse.ExpiresIn), tokenResponse.TokenType,
+                command.AuthenticationProvider);
         }
 
         protected abstract Task<TokenResponse> RequestTokenAsync(TCommand command, HttpClient client,

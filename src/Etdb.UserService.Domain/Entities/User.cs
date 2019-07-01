@@ -11,8 +11,6 @@ namespace Etdb.UserService.Domain.Entities
 {
     public class User : GuidDocument
     {
-
-
         [JsonConstructor]
         private User(Guid id, string userName, string firstName, string name, string biography,
             DateTime registeredSince, IEnumerable<Guid> roleIds,
@@ -54,10 +52,10 @@ namespace Etdb.UserService.Domain.Entities
         public IReadOnlyCollection<ProfileImage> ProfileImages { get; private set; }
 
         public IReadOnlyCollection<AuthenticationLog> AuthenticationLogs { get; private set; }
-        
-        public IReadOnlyCollection<Guid> RoleIds  { get; private set; }
 
-        public IReadOnlyCollection<Email> Emails  { get; private set; }
+        public IReadOnlyCollection<Guid> RoleIds { get; private set; }
+
+        public IReadOnlyCollection<Email> Emails { get; private set; }
 
         public void AddAuthenticationLog(AuthenticationLog authenticationLog)
         {
@@ -80,7 +78,8 @@ namespace Etdb.UserService.Domain.Entities
             this.Emails = copy;
         }
 
-        public void AddProfileImage(ProfileImage profileImage)         {
+        public void AddProfileImage(ProfileImage profileImage)
+        {
             var copy = this.ProfileImages.ToList();
             copy.Add(profileImage);
             this.ProfileImages = copy;

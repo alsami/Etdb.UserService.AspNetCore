@@ -16,7 +16,8 @@ namespace Etdb.UserService.Worker
         private readonly ILifetimeScope lifetimeScope;
         private readonly ILogger<AuthenticationLogCleanupHostedService> logger;
 
-        public AuthenticationLogCleanupHostedService(ILifetimeScope lifetimeScope, ILogger<AuthenticationLogCleanupHostedService> logger)
+        public AuthenticationLogCleanupHostedService(ILifetimeScope lifetimeScope,
+            ILogger<AuthenticationLogCleanupHostedService> logger)
         {
             this.lifetimeScope = lifetimeScope;
             this.logger = logger;
@@ -34,20 +35,25 @@ namespace Etdb.UserService.Worker
                     using (var scope = this.lifetimeScope.BeginLifetimeScope())
                     {
                         var bus = scope.Resolve<IBus>();
-                    
+
                         await bus
-                            .SendCommandAsync(new AuthenticationLogsCleanupCommand(TimeSpan.FromDays(5)), stoppingToken);
+                            .SendCommandAsync(new AuthenticationLogsCleanupCommand(TimeSpan.FromDays(5)),
+                                stoppingToken);
                     }
-                 
-                    this.logger.LogInformation("Next authentication log cleanup at {at} UTC", DateTime.UtcNow.AddHours(12).ToString($"dd.MM.yyyy hh:mm:ss", DateTimeFormatInfo.InvariantInfo));
+
+                    this.logger.LogInformation("Next authentication log cleanup at {at} UTC",
+                        DateTime.UtcNow.AddHours(12)
+                            .ToString($"dd.MM.yyyy hh:mm:ss", DateTimeFormatInfo.InvariantInfo));
                     await Task.Delay(TimeSpan.FromHours(12), stoppingToken);
                 }
                 catch (Exception e)
                 {
-                    this.logger.LogError("An error occured while sending command to clear older authentication-logs! Message:\n{message}", e.Message);
+                    this.logger.LogError(
+                        "An error occured while sending command to clear older authentication-logs! Message:\n{message}",
+                        e.Message);
                 }
             }
-            
+
             this.logger.LogInformation("Worker {worker} stopping", this.GetType().GetTypeInfo().Name);
         }
     }

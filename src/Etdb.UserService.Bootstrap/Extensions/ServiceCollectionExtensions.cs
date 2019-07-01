@@ -176,7 +176,8 @@ namespace Etdb.UserService.Bootstrap.Extensions
         }
 
         public static IServiceCollection ConfigureIdentityServerAuthorization(this IServiceCollection services,
-            IdentityServerConfiguration identityServerConfiguration, RedisCacheOptions redisCacheOptions, IHostingEnvironment environment)
+            IdentityServerConfiguration identityServerConfiguration, RedisCacheOptions redisCacheOptions,
+            IHostingEnvironment environment)
         {
             var identityServerBuilder = services.AddIdentityServer(options =>
                     options.Authentication.CookieAuthenticationScheme = ServiceCollectionExtensions.CookieName)
@@ -192,9 +193,10 @@ namespace Etdb.UserService.Bootstrap.Extensions
             {
                 identityServerBuilder.AddInMemoryPersistedGrants();
                 return services;
-            } 
-            
-            identityServerBuilder.AddDistributedRedisCache(redisCacheOptions.Configuration, redisCacheOptions.InstanceName);
+            }
+
+            identityServerBuilder.AddDistributedRedisCache(redisCacheOptions.Configuration,
+                redisCacheOptions.InstanceName);
 
             return services;
         }

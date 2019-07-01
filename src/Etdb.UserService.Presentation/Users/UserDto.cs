@@ -23,16 +23,17 @@ namespace Etdb.UserService.Presentation.Users
         public string AuthenticationProvider { get; }
 
         public bool IsExternalUser { get; }
-        
+
         public EmailMentaInfoContainer EmailMentaInfoContainer { get; }
 
         public ICollection<ProfileImageMetaInfoDto> ProfileImageMetaInfos { get; }
-        
+
         public string AuthenticationLogsUrl { get; }
 
         public UserDto(Guid id, string userName, string firstName, string name, string biography,
             DateTime registeredSince, string authenticationProvider, bool isExternalUser,
-            EmailMentaInfoContainer emailMentaInfoContainer, ICollection<ProfileImageMetaInfoDto> profileImageMetaInfos, string authenticationLogsUrl) : base(id)
+            EmailMentaInfoContainer emailMentaInfoContainer, ICollection<ProfileImageMetaInfoDto> profileImageMetaInfos,
+            string authenticationLogsUrl) : base(id)
         {
             this.UserName = userName;
             this.FirstName = firstName;

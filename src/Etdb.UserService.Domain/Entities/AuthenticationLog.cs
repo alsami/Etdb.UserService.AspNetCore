@@ -7,7 +7,8 @@ namespace Etdb.UserService.Domain.Entities
 {
     public class AuthenticationLog : UserChildDocument
     {
-        public AuthenticationLog(Guid id, Guid userId, DateTime loggedAt, AuthenticationLogType authenticationLogType, string ipAddress,
+        public AuthenticationLog(Guid id, Guid userId, DateTime loggedAt, AuthenticationLogType authenticationLogType,
+            string ipAddress,
             string additionalInformation) : base(id, userId)
         {
             this.UserId = userId;

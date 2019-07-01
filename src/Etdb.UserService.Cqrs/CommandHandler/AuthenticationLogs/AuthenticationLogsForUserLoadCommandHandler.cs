@@ -10,7 +10,8 @@ using Etdb.UserService.Services.Abstractions;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.AuthenticationLogs
 {
-    public class AuthenticationLogsForUserLoadCommandHandler : IResponseCommandHandler<AuthenticationLogsForUserLoadCommand, IEnumerable<AuthenticationLogDto>>
+    public class AuthenticationLogsForUserLoadCommandHandler : IResponseCommandHandler<
+        AuthenticationLogsForUserLoadCommand, IEnumerable<AuthenticationLogDto>>
     {
         private readonly IMapper mapper;
         private readonly IUsersService usersService;
@@ -21,7 +22,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.AuthenticationLogs
             this.usersService = usersService;
         }
 
-        public async Task<IEnumerable<AuthenticationLogDto>> Handle(AuthenticationLogsForUserLoadCommand command, CancellationToken cancellationToken)
+        public async Task<IEnumerable<AuthenticationLogDto>> Handle(AuthenticationLogsForUserLoadCommand command,
+            CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByIdAsync(command.UserId);
 

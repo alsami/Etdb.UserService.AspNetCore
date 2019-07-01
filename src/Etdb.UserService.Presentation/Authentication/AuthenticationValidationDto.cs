@@ -11,7 +11,8 @@ namespace Etdb.UserService.Presentation.Authentication
 
         public Guid UserId { get; }
 
-        public AuthenticationValidationDto(bool isValid, AuthenticationFailure? authenticationFailure = null, Guid? userId = null)
+        public AuthenticationValidationDto(bool isValid, AuthenticationFailure? authenticationFailure = null,
+            Guid? userId = null)
         {
             this.AuthenticationFailure = authenticationFailure;
             this.IsValid = isValid;

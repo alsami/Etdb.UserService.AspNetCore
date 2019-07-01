@@ -16,7 +16,7 @@ namespace Etdb.UserService.AutoMapper.Profiles
 
             this.CreateMap<InternalAuthenticationDto, InternalAuthenticationCommand>()
                 .ConvertUsing<InternalAuthenticationCommandTypeConverter>();
-            
+
             this.CreateMap<ExternalAuthenticationDto, ExternalAuthenticationCommand>()
                 .ConvertUsing<ExternalAuthenticationCommandTypeConverter>();
         }

@@ -74,7 +74,8 @@ namespace Etdb.UserService.Services
                 .ToArray();
 
             if (signInLogs.Length < UsersService.MaxFailedLoginCount ||
-                signInLogs.FirstOrDefault(signInLog => signInLog.AuthenticationLogType == AuthenticationLogType.Succeeded) != null)
+                signInLogs.FirstOrDefault(signInLog =>
+                    signInLog.AuthenticationLogType == AuthenticationLogType.Succeeded) != null)
             {
                 return false;
             }

@@ -8,7 +8,6 @@ namespace Etdb.UserService.AutoMapper.Converters
 {
     public class ProfileImageConverter : ITypeConverter<ProfileImage, ProfileImageMetaInfoDto>
     {
-        
         private readonly IUserUrlFactory profileImageUrlFactory;
 
         public ProfileImageConverter(IUserUrlFactory profileImageUrlFactory)

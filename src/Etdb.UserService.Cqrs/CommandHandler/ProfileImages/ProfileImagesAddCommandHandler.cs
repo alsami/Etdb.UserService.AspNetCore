@@ -15,20 +15,24 @@ using Etdb.UserService.Services.Abstractions.Models;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
 {
-    public class ProfileImagesAddCommandHandler : IResponseCommandHandler<ProfileImagesAddCommand, IEnumerable<ProfileImageMetaInfoDto>>
+    public class
+        ProfileImagesAddCommandHandler : IResponseCommandHandler<ProfileImagesAddCommand,
+            IEnumerable<ProfileImageMetaInfoDto>>
     {
         private readonly IUsersService usersService;
         private readonly IResourceLockingAdapter resourceLockingAdapter;
         private readonly IMapper mapper;
 
-        public ProfileImagesAddCommandHandler(IMapper mapper, IUsersService usersService, IResourceLockingAdapter resourceLockingAdapter)
+        public ProfileImagesAddCommandHandler(IMapper mapper, IUsersService usersService,
+            IResourceLockingAdapter resourceLockingAdapter)
         {
             this.mapper = mapper;
             this.usersService = usersService;
             this.resourceLockingAdapter = resourceLockingAdapter;
         }
 
-        public async Task<IEnumerable<ProfileImageMetaInfoDto>> Handle(ProfileImagesAddCommand command, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ProfileImageMetaInfoDto>> Handle(ProfileImagesAddCommand command,
+            CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByIdAsync(command.UserId);
 
@@ -47,7 +51,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
                         imageMetaInfo.Name,
                         imageMetaInfo.ContentType.MediaType,
                         !user.ProfileImages.Any() && index == 0);
-                    
+
                     var storeImageMetaInfo = new StoreImageMetaInfo(profileImage, imageMetaInfo.Bytes);
 
                     return (profileImage, storeImageMetaInfo);
@@ -55,11 +59,13 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
                 .ToArray();
 
 
-            await this.usersService.EditAsync(user, profileImagePairs.Select(pair => pair.storeImageMetaInfo).ToArray());
-            
+            await this.usersService.EditAsync(user,
+                profileImagePairs.Select(pair => pair.storeImageMetaInfo).ToArray());
+
             await this.resourceLockingAdapter.UnlockAsync(user.Id);
 
-            return this.mapper.Map<IEnumerable<ProfileImageMetaInfoDto>>(profileImagePairs.Select(pair => pair.profileImage));
+            return this.mapper.Map<IEnumerable<ProfileImageMetaInfoDto>>(
+                profileImagePairs.Select(pair => pair.profileImage));
         }
     }
 }

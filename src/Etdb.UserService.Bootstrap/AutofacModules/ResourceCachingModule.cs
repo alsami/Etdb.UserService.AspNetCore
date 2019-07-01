@@ -16,7 +16,8 @@ namespace Etdb.UserService.Bootstrap.AutofacModules
     {
         private readonly IHostingEnvironment environment;
 
-        public ResourceCachingModule(IHostingEnvironment environment) => this.environment = environment ?? throw new ArgumentNullException(nameof(environment));
+        public ResourceCachingModule(IHostingEnvironment environment) =>
+            this.environment = environment ?? throw new ArgumentNullException(nameof(environment));
 
         protected override void Load(ContainerBuilder builder)
         {
@@ -25,7 +26,7 @@ namespace Etdb.UserService.Bootstrap.AutofacModules
                 builder.RegisterType<MemoryResourceLockingAdapter>()
                     .As<IResourceLockingAdapter>()
                     .SingleInstance();
-                
+
                 builder.Register(_ => new MemoryDistributedCache(Options.Create(new MemoryDistributedCacheOptions
                     {
                         ExpirationScanFrequency = TimeSpan.FromMinutes(10)
@@ -44,7 +45,7 @@ namespace Etdb.UserService.Bootstrap.AutofacModules
                 .As<IRedisLockManager>()
                 .InstancePerLifetimeScope();
         }
-        
+
         private static IRedisLockManager RedisLockManagerResolver(IComponentContext componentContext) =>
             new RedisLockManager(new RedLockOptions
             {

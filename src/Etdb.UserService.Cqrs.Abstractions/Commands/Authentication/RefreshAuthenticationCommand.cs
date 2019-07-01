@@ -6,7 +6,8 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands.Authentication
     {
         public string RefreshToken { get; }
 
-        public RefreshAuthenticationCommand(string refreshToken, string clientId, string authenticationProvider) : base(clientId, authenticationProvider)
+        public RefreshAuthenticationCommand(string refreshToken, string clientId, string authenticationProvider) : base(
+            clientId, authenticationProvider)
         {
             this.RefreshToken = refreshToken;
         }

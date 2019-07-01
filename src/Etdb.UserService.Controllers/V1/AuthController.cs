@@ -62,7 +62,8 @@ namespace Etdb.UserService.Controllers.V1
 
         [AllowAnonymous]
         [HttpGet("refresh-authentication/{refreshToken}/{clientId}/{authenticationProvider}")]
-        public Task<AccessTokenDto> RefreshAuthenticationAsync(string refreshToken, string clientId, string authenticationProvider)
+        public Task<AccessTokenDto> RefreshAuthenticationAsync(string refreshToken, string clientId,
+            string authenticationProvider)
             => this.bus.SendCommandAsync<RefreshAuthenticationCommand, AccessTokenDto>(
                 new RefreshAuthenticationCommand(refreshToken, clientId, authenticationProvider));
 

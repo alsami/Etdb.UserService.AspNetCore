@@ -31,7 +31,8 @@ namespace Etdb.UserService.Bootstrap.Extensions
 {
     public static class ContainerBuilderExtensions
     {
-        public static void SetupDependencies(this ContainerBuilder containerBuilder, IHostingEnvironment hostingEnvironment)
+        public static void SetupDependencies(this ContainerBuilder containerBuilder,
+            IHostingEnvironment hostingEnvironment)
         {
             new AutofacFluentBuilder(containerBuilder
                     .AddMediatR(typeof(UserRegisterCommandHandler).Assembly)
@@ -54,7 +55,6 @@ namespace Etdb.UserService.Bootstrap.Extensions
                     new[] {typeof(UserRegisterCommandHandler).Assembly})
                 .AddClosedTypeAsScoped(typeof(IDocumentRepository<,>), new[] {typeof(UserServiceDbContext).Assembly});
         }
-
 
 
         private static IExternalAuthenticationStrategy ExternalAuthenticationStrategyResolver(

@@ -20,7 +20,8 @@ namespace Etdb.UserService.Cqrs.EventHandler.Users
         private readonly IResourceLockingAdapter resourceLockingAdapter;
 
         public UserAuthenticatedEventHandler(IUsersRepository usersRepository,
-            IResourceLockingAdapter resourceLockingAdapter, IMapper mapper, ILogger<UserAuthenticatedEventHandler> logger)
+            IResourceLockingAdapter resourceLockingAdapter, IMapper mapper,
+            ILogger<UserAuthenticatedEventHandler> logger)
         {
             this.usersRepository = usersRepository;
             this.resourceLockingAdapter = resourceLockingAdapter;
@@ -41,7 +42,7 @@ namespace Etdb.UserService.Cqrs.EventHandler.Users
 
                 var signInLog = this.mapper.Map<AuthenticationLog>(@event);
                 user.AddAuthenticationLog(signInLog);
-                
+
                 await this.usersRepository.EditAsync(user);
 
                 await this.resourceLockingAdapter.UnlockAsync(user.Id);

@@ -52,7 +52,8 @@ namespace Etdb.UserService.Controllers.V1
                 file.FileName,
                 new ContentType(file.ContentType), await file.ReadFileBytesAsync());
 
-            var user = await this.bus.SendCommandAsync<ProfileImageAddCommand, ProfileImageMetaInfoDto>(command, cancellationToken);
+            var user = await this.bus.SendCommandAsync<ProfileImageAddCommand, ProfileImageMetaInfoDto>(command,
+                cancellationToken);
 
             return user;
         }
@@ -65,7 +66,7 @@ namespace Etdb.UserService.Controllers.V1
                 new ContentType(file.ContentType), await file.ReadFileBytesAsync()));
 
             var uploadImageMetaInfos = await Task.WhenAll(extractTasks);
-            
+
             var command = new ProfileImagesAddCommand(userId, uploadImageMetaInfos);
 
             return await this.bus.SendCommandAsync<ProfileImagesAddCommand, IEnumerable<ProfileImageMetaInfoDto>>(

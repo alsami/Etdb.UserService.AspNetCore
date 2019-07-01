@@ -60,8 +60,9 @@ namespace Etdb.UserService.Authentication.Strategies
 
         protected async Task<GrantValidationResult> SuccessValidationResultAsync(UserDto user)
         {
-            await this.PublishAuthenticationEvent(this.CreateUserAuthenticatedEvent(user, AuthenticationLogType.Succeeded, $"Authenticated using a {this.AuthenticationProvider} token"));
-            
+            await this.PublishAuthenticationEvent(this.CreateUserAuthenticatedEvent(user,
+                AuthenticationLogType.Succeeded, $"Authenticated using a {this.AuthenticationProvider} token"));
+
             var claims =
                 await this.bus.SendCommandAsync<ClaimsLoadCommand, IEnumerable<Claim>>(
                     new ClaimsLoadCommand(user.Id));
@@ -80,8 +81,9 @@ namespace Etdb.UserService.Authentication.Strategies
 
         protected Task PublishAuthenticationEvent(UserAuthenticatedEvent @event)
             => this.bus.RaiseEventAsync(@event);
-        
-        protected UserAuthenticatedEvent CreateUserAuthenticatedEvent(UserDto user, AuthenticationLogType authenticationLogType, string additionalInfo = null)
+
+        protected UserAuthenticatedEvent CreateUserAuthenticatedEvent(UserDto user,
+            AuthenticationLogType authenticationLogType, string additionalInfo = null)
             => new UserAuthenticatedEvent(authenticationLogType.ToString(),
                 this.httpContextAccessor.HttpContext.Connection.RemoteIpAddress, user.Id,
                 DateTime.UtcNow, additionalInfo);

@@ -7,7 +7,9 @@ using Etdb.UserService.Services.Abstractions;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {
-    public class UserNameAvailibilityCheckCommandHandler : IResponseCommandHandler<UserNameAvailabilityCheckCommand, UserNameAvailabilityDto>
+    public class
+        UserNameAvailibilityCheckCommandHandler : IResponseCommandHandler<UserNameAvailabilityCheckCommand,
+            UserNameAvailabilityDto>
     {
         private readonly IUsersService usersService;
 
@@ -16,10 +18,11 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             this.usersService = usersService;
         }
 
-        public async Task<UserNameAvailabilityDto> Handle(UserNameAvailabilityCheckCommand request, CancellationToken cancellationToken)
+        public async Task<UserNameAvailabilityDto> Handle(UserNameAvailabilityCheckCommand request,
+            CancellationToken cancellationToken)
         {
             var existingUser = await this.usersService.FindByUserNameAsync(request.UserName);
-            
+
             return new UserNameAvailabilityDto(existingUser == null);
         }
     }

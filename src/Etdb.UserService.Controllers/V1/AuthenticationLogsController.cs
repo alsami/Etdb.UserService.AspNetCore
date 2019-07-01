@@ -25,7 +25,8 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = new AuthenticationLogsForUserLoadCommand(userId);
 
-            return this.bus.SendCommandAsync<AuthenticationLogsForUserLoadCommand, IEnumerable<AuthenticationLogDto>>(command,
+            return this.bus.SendCommandAsync<AuthenticationLogsForUserLoadCommand, IEnumerable<AuthenticationLogDto>>(
+                command,
                 cancellationToken);
         }
     }

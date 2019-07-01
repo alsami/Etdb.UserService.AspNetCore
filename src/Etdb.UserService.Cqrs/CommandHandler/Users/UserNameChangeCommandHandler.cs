@@ -20,7 +20,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
         private readonly IUsersService usersService;
         private readonly IResourceLockingAdapter resourceLockingAdapter;
 
-        public UserNameChangeCommandHandler(ICommandValidation<UserNameChangeCommand> commandValidation, IUsersService usersService, IResourceLockingAdapter resourceLockingAdapter)
+        public UserNameChangeCommandHandler(ICommandValidation<UserNameChangeCommand> commandValidation,
+            IUsersService usersService, IResourceLockingAdapter resourceLockingAdapter)
         {
             this.commandValidation = commandValidation;
             this.usersService = usersService;
@@ -53,7 +54,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             var validationResult = await this.commandValidation.ValidateCommandAsync(command);
 
             if (validationResult.IsValid) return;
-            
+
             var errors = validationResult
                 .Errors
                 .Select(error => error.ErrorMessage)
@@ -62,7 +63,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             throw new GeneralValidationException("Error validating user-name change request!", errors);
         }
 
-        private async Task LockResourcesAndThrowOnFailureAsync(UserNameCommand command, string userNameResourceLockKey, CancellationToken cancellationToken)
+        private async Task LockResourcesAndThrowOnFailureAsync(UserNameCommand command, string userNameResourceLockKey,
+            CancellationToken cancellationToken)
         {
             var lockingTasks = new[]
             {
@@ -70,8 +72,9 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
                 {
                     if (await this.resourceLockingAdapter.LockAsync(userNameResourceLockKey,
                         TimeSpan.FromMinutes(1))) return;
-                    
-                    throw new ResourceLockedException(typeof(User), "userName", "The user-name is currently busy and cannot be reserved! Please try again later");
+
+                    throw new ResourceLockedException(typeof(User), "userName",
+                        "The user-name is currently busy and cannot be reserved! Please try again later");
                 }, cancellationToken),
                 Task.Run(async () =>
                 {
@@ -89,7 +92,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
         {
             var unLockingTasks = new[]
             {
-                Task.Run(async () => await this.resourceLockingAdapter.UnlockAsync(userNameResourceLockKey), cancellationToken),
+                Task.Run(async () => await this.resourceLockingAdapter.UnlockAsync(userNameResourceLockKey),
+                    cancellationToken),
                 Task.Run(async () => await this.resourceLockingAdapter.UnlockAsync(command.Id), cancellationToken)
             };
 

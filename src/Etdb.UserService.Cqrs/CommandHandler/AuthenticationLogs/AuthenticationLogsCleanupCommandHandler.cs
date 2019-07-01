@@ -19,7 +19,9 @@ namespace Etdb.UserService.Cqrs.CommandHandler.AuthenticationLogs
         private readonly IResourceLockingAdapter resourceLockingAdapter;
         private readonly ILogger<AuthenticationLogsCleanupCommandHandler> logger;
 
-        public AuthenticationLogsCleanupCommandHandler(IUsersRepository usersRepository, IResourceLockingAdapter resourceLockingAdapter, ILogger<AuthenticationLogsCleanupCommandHandler> logger, IUsersService usersService)
+        public AuthenticationLogsCleanupCommandHandler(IUsersRepository usersRepository,
+            IResourceLockingAdapter resourceLockingAdapter, ILogger<AuthenticationLogsCleanupCommandHandler> logger,
+            IUsersService usersService)
         {
             this.usersRepository = usersRepository;
             this.resourceLockingAdapter = resourceLockingAdapter;
@@ -30,7 +32,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.AuthenticationLogs
         public async Task<Unit> Handle(AuthenticationLogsCleanupCommand command, CancellationToken cancellationToken)
         {
             var expiredAt = DateTime.UtcNow - command.LogsOlderThanSpan;
-            
+
             var users = await this.usersRepository.FindAllAsync(user =>
                 user.AuthenticationLogs.Any(log => log.LoggedAt <= expiredAt));
 
@@ -42,20 +44,22 @@ namespace Etdb.UserService.Cqrs.CommandHandler.AuthenticationLogs
             {
                 if (!await this.resourceLockingAdapter.LockAsync(user.Id, TimeSpan.FromMinutes(1)))
                 {
-                    this.logger.LogInformation("Couldn't clear logs for user {id}, user resource currently busy!", user.Id);
-                    
+                    this.logger.LogInformation("Couldn't clear logs for user {id}, user resource currently busy!",
+                        user.Id);
+
                     return Task.CompletedTask;
                 }
 
                 var previousValue = user.AuthenticationLogs.Count;
-                
+
                 user.RemoveAuthenticationLogs(log => log.LoggedAt <= expiredAt);
 
                 await this.usersService.EditAsync(user);
 
                 var currentValue = user.AuthenticationLogs.Count;
-                
-                this.logger.LogInformation("Cleanup {amount} of authentication logs for user {id}", previousValue - currentValue, user.Id);
+
+                this.logger.LogInformation("Cleanup {amount} of authentication logs for user {id}",
+                    previousValue - currentValue, user.Id);
 
                 await this.resourceLockingAdapter.UnlockAsync(user.Id);
 
@@ -63,7 +67,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.AuthenticationLogs
             });
 
             await Task.WhenAll(cleanupTasks);
-            
+
             return Unit.Value;
         }
     }

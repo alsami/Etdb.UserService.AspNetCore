@@ -79,7 +79,7 @@ namespace Etdb.UserService.Bootstrap
                 .SetupMvc();
 
             var context = (UserServiceDbContext) app.ApplicationServices.GetRequiredService<DocumentDbContext>();
-            
+
             ContextScaffold.Scaffold(context);
         }
 

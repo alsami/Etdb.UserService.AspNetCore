@@ -12,7 +12,8 @@ namespace Etdb.UserService.Presentation.Authentication
 
         public string AdditionalInformation { get; private set; }
 
-        public AuthenticationLogDto(DateTime loggedAt, string authenticationLogType, string ipAddress, string additionalInformation)
+        public AuthenticationLogDto(DateTime loggedAt, string authenticationLogType, string ipAddress,
+            string additionalInformation)
         {
             this.LoggedAt = loggedAt;
             this.AuthenticationLogType = authenticationLogType;

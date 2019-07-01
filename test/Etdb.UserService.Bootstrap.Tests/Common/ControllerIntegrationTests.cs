@@ -16,13 +16,15 @@ using Xunit;
 
 namespace Etdb.UserService.Bootstrap.Tests.Common
 {
-    public abstract class ControllerIntegrationTests : IClassFixture<ConfigurationFixture>, IClassFixture<TestServerFixture>
+    public abstract class ControllerIntegrationTests : IClassFixture<ConfigurationFixture>,
+        IClassFixture<TestServerFixture>
     {
         // ReSharper disable once MemberCanBePrivate.Global
         protected readonly ConfigurationFixture ConfigurationFixture;
         protected readonly TestServerFixture TestServerFixture;
 
-        protected ControllerIntegrationTests(ConfigurationFixture configurationFixture, TestServerFixture testServerFixture)
+        protected ControllerIntegrationTests(ConfigurationFixture configurationFixture,
+            TestServerFixture testServerFixture)
         {
             this.ConfigurationFixture = configurationFixture;
             this.TestServerFixture = testServerFixture;

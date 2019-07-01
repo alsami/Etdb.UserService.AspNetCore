@@ -33,9 +33,10 @@ namespace Etdb.UserService.Bootstrap
                 .UseSerilog()
                 .UseKestrel();
 
-        private static void ConfigureService(WebHostBuilderContext context, IServiceCollection services) {
+        private static void ConfigureService(WebHostBuilderContext context, IServiceCollection services)
+        {
             var environment = ((Microsoft.Extensions.Hosting.IHostingEnvironment) context.HostingEnvironment);
-            
+
             environment.EnvironmentName = Environment.GetEnvironmentVariable("ASPNETCORE:Environment")
                                           ?? Environment.GetEnvironmentVariable("ASPNETCORE__Environment")
                                           ?? Environment.GetEnvironmentVariable("ASPNETCORE_Environment")
@@ -46,7 +47,7 @@ namespace Etdb.UserService.Bootstrap
         private static void ConfigureLogging(WebHostBuilderContext context, ILoggingBuilder _)
         {
             var environment = ((Microsoft.Extensions.Hosting.IHostingEnvironment) context.HostingEnvironment);
-            
+
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Is(environment.IsAnyLocalDevelopment() ? LogEventLevel.Debug : LogEventLevel.Information)
                 .Enrich.FromLogContext()

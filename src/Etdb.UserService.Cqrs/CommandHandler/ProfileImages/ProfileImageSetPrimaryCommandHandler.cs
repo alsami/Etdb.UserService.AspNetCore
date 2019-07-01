@@ -16,7 +16,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
         private readonly IUsersService usersService;
         private readonly IResourceLockingAdapter resourceLockingAdapter;
 
-        public ProfileImageSetPrimaryCommandHandler(IUsersService usersService, IResourceLockingAdapter resourceLockingAdapter)
+        public ProfileImageSetPrimaryCommandHandler(IUsersService usersService,
+            IResourceLockingAdapter resourceLockingAdapter)
         {
             this.usersService = usersService;
             this.resourceLockingAdapter = resourceLockingAdapter;
@@ -36,35 +37,35 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
             if (selectedImage == null) throw WellknownExceptions.ProfileImageNotFoundException();
 
             MutateCurrentPrimaryImage(user);
-            
+
             MutateNewPrimaryImage(user, selectedImage);
 
             await this.usersService.EditAsync(user);
 
             await this.resourceLockingAdapter.UnlockAsync(user.Id);
-            
+
             return Unit.Value;
         }
 
         private static void MutateNewPrimaryImage(User user, ProfileImage selectedImage)
         {
             var replacedImage = selectedImage.MutatePrimaryState(true);
-            
+
             user.RemoveProfimeImage(image => image.Id == selectedImage.Id);
-            
+
             user.AddProfileImage(replacedImage);
         }
 
         private static void MutateCurrentPrimaryImage(User user)
         {
             var primaryImage = user.ProfileImages.FirstOrDefault(image => image.IsPrimary);
-            
+
             if (primaryImage == null) return;
 
             var replacedImage = primaryImage.MutatePrimaryState(false);
 
             user.RemoveProfimeImage(image => image.Id == primaryImage.Id);
-            
+
             user.AddProfileImage(replacedImage);
         }
     }

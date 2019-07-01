@@ -35,11 +35,13 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = new UserNameAvailabilityCheckCommand(userName);
 
-            return this.bus.SendCommandAsync<UserNameAvailabilityCheckCommand, UserNameAvailabilityDto>(command, cancellationToken);
+            return this.bus.SendCommandAsync<UserNameAvailabilityCheckCommand, UserNameAvailabilityDto>(command,
+                cancellationToken);
         }
 
         [HttpPatch("{id:Guid}/username/{userName}")]
-        public async Task<IActionResult> UserNameChangeAsync(CancellationToken cancellationToken, Guid id, string userName)
+        public async Task<IActionResult> UserNameChangeAsync(CancellationToken cancellationToken, Guid id,
+            string userName)
         {
             var command = new UserNameChangeCommand(id, userName);
 

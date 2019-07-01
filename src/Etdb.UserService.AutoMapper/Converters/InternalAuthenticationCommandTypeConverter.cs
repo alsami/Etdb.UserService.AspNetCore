@@ -11,6 +11,7 @@ namespace Etdb.UserService.AutoMapper.Converters
     {
         public InternalAuthenticationCommand Convert(InternalAuthenticationDto source,
             InternalAuthenticationCommand destination, ResolutionContext context) =>
-            new InternalAuthenticationCommand(source.Username, source.Password, source.ClientId, AuthenticationProvider.UsernamePassword.ToString());
+            new InternalAuthenticationCommand(source.Username, source.Password, source.ClientId,
+                AuthenticationProvider.UsernamePassword.ToString());
     }
 }

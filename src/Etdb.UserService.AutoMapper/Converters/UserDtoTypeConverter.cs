@@ -14,7 +14,8 @@ namespace Etdb.UserService.AutoMapper.Converters
         private readonly IUserUrlFactory emailUrlFactory;
         private readonly IUserUrlFactory authenticationLogUrlFactory;
 
-        public UserDtoTypeConverter(IUserUrlFactory profileImageUrlFactory, IUserUrlFactory emailUrlFactory, IUserUrlFactory authenticationLogUrlFactory)
+        public UserDtoTypeConverter(IUserUrlFactory profileImageUrlFactory, IUserUrlFactory emailUrlFactory,
+            IUserUrlFactory authenticationLogUrlFactory)
         {
             this.profileImageUrlFactory = profileImageUrlFactory;
             this.emailUrlFactory = emailUrlFactory;
@@ -23,19 +24,21 @@ namespace Etdb.UserService.AutoMapper.Converters
 
         public UserDto Convert(User source, UserDto destination, ResolutionContext context)
         {
-            
             var emaiMetaInfos = source.Emails.Select(email => new EmailMetaInfoDto(email.Id,
                     this.emailUrlFactory.GenerateUrlWithChildIdParameter(email, RouteNames.ProfileImages.LoadRoute),
                     this.emailUrlFactory.GenerateUrlWithChildIdParameter(email,
                         RouteNames.ProfileImages.DeleteRoute),
                     email.IsPrimary, email.IsExternal))
                 .ToArray();
-            
-            var emailMetaInfoContainer = new EmailMentaInfoContainer(this.emailUrlFactory.GenerateUrlWithChildIdParameter(source.Emails.First(), RouteNames.Emails.LoadAllRoute), emaiMetaInfos);
+
+            var emailMetaInfoContainer = new EmailMentaInfoContainer(
+                this.emailUrlFactory.GenerateUrlWithChildIdParameter(source.Emails.First(),
+                    RouteNames.Emails.LoadAllRoute), emaiMetaInfos);
 
             var profileImageMetaInfos = source.ProfileImages.Select(image =>
                     new ProfileImageMetaInfoDto(image.Id,
-                        this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(image, RouteNames.ProfileImages.LoadRoute),
+                        this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(image,
+                            RouteNames.ProfileImages.LoadRoute),
                         this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(image,
                             RouteNames.ProfileImages.DeleteRoute),
                         image.IsPrimary))

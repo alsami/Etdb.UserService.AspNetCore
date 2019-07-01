@@ -17,7 +17,8 @@ namespace Etdb.UserService.Services
         private readonly ContextLessRouteProvider contextLessRouteProvider;
         private readonly IUrlHelperFactory urlHelperFactory;
 
-        public UserUrlFactory(IHttpContextAccessor httpContextAccessor, IActionContextAccessor actionContextAccessor, ContextLessRouteProvider contextLessRouteProvider, IUrlHelperFactory urlHelperFactory)
+        public UserUrlFactory(IHttpContextAccessor httpContextAccessor, IActionContextAccessor actionContextAccessor,
+            ContextLessRouteProvider contextLessRouteProvider, IUrlHelperFactory urlHelperFactory)
         {
             this.httpContextAccessor = httpContextAccessor;
             this.actionContextAccessor = actionContextAccessor;
@@ -37,10 +38,11 @@ namespace Etdb.UserService.Services
             return this.urlHelperFactory.GetUrlHelper(context);
         }
 
-        public string GenerateUrlWithChildIdParameter<TUserChild>(TUserChild child, string route) where TUserChild : UserChildDocument
+        public string GenerateUrlWithChildIdParameter<TUserChild>(TUserChild child, string route)
+            where TUserChild : UserChildDocument
         {
             var urlHelper = this.Create();
-            
+
             var url = urlHelper.Link(route, new
             {
                 userId = child.UserId,
@@ -53,7 +55,7 @@ namespace Etdb.UserService.Services
         public string GenerateUrl(User user, string route)
         {
             var urlHelper = this.Create();
-            
+
             var url = urlHelper.Link(route, new
             {
                 userId = user.Id,

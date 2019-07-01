@@ -19,7 +19,8 @@ namespace Etdb.UserService.Bootstrap.Tests
     {
         private const string SendAsyncMethodName = "SendAsync";
 
-        public AuthControllerIntegrationTests(ConfigurationFixture configurationFixture, TestServerFixture testServerFixture) :
+        public AuthControllerIntegrationTests(ConfigurationFixture configurationFixture,
+            TestServerFixture testServerFixture) :
             base(configurationFixture, testServerFixture)
         {
         }
@@ -100,7 +101,8 @@ namespace Etdb.UserService.Bootstrap.Tests
             var tokenResponse = await this.GetTokenAsync(registerDto);
 
             var refreshAuthenticationResponse =
-                await this.RefreshAuthenticationAsync(tokenResponse.RefreshToken, httpClient, AuthenticationProvider.UsernamePassword);
+                await this.RefreshAuthenticationAsync(tokenResponse.RefreshToken, httpClient,
+                    AuthenticationProvider.UsernamePassword);
 
             Assert.True(refreshAuthenticationResponse.IsSuccessStatusCode,
                 await refreshAuthenticationResponse.Content.ReadAsStringAsync() ??
