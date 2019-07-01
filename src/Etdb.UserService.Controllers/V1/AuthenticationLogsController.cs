@@ -1,18 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
-using Etdb.UserService.AspNetCore.Extensions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Presentation.Authentication;
-using Etdb.UserService.Presentation.Users;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
 
 namespace Etdb.UserService.Controllers.V1
 {

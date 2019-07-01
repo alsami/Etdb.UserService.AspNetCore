@@ -1,7 +1,4 @@
-﻿using System;
-using System.Net;
-using System.Net.Mime;
-using System.Security.Policy;
+﻿using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using Etdb.UserService.Bootstrap.Tests.Common;

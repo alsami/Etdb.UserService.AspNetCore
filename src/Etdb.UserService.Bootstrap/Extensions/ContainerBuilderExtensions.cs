@@ -4,13 +4,11 @@ using Autofac;
 using Autofac.Core;
 using Autofac.Extensions.FluentBuilder;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
-using Elders.RedLock;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.ServiceBase.Cqrs.Abstractions.Validation;
 using Etdb.ServiceBase.Cqrs.Bus;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Cryptography.Hashing;
-using Etdb.ServiceBase.DocumentRepository;
 using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.ServiceBase.Services;
 using Etdb.ServiceBase.Services.Abstractions;
@@ -26,9 +24,7 @@ using Etdb.UserService.Services.Abstractions;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Bootstrap.Extensions
 {

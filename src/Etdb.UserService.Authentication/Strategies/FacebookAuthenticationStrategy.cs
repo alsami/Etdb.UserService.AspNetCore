@@ -9,7 +9,6 @@ using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Structures;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
-using Etdb.UserService.Cqrs.Abstractions.Events.Authentication;
 using Etdb.UserService.Domain.Enums;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;

@@ -8,7 +8,6 @@ using Etdb.ServiceBase.Exceptions;
 using Etdb.ServiceBase.Extensions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Cqrs.Misc;
-using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Services.Abstractions;
 using MediatR;
 

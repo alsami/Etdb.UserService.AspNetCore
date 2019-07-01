@@ -7,7 +7,6 @@ using Etdb.ServiceBase.DocumentRepository;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Bootstrap.Extensions;
-using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Services.Abstractions;
 using Microsoft.AspNetCore.Http;

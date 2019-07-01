@@ -6,14 +6,11 @@ using Etdb.UserService.Bootstrap.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Repositories;
 using Etdb.UserService.Services;
-using Etdb.UserService.Services.Abstractions;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Etdb.UserService.Bootstrap
