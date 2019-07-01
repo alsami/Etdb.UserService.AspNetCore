@@ -11,16 +11,16 @@ using Etdb.UserService.Presentation.Users;
 using Etdb.UserService.Services.Abstractions;
 using Microsoft.Extensions.Options;
 
-namespace Etdb.UserService.Cqrs.CommandHandler.Users
+namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
 {
     public class
-        UserProfileImageLoadCommandHandler : IResponseCommandHandler<ProfileImageLoadCommand, FileDownloadInfoDto>
+        ProfileImageLoadCommandHandler : IResponseCommandHandler<ProfileImageLoadCommand, FileDownloadInfoDto>
     {
         private readonly IOptions<FilestoreConfiguration> fileStoreOptions;
         private readonly IUsersService usersService;
         private readonly IFileService fileService;
 
-        public UserProfileImageLoadCommandHandler(IOptions<FilestoreConfiguration> fileStoreOptions,
+        public ProfileImageLoadCommandHandler(IOptions<FilestoreConfiguration> fileStoreOptions,
             IUsersService usersService, IFileService fileService)
         {
             this.fileStoreOptions = fileStoreOptions;

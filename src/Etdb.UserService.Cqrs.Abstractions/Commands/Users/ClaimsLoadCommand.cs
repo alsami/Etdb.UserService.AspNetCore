@@ -5,11 +5,11 @@ using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 {
-    public class UserClaimsLoadCommand : IResponseCommand<IEnumerable<Claim>>
+    public class ClaimsLoadCommand : IResponseCommand<IEnumerable<Claim>>
     {
         public Guid Id { get; }
 
-        public UserClaimsLoadCommand(Guid id)
+        public ClaimsLoadCommand(Guid id)
         {
             this.Id = id;
         }

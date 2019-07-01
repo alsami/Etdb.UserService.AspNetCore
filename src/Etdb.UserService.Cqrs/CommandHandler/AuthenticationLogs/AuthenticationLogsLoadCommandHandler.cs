@@ -8,7 +8,7 @@ using Etdb.UserService.Cqrs.Misc;
 using Etdb.UserService.Presentation.Authentication;
 using Etdb.UserService.Services.Abstractions;
 
-namespace Etdb.UserService.Cqrs.CommandHandler.Users
+namespace Etdb.UserService.Cqrs.CommandHandler.AuthenticationLogs
 {
     public class AuthenticationLogsLoadCommandHandler : IResponseCommandHandler<AuthenticationLogsLoadCommand, IEnumerable<AuthenticationLogDto>>
     {

@@ -12,16 +12,16 @@ using Etdb.UserService.Services.Abstractions;
 using MediatR;
 using Microsoft.Extensions.Options;
 
-namespace Etdb.UserService.Cqrs.CommandHandler.Users
+namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
 {
-    public class UserProfileImageRemoveCommandHandler : IVoidCommandHandler<ProfileImageRemoveCommand>
+    public class ProfileImageRemoveCommandHandler : IVoidCommandHandler<ProfileImageRemoveCommand>
     {
         private readonly IUsersService usersService;
         private readonly IOptions<FilestoreConfiguration> fileStoreOptions;
         private readonly IResourceLockingAdapter resourceLockingAdapter;
         private readonly IFileService fileService;
 
-        public UserProfileImageRemoveCommandHandler(IUsersService usersService,
+        public ProfileImageRemoveCommandHandler(IUsersService usersService,
             IResourceLockingAdapter resourceLockingAdapter, IFileService fileService,
             IOptions<FilestoreConfiguration> fileStoreOptions)
         {

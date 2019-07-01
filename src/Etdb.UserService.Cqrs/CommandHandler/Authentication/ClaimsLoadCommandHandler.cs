@@ -12,22 +12,22 @@ using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using IdentityModel;
 
-namespace Etdb.UserService.Cqrs.CommandHandler.Users
+namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
 {
-    public class UserClaimsLoadCommandHandler : IResponseCommandHandler<UserClaimsLoadCommand, IEnumerable<Claim>>
+    public class ClaimsLoadCommandHandler : IResponseCommandHandler<ClaimsLoadCommand, IEnumerable<Claim>>
     {
         private readonly IUsersService usersService;
         private readonly ISecurityRolesRepository rolesRepository;
         private readonly IUserUrlFactory profileImageUrlFactory;
 
-        public UserClaimsLoadCommandHandler(ISecurityRolesRepository rolesRepository, IUsersService usersService, IUserUrlFactory profileImageUrlFactory)
+        public ClaimsLoadCommandHandler(ISecurityRolesRepository rolesRepository, IUsersService usersService, IUserUrlFactory profileImageUrlFactory)
         {
             this.rolesRepository = rolesRepository;
             this.usersService = usersService;
             this.profileImageUrlFactory = profileImageUrlFactory;
         }
 
-        public async Task<IEnumerable<Claim>> Handle(UserClaimsLoadCommand command, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Claim>> Handle(ClaimsLoadCommand command, CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByIdAsync(command.Id);
 

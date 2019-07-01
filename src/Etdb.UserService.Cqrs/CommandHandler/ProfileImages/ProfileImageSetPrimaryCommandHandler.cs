@@ -9,7 +9,7 @@ using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Services.Abstractions;
 using MediatR;
 
-namespace Etdb.UserService.Cqrs.CommandHandler.Users
+namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
 {
     public class ProfileImageSetPrimaryCommandHandler : IVoidCommandHandler<ProfileImageSetPrimaryCommand>
     {

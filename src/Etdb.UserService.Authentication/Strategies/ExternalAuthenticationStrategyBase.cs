@@ -62,8 +62,8 @@ namespace Etdb.UserService.Authentication.Strategies
             await this.PublishAuthenticationEvent(this.CreateUserAuthenticatedEvent(user, AuthenticationLogType.Succeeded, $"Authenticated using a {this.AuthenticationProvider} token"));
             
             var claims =
-                await this.bus.SendCommandAsync<UserClaimsLoadCommand, IEnumerable<Claim>>(
-                    new UserClaimsLoadCommand(user.Id));
+                await this.bus.SendCommandAsync<ClaimsLoadCommand, IEnumerable<Claim>>(
+                    new ClaimsLoadCommand(user.Id));
 
             return new GrantValidationResult(user.Id.ToString(),
                 Misc.Constants.Identity.ExternalGrantType, claims,

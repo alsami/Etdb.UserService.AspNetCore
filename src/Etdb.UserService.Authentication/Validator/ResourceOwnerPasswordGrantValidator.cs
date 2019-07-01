@@ -37,8 +37,8 @@ namespace Etdb.UserService.Authentication.Validator
             if (userAuthenticationValidation.IsValid)
             {
                 var claims =
-                    await this.bus.SendCommandAsync<UserClaimsLoadCommand, IEnumerable<Claim>>(
-                        new UserClaimsLoadCommand(userAuthenticationValidation.UserId));
+                    await this.bus.SendCommandAsync<ClaimsLoadCommand, IEnumerable<Claim>>(
+                        new ClaimsLoadCommand(userAuthenticationValidation.UserId));
 
                 context.Result = new GrantValidationResult(userAuthenticationValidation.UserId.ToString(),
                     Misc.Constants.Identity.PasswordAuthenticationMethod,

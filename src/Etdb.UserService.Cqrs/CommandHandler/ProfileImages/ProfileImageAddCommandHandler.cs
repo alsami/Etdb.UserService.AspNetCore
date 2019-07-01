@@ -12,16 +12,16 @@ using Etdb.UserService.Presentation.Users;
 using Etdb.UserService.Services.Abstractions;
 using Etdb.UserService.Services.Abstractions.Models;
 
-namespace Etdb.UserService.Cqrs.CommandHandler.Users
+namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
 {
     // ReSharper disable once UnusedMember.Global
-    public class UserProfileImageAddCommandHandler : IResponseCommandHandler<ProfileImageAddCommand, ProfileImageMetaInfoDto>
+    public class ProfileImageAddCommandHandler : IResponseCommandHandler<ProfileImageAddCommand, ProfileImageMetaInfoDto>
     {
         private readonly IUsersService usersService;
         private readonly IResourceLockingAdapter resourceLockingAdapter;
         private readonly IMapper mapper;
 
-        public UserProfileImageAddCommandHandler(IUsersService usersService, IMapper mapper,
+        public ProfileImageAddCommandHandler(IUsersService usersService, IMapper mapper,
             IResourceLockingAdapter resourceLockingAdapter)
         {
             this.usersService = usersService;
