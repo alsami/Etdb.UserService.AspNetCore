@@ -6,7 +6,7 @@
 
     <ItemGroup>
       <PackageReference Include="Autofac" Version="4.9.2" />
-      <PackageReference Include="Etdb.ServiceBase.Cqrs.Abstractions" Version="2.3.0" />
+      <PackageReference Include="Etdb.ServiceBase.Cqrs.Abstractions" Version="2.4.0" />
       <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="2.2.0" />
     </ItemGroup>
 

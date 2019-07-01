@@ -3,7 +3,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Etdb.ServiceBase.DocumentRepository.Abstractions" Version="2.3.0" />
+    <PackageReference Include="Etdb.ServiceBase.DocumentRepository.Abstractions" Version="2.4.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Domain\Etdb.UserService.Domain.csproj" />
