@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Cqrs.Abstractions.Base;
+using Etdb.UserService.Cqrs.Abstractions.Commands.Emails;
+using Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages;
 using Etdb.UserService.Presentation.Users;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users

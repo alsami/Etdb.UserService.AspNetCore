@@ -1,14 +1,19 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.AspNetCore.Extensions;
+using Etdb.UserService.Cqrs.Abstractions.Base;
+using Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Presentation.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 
@@ -52,6 +57,21 @@ namespace Etdb.UserService.Controllers.V1
             var user = await this.bus.SendCommandAsync<ProfileImageAddCommand, ProfileImageMetaInfoDto>(command, cancellationToken);
 
             return user;
+        }
+
+        [HttpPost("multiple")]
+        public async Task<IEnumerable<ProfileImageMetaInfoDto>> UploadAsync(CancellationToken cancellationToken,
+            Guid userId, [FromForm] IEnumerable<IFormFile> files)
+        {
+            var extractTasks = files.Select(async file => new UploadImageMetaInfo(file.FileName,
+                new ContentType(file.ContentType), await file.ReadFileBytesAsync()));
+
+            var uploadImageMetaInfos = await Task.WhenAll(extractTasks);
+            
+            var command = new ProfileImagesAddCommand(userId, uploadImageMetaInfos);
+
+            return await this.bus.SendCommandAsync<ProfileImagesAddCommand, IEnumerable<ProfileImageMetaInfoDto>>(
+                command, cancellationToken);
         }
 
         [HttpPatch("{id:Guid}")]

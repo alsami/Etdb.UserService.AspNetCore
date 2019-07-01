@@ -3,7 +3,7 @@ using System.Net.Mime;
 using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Presentation.Users;
 
-namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
+namespace Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages
 {
     public class ProfileImageAddCommand : IResponseCommand<ProfileImageMetaInfoDto>
     {

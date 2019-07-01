@@ -1,7 +1,7 @@
 ﻿using System;
 using Etdb.UserService.Cqrs.Abstractions.Base;
 
-namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
+namespace Etdb.UserService.Cqrs.Abstractions.Commands.Emails
 {
     public class EmailAddCommand : EmailCommand
     {

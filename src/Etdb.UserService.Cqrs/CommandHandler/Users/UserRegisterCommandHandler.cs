@@ -8,6 +8,7 @@ using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Cqrs.Abstractions.Validation;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Exceptions;
+using Etdb.UserService.Cqrs.Abstractions.Commands.Emails;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.Enums;
@@ -70,7 +71,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             return this.mapper.Map<UserDto>(user);
         }
 
-        private async Task<(User, IEnumerable<ProfileImageMetaInfo>)> GenerateUserAsync(UserRegisterCommand command,
+        private async Task<(User, IEnumerable<StoreImageMetaInfo>)> GenerateUserAsync(UserRegisterCommand command,
             AuthenticationProvider provider)
         {
             var emails = GenerateEmails(command, provider);
@@ -80,7 +81,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             var profileImageMetaInfo = GenerateProfileImageMetaInfoWhenAvailable(command);
 
             var profileImageMetaInfos = profileImageMetaInfo == null
-                ? Array.Empty<ProfileImageMetaInfo>()
+                ? Array.Empty<StoreImageMetaInfo>()
                 : new[] {profileImageMetaInfo};
 
             if (provider != AuthenticationProvider.UsernamePassword)
@@ -102,11 +103,11 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             return (userFromInternalAuthentication, profileImageMetaInfos);
         }
 
-        private static ProfileImageMetaInfo GenerateProfileImageMetaInfoWhenAvailable(UserRegisterCommand command)
+        private static StoreImageMetaInfo GenerateProfileImageMetaInfoWhenAvailable(UserRegisterCommand command)
         {
             if (command.ProfileImageAddCommand == null) return null;
 
-            return new ProfileImageMetaInfo(ProfileImage.Create(Guid.NewGuid(),
+            return new StoreImageMetaInfo(ProfileImage.Create(Guid.NewGuid(),
                     command.Id,
                     command.ProfileImageAddCommand.FileName,
                     command.ProfileImageAddCommand.FileContentType.MediaType,

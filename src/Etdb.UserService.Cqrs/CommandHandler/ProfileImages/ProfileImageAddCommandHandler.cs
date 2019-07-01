@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Exceptions;
+using Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Cqrs.Misc;
 using Etdb.UserService.Domain.Entities;
@@ -47,7 +48,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
                 command.FileContentType.MediaType,
                 !user.ProfileImages.Any());
 
-            var profileImageMetaInfo = new ProfileImageMetaInfo(profileImage, command.FileBytes);
+            var profileImageMetaInfo = new StoreImageMetaInfo(profileImage, command.FileBytes);
 
             await this.usersService.EditAsync(user, profileImageMetaInfo);
 

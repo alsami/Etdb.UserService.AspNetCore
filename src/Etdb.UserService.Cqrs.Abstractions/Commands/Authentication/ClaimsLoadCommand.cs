@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 
-namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
+namespace Etdb.UserService.Cqrs.Abstractions.Commands.Authentication
 {
     public class ClaimsLoadCommand : IResponseCommand<IEnumerable<Claim>>
     {

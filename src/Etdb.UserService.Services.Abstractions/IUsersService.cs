@@ -7,11 +7,11 @@ namespace Etdb.UserService.Services.Abstractions
 {
     public interface IUsersService
     {
-        Task AddAsync(User user, params ProfileImageMetaInfo[] profileImageMetaInfos);
+        Task AddAsync(User user, params StoreImageMetaInfo[] storeImageMetaInfos);
 
         Task EditAsync(User user);
 
-        Task EditAsync(User user, params ProfileImageMetaInfo[] profileImageMetaInfos);
+        Task EditAsync(User user, params StoreImageMetaInfo[] storeImageMetaInfos);
 
         Task<User> FindByIdAsync(Guid id);
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 
-namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
+namespace Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages
 {
     public class ProfileImageRemoveCommand : IVoidCommand
     {

@@ -31,21 +31,21 @@ namespace Etdb.UserService.Services
             this.fileStoreOptions = fileStoreOptions;
         }
 
-        public async Task AddAsync(User user, params ProfileImageMetaInfo[] profileImageMetaInfos)
+        public async Task AddAsync(User user, params StoreImageMetaInfo[] storeImageMetaInfos)
         {
-            if (profileImageMetaInfos.Any())
+            if (storeImageMetaInfos.Any())
             {
-                await this.StoreProfileImagesAsync(user, profileImageMetaInfos);
+                await this.StoreProfileImagesAsync(user, storeImageMetaInfos);
             }
 
             await this.usersRepository.AddAsync(user);
         }
 
-        public async Task EditAsync(User user, params ProfileImageMetaInfo[] profileImageMetaInfos)
+        public async Task EditAsync(User user, params StoreImageMetaInfo[] storeImageMetaInfos)
         {
-            if (profileImageMetaInfos.Any())
+            if (storeImageMetaInfos.Any())
             {
-                await this.StoreProfileImagesAsync(user, profileImageMetaInfos);
+                await this.StoreProfileImagesAsync(user, storeImageMetaInfos);
             }
 
             await this.usersRepository.EditAsync(user);
@@ -121,7 +121,7 @@ namespace Etdb.UserService.Services
             return email;
         }
 
-        private Task StoreProfileImagesAsync(User user, IEnumerable<ProfileImageMetaInfo> profileImageMetaInfos)
+        private Task StoreProfileImagesAsync(User user, IEnumerable<StoreImageMetaInfo> profileImageMetaInfos)
         {
             var storeTasks = profileImageMetaInfos.Select(async profileImageMetaInfo =>
             {
