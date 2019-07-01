@@ -28,9 +28,9 @@ namespace Etdb.UserService.Domain.Entities
 
         public bool IsPrimary { get; private set; }
 
-        public string Subpath() => this.UserId.ToString();
+        public string SubPath() => this.UserId.ToString();
 
-        public string RelativePath() => Path.Combine(this.Subpath(), this.Name);
+        public string RelativePath() => Path.Combine(this.SubPath(), this.Name);
         
         public ProfileImage MutatePrimaryState(bool primary) => new ProfileImage(this.Id, this.UserId, this.Name, this.OriginalName, this.MediaType, primary);
 

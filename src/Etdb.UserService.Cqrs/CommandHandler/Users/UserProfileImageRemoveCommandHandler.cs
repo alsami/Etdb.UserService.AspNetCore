@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
@@ -42,7 +44,14 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             {
                 throw WellknownExceptions.UserResourceLockException(existingUser.Id);
             }
-            
+
+            var imageToDelete = existingUser.ProfileImages.FirstOrDefault(image => image.Id == command.Id);
+
+            if (imageToDelete == null) throw WellknownExceptions.ProfileImageNotFoundException();
+
+            this.fileService.DeleteBinary(Path.Combine(this.fileStoreOptions.Value.ImagePath, imageToDelete.SubPath()),
+                imageToDelete.Name);
+
             existingUser.RemoveProfimeImage(image => image.Id == command.Id);
 
             await this.usersService.EditAsync(existingUser);

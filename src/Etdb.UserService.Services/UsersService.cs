@@ -126,7 +126,7 @@ namespace Etdb.UserService.Services
             var storeTasks = profileImageMetaInfos.Select(async profileImageMetaInfo =>
             {
                 var relativePath = Path.Combine(this.fileStoreOptions.Value.ImagePath,
-                    profileImageMetaInfo.ProfileImage.Subpath());
+                    profileImageMetaInfo.ProfileImage.SubPath());
 
                 // TODO: fix path creation in file-service
                 var absolutePath = Path.Combine(this.fileStoreOptions.Value.ImagePath,
