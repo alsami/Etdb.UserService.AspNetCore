@@ -6,7 +6,6 @@ using AutoMapper;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Exceptions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages;
-using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Cqrs.Misc;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Presentation.Users;

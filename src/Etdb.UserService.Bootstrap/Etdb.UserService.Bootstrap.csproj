@@ -32,6 +32,7 @@
     <ProjectReference Include="..\Etdb.UserService.Policies.AspNetCore\Etdb.UserService.Policies.AspNetCore.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Repositories\Etdb.UserService.Repositories.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Services\Etdb.UserService.Services.csproj" />
+    <ProjectReference Include="..\Etdb.UserService.Worker\Etdb.UserService.Worker.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="appsettings.Development.json">

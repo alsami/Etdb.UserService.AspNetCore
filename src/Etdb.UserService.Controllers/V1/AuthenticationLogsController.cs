@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
-using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
+using Etdb.UserService.Cqrs.Abstractions.Commands.AuthenticationLogs;
 using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Presentation.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +23,9 @@ namespace Etdb.UserService.Controllers.V1
         [HttpGet(Name = RouteNames.AuthenticationLogs.LoadAllRoute)]
         public Task<IEnumerable<AuthenticationLogDto>> LoadAsync(CancellationToken cancellationToken, Guid userId)
         {
-            var command = new AuthenticationLogsLoadCommand(userId);
+            var command = new AuthenticationLogsForUserLoadCommand(userId);
 
-            return this.bus.SendCommandAsync<AuthenticationLogsLoadCommand, IEnumerable<AuthenticationLogDto>>(command,
+            return this.bus.SendCommandAsync<AuthenticationLogsForUserLoadCommand, IEnumerable<AuthenticationLogDto>>(command,
                 cancellationToken);
         }
     }

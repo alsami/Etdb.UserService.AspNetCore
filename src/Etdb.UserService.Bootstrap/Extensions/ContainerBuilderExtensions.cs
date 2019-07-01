@@ -21,6 +21,7 @@ using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Repositories;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
+using Etdb.UserService.Worker;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -38,6 +39,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .ApplyModule(new DocumentDbContextModule(hostingEnvironment))
                 .ApplyModule(new ResourceCachingModule(hostingEnvironment))
                 .RegisterResolver(ExternalAuthenticationStrategyResolver)
+                .RegisterTypeAsTransient<AuthenticationLogCleanupHostedService, IHostedService>()
                 .RegisterTypeAsSingleton<ActionContextAccessor, IActionContextAccessor>()
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypeAsSingleton<FileService, IFileService>()

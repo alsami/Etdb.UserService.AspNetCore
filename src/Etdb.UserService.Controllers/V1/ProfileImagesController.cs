@@ -8,12 +8,10 @@ using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.AspNetCore.Extensions;
 using Etdb.UserService.Cqrs.Abstractions.Base;
 using Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages;
-using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Presentation.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 

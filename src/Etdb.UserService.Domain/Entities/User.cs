@@ -66,6 +66,13 @@ namespace Etdb.UserService.Domain.Entities
             this.AuthenticationLogs = shadowCopy;
         }
 
+        public void RemoveAuthenticationLogs(Predicate<AuthenticationLog> predicate)
+        {
+            var shadowCopy = this.AuthenticationLogs.ToList();
+            shadowCopy.RemoveAll(predicate);
+            this.AuthenticationLogs = shadowCopy;
+        }
+
         public void AddEmailAddress(Email email)
         {
             var copy = this.Emails.ToList();
