@@ -5,11 +5,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.1" />
-    <PackageReference Include="Etdb.ServiceBase.Cqrs" Version="2.4.0" />
-    <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="2.4.0" />
-    <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="2.4.0" />
-    <PackageReference Include="Etdb.ServiceBase.Extensions" Version="2.4.0" />
-    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="2.4.0" />
+    <PackageReference Include="Etdb.ServiceBase.Cqrs" Version="2.4.3" />
+    <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="2.4.3" />
+    <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="2.4.3" />
+    <PackageReference Include="Etdb.ServiceBase.Extensions" Version="2.4.3" />
+    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="2.4.3" />
     <PackageReference Include="IdentityModel" Version="3.10.10" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
   </ItemGroup>

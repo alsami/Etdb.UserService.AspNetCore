@@ -44,6 +44,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .RegisterTypeAsSingleton<ActionContextAccessor, IActionContextAccessor>()
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypeAsSingleton<FileService, IFileService>()
+                .RegisterTypeAsSingleton<ImageCompressionService, IImageCompressionService>()
                 .RegisterTypeAsScoped<Bus, IBus>()
                 .RegisterTypeAsScoped<HttpContextAccessor, IHttpContextAccessor>()
                 .RegisterTypeAsScoped<GoogleAuthenticationStrategy, IGoogleAuthenticationStrategy>()

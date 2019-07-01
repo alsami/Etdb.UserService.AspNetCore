@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Domain.Entities;
@@ -11,6 +12,7 @@ using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using Etdb.UserService.Services.Abstractions.Models;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Services
@@ -21,14 +23,18 @@ namespace Etdb.UserService.Services
         private readonly IUsersRepository usersRepository;
         private readonly IFileService fileService;
         private readonly IOptions<FilestoreConfiguration> fileStoreOptions;
+        private readonly IImageCompressionService imageCompressionService;
+        private readonly ILogger<UsersService> logger;
         private const int MaxFailedLoginCount = 3;
 
         public UsersService(IUsersRepository usersRepository, IFileService fileService,
-            IOptions<FilestoreConfiguration> fileStoreOptions)
+            IOptions<FilestoreConfiguration> fileStoreOptions, IImageCompressionService imageCompressionService, ILogger<UsersService> logger)
         {
             this.usersRepository = usersRepository;
             this.fileService = fileService;
             this.fileStoreOptions = fileStoreOptions;
+            this.imageCompressionService = imageCompressionService;
+            this.logger = logger;
         }
 
         public async Task AddAsync(User user, params StoreImageMetaInfo[] storeImageMetaInfos)
@@ -69,20 +75,20 @@ namespace Etdb.UserService.Services
                 return false;
             }
 
-            var signInLogs = user.AuthenticationLogs
+            var authenticationLogs = user.AuthenticationLogs
                 .OrderByDescending(log => log.LoggedAt)
                 .ToArray();
 
-            if (signInLogs.Length < UsersService.MaxFailedLoginCount ||
-                signInLogs.FirstOrDefault(signInLog =>
-                    signInLog.AuthenticationLogType == AuthenticationLogType.Succeeded) != null)
+            if (authenticationLogs.Length < UsersService.MaxFailedLoginCount ||
+                authenticationLogs.FirstOrDefault(authenticationLog =>
+                    authenticationLog.AuthenticationLogType == AuthenticationLogType.Succeeded) != null)
             {
                 return false;
             }
 
             var foundFailedLoginsInARow = 0;
 
-            foreach (var signInLog in signInLogs)
+            foreach (var signInLog in authenticationLogs)
             {
                 if (signInLog.AuthenticationLogType != AuthenticationLogType.Failed)
                 {
@@ -135,8 +141,17 @@ namespace Etdb.UserService.Services
 
                 this.fileService.DeleteBinary(absolutePath);
 
-                await this.fileService.StoreBinaryAsync(relativePath, profileImageMetaInfo.ProfileImage.Name,
-                    profileImageMetaInfo.Image);
+                var mediaType = profileImageMetaInfo.ProfileImage.MediaType == "image/*"
+                    ? "image/jpeg"
+                    : profileImageMetaInfo.ProfileImage.MediaType;
+                
+                this.logger.LogInformation("Compressing image. Current size: {size}", profileImageMetaInfo.Image.Length);
+
+                var compressed = this.imageCompressionService.Compress(profileImageMetaInfo.Image, mediaType);
+                
+                this.logger.LogInformation("Compressing image done. Compressed size: {size}", compressed);
+
+                await this.fileService.StoreBinaryAsync(relativePath, profileImageMetaInfo.ProfileImage.Name, compressed);
 
                 user.AddProfileImage(profileImageMetaInfo.ProfileImage);
             });
