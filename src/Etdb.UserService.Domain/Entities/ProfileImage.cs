@@ -36,6 +36,6 @@ namespace Etdb.UserService.Domain.Entities
             this.OriginalName, this.MediaType, primary);
 
         public static ProfileImage Create(Guid id, Guid userId, string originalName, string mediaType, bool isPrimary)
-            => new ProfileImage(id, userId, $"{userId}_{originalName}", originalName, mediaType, isPrimary);
+            => new ProfileImage(id, userId, $"{userId}_{originalName}_{DateTime.UtcNow.Ticks}", originalName, mediaType, isPrimary);
     }
 }
