@@ -31,16 +31,19 @@ namespace Etdb.UserService.Services
         {
             var thread = new Thread(() =>
             {
-                foreach (var key in MemoryResourceLockingAdapter.LockedKeysByDateTime.Keys)
+                while (true)
                 {
-                    this.logger.LogInformation("Checking if key {key} needs to be removed", key);
-                    if (MemoryResourceLockingAdapter.LockedKeysByDateTime[key] >= DateTime.UtcNow) return;
+                    foreach (var key in MemoryResourceLockingAdapter.LockedKeysByDateTime.Keys)
+                    {
+                        this.logger.LogInformation("Checking if key {key} needs to be removed", key);
+                        if (MemoryResourceLockingAdapter.LockedKeysByDateTime[key] >= DateTime.UtcNow) return;
 
-                    this.logger.LogInformation("Removing value for key {key}!", key);
-                    MemoryResourceLockingAdapter.LockedKeysByDateTime.TryRemove(key, out _);
+                        this.logger.LogInformation("Removing value for key {key}!", key);
+                        MemoryResourceLockingAdapter.LockedKeysByDateTime.TryRemove(key, out _);
+                    }
+
+                    Thread.Sleep(TimeSpan.FromMinutes(1));
                 }
-
-                Thread.Sleep(TimeSpan.FromMinutes(1));
             });
 
             thread.Start();
