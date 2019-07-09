@@ -11,37 +11,27 @@ namespace Etdb.UserService.AutoMapper.Converters
     public class UserDtoTypeConverter : ITypeConverter<User, UserDto>
     {
         private readonly IUserUrlFactory profileImageUrlFactory;
-        private readonly IUserUrlFactory emailUrlFactory;
+
         private readonly IUserUrlFactory authenticationLogUrlFactory;
 
-        public UserDtoTypeConverter(IUserUrlFactory profileImageUrlFactory, IUserUrlFactory emailUrlFactory,
+        public UserDtoTypeConverter(IUserUrlFactory profileImageUrlFactory,
             IUserUrlFactory authenticationLogUrlFactory)
         {
             this.profileImageUrlFactory = profileImageUrlFactory;
-            this.emailUrlFactory = emailUrlFactory;
             this.authenticationLogUrlFactory = authenticationLogUrlFactory;
         }
 
         public UserDto Convert(User source, UserDto destination, ResolutionContext context)
         {
-            var emaiMetaInfos = source.Emails.Select(email => new EmailMetaInfoDto(email.Id,
-                    this.emailUrlFactory.GenerateUrlWithChildIdParameter(email, RouteNames.ProfileImages.LoadRoute),
-                    this.emailUrlFactory.GenerateUrlWithChildIdParameter(email,
-                        RouteNames.ProfileImages.DeleteRoute),
-                    email.IsPrimary, email.IsExternal))
-                .ToArray();
-
-            var emailMetaInfoContainer = new EmailMentaInfoContainer(
-                this.emailUrlFactory.GenerateUrlWithChildIdParameter(source.Emails.First(),
-                    RouteNames.Emails.LoadAllRoute), emaiMetaInfos);
-
-            var profileImageMetaInfos = source.ProfileImages.Select(image =>
+            var profileImageMetaInfos = source.ProfileImages
+                .OrderByDescending(image => image.CreatedAt)
+                .Select(image =>
                     new ProfileImageMetaInfoDto(image.Id,
                         this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(image,
                             RouteNames.ProfileImages.LoadRoute),
                         this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(image,
                             RouteNames.ProfileImages.DeleteRoute),
-                        image.IsPrimary))
+                        image.IsPrimary, image.CreatedAt))
                 .ToArray();
 
             return new UserDto(source.Id, source.UserName,
@@ -51,7 +41,7 @@ namespace Etdb.UserService.AutoMapper.Converters
                 source.RegisteredSince,
                 source.AuthenticationProvider.ToString(),
                 source.AuthenticationProvider != AuthenticationProvider.UsernamePassword,
-                emailMetaInfoContainer,
+                null,
                 profileImageMetaInfos,
                 this.authenticationLogUrlFactory.GenerateUrl(source, RouteNames.AuthenticationLogs.LoadAllRoute)
             );

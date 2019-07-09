@@ -10,10 +10,8 @@ namespace Etdb.UserService.AutoMapper.Converters
     {
         private readonly IUserUrlFactory profileImageUrlFactory;
 
-        public ProfileImageConverter(IUserUrlFactory profileImageUrlFactory)
-        {
+        public ProfileImageConverter(IUserUrlFactory profileImageUrlFactory) =>
             this.profileImageUrlFactory = profileImageUrlFactory;
-        }
 
         public ProfileImageMetaInfoDto Convert(ProfileImage source, ProfileImageMetaInfoDto destination,
             ResolutionContext context)
@@ -21,6 +19,6 @@ namespace Etdb.UserService.AutoMapper.Converters
                 this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(source, RouteNames.ProfileImages.LoadRoute),
                 this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(source,
                     RouteNames.ProfileImages.DeleteRoute),
-                source.IsPrimary);
+                source.IsPrimary, source.CreatedAt);
     }
 }

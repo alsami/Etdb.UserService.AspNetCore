@@ -11,13 +11,15 @@ namespace Etdb.UserService.Presentation.Users
         public string RemoveUrl { get; }
 
         public bool IsPrimary { get; }
+        public DateTime CreatedAt { get; }
 
-        public ProfileImageMetaInfoDto(Guid id, string url, string removeUrl, bool isPrimary)
+        public ProfileImageMetaInfoDto(Guid id, string url, string removeUrl, bool isPrimary, DateTime createdAt)
         {
             this.Id = id;
             this.Url = url;
             this.RemoveUrl = removeUrl;
             this.IsPrimary = isPrimary;
+            this.CreatedAt = createdAt;
         }
     }
 }
