@@ -28,7 +28,8 @@ namespace Etdb.UserService.Services
         private const int MaxFailedLoginCount = 3;
 
         public UsersService(IUsersRepository usersRepository, IFileService fileService,
-            IOptions<FilestoreConfiguration> fileStoreOptions, IImageCompressionService imageCompressionService, ILogger<UsersService> logger)
+            IOptions<FilestoreConfiguration> fileStoreOptions, IImageCompressionService imageCompressionService,
+            ILogger<UsersService> logger)
         {
             this.usersRepository = usersRepository;
             this.fileService = fileService;
@@ -144,14 +145,19 @@ namespace Etdb.UserService.Services
                 var mediaType = profileImageMetaInfo.ProfileImage.MediaType == "image/*"
                     ? "image/jpeg"
                     : profileImageMetaInfo.ProfileImage.MediaType;
-                
-                this.logger.LogInformation("Compressing image. Current size: {size}", profileImageMetaInfo.Image.Length);
 
-                var compressed = this.imageCompressionService.Compress(profileImageMetaInfo.Image, mediaType);
-                
-                this.logger.LogInformation("Compressing image done. Compressed size: {size}", compressed);
+                var compressionFactor = profileImageMetaInfo.Image.Length > (1024 * 10) ? 25L : 50L;
 
-                await this.fileService.StoreBinaryAsync(relativePath, profileImageMetaInfo.ProfileImage.Name, compressed);
+                this.logger.LogInformation("Compressing image with factory {compressionFactor}. Current size: {size}",
+                    compressionFactor, profileImageMetaInfo.Image.Length);
+
+                var compressed =
+                    this.imageCompressionService.Compress(profileImageMetaInfo.Image, mediaType, compressionFactor);
+
+                this.logger.LogInformation("Compressing image done. Compressed size: {size}", compressed.Length);
+
+                await this.fileService.StoreBinaryAsync(relativePath, profileImageMetaInfo.ProfileImage.Name,
+                    compressed);
 
                 user.AddProfileImage(profileImageMetaInfo.ProfileImage);
             });
