@@ -43,6 +43,23 @@ namespace Etdb.UserService.Controllers.V1
                 EnableRangeProcessing = true
             };
         }
+        
+        [AllowAnonymous]
+        [HttpGet("{id:Guid}/resize", Name = RouteNames.ProfileImages.LoadResizedRoute)]
+        public async Task<IActionResult> LoadThumbnailAsync(CancellationToken cancellationToken, Guid id,
+            Guid userId, int dimensionX = 1024, int dimensionY = 1024)
+        {
+            var profileImageDownloadInfo =
+                await this.bus.SendCommandAsync<ProfileImageResizedLoadCommand, FileDownloadInfoDto>(
+                    new ProfileImageResizedLoadCommand(id, userId, dimensionX, dimensionY), cancellationToken);
+
+            return new FileContentResult(profileImageDownloadInfo.File,
+                new MediaTypeHeaderValue(profileImageDownloadInfo.MediaType))
+            {
+                FileDownloadName = profileImageDownloadInfo.Name,
+                EnableRangeProcessing = true
+            };
+        }
 
         [HttpPost]
         public async Task<ProfileImageMetaInfoDto> UploadAsync(CancellationToken cancellationToken, Guid userId,

@@ -82,7 +82,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
                 claims.Add(new Claim(JwtClaimTypes.Picture,
                     this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(
                         usedImage,
-                        RouteNames.ProfileImages.LoadRoute)));
+                        RouteNames.ProfileImages.LoadResizedRoute)));
             }
 
             claims.Add(new Claim(JwtClaimTypes.IdentityProvider, user.AuthenticationProvider.ToString()));

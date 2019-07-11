@@ -29,6 +29,7 @@ namespace Etdb.UserService.AutoMapper.Converters
                     new ProfileImageMetaInfoDto(image.Id,
                         this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(image,
                             RouteNames.ProfileImages.LoadRoute),
+                        this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(image, RouteNames.ProfileImages.LoadResizedRoute),
                         this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(image,
                             RouteNames.ProfileImages.DeleteRoute),
                         image.IsPrimary, image.CreatedAt))

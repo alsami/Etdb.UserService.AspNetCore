@@ -6,6 +6,8 @@
         {
             public const string LoadRoute = "LoadProfileImage";
 
+            public const string LoadResizedRoute = "LoadProfileImageResized";
+
             public const string DeleteRoute = "DeleteProfileImage";
         }
 
