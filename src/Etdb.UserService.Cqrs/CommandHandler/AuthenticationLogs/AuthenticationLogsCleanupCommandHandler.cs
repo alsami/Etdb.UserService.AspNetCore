@@ -39,31 +39,42 @@ namespace Etdb.UserService.Cqrs.CommandHandler.AuthenticationLogs
             var enumeratedUsers = users as User[] ?? users.ToArray();
 
             if (!enumeratedUsers.Any()) return Unit.Value;
+            
+            var semaphoreSlim = new SemaphoreSlim(5);
 
             var cleanupTasks = enumeratedUsers.Select(async user =>
             {
-                if (!await this.resourceLockingAdapter.LockAsync(user.Id, TimeSpan.FromMinutes(1)))
+                try
                 {
-                    this.logger.LogInformation("Couldn't clear logs for user {id}, user resource currently busy!",
-                        user.Id);
+                    await semaphoreSlim.WaitAsync(cancellationToken);
+                    
+                    if (!await this.resourceLockingAdapter.LockAsync(user.Id, TimeSpan.FromMinutes(1)))
+                    {
+                        this.logger.LogInformation("Couldn't clear logs for user {id}, user resource currently busy!",
+                            user.Id);
+
+                        return Task.CompletedTask;
+                    }
+
+                    var previousValue = user.AuthenticationLogs.Count;
+
+                    user.RemoveAuthenticationLogs(log => log.LoggedAt <= expiredAt);
+
+                    await this.usersService.EditAsync(user);
+
+                    var currentValue = user.AuthenticationLogs.Count;
+
+                    this.logger.LogInformation("Cleanup {amount} of authentication logs for user {id}",
+                        previousValue - currentValue, user.Id);
+
+                    await this.resourceLockingAdapter.UnlockAsync(user.Id);
 
                     return Task.CompletedTask;
                 }
-
-                var previousValue = user.AuthenticationLogs.Count;
-
-                user.RemoveAuthenticationLogs(log => log.LoggedAt <= expiredAt);
-
-                await this.usersService.EditAsync(user);
-
-                var currentValue = user.AuthenticationLogs.Count;
-
-                this.logger.LogInformation("Cleanup {amount} of authentication logs for user {id}",
-                    previousValue - currentValue, user.Id);
-
-                await this.resourceLockingAdapter.UnlockAsync(user.Id);
-
-                return Task.CompletedTask;
+                finally
+                {
+                    semaphoreSlim.Release(1);
+                }
             });
 
             await Task.WhenAll(cleanupTasks);
