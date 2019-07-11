@@ -34,13 +34,12 @@ namespace Etdb.UserService.Bootstrap.Extensions
         public static void SetupDependencies(this ContainerBuilder containerBuilder,
             IHostingEnvironment hostingEnvironment)
         {
-            new AutofacFluentBuilder(containerBuilder
+            var builder = new AutofacFluentBuilder(containerBuilder
                     .AddMediatR(typeof(UserRegisterCommandHandler).Assembly)
                     .AddAutoMapper(typeof(UsersProfile).Assembly))
                 .ApplyModule(new DocumentDbContextModule(hostingEnvironment))
                 .ApplyModule(new ResourceCachingModule(hostingEnvironment))
                 .RegisterResolver(ExternalAuthenticationStrategyResolver)
-                .RegisterTypeAsTransient<AuthenticationLogCleanupHostedService, IHostedService>()
                 .RegisterTypeAsSingleton<ActionContextAccessor, IActionContextAccessor>()
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypeAsSingleton<FileService, IFileService>()
@@ -55,6 +54,10 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .AddClosedTypeAsScoped(typeof(ICommandValidation<>),
                     new[] {typeof(UserRegisterCommandHandler).Assembly})
                 .AddClosedTypeAsScoped(typeof(IDocumentRepository<,>), new[] {typeof(UserServiceDbContext).Assembly});
+
+            if (!hostingEnvironment.IsAnyLocalDevelopment()) return;
+
+            builder.RegisterTypeAsTransient<AuthenticationLogCleanupHostedService, IHostedService>();
         }
 
 
