@@ -11,7 +11,7 @@
     <PackageReference Include="Etdb.ServiceBase.Filter" Version="2.6.0" />
     <PackageReference Include="Etdb.ServiceBase.Services" Version="2.6.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.7.0" />
-    <PackageReference Include="IdentityServer4.Contrib.Caching.Redis" Version="1.0.2" />
+    <PackageReference Include="IdentityServer4.Contrib.Caching.Redis" Version="1.1.0" />
     <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
