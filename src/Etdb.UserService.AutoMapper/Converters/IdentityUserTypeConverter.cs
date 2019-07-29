@@ -21,9 +21,7 @@ namespace Etdb.UserService.AutoMapper.Converters
                 firstName, lastName,
                 claims.First(claim => claim.Type == JwtClaimTypes.PreferredUserName).Value,
                 claims
-                    .Where(claim => claim.Type == JwtClaimTypes.Email)
-                    .Select(claim => claim.Value)
-                    .ToArray(),
+                    .First(claim => claim.Type == JwtClaimTypes.Email).Value,
                 claims
                     .Where(claim => claim.Type == JwtClaimTypes.Role)
                     .Select(claim => claim.Value)

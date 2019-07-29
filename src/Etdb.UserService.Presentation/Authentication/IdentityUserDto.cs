@@ -15,7 +15,7 @@ namespace Etdb.UserService.Presentation.Authentication
 
         public string UserName { get; }
 
-        public string[] Emails { get; }
+        public string Email { get; }
 
         public string[] Roles { get; }
 
@@ -23,14 +23,14 @@ namespace Etdb.UserService.Presentation.Authentication
 
         public string ProfileImageUrl { get; }
 
-        public IdentityUserDto(Guid id, string firstName, string lastName, string userName, string[] emails,
+        public IdentityUserDto(Guid id, string firstName, string lastName, string userName, string email,
             string[] roles, string authenticationProvider, string profileImageUrl)
         {
             this.Id = id;
             this.FirstName = firstName;
             this.LastName = lastName;
             this.UserName = userName;
-            this.Emails = emails;
+            this.Email = email;
             this.Roles = roles;
             this.AuthenticationProvider = authenticationProvider;
             this.ProfileImageUrl = profileImageUrl;

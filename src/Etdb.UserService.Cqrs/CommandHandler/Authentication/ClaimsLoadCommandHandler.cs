@@ -57,7 +57,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
                 new Claim(JwtClaimTypes.PreferredUserName, user.UserName),
             });
 
-            claims.AddRange(user.Emails.Select(email => new Claim(JwtClaimTypes.Email, email.Address)).ToArray());
+            claims.Add(new Claim(JwtClaimTypes.Email, user.Emails.First(email => email.IsPrimary).Address));
 
             if (user.FirstName != null)
             {
