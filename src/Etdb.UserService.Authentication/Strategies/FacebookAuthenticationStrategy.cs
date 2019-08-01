@@ -46,10 +46,7 @@ namespace Etdb.UserService.Authentication.Strategies
 
             var json = await response.Content.ReadAsStringAsync();
 
-            if (!response.IsSuccessStatusCode)
-            {
-                return this.ErrorValidationResult(json);
-            }
+            if (!response.IsSuccessStatusCode) return this.ErrorValidationResult(json);
 
             var facebookUser = JsonConvert.DeserializeObject<FacebookUserProfile>(json, this.SerializeSettings);
 

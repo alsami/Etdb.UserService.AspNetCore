@@ -14,7 +14,8 @@ using Microsoft.Extensions.Options;
 namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
 {
     public class
-        ProfileImageResizedLoadCommandHandler : IResponseCommandHandler<ProfileImageResizedLoadCommand, FileDownloadInfoDto>
+        ProfileImageResizedLoadCommandHandler : IResponseCommandHandler<ProfileImageResizedLoadCommand,
+            FileDownloadInfoDto>
     {
         private readonly IOptions<FilestoreConfiguration> fileStoreOptions;
         private readonly IUsersService usersService;
@@ -46,7 +47,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
                 Path.Combine(this.fileStoreOptions.Value.ImagePath, wantedImage.RelativePath()));
 
             var thumbnailBinary = this.imageCompressionService.Resize(binary,
-                wantedImage.MediaType == "image/*" ? "image/jpeg" : wantedImage.MediaType, command.DimensionX, command.DimensionY);
+                wantedImage.MediaType == "image/*" ? "image/jpeg" : wantedImage.MediaType, command.DimensionX,
+                command.DimensionY);
 
             return new FileDownloadInfoDto(wantedImage.MediaType, wantedImage.Name, thumbnailBinary);
         }

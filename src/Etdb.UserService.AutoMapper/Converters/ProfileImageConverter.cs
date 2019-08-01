@@ -17,7 +17,8 @@ namespace Etdb.UserService.AutoMapper.Converters
             ResolutionContext context)
             => new ProfileImageMetaInfoDto(source.Id,
                 this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(source, RouteNames.ProfileImages.LoadRoute),
-                this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(source, RouteNames.ProfileImages.LoadResizedRoute),
+                this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(source,
+                    RouteNames.ProfileImages.LoadResizedRoute),
                 this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(source,
                     RouteNames.ProfileImages.DeleteRoute),
                 source.IsPrimary, source.CreatedAt);

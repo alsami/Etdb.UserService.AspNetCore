@@ -1,7 +1,9 @@
 ﻿using Autofac;
 using Etdb.ServiceBase.Constants;
 using Etdb.ServiceBase.DocumentRepository;
+using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Configuration;
+using Etdb.UserService.Authentication.Strategies;
 using Etdb.UserService.Bootstrap.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Repositories;
@@ -66,6 +68,8 @@ namespace Etdb.UserService.Bootstrap
                     Title = Startup.SwaggerDocDescription,
                     Version = Startup.SwaggerDocVersion
                 }, Startup.SwaggerDocVersion);
+
+            services.AddHttpClient<IGoogleAuthenticationStrategy, GoogleAuthenticationStrategy>();
         }
 
         public void Configure(IApplicationBuilder app)

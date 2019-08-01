@@ -19,7 +19,7 @@ namespace Etdb.UserService.Bootstrap.Tests.Fixtures
 
         public TestServer IdentityServer { get; private set; }
 
-        public Mock<HttpMessageHandler> ExternalIdentityHttpMessageHandlerMock { get; }
+        public Mock<HttpMessageHandler> ExternalIdentityHttpMessageHandlerMock { get; private set; }
 
         public TestServerFixture()
         {

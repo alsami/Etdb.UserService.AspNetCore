@@ -54,7 +54,9 @@ namespace Etdb.UserService.Bootstrap.Tests.Common
         {
             var registerDto = CreateRandomRegistrationDto();
 
-            await RegisterAsync(registerDto, httpClient);
+            var response = await RegisterAsync(registerDto, httpClient);
+
+            Assert.True(response.IsSuccessStatusCode, await response.Content.ReadAsStringAsync());
 
             return registerDto;
         }

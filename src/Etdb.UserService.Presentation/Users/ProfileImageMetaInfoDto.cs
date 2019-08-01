@@ -1,4 +1,5 @@
 using System;
+
 // ReSharper disable MemberCanBePrivate.Global
 
 namespace Etdb.UserService.Presentation.Users
@@ -8,7 +9,7 @@ namespace Etdb.UserService.Presentation.Users
         public Guid Id { get; }
 
         public string Url { get; }
-        
+
         public string ResizeUrl { get; }
 
         public string RemoveUrl { get; }
@@ -16,7 +17,8 @@ namespace Etdb.UserService.Presentation.Users
         public bool IsPrimary { get; }
         public DateTime CreatedAt { get; }
 
-        public ProfileImageMetaInfoDto(Guid id, string url, string resizeUrl, string removeUrl, bool isPrimary, DateTime createdAt)
+        public ProfileImageMetaInfoDto(Guid id, string url, string resizeUrl, string removeUrl, bool isPrimary,
+            DateTime createdAt)
         {
             this.Id = id;
             this.Url = url;

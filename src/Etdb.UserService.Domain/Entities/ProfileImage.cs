@@ -11,7 +11,8 @@ namespace Etdb.UserService.Domain.Entities
     public class ProfileImage : UserChildDocument
     {
         [JsonConstructor]
-        private ProfileImage(Guid id, Guid userId, DateTime createdAt, string name, string originalName, string mediaType,
+        private ProfileImage(Guid id, Guid userId, DateTime createdAt, string name, string originalName,
+            string mediaType,
             bool isPrimary) : base(id, userId)
         {
             this.CreatedAt = createdAt;
@@ -34,10 +35,12 @@ namespace Etdb.UserService.Domain.Entities
 
         public string RelativePath() => Path.Combine(this.SubPath(), this.Name);
 
-        public ProfileImage MutatePrimaryState(bool primary) => new ProfileImage(this.Id, this.UserId, this.CreatedAt, this.Name,
+        public ProfileImage MutatePrimaryState(bool primary) => new ProfileImage(this.Id, this.UserId, this.CreatedAt,
+            this.Name,
             this.OriginalName, this.MediaType, primary);
 
         public static ProfileImage Create(Guid id, Guid userId, string originalName, string mediaType, bool isPrimary)
-            => new ProfileImage(id, userId, DateTime.UtcNow, $"{userId}_{originalName}_{DateTime.UtcNow.Ticks}", originalName, mediaType, isPrimary);
+            => new ProfileImage(id, userId, DateTime.UtcNow, $"{userId}_{originalName}_{DateTime.UtcNow.Ticks}",
+                originalName, mediaType, isPrimary);
     }
 }

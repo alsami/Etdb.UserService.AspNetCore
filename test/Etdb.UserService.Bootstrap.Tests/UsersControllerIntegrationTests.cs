@@ -58,5 +58,7 @@ namespace Etdb.UserService.Bootstrap.Tests
                 .DeserializeObject<UserNameAvailabilityDto>(await availabilityResponse.Content.ReadAsStringAsync())
                 .Available, "Response flag was expected to be set to false but is set to true!");
         }
+        
+        
     }
 }

@@ -43,7 +43,7 @@ namespace Etdb.UserService.Controllers.V1
                 EnableRangeProcessing = true
             };
         }
-        
+
         [AllowAnonymous]
         [HttpGet("{id:Guid}/resize", Name = RouteNames.ProfileImages.LoadResizedRoute)]
         public async Task<IActionResult> LoadThumbnailAsync(CancellationToken cancellationToken, Guid id,

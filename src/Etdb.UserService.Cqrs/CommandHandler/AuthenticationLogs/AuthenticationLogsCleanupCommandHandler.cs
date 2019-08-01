@@ -39,7 +39,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.AuthenticationLogs
             var enumeratedUsers = users as User[] ?? users.ToArray();
 
             if (!enumeratedUsers.Any()) return Unit.Value;
-            
+
             var semaphoreSlim = new SemaphoreSlim(5);
 
             var cleanupTasks = enumeratedUsers.Select(async user =>
@@ -47,7 +47,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.AuthenticationLogs
                 try
                 {
                     await semaphoreSlim.WaitAsync(cancellationToken);
-                    
+
                     if (!await this.resourceLockingAdapter.LockAsync(user.Id, TimeSpan.FromMinutes(1)))
                     {
                         this.logger.LogInformation("Couldn't clear logs for user {id}, user resource currently busy!",
