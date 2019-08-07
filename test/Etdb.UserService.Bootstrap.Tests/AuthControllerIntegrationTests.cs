@@ -418,7 +418,7 @@ namespace Etdb.UserService.Bootstrap.Tests
             Assert.Equal(HttpStatusCode.Unauthorized, externalAuthenticationResponse.StatusCode);
         }
 
-        private static dynamic GenerateFakeGoogleProfileResponse()
+        private static object GenerateFakeGoogleProfileResponse()
             => new
             {
                 Email = $"{Guid.NewGuid()}@gmail.com",
@@ -427,7 +427,7 @@ namespace Etdb.UserService.Bootstrap.Tests
                 Picture = "https://lh6.googleusercontent.com/-UNUSGzVwNaY/AAAAAAAAAAI/AAAAAAAAgxM/lnDKDkBh370/photo.jpg"
             };
 
-        private static dynamic GenerateFakeFacebookProfileResponse()
+        private static object GenerateFakeFacebookProfileResponse()
             => new
             {
                 Email = $"{Guid.NewGuid()}@facebook.com",

@@ -171,7 +171,7 @@ namespace Etdb.UserService.Bootstrap.Tests
 
             var accessTokenDto = await this.GetTokenAsync(registerDto);
 
-            var identityUserDto = await LoadIdentityUserAssteredAsync(accessTokenDto.AccessToken, client);
+            var identityUserDto = await LoadIdentityUserAssertedAsync(accessTokenDto.AccessToken, client);
 
             return (registerDto, accessTokenDto, identityUserDto);
         }

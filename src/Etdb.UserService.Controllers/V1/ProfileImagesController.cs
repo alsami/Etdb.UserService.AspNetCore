@@ -46,7 +46,7 @@ namespace Etdb.UserService.Controllers.V1
 
         [AllowAnonymous]
         [HttpGet("{id:Guid}/resize", Name = RouteNames.ProfileImages.LoadResizedRoute)]
-        public async Task<IActionResult> LoadThumbnailAsync(CancellationToken cancellationToken, Guid id,
+        public async Task<IActionResult> LoadResizedAsync(CancellationToken cancellationToken, Guid id,
             Guid userId, int dimensionX = 1024, int dimensionY = 1024)
         {
             var profileImageDownloadInfo =
@@ -75,7 +75,7 @@ namespace Etdb.UserService.Controllers.V1
         }
 
         [HttpPost("multiple")]
-        public async Task<IEnumerable<ProfileImageMetaInfoDto>> UploadAsync(CancellationToken cancellationToken,
+        public async Task<IEnumerable<ProfileImageMetaInfoDto>> MultiUploadAsync(CancellationToken cancellationToken,
             Guid userId, [FromForm] IEnumerable<IFormFile> files)
         {
             var extractTasks = files.Select(async file => new UploadImageMetaInfo(file.FileName,

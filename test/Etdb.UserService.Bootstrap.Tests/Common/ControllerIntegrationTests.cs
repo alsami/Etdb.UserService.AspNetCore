@@ -79,7 +79,7 @@ namespace Etdb.UserService.Bootstrap.Tests.Common
             return client.GetAsync($"api/v1/auth/user-identity/{accessToken}");
         }
 
-        protected static async Task<IdentityUserDto> LoadIdentityUserAssteredAsync(string accessToken,
+        protected static async Task<IdentityUserDto> LoadIdentityUserAssertedAsync(string accessToken,
             HttpClient client)
         {
             var response = await LoadIdentityUserAsync(accessToken, client);

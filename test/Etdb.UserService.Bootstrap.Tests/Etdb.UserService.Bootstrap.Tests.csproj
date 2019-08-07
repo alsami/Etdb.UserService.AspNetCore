@@ -27,6 +27,17 @@
       <Content Update="appsettings.Development.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
+      <None Remove="Files\regulardoge.jpg" />
+      <Content Include="Files\regulardoge.jpg">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Files\shinydoge.jpg" />
+      <Content Include="Files\shinydoge.jpg">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
-
+    
+    <ItemGroup>
+        <Folder Include="Files" />
+    </ItemGroup>
 </Project>

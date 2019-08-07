@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Serilog;
+using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 
 namespace Etdb.UserService.Bootstrap.Tests.Fixtures
@@ -38,7 +39,7 @@ namespace Etdb.UserService.Bootstrap.Tests.Fixtures
                 .WriteTo.Console(
                     outputTemplate:
                     "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
-                    theme: AnsiConsoleTheme.Literate)
+                    theme: AnsiConsoleTheme.Literate, restrictedToMinimumLevel:LogEventLevel.Error)
                 .CreateLogger();
 
             this.IdentityServer = new TestServer(new WebHostBuilder()
@@ -48,7 +49,8 @@ namespace Etdb.UserService.Bootstrap.Tests.Fixtures
                     sp.AddSingleton(this.ExternalIdentityHttpMessageHandlerMock.Object);
                     sp.AddAutofac();
                 })
-                .UseStartup<IdentityServerStartup>());
+                .UseStartup<IdentityServerStartup>()
+                .UseContentRoot(AppContext.BaseDirectory));
 
             this.ApiServer = new TestServer(new WebHostBuilder()
                 .UseSerilog()
@@ -57,7 +59,8 @@ namespace Etdb.UserService.Bootstrap.Tests.Fixtures
                     services.AddSingleton(this.IdentityServer);
                     services.AddAutofac();
                 })
-                .UseStartup<ApiServerStartup>());
+                .UseStartup<ApiServerStartup>()
+                .UseContentRoot(AppContext.BaseDirectory));
         }
     }
 }
