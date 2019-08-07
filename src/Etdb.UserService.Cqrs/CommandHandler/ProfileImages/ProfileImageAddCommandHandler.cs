@@ -2,35 +2,31 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Exceptions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages;
 using Etdb.UserService.Cqrs.Misc;
 using Etdb.UserService.Domain.Entities;
-using Etdb.UserService.Presentation.Users;
 using Etdb.UserService.Services.Abstractions;
 using Etdb.UserService.Services.Abstractions.Models;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
 {
     // ReSharper disable once UnusedMember.Global
     public class
-        ProfileImageAddCommandHandler : IResponseCommandHandler<ProfileImageAddCommand, ProfileImageMetaInfoDto>
+        ProfileImageAddCommandHandler : IVoidCommandHandler<ProfileImageAddCommand>
     {
         private readonly IUsersService usersService;
         private readonly IResourceLockingAdapter resourceLockingAdapter;
-        private readonly IMapper mapper;
 
-        public ProfileImageAddCommandHandler(IUsersService usersService, IMapper mapper,
-            IResourceLockingAdapter resourceLockingAdapter)
+        public ProfileImageAddCommandHandler(IUsersService usersService, IResourceLockingAdapter resourceLockingAdapter)
         {
             this.usersService = usersService;
-            this.mapper = mapper;
             this.resourceLockingAdapter = resourceLockingAdapter;
         }
 
-        public async Task<ProfileImageMetaInfoDto> Handle(ProfileImageAddCommand command,
+        public async Task<Unit> Handle(ProfileImageAddCommand command,
             CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByIdAsync(command.UserId);
@@ -55,7 +51,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
 
             await this.resourceLockingAdapter.UnlockAsync(user.Id);
 
-            return this.mapper.Map<ProfileImageMetaInfoDto>(profileImage);
+            return Unit.Value;
         }
     }
 }

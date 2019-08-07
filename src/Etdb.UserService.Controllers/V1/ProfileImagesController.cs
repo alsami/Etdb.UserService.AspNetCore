@@ -62,17 +62,16 @@ namespace Etdb.UserService.Controllers.V1
         }
 
         [HttpPost]
-        public async Task<ProfileImageMetaInfoDto> UploadAsync(CancellationToken cancellationToken, Guid userId,
+        public async Task<IActionResult> UploadAsync(CancellationToken cancellationToken, Guid userId,
             [FromForm] IFormFile file)
         {
             var command = new ProfileImageAddCommand(userId,
                 file.FileName,
                 new ContentType(file.ContentType), await file.ReadFileBytesAsync());
 
-            var user = await this.bus.SendCommandAsync<ProfileImageAddCommand, ProfileImageMetaInfoDto>(command,
-                cancellationToken);
+            await this.bus.SendCommandAsync(command, cancellationToken);
 
-            return user;
+            return this.NoContent();
         }
 
         [HttpPost("multiple")]
