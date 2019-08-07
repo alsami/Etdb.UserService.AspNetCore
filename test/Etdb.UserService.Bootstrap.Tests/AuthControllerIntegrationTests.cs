@@ -44,7 +44,7 @@ namespace Etdb.UserService.Bootstrap.Tests
         {
             var httpClient = this.TestServerFixture.ApiServer.CreateClient();
 
-            var registerDto = await RegisterAsync(httpClient);
+            var registerDto = await RegisterAssertedAsync(httpClient);
 
             var authenticationDto =
                 new InternalAuthenticationDto(registerDto.UserName, registerDto.Password, this.GetClientId());
@@ -61,7 +61,7 @@ namespace Etdb.UserService.Bootstrap.Tests
         {
             var httpClient = this.TestServerFixture.ApiServer.CreateClient();
 
-            var registerDto = await RegisterAsync(httpClient);
+            var registerDto = await RegisterAssertedAsync(httpClient);
 
             var authenticationDto = new InternalAuthenticationDto(registerDto.UserName,
                 $"{registerDto.Password}ssadasdsadasdsa", this.GetClientId());
@@ -77,7 +77,7 @@ namespace Etdb.UserService.Bootstrap.Tests
         {
             var httpClient = this.TestServerFixture.ApiServer.CreateClient();
 
-            var registerDto = await RegisterAsync(httpClient);
+            var registerDto = await RegisterAssertedAsync(httpClient);
 
             var tokenResponse = await this.GetTokenAsync(registerDto);
 
@@ -97,7 +97,7 @@ namespace Etdb.UserService.Bootstrap.Tests
         {
             var httpClient = this.TestServerFixture.ApiServer.CreateClient();
 
-            var registerDto = await RegisterAsync(httpClient);
+            var registerDto = await RegisterAssertedAsync(httpClient);
 
             var tokenResponse = await this.GetTokenAsync(registerDto);
 
@@ -225,7 +225,7 @@ namespace Etdb.UserService.Bootstrap.Tests
             var fixture = new TestServerFixture();
             var httpClient = fixture.ApiServer.CreateClient();
 
-            var userDto = await RegisterAsync(httpClient);
+            var userDto = await RegisterAssertedAsync(httpClient);
 
             var authenticationDto = new ExternalAuthenticationDto(this.GetClientId(), Guid.NewGuid().ToString(),
                 AuthenticationProvider.Google.ToString());
@@ -376,7 +376,7 @@ namespace Etdb.UserService.Bootstrap.Tests
             var fixture = new TestServerFixture();
             var httpClient = fixture.ApiServer.CreateClient();
 
-            var userDto = await RegisterAsync(httpClient);
+            var userDto = await RegisterAssertedAsync(httpClient);
 
             var authenticationDto = new ExternalAuthenticationDto(this.GetClientId(), Guid.NewGuid().ToString(),
                 AuthenticationProvider.Google.ToString());

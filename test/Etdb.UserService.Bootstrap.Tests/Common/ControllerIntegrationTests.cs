@@ -12,6 +12,7 @@ using IdentityModel.Client;
 using IdentityServer4.Contrib.AspNetCore.Testing.Configuration;
 using IdentityServer4.Contrib.AspNetCore.Testing.Services;
 using Microsoft.Extensions.Configuration;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.ObjectModel;
 using Xunit;
 
 namespace Etdb.UserService.Bootstrap.Tests.Common
@@ -50,7 +51,7 @@ namespace Etdb.UserService.Bootstrap.Tests.Common
             return tokenResponse;
         }
 
-        protected static async Task<UserRegisterDto> RegisterAsync(HttpClient httpClient)
+        protected static async Task<UserRegisterDto> RegisterAssertedAsync(HttpClient httpClient)
         {
             var registerDto = CreateRandomRegistrationDto();
 
@@ -78,11 +79,20 @@ namespace Etdb.UserService.Bootstrap.Tests.Common
             return client.GetAsync($"api/v1/auth/user-identity/{accessToken}");
         }
 
+        protected static async Task<IdentityUserDto> LoadIdentityUserAssteredAsync(string accessToken,
+            HttpClient client)
+        {
+            var response = await LoadIdentityUserAsync(accessToken, client);
+
+            Assert.True(response.IsSuccessStatusCode, await response.Content.ReadAsStringAsync());
+
+            return await response.Content.ReadAsAsync<IdentityUserDto>();
+        }
+
         protected Task<HttpResponseMessage> RefreshAuthenticationAsync(string refreshToken, HttpClient client,
             AuthenticationProvider authenticationProvider)
             => client.GetAsync(
                 $"api/v1/auth/refresh-authentication/{refreshToken}/{this.GetClientId()}/{authenticationProvider.ToString()}");
-
 
         protected static Task<HttpResponseMessage> AuthenticateAsync(
             InternalAuthenticationDto internalAuthenticationDto, HttpClient client)

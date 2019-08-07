@@ -1,4 +1,5 @@
 // ReSharper disable InconsistentNaming
+
 namespace Etdb.UserService.Authentication.Structures
 {
     internal class GoogleUserProfile

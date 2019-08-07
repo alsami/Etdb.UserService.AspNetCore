@@ -39,7 +39,7 @@ namespace Etdb.UserService.Controllers.V1
                 cancellationToken);
         }
 
-        [HttpPatch("{id:Guid}/username/{userName}")]
+        [HttpPatch("{id:Guid}/username/{*userName}")]
         public async Task<IActionResult> UserNameChangeAsync(CancellationToken cancellationToken, Guid id,
             string userName)
         {
