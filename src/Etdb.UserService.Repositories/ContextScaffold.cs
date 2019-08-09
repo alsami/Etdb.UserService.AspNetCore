@@ -93,7 +93,7 @@ namespace Etdb.UserService.Repositories
         }
 
         private static void CreateCollection(string collectionName, IMongoDatabase database,
-            CreateCollectionOptions options = null)
+            CreateCollectionOptions? options = null)
             => database.CreateCollection(collectionName, options);
     }
 }

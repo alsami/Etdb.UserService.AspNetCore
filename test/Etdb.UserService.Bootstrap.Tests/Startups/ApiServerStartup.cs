@@ -9,23 +9,23 @@ using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using EnvironmentName = Microsoft.AspNetCore.Hosting.EnvironmentName;
 
 namespace Etdb.UserService.Bootstrap.Tests.Startups
 {
     public class ApiServerStartup
     {
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
 
         private const string AuthenticationSchema = "Bearer";
 
         private readonly TestServer identityTestServer;
 
-        public ApiServerStartup(IHostingEnvironment hostingEnvironment, TestServer identityTestServer)
+        public ApiServerStartup(IWebHostEnvironment hostingEnvironment, TestServer identityTestServer)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.identityTestServer = identityTestServer;
@@ -43,11 +43,10 @@ namespace Etdb.UserService.Bootstrap.Tests.Startups
                 .GetSection(nameof(IdentityServerConfiguration))
                 .Get<IdentityServerConfiguration>();
 
-            this.hostingEnvironment.EnvironmentName = EnvironmentName.Development;
+            this.hostingEnvironment.EnvironmentName = Environments.Development;
 
             services
-                .AddSingleton(new ContextLessRouteProvider())
-                .ConfigureMvc()
+                .ConfigureApiControllers()
                 .ConfigureAllowedOriginsOptions(configuration)
                 .ConfigureAuthorizationPolicies()
                 .ConfigureDistributedCaching(configuration)
@@ -70,7 +69,7 @@ namespace Etdb.UserService.Bootstrap.Tests.Startups
         {
             app.UseResponseCompression()
                 .UseAuthentication()
-                .SetupMvc();
+                .UseConfiguredRouting();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

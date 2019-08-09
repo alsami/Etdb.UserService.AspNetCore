@@ -35,7 +35,7 @@ namespace Etdb.UserService.Cqrs.EventHandler.Users
             {
                 var user = await this.usersRepository.FindAsync(@event.UserId);
 
-                if (!await this.resourceLockingAdapter.LockAsync(user.Id, TimeSpan.FromSeconds(30)))
+                if (!await this.resourceLockingAdapter.LockAsync(user!.Id, TimeSpan.FromSeconds(30)))
                 {
                     throw WellknownExceptions.UserResourceLockException(user.Id);
                 }

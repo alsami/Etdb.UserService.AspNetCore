@@ -12,7 +12,7 @@ namespace Etdb.UserService.Authentication.Configuration
             {
                 new ApiResource(ServiceNames.UserService),
                 new ApiResource(ServiceNames.StorageService),
-                new ApiResource(ServiceNames.FileService),
+                new ApiResource(ServiceNames.MessagingService),
                 new ApiResource(ServiceNames.IndexService),
             };
         }

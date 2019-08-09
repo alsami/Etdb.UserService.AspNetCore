@@ -11,9 +11,9 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
     public class UserRegisterCommand : UserNameCommand, IResponseCommand<UserDto>
     {
         public UserRegisterCommand(Guid id, string wantedUserName, string firstName, string name,
-            ICollection<EmailAddCommand> emails,
-            int loginProvider, PasswordAddCommand passwordAddCommand = null,
-            ProfileImageAddCommand profileImageAddCommand = null) : base(
+            ICollection<EmailAddCommand>? emails,
+            int loginProvider, PasswordAddCommand? passwordAddCommand = null,
+            ProfileImageAddCommand? profileImageAddCommand = null) : base(
             id, wantedUserName)
         {
             this.FirstName = firstName;
@@ -28,11 +28,11 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 
         public string Name { get; }
 
-        public ICollection<EmailAddCommand> Emails { get; }
+        public ICollection<EmailAddCommand>? Emails { get; }
 
         public int LoginProvider { get; }
 
-        public PasswordAddCommand PasswordAddCommand { get; }
-        public ProfileImageAddCommand ProfileImageAddCommand { get; }
+        public PasswordAddCommand? PasswordAddCommand { get; }
+        public ProfileImageAddCommand? ProfileImageAddCommand { get; }
     }
 }

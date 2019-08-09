@@ -26,7 +26,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
         protected override Task<TokenResponse> RequestTokenAsync(ExternalAuthenticationCommand command,
             HttpClient client,
             Client identityClient,
-            DiscoveryResponse discoveryResponse, CancellationToken cancellationToken = default)
+            DiscoveryDocumentResponse discoveryResponse, CancellationToken cancellationToken = default)
             => client.RequestTokenAsync(new TokenRequest
             {
                 ClientId = identityClient.Id,

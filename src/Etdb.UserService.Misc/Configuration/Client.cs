@@ -2,16 +2,16 @@
 {
     public class Client
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
 
-        public string Secret { get; set; }
+        public string Secret { get; set; } = null!;
 
         public bool HasOfflineAccess { get; set; }
 
-        public string[] Scopes { get; set; }
+        public string[] Scopes { get; set; } = null!;
 
-        public string[] GrantTypes { get; set; }
+        public string[] GrantTypes { get; set; } = null!;
 
-        public string[] Origins { get; set; }
+        public string[] Origins { get; set; } = null!;
     }
 }

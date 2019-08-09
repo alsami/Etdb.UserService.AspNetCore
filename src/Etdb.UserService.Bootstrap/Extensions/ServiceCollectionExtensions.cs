@@ -16,6 +16,7 @@ using Etdb.UserService.Services.Abstractions;
 using IdentityServer4.Contrib.Caching.Redis.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,9 +25,9 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Swashbuckle.AspNetCore.Swagger;
 
 namespace Etdb.UserService.Bootstrap.Extensions
 {
@@ -35,7 +36,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
         private const string FilesLocalSubPath = "Files";
 
         private static readonly string CookieName =
-            typeof(Startup).Assembly.GetName().Name.Replace(".dll", "").Replace(".exe", "");
+            typeof(Startup)!.Assembly!.GetName()!.Name!.Replace(".dll", "").Replace(".exe", "");
 
 
         public static IServiceCollection ConfigureCompression(this IServiceCollection services,
@@ -56,7 +57,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
         }
 
         public static IServiceCollection ConfigureFileStoreOptions(this IServiceCollection services,
-            IConfiguration configuration, IHostingEnvironment environment)
+            IConfiguration configuration, IWebHostEnvironment environment)
         {
             return services.Configure<FilestoreConfiguration>(options =>
             {
@@ -90,7 +91,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
         }
 
         public static IServiceCollection ConfigureSwaggerGen(this IServiceCollection services,
-            IHostingEnvironment environment, Info info, string title)
+            IWebHostEnvironment environment, OpenApiInfo openApiInfo, string title)
         {
             if (!environment.IsAnyLocalDevelopment())
             {
@@ -100,7 +101,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
             services.AddMvcCore()
                 .AddApiExplorer();
 
-            return services.AddSwaggerGen(options => options.SwaggerDoc(title, info));
+            return services.AddSwaggerGen(options => options.SwaggerDoc(title, openApiInfo));
         }
 
         public static IServiceCollection ConfigureAllowedOriginsOptions(this IServiceCollection services,
@@ -111,11 +112,11 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .Bind(options));
         }
 
-        public static IServiceCollection ConfigureMvc(this IServiceCollection services)
+        public static IServiceCollection ConfigureApiControllers(this IServiceCollection services)
         {
-            services.AddMvc(options =>
+            services.AddControllers(options =>
                 {
-                    options.EnableEndpointRouting = false;
+                    options.EnableEndpointRouting = true;
                     options.OutputFormatters.RemoveType<XmlSerializerOutputFormatter>();
                     options.InputFormatters.RemoveType<XmlSerializerInputFormatter>();
 
@@ -132,13 +133,13 @@ namespace Etdb.UserService.Bootstrap.Extensions
                     options.Filters.Add<ResourceLockedExceptionFilter>();
                     options.Filters.Add<ResourceNotFoundExceptionFilter>();
                 })
-                .AddJsonOptions(options =>
+                .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 })
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
             return services;
         }
@@ -155,7 +156,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
         }
 
         public static IServiceCollection ConfigureCors(this IServiceCollection services,
-            IHostingEnvironment environment, string[] allowedOrigins, string policyName)
+            IWebHostEnvironment environment, string[] allowedOrigins, string policyName)
         {
             return services.AddCors(options =>
             {
@@ -177,7 +178,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
 
         public static IServiceCollection ConfigureIdentityServerAuthorization(this IServiceCollection services,
             IdentityServerConfiguration identityServerConfiguration, RedisCacheOptions redisCacheOptions,
-            IHostingEnvironment environment)
+            IWebHostEnvironment environment)
         {
             var identityServerBuilder = services.AddIdentityServer(options =>
                     options.Authentication.CookieAuthenticationScheme = ServiceCollectionExtensions.CookieName)
@@ -202,7 +203,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
         }
 
         public static IServiceCollection ConfigureIdentityServerAuthentication(this IServiceCollection services,
-            IHostingEnvironment environment, string schema, string apiName, string authority)
+            IWebHostEnvironment environment, string schema, string apiName, string authority)
         {
             services.AddAuthentication(schema)
                 .AddCookie(ServiceCollectionExtensions.CookieName)

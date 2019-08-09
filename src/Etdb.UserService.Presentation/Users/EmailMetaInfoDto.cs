@@ -4,15 +4,15 @@ namespace Etdb.UserService.Presentation.Users
 {
     public class EmailMetaInfoDto
     {
-        public Guid Id { get; }
+        public Guid Id { get; set; }
 
-        public string Url { get; }
+        public string Url { get; set; } = null!;
 
-        public string RemoveUrl { get; }
+        public string RemoveUrl { get; set; } = null!;
 
-        public bool IsPrimary { get; }
+        public bool IsPrimary { get; set; }
 
-        public bool IsExternal { get; }
+        public bool IsExternal { get; set; }
 
         public EmailMetaInfoDto(Guid id, string url, string removeUrl, bool isPrimary, bool isExternal)
         {
@@ -21,6 +21,10 @@ namespace Etdb.UserService.Presentation.Users
             this.RemoveUrl = removeUrl;
             this.IsPrimary = isPrimary;
             this.IsExternal = isExternal;
+        }
+
+        public EmailMetaInfoDto()
+        {
         }
     }
 }

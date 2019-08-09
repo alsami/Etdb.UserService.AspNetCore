@@ -6,16 +6,16 @@ namespace Etdb.UserService.Presentation.Users
 {
     public class ProfileImageMetaInfoDto
     {
-        public Guid Id { get; }
+        public Guid Id { get; set; }
 
-        public string Url { get; }
+        public string Url { get; set; } = null!;
 
-        public string ResizeUrl { get; }
+        public string ResizeUrl { get; set; } = null!;
 
-        public string RemoveUrl { get; }
+        public string RemoveUrl { get; set; } = null!;
 
-        public bool IsPrimary { get; }
-        public DateTime CreatedAt { get; }
+        public bool IsPrimary { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public ProfileImageMetaInfoDto(Guid id, string url, string resizeUrl, string removeUrl, bool isPrimary,
             DateTime createdAt)
@@ -26,6 +26,10 @@ namespace Etdb.UserService.Presentation.Users
             this.RemoveUrl = removeUrl;
             this.IsPrimary = isPrimary;
             this.CreatedAt = createdAt;
+        }
+
+        public ProfileImageMetaInfoDto()
+        {
         }
     }
 }

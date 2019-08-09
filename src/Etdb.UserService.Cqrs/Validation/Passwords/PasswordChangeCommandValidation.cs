@@ -37,7 +37,7 @@ namespace Etdb.UserService.Cqrs.Validation.Passwords
         {
             var user = await this.usersService.FindByIdAsync(command.Id);
 
-            return this.hasher.CreateSaltedHash(command.CurrentPassword, user.Salt) == user.Password;
+            return this.hasher.CreateSaltedHash(command.CurrentPassword, user!.Salt!) == user.Password;
         }
     }
 }

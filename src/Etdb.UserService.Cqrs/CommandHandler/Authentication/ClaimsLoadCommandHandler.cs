@@ -49,7 +49,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
                 var existingRole = await this.rolesRepository.FindAsync(roleId)
                     .ConfigureAwait(false);
 
-                claims.Add(new Claim(JwtClaimTypes.Role, existingRole.Name));
+                claims.Add(new Claim(JwtClaimTypes.Role, existingRole!.Name));
             }
 
             claims.AddRange(new[]

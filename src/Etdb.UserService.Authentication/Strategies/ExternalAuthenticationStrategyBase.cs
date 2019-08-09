@@ -51,7 +51,7 @@ namespace Etdb.UserService.Authentication.Strategies
             return userSignInProvider == this.AuthenticationProvider;
         }
 
-        protected async Task<UserDto> SearchForExistingUserAsync(string emailAddress)
+        protected async Task<UserDto?> SearchForExistingUserAsync(string emailAddress)
         {
             var userSearchCommand = new UserSearchByUsernameAndEmailCommand(emailAddress);
 
@@ -76,14 +76,14 @@ namespace Etdb.UserService.Authentication.Strategies
         {
             var user = await this.bus.SendCommandAsync<UserRegisterCommand, UserDto>(command);
 
-            return user;
+            return user!;
         }
 
         protected Task PublishAuthenticationEvent(UserAuthenticatedEvent @event)
             => this.bus.RaiseEventAsync(@event);
 
         protected UserAuthenticatedEvent CreateUserAuthenticatedEvent(UserDto user,
-            AuthenticationLogType authenticationLogType, string additionalInfo = null)
+            AuthenticationLogType authenticationLogType, string? additionalInfo = null)
             => new UserAuthenticatedEvent(authenticationLogType.ToString(),
                 this.httpContextAccessor.HttpContext.Connection.RemoteIpAddress, user.Id,
                 DateTime.UtcNow, additionalInfo);

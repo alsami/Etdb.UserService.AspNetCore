@@ -14,10 +14,10 @@ namespace Etdb.UserService.Cqrs.Abstractions.Events.Authentication
 
         public DateTime LoggedAt { get; }
 
-        public string AdditionalInfo { get; }
+        public string? AdditionalInfo { get; }
 
         public UserAuthenticatedEvent(string authenticationLogType, IPAddress ipAddress, Guid userId, DateTime loggedAt,
-            string additionalInfo)
+            string? additionalInfo)
         {
             this.AuthenticationLogType = authenticationLogType;
             this.IpAddress = ipAddress;

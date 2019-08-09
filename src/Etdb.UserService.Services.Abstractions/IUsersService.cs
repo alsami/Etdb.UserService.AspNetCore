@@ -13,13 +13,13 @@ namespace Etdb.UserService.Services.Abstractions
 
         Task EditAsync(User user, params StoreImageMetaInfo[] storeImageMetaInfos);
 
-        Task<User> FindByIdAsync(Guid id);
+        Task<User?> FindByIdAsync(Guid id);
 
         Task<bool> IsUserLocked(Guid id);
 
-        Task<User> FindByUserNameAsync(string userName);
+        Task<User?> FindByUserNameAsync(string userName);
 
-        Task<User> FindByUserNameOrEmailAsync(string userNameOrEmail);
+        Task<User?> FindByUserNameOrEmailAsync(string userNameOrEmail);
 
         Email FindEmailAddress(string emailAddress);
     }

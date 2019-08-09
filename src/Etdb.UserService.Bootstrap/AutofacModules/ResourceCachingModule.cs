@@ -4,19 +4,19 @@ using Elders.RedLock;
 using Etdb.UserService.Bootstrap.Extensions;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Bootstrap.AutofacModules
 {
     public class ResourceCachingModule : Module
     {
-        private readonly IHostingEnvironment environment;
+        private readonly IWebHostEnvironment environment;
 
-        public ResourceCachingModule(IHostingEnvironment environment) =>
+        public ResourceCachingModule(IWebHostEnvironment environment) =>
             this.environment = environment ?? throw new ArgumentNullException(nameof(environment));
 
         protected override void Load(ContainerBuilder builder)

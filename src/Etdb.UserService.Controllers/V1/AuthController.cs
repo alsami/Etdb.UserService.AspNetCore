@@ -12,8 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Etdb.UserService.Controllers.V1
 {
+    [ApiController]
     [Route("api/v1/[controller]")]
-    public class AuthController : Controller
+    public class AuthController : ControllerBase
     {
         private readonly IMapper mapper;
         private readonly IBus bus;

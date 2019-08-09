@@ -12,12 +12,12 @@ namespace Etdb.UserService.Domain.Entities
     public class User : GuidDocument
     {
         [JsonConstructor]
-        private User(Guid id, string userName, string firstName, string name, string biography,
+        private User(Guid id, string userName, string? firstName, string? name, string? biography,
             DateTime registeredSince, IEnumerable<Guid> roleIds,
             IEnumerable<Email> emails,
             AuthenticationProvider authenticationProvider = AuthenticationProvider.UsernamePassword,
-            string password = null, byte[] salt = null, IEnumerable<ProfileImage> profileImages = null,
-            IEnumerable<AuthenticationLog> authenticationLogs = null) : base(id)
+            string? password = null, byte[]? salt = null, IEnumerable<ProfileImage>? profileImages = null,
+            IEnumerable<AuthenticationLog>? authenticationLogs = null) : base(id)
         {
             this.UserName = userName;
             this.FirstName = firstName;
@@ -35,19 +35,19 @@ namespace Etdb.UserService.Domain.Entities
 
         public string UserName { get; private set; }
 
-        public string FirstName { get; private set; }
+        public string? FirstName { get; private set; }
 
-        public string Name { get; private set; }
+        public string? Name { get; private set; }
 
-        public string Biography { get; private set; }
+        public string? Biography { get; private set; }
 
         public DateTime RegisteredSince { get; private set; }
 
         public AuthenticationProvider AuthenticationProvider { get; private set; }
 
-        public string Password { get; private set; }
+        public string? Password { get; private set; }
 
-        public byte[] Salt { get; private set; }
+        public byte[]? Salt { get; private set; }
 
         public IReadOnlyCollection<ProfileImage> ProfileImages { get; private set; }
 
@@ -97,12 +97,12 @@ namespace Etdb.UserService.Domain.Entities
             this.ProfileImages = copy;
         }
 
-        public static User Create(Guid id, string userName, string firstName, string name, string biography,
+        public static User Create(Guid id, string userName, string? firstName, string? name, string? biography,
             DateTime registeredSince, IEnumerable<Guid> roleIds,
             IEnumerable<Email> emails,
             AuthenticationProvider authenticationProvider = AuthenticationProvider.UsernamePassword,
-            string password = null, byte[] salt = null, IEnumerable<ProfileImage> profileImages = null,
-            IEnumerable<AuthenticationLog> authenticationLogs = null) => new User(id, userName, firstName, name,
+            string? password = null, byte[]? salt = null, IEnumerable<ProfileImage>? profileImages = null,
+            IEnumerable<AuthenticationLog>? authenticationLogs = null) => new User(id, userName, firstName, name,
             biography, registeredSince, roleIds, emails, authenticationProvider, password, salt, profileImages,
             authenticationLogs);
 

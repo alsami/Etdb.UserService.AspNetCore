@@ -18,14 +18,15 @@ namespace Etdb.UserService.Repositories
             this.cache = cache;
         }
 
-        public override async Task AddAsync(User user, string collectionName = null, string partitionKey = null)
+        public override async Task AddAsync(User user, string? collectionName = null, string? partitionKey = null)
         {
             await base.AddAsync(user, collectionName, partitionKey);
 
             await this.cache.AddAsync(user.Id, user);
         }
 
-        public override async Task<bool> EditAsync(User user, string collectionName = null, string partitionKey = null)
+        public override async Task<bool> EditAsync(User user, string? collectionName = null,
+            string? partitionKey = null)
         {
             if (!await base.EditAsync(user, collectionName, partitionKey)) return false;
 
@@ -34,7 +35,7 @@ namespace Etdb.UserService.Repositories
             return true;
         }
 
-        public override async Task<User> FindAsync(Guid id, string collectionName = null, string partitionKey = null)
+        public override async Task<User?> FindAsync(Guid id, string? collectionName = null, string? partitionKey = null)
         {
             var cachedUser = await this.cache.FindAsync<User, Guid>(id);
 
@@ -52,8 +53,9 @@ namespace Etdb.UserService.Repositories
             return user;
         }
 
-        public override async Task<User> FindAsync(Expression<Func<User, bool>> predicate, string collectionName = null,
-            string partitionKey = null)
+        public override async Task<User?> FindAsync(Expression<Func<User, bool>> predicate,
+            string? collectionName = null,
+            string? partitionKey = null)
         {
             var user = await base.FindAsync(predicate, collectionName, partitionKey);
 

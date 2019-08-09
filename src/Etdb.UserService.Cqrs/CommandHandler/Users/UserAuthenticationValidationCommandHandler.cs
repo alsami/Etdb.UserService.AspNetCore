@@ -38,7 +38,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
                 return FailedAuthentication(AuthenticationFailure.Unavailable);
             }
 
-            var passwordIsValid = this.hasher.CreateSaltedHash(command.Password, user.Salt)
+            var passwordIsValid = this.hasher.CreateSaltedHash(command.Password, user.Salt!)
                                   == user.Password;
 
             if (!passwordIsValid)
@@ -66,7 +66,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
         private Task PublishAuthenticationEvent(AuthenticationLogType authenticationLogType, Guid userId,
             IPAddress ipAddress,
-            string additionalInfo = null, CancellationToken cancellationToken = default)
+            string? additionalInfo = null, CancellationToken cancellationToken = default)
             => this.bus.RaiseEventAsync(
                 new UserAuthenticatedEvent(authenticationLogType.ToString(), ipAddress, userId, DateTime.UtcNow,
                     additionalInfo),

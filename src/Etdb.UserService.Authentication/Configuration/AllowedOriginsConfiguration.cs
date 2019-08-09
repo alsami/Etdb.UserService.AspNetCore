@@ -2,6 +2,6 @@
 {
     public class AllowedOriginsConfiguration
     {
-        public string[] Origins { get; set; }
+        public string[] Origins { get; set; } = null!;
     }
 }

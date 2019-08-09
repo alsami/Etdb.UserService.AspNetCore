@@ -4,15 +4,15 @@ namespace Etdb.UserService.Presentation.Users
 {
     public class UserRegisterDto
     {
-        public string FirstName { get; }
+        public string FirstName { get; set; } = null!;
 
-        public string Name { get; }
+        public string Name { get; set; } = null!;
 
-        public string UserName { get; }
+        public string UserName { get; set; } = null!;
 
-        public string Password { get; }
+        public string Password { get; set; } = null!;
 
-        public ICollection<AddEmailDto> Emails { get; }
+        public ICollection<AddEmailDto> Emails { get; set; } = null!;
 
         public UserRegisterDto(string firstName, string name, string userName, string password,
             ICollection<AddEmailDto> emails)
@@ -22,6 +22,10 @@ namespace Etdb.UserService.Presentation.Users
             this.UserName = userName;
             this.Password = password;
             this.Emails = emails;
+        }
+
+        public UserRegisterDto()
+        {
         }
     }
 }

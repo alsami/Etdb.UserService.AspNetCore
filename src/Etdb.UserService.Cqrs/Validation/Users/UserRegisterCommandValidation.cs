@@ -23,7 +23,7 @@ namespace Etdb.UserService.Cqrs.Validation.Users
                 .WithMessage("At least one email address must be given and only one can be marked as primary!");
         }
 
-        private static bool HasOnlyOnePrimaryEmail(ICollection<EmailAddCommand> commands)
+        private static bool HasOnlyOnePrimaryEmail(ICollection<EmailAddCommand>? commands)
         {
             return commands?.Count(email => email.IsPrimary) == 1;
         }

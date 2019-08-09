@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Domain.Entities;
@@ -60,13 +59,13 @@ namespace Etdb.UserService.Services
 
         public Task EditAsync(User user) => this.usersRepository.EditAsync(user);
 
-        public Task<User> FindByIdAsync(Guid id) => this.usersRepository.FindAsync(id);
+        public Task<User?> FindByIdAsync(Guid id) => this.usersRepository.FindAsync(id);
 
         public async Task<bool> IsUserLocked(Guid id)
         {
             var user = await this.usersRepository.FindAsync(id);
 
-            if (user.AuthenticationProvider != AuthenticationProvider.UsernamePassword)
+            if (user!.AuthenticationProvider != AuthenticationProvider.UsernamePassword)
             {
                 return false;
             }
@@ -105,14 +104,14 @@ namespace Etdb.UserService.Services
             return foundFailedLoginsInARow == UsersService.MaxFailedLoginCount;
         }
 
-        public Task<User> FindByUserNameAsync(string userName)
+        public Task<User?> FindByUserNameAsync(string userName)
         {
             if (string.IsNullOrWhiteSpace(userName)) throw new ArgumentException(nameof(userName));
 
             return this.usersRepository.FindAsync(UserNameEqualsExpression(userName));
         }
 
-        public Task<User> FindByUserNameOrEmailAsync(string userNameOrEmail)
+        public Task<User?> FindByUserNameOrEmailAsync(string userNameOrEmail)
         {
             if (string.IsNullOrWhiteSpace(userNameOrEmail)) throw new ArgumentException(nameof(userNameOrEmail));
 

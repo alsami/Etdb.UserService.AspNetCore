@@ -19,7 +19,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
 
         protected override Task<TokenResponse> RequestTokenAsync(RefreshAuthenticationCommand command,
             HttpClient client, Client identityClient,
-            DiscoveryResponse discoveryResponse, CancellationToken cancellationToken = default)
+            DiscoveryDocumentResponse discoveryResponse, CancellationToken cancellationToken = default)
             => client.RequestRefreshTokenAsync(new RefreshTokenRequest
             {
                 Address = discoveryResponse.TokenEndpoint,

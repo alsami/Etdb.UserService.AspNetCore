@@ -2,8 +2,8 @@
 {
     public class IdentityServerConfiguration
     {
-        public Client[] Clients { get; set; }
+        public Client[] Clients { get; set; } = null!;
 
-        public string Authority { get; set; }
+        public string Authority { get; set; } = null!;
     }
 }
