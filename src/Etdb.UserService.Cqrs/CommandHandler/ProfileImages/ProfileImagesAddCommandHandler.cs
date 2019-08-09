@@ -31,7 +31,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
             this.resourceLockingAdapter = resourceLockingAdapter;
         }
 
-        public async Task<IEnumerable<ProfileImageMetaInfoDto>> Handle(ProfileImagesAddCommand command,
+        public async Task<IEnumerable<ProfileImageMetaInfoDto>?> Handle(ProfileImagesAddCommand command,
             CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByIdAsync(command.UserId);

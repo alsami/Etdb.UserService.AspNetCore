@@ -6,12 +6,12 @@ namespace Etdb.UserService.Presentation.Authentication
     // ReSharper disable MemberCanBePrivate.Global
     public class AccessTokenDto
     {
-        public string AccessToken { get; }
-        public string RefreshToken { get; }
-        public DateTime ExpiresAt { get; }
-        public string TokenType { get; }
+        public string AccessToken { get; set; } = null!;
+        public string RefreshToken { get; set; } = null!;
+        public DateTime ExpiresAt { get; set; }
+        public string TokenType { get; set; } = null!;
 
-        public string AuthenticationProvider { get; }
+        public string AuthenticationProvider { get; set; } = null!;
 
         public AccessTokenDto(string accessToken, string refreshToken, DateTime expiresAt, string tokenType,
             string authenticationProvider)
@@ -21,6 +21,10 @@ namespace Etdb.UserService.Presentation.Authentication
             this.ExpiresAt = expiresAt;
             this.TokenType = tokenType;
             this.AuthenticationProvider = authenticationProvider;
+        }
+
+        public AccessTokenDto()
+        {
         }
     }
 }

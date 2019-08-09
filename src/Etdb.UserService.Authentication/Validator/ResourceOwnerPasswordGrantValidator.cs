@@ -36,7 +36,7 @@ namespace Etdb.UserService.Authentication.Validator
                 await this.bus.SendCommandAsync<UserAuthenticationValidationCommand, AuthenticationValidationDto>(
                     command);
 
-            if (userAuthenticationValidation.IsValid)
+            if (userAuthenticationValidation!.IsValid)
             {
                 var claims =
                     await this.bus.SendCommandAsync<ClaimsLoadCommand, IEnumerable<Claim>>(

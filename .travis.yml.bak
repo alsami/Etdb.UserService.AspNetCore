@@ -3,11 +3,7 @@ dist: bionic
 language: csharp
 solution: Etdb.UserService.AspNetCore.sln
 mono: none
-addons:
-  snaps:
-    - name: dotnet-sdk
-      classic: true
-      channel: latest/beta
+dotnet: 2.2.300
 env:
   global:
     - DocumentDbContextOptions__ConnectionString="mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@localhost:27017"
@@ -21,8 +17,6 @@ jobs:
   include:
     - stage: build
       name: build solution
-      before_script:
-      - sudo snap alias dotnet-sdk.dotnet dotnet
       script: dotnet restore && dotnet build
     - stage: test
       name: run-tests
@@ -30,7 +24,6 @@ jobs:
         - mongodb
         - redis-server
       before_script:
-        - sudo snap alias dotnet-sdk.dotnet dotnet
         - sh install_link_libgdiplus.sh
         - sh setup-mongodb-user.sh "$MONGODB_USERNAME" "$MONGODB_PASSWORD"
         - sh scaffold-database.sh

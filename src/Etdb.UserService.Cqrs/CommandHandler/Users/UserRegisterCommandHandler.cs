@@ -46,7 +46,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             this.mapper = mapper;
         }
 
-        public async Task<UserDto> Handle(UserRegisterCommand command, CancellationToken cancellationToken)
+        public async Task<UserDto?> Handle(UserRegisterCommand command, CancellationToken cancellationToken)
         {
             var provider = (AuthenticationProvider) Enum.Parse(typeof(AuthenticationProvider),
                 command.LoginProvider.ToString(), true);
@@ -99,12 +99,12 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
                 command.Name,
                 null,
                 DateTime.UtcNow, roles, emails,
-                password: this.hasher.CreateSaltedHash(command.PasswordAddCommand.NewPassword, salt), salt: salt);
+                password: this.hasher.CreateSaltedHash(command.PasswordAddCommand!.NewPassword, salt), salt: salt);
 
             return (userFromInternalAuthentication, profileImageMetaInfos);
         }
 
-        private static StoreImageMetaInfo GenerateProfileImageMetaInfoWhenAvailable(UserRegisterCommand command)
+        private static StoreImageMetaInfo? GenerateProfileImageMetaInfoWhenAvailable(UserRegisterCommand command)
         {
             if (command.ProfileImageAddCommand == null) return null;
 
@@ -147,7 +147,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
             if (provider == AuthenticationProvider.UsernamePassword)
             {
-                validationTasks.Add(this.passwordCommandValidation.ValidateCommandAsync(command.PasswordAddCommand));
+                validationTasks.Add(this.passwordCommandValidation.ValidateCommandAsync(command.PasswordAddCommand!));
             }
 
             return await Task.WhenAll(validationTasks);

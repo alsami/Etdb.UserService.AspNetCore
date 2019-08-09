@@ -26,7 +26,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
             this.identityServerClient = identityServerClient;
         }
 
-        public async Task<IdentityUserDto> Handle(IdentityUserLoadCommand command, CancellationToken cancellationToken)
+        public async Task<IdentityUserDto?> Handle(IdentityUserLoadCommand command, CancellationToken cancellationToken)
         {
             var client = this.identityServerClient.Client;
 

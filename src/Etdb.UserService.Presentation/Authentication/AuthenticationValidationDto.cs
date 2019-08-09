@@ -5,11 +5,11 @@ namespace Etdb.UserService.Presentation.Authentication
 {
     public class AuthenticationValidationDto
     {
-        public bool IsValid { get; }
+        public bool IsValid { get; set; }
 
-        public AuthenticationFailure? AuthenticationFailure { get; }
+        public AuthenticationFailure? AuthenticationFailure { get; set; }
 
-        public Guid UserId { get; }
+        public Guid UserId { get; set; }
 
         public AuthenticationValidationDto(bool isValid, AuthenticationFailure? authenticationFailure = null,
             Guid? userId = null)
@@ -17,6 +17,10 @@ namespace Etdb.UserService.Presentation.Authentication
             this.AuthenticationFailure = authenticationFailure;
             this.IsValid = isValid;
             this.UserId = userId.GetValueOrDefault();
+        }
+
+        public AuthenticationValidationDto()
+        {
         }
     }
 }

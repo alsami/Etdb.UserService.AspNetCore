@@ -21,7 +21,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             this.mapper = mapper;
         }
 
-        public async Task<UserDto> Handle(UserSearchByUsernameAndEmailCommand command,
+        public async Task<UserDto?> Handle(UserSearchByUsernameAndEmailCommand command,
             CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByUserNameOrEmailAsync(command.UserNameOrEmail);

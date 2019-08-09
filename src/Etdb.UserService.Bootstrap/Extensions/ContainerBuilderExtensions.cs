@@ -23,6 +23,7 @@ using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
 using Etdb.UserService.Worker;
 using MediatR.Extensions.Autofac.DependencyInjection;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Hosting;
@@ -32,7 +33,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
     public static class ContainerBuilderExtensions
     {
         public static void SetupDependencies(this ContainerBuilder containerBuilder,
-            IHostingEnvironment hostingEnvironment)
+            IWebHostEnvironment hostingEnvironment)
         {
             var builder = new AutofacFluentBuilder(containerBuilder
                     .AddMediatR(typeof(UserRegisterCommandHandler).Assembly)

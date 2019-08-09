@@ -1,6 +1,7 @@
 <Project>
     <PropertyGroup>
-        <LangVersion>7.2</LangVersion>
+        <LangVersion>8.0</LangVersion>
+        <Nullable>enable</Nullable>
         <Copyright>2019©Sami Al Khatib</Copyright>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <RepositoryType>git</RepositoryType>

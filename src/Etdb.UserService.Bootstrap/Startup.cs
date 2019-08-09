@@ -9,18 +9,19 @@ using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Repositories;
 using Etdb.UserService.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
+using ApplicationBuilderExtensions = Etdb.UserService.Bootstrap.Extensions.ApplicationBuilderExtensions;
 
 namespace Etdb.UserService.Bootstrap
 {
     public class Startup
     {
         private readonly IConfiguration configuration;
-        private readonly IHostingEnvironment environment;
+        private readonly IWebHostEnvironment environment;
 
         private const string SwaggerDocDescription = "Etdb " + ServiceNames.UserService + " V1";
         private const string SwaggerDocVersion = "v1";
@@ -28,7 +29,7 @@ namespace Etdb.UserService.Bootstrap
         private const string CorsPolicyName = "AllowAll";
         private const string AuthenticationSchema = "Bearer";
 
-        public Startup(IHostingEnvironment environment, IConfiguration configuration)
+        public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
             this.environment = environment;
             this.configuration = configuration;
@@ -51,8 +52,8 @@ namespace Etdb.UserService.Bootstrap
 
             services
                 .AddSingleton(new ContextLessRouteProvider())
-                .ConfigureMvc()
                 .ConfigureCors(this.environment, allowedOrigins, Startup.CorsPolicyName)
+                .ConfigureMvc()
                 .ConfigureAllowedOriginsOptions(this.configuration)
                 .ConfigureIdentityServerAuthorization(identityServerConfiguration, redisCacheOptions, this.environment)
                 .ConfigureIdentityServerAuthentication(this.environment, Startup.AuthenticationSchema,
@@ -63,7 +64,7 @@ namespace Etdb.UserService.Bootstrap
                 .ConfigureFileStoreOptions(this.configuration, this.environment)
                 .ConfigureCompression()
                 .ConfigureHttpClients()
-                .ConfigureSwaggerGen(this.environment, new Info
+                .ConfigureSwaggerGen(this.environment, new OpenApiInfo
                 {
                     Title = Startup.SwaggerDocDescription,
                     Version = Startup.SwaggerDocVersion
@@ -80,7 +81,7 @@ namespace Etdb.UserService.Bootstrap
                 .UseResponseCompression()
                 .UseCors(Startup.CorsPolicyName)
                 .UseIdentityServer()
-                .SetupMvc();
+                .UseMvcAndCaptureRouteData();
 
             var context = (UserServiceDbContext) app.ApplicationServices.GetRequiredService<DocumentDbContext>();
 

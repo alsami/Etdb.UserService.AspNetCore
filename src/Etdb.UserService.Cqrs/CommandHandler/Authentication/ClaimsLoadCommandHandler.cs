@@ -28,7 +28,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
             this.profileImageUrlFactory = profileImageUrlFactory;
         }
 
-        public async Task<IEnumerable<Claim>> Handle(ClaimsLoadCommand command, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Claim>?> Handle(ClaimsLoadCommand command, CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByIdAsync(command.Id);
 
@@ -49,7 +49,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
                 var existingRole = await this.rolesRepository.FindAsync(roleId)
                     .ConfigureAwait(false);
 
-                claims.Add(new Claim(JwtClaimTypes.Role, existingRole.Name));
+                claims.Add(new Claim(JwtClaimTypes.Role, existingRole!.Name));
             }
 
             claims.AddRange(new[]

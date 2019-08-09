@@ -5,26 +5,26 @@ namespace Etdb.UserService.Presentation.Authentication
     // ReSharper disable UnusedAutoPropertyAccessor.Global
     public class IdentityUserDto
     {
-        public Guid Id { get; }
+        public Guid Id { get; set; }
 
-        public string FirstName { get; }
+        public string? FirstName { get; set; }
 
-        public string LastName { get; }
+        public string? LastName { get; set; }
 
         public string FullName => $"{this.FirstName} {this.LastName}";
 
-        public string UserName { get; }
+        public string UserName { get; set; } = null!;
 
-        public string Email { get; }
+        public string Email { get; set; } = null!;
 
-        public string[] Roles { get; }
+        public string[] Roles { get; set; } = null!;
 
-        public string AuthenticationProvider { get; }
+        public string AuthenticationProvider { get; set; } = null!;
 
-        public string ProfileImageUrl { get; }
+        public string? ProfileImageUrl { get; set; }
 
-        public IdentityUserDto(Guid id, string firstName, string lastName, string userName, string email,
-            string[] roles, string authenticationProvider, string profileImageUrl)
+        public IdentityUserDto(Guid id, string? firstName, string? lastName, string userName, string email,
+            string[] roles, string authenticationProvider, string? profileImageUrl)
         {
             this.Id = id;
             this.FirstName = firstName;
@@ -34,6 +34,10 @@ namespace Etdb.UserService.Presentation.Authentication
             this.Roles = roles;
             this.AuthenticationProvider = authenticationProvider;
             this.ProfileImageUrl = profileImageUrl;
+        }
+
+        public IdentityUserDto()
+        {
         }
     }
 }

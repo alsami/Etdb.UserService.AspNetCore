@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -124,7 +123,8 @@ namespace Etdb.UserService.Bootstrap.Tests
                 new UserPasswordChangeDto(registerDto.Password, Guid.NewGuid().ToString().Replace("-", ""));
 
             var userPasswordChangeResponse = await client.PatchAsync($"api/v1/users/{identityUserDto.Id}/password",
-                new StringContent(JsonConvert.SerializeObject(userPasswordChangeDto), Encoding.UTF8, "application/json"));
+                new StringContent(JsonConvert.SerializeObject(userPasswordChangeDto), Encoding.UTF8,
+                    "application/json"));
 
             Assert.True(userPasswordChangeResponse.IsSuccessStatusCode,
                 await userPasswordChangeResponse.Content.ReadAsStringAsync());
@@ -136,7 +136,7 @@ namespace Etdb.UserService.Bootstrap.Tests
             Assert.True(authenticationResponse.IsSuccessStatusCode,
                 await authenticationResponse.Content.ReadAsStringAsync());
         }
-        
+
         [Fact]
         public async Task UsersController_ProfileInfoChangeAsync_Succeeds()
         {

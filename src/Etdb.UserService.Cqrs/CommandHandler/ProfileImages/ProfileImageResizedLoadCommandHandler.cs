@@ -31,7 +31,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
             this.imageCompressionService = imageCompressionService;
         }
 
-        public async Task<FileDownloadInfoDto> Handle(ProfileImageResizedLoadCommand command,
+        public async Task<FileDownloadInfoDto?> Handle(ProfileImageResizedLoadCommand command,
             CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByIdAsync(command.UserId);

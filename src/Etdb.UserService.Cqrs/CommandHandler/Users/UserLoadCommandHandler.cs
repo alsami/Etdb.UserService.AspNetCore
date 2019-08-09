@@ -20,7 +20,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             this.mapper = mapper;
         }
 
-        public async Task<UserDto> Handle(UserLoadCommand request, CancellationToken cancellationToken)
+        public async Task<UserDto?> Handle(UserLoadCommand request, CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByIdAsync(request.Id);
 

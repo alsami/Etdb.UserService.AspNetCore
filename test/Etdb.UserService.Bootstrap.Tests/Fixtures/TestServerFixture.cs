@@ -39,7 +39,7 @@ namespace Etdb.UserService.Bootstrap.Tests.Fixtures
                 .WriteTo.Console(
                     outputTemplate:
                     "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
-                    theme: AnsiConsoleTheme.Literate, restrictedToMinimumLevel:LogEventLevel.Error)
+                    theme: AnsiConsoleTheme.Literate, restrictedToMinimumLevel: LogEventLevel.Error)
                 .CreateLogger();
 
             this.IdentityServer = new TestServer(new WebHostBuilder()

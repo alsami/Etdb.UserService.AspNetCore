@@ -9,9 +9,11 @@ using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Bootstrap.Extensions;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Services.Abstractions;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.Hosting.Internal;
+using Microsoft.Extensions.Hosting;
+using Moq;
 using Xunit;
 
 namespace Etdb.UserService.Bootstrap.Tests
@@ -23,7 +25,11 @@ namespace Etdb.UserService.Bootstrap.Tests
         {
             var containerBuilder = new ContainerBuilder();
 
-            containerBuilder.SetupDependencies(new HostingEnvironment());
+            var webHostEnvironmentMock = new Mock<IWebHostEnvironment>();
+
+            webHostEnvironmentMock.Object.EnvironmentName = Environments.Development;
+
+            containerBuilder.SetupDependencies(webHostEnvironmentMock.Object);
 
 
             var container = containerBuilder.Build();

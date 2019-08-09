@@ -28,7 +28,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
             this.fileService = fileService;
         }
 
-        public async Task<FileDownloadInfoDto> Handle(ProfileImageLoadCommand request,
+        public async Task<FileDownloadInfoDto?> Handle(ProfileImageLoadCommand request,
             CancellationToken cancellationToken)
         {
             var user = await this.usersService.FindByIdAsync(request.UserId);

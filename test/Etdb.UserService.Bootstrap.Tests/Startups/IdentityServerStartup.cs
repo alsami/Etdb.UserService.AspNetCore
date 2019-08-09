@@ -16,16 +16,17 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using IHostingEnvironment = Microsoft.Extensions.Hosting.IHostingEnvironment;
+using Microsoft.Extensions.Hosting;
+using ApplicationBuilderExtensions = Etdb.UserService.Bootstrap.Extensions.ApplicationBuilderExtensions;
 
 namespace Etdb.UserService.Bootstrap.Tests.Startups
 {
     public class IdentityServerStartup
     {
-        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly IWebHostEnvironment hostingEnvironment;
         private readonly HttpMessageHandler httpMessageHandler;
 
-        public IdentityServerStartup(IHostingEnvironment hostingEnvironment, HttpMessageHandler httpMessageHandler)
+        public IdentityServerStartup(IWebHostEnvironment hostingEnvironment, HttpMessageHandler httpMessageHandler)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.httpMessageHandler = httpMessageHandler;
@@ -47,7 +48,7 @@ namespace Etdb.UserService.Bootstrap.Tests.Startups
                 .GetSection(nameof(RedisCacheOptions))
                 .Get<RedisCacheOptions>();
 
-            this.hostingEnvironment.EnvironmentName = EnvironmentName.Development;
+            this.hostingEnvironment.EnvironmentName = Environments.Development;
 
             services
                 .AddSingleton(new ContextLessRouteProvider())
@@ -72,8 +73,7 @@ namespace Etdb.UserService.Bootstrap.Tests.Startups
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseIdentityServer()
-                .SetupMvc();
+            ApplicationBuilderExtensions.UseMvcAndCaptureRouteData(app.UseIdentityServer());
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

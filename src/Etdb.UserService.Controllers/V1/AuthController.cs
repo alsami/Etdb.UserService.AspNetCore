@@ -12,8 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Etdb.UserService.Controllers.V1
 {
+    [ApiController]
     [Route("api/v1/[controller]")]
-    public class AuthController : Controller
+    public class AuthController : ControllerBase
     {
         private readonly IMapper mapper;
         private readonly IBus bus;
@@ -43,7 +44,7 @@ namespace Etdb.UserService.Controllers.V1
 
         [AllowAnonymous]
         [HttpPost("authentication")]
-        public Task<AccessTokenDto> AuthenticationAsync([FromBody] InternalAuthenticationDto authenticationDto)
+        public Task<AccessTokenDto?> AuthenticationAsync([FromBody] InternalAuthenticationDto authenticationDto)
         {
             var command = this.mapper.Map<InternalAuthenticationCommand>(authenticationDto);
 
@@ -52,7 +53,7 @@ namespace Etdb.UserService.Controllers.V1
 
         [AllowAnonymous]
         [HttpPost("external-authentication")]
-        public Task<AccessTokenDto> ExternalAuthenticationAsync(
+        public Task<AccessTokenDto?> ExternalAuthenticationAsync(
             [FromBody] ExternalAuthenticationDto authenticationDto)
         {
             var command = this.mapper.Map<ExternalAuthenticationCommand>(authenticationDto);
@@ -62,13 +63,13 @@ namespace Etdb.UserService.Controllers.V1
 
         [AllowAnonymous]
         [HttpGet("refresh-authentication/{refreshToken}/{clientId}/{authenticationProvider}")]
-        public Task<AccessTokenDto> RefreshAuthenticationAsync(string refreshToken, string clientId,
+        public Task<AccessTokenDto?> RefreshAuthenticationAsync(string refreshToken, string clientId,
             string authenticationProvider)
             => this.bus.SendCommandAsync<RefreshAuthenticationCommand, AccessTokenDto>(
                 new RefreshAuthenticationCommand(refreshToken, clientId, authenticationProvider));
 
         [HttpGet("user-identity/{accessToken}")]
-        public Task<IdentityUserDto> UserIdentityAsync(string accessToken)
+        public Task<IdentityUserDto?> UserIdentityAsync(string accessToken)
             => this.bus.SendCommandAsync<IdentityUserLoadCommand, IdentityUserDto>(
                 new IdentityUserLoadCommand(accessToken));
     }

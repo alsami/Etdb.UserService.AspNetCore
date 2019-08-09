@@ -1,12 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
 using Etdb.UserService.Bootstrap.Extensions;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
@@ -19,34 +21,38 @@ namespace Etdb.UserService.Bootstrap
         private static readonly string LogPath = Path.Combine(AppContext.BaseDirectory, "Logs",
             $"{Assembly.GetExecutingAssembly().GetName().Name}.log");
 
-        public static void Main(string[] args) => CreateWebHostBuilder(args).Build().Run();
+        public static Task Main(string[] args) => CreateHostBuilder(args).Build().RunAsync();
 
-        private static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .ConfigureServices(ConfigureService)
-                .ConfigureLogging(ConfigureLogging)
-                .ConfigureAppConfiguration(ConfigureAppConfiguration)
-                .CaptureStartupErrors(true)
-                .UseSetting(WebHostDefaults.DetailedErrorsKey, true.ToString())
-                .UseContentRoot(AppContext.BaseDirectory)
-                .UseStartup<Startup>()
-                .UseSerilog()
-                .UseKestrel();
+        private static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .ConfigureWebHostDefaults(webHostBuilder =>
+                {
+                    webHostBuilder.ConfigureServices(ConfigureService)
+                        .ConfigureLogging(ConfigureLogging)
+                        .ConfigureAppConfiguration(ConfigureAppConfiguration)
+                        .CaptureStartupErrors(true)
+                        .UseSetting(WebHostDefaults.DetailedErrorsKey, true.ToString())
+                        .UseContentRoot(AppContext.BaseDirectory)
+                        .UseStartup<Startup>()
+                        .UseSerilog()
+                        .UseKestrel();
+                });
+
 
         private static void ConfigureService(WebHostBuilderContext context, IServiceCollection services)
         {
-            var environment = ((Microsoft.Extensions.Hosting.IHostingEnvironment) context.HostingEnvironment);
+            var environment = context.HostingEnvironment;
 
             environment.EnvironmentName = Environment.GetEnvironmentVariable("ASPNETCORE:Environment")
                                           ?? Environment.GetEnvironmentVariable("ASPNETCORE__Environment")
                                           ?? Environment.GetEnvironmentVariable("ASPNETCORE_Environment")
-                                          ?? EnvironmentName.Development;
-            services.AddAutofac();
+                                          ?? Environments.Development;
         }
 
         private static void ConfigureLogging(WebHostBuilderContext context, ILoggingBuilder _)
         {
-            var environment = ((Microsoft.Extensions.Hosting.IHostingEnvironment) context.HostingEnvironment);
+            var environment = context.HostingEnvironment;
 
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Is(environment.IsAnyLocalDevelopment() ? LogEventLevel.Debug : LogEventLevel.Information)
@@ -62,8 +68,8 @@ namespace Etdb.UserService.Bootstrap
         private static void ConfigureAppConfiguration(WebHostBuilderContext context, IConfigurationBuilder builder)
         {
             builder
-                .AddUserSecrets("Etdb_UserService")
-                .AddEnvironmentVariables();
+                .AddEnvironmentVariables()
+                .AddUserSecrets("Etdb_UserService");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Etdb.UserService.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Routing;
@@ -9,7 +10,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
 {
     public static class ApplicationBuilderExtensions
     {
-        public static IApplicationBuilder SetupSwagger(this IApplicationBuilder app, IHostingEnvironment environment,
+        public static IApplicationBuilder SetupSwagger(this IApplicationBuilder app, IWebHostEnvironment environment,
             string jsonUri,
             string description)
         {
@@ -23,12 +24,12 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .UseSwaggerUI(action => action.SwaggerEndpoint(jsonUri, description));
         }
 
-        public static IApplicationBuilder SetupHsts(this IApplicationBuilder app, IHostingEnvironment environment)
+        public static IApplicationBuilder SetupHsts(this IApplicationBuilder app, IWebHostEnvironment environment)
         {
             return environment.IsAnyLocalDevelopment() ? app : app.UseHsts();
         }
 
-        public static IApplicationBuilder SetupForwarding(this IApplicationBuilder app, IHostingEnvironment environment)
+        public static IApplicationBuilder SetupForwarding(this IApplicationBuilder app, IWebHostEnvironment environment)
         {
             if (environment.IsDevelopment())
             {
@@ -42,7 +43,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
         }
 
         // ReSharper disable once UnusedMethodReturnValue.Global
-        public static IApplicationBuilder SetupMvc(this IApplicationBuilder app)
+        public static IApplicationBuilder UseMvcAndCaptureRouteData(this IApplicationBuilder app)
         {
             //// very hacky shit
             //// we need to access the route data outside of mvc-requests
@@ -51,10 +52,10 @@ namespace Etdb.UserService.Bootstrap.Extensions
             //// see for the reason https://github.com/aspnet/Mvc/issues/5164
             var contextLessRouteProvider = app.ApplicationServices.GetRequiredService<ContextLessRouteProvider>();
 
-            IRouteBuilder routeBuilder = null;
+            IRouteBuilder? routeBuilder = null;
             app.UseMvc(builder => routeBuilder = builder);
 
-            contextLessRouteProvider.Router = routeBuilder.Build();
+            contextLessRouteProvider.Router = routeBuilder!.Build();
 
             return app;
             // TODO use new logic

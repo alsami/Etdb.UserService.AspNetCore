@@ -17,8 +17,9 @@ using Microsoft.Net.Http.Headers;
 
 namespace Etdb.UserService.Controllers.V1
 {
+    [ApiController]
     [Route("api/v1/users/{userId:Guid}/profileimages")]
-    public class ProfileImagesController : Controller
+    public class ProfileImagesController : ControllerBase
     {
         private readonly IBus bus;
 
@@ -36,7 +37,7 @@ namespace Etdb.UserService.Controllers.V1
                 await this.bus.SendCommandAsync<ProfileImageLoadCommand, FileDownloadInfoDto>(
                     new ProfileImageLoadCommand(id, userId), cancellationToken);
 
-            return new FileContentResult(profileImageDownloadInfo.File,
+            return new FileContentResult(profileImageDownloadInfo!.File,
                 new MediaTypeHeaderValue(profileImageDownloadInfo.MediaType))
             {
                 FileDownloadName = profileImageDownloadInfo.Name,
@@ -53,7 +54,7 @@ namespace Etdb.UserService.Controllers.V1
                 await this.bus.SendCommandAsync<ProfileImageResizedLoadCommand, FileDownloadInfoDto>(
                     new ProfileImageResizedLoadCommand(id, userId, dimensionX, dimensionY), cancellationToken);
 
-            return new FileContentResult(profileImageDownloadInfo.File,
+            return new FileContentResult(profileImageDownloadInfo!.File,
                 new MediaTypeHeaderValue(profileImageDownloadInfo.MediaType))
             {
                 FileDownloadName = profileImageDownloadInfo.Name,
@@ -75,7 +76,7 @@ namespace Etdb.UserService.Controllers.V1
         }
 
         [HttpPost("multiple")]
-        public async Task<IEnumerable<ProfileImageMetaInfoDto>> MultiUploadAsync(CancellationToken cancellationToken,
+        public async Task<IEnumerable<ProfileImageMetaInfoDto>?> MultiUploadAsync(CancellationToken cancellationToken,
             Guid userId, [FromForm] IEnumerable<IFormFile> files)
         {
             var extractTasks = files.Select(async file => new UploadImageMetaInfo(file.FileName,

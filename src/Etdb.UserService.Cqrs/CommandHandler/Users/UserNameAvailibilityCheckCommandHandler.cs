@@ -18,7 +18,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             this.usersService = usersService;
         }
 
-        public async Task<UserNameAvailabilityDto> Handle(UserNameAvailabilityCheckCommand request,
+        public async Task<UserNameAvailabilityDto?> Handle(UserNameAvailabilityCheckCommand request,
             CancellationToken cancellationToken)
         {
             var existingUser = await this.usersService.FindByUserNameAsync(request.UserName);

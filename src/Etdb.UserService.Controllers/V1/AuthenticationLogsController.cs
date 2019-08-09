@@ -10,8 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Etdb.UserService.Controllers.V1
 {
+    [ApiController]
     [Route("api/v1/users/{userId:Guid}/authentication-logs")]
-    public class AuthenticationLogsController : Controller
+    public class AuthenticationLogsController : ControllerBase
     {
         private readonly IBus bus;
 
@@ -21,7 +22,7 @@ namespace Etdb.UserService.Controllers.V1
         }
 
         [HttpGet(Name = RouteNames.AuthenticationLogs.LoadAllRoute)]
-        public Task<IEnumerable<AuthenticationLogDto>> LoadAsync(CancellationToken cancellationToken, Guid userId)
+        public Task<IEnumerable<AuthenticationLogDto>?> LoadAsync(CancellationToken cancellationToken, Guid userId)
         {
             var command = new AuthenticationLogsForUserLoadCommand(userId);
 

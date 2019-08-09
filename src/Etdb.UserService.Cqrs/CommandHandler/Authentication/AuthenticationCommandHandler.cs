@@ -27,7 +27,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
             this.identityServerOptions = identityServerOptions;
         }
 
-        public async Task<AccessTokenDto> Handle(TCommand command, CancellationToken cancellationToken)
+        public async Task<AccessTokenDto?> Handle(TCommand command, CancellationToken cancellationToken)
         {
             if (!this.TryFindClient(command, out var identityClient))
             {
@@ -59,7 +59,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
 
         protected abstract Task<TokenResponse> RequestTokenAsync(TCommand command, HttpClient client,
             Client identityClient,
-            DiscoveryResponse discoveryResponse, CancellationToken cancellationToken = default);
+            DiscoveryDocumentResponse discoveryResponse, CancellationToken cancellationToken = default);
 
 
         private bool TryFindClient(TCommand command, out Client client)

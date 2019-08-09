@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+      <TargetFramework>netcoreapp3.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,11 +13,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Etdb.ServiceBase.Constants" Version="2.6.0" />
-      <PackageReference Include="Etdb.ServiceBase.Cqrs.Abstractions" Version="2.6.0" />
-      <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="2.6.0" />
-      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="2.2.0" />
-      <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
+      <PackageReference Include="Etdb.ServiceBase.Constants" Version="3.0.0-preview.1" />
+      <PackageReference Include="Etdb.ServiceBase.Cqrs.Abstractions" Version="3.0.0-preview.1" />
+      <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="3.0.0-preview.1" />
+      <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.0.0-preview7.19362.4" />
+      <PackageReference Include="Microsoft.Extensions.Http" Version="3.0.0-preview7.19362.4" />
     </ItemGroup>
 
 </Project>

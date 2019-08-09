@@ -9,8 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Etdb.UserService.Controllers.V1
 {
+    [ApiController]
     [Route("api/v1/[controller]")]
-    public class UsersController : Controller
+    public class UsersController : ControllerBase
     {
         private readonly IBus bus;
 
@@ -21,7 +22,7 @@ namespace Etdb.UserService.Controllers.V1
 
         [AllowAnonymous]
         [HttpGet("{id:Guid}")]
-        public Task<UserDto> LoadAsync(CancellationToken cancellationToken, Guid id)
+        public Task<UserDto?> LoadAsync(CancellationToken cancellationToken, Guid id)
         {
             var command = new UserLoadCommand(id);
 
@@ -30,7 +31,7 @@ namespace Etdb.UserService.Controllers.V1
 
         [AllowAnonymous]
         [HttpGet("availability/{*userName}")]
-        public Task<UserNameAvailabilityDto> AvailabilityAsync(CancellationToken cancellationToken,
+        public Task<UserNameAvailabilityDto?> AvailabilityAsync(CancellationToken cancellationToken,
             string userName)
         {
             var command = new UserNameAvailabilityCheckCommand(userName);
