@@ -1,22 +1,23 @@
 sudo: required
 dist: bionic
 language: csharp
-solution: Etdb.UserService.AspNetCore.sln
 mono: none
-addons:
-  snaps:
-    - name: dotnet-sdk
-      classic: true
-      channel: latest/beta
+solution: Etdb.UserService.AspNetCore.sln
 env:
   global:
     - DocumentDbContextOptions__ConnectionString="mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@localhost:27017"
     - DocumentDbContextOptions__DatabaseName="Etdb_UserService_Dev_Testing"
     - RedisCacheOptions__Configuration="${RedisConnection}"
     - RedisCacheOptions__InstanceName="Etdb_UserService_Travis"
+addons:
+  snaps:
+    - name: dotnet-sdk
+      classic: true
+      channel: latest/beta
 stages:
   - build
   - test
+  - create_client
 jobs:
   include:
     - stage: build
@@ -26,7 +27,7 @@ jobs:
       script: dotnet restore && dotnet build
     - stage: test
       name: run-tests
-      services: 
+      services:
         - mongodb
         - redis-server
       before_script:
@@ -35,4 +36,13 @@ jobs:
         - sh setup-mongodb-user.sh "$MONGODB_USERNAME" "$MONGODB_PASSWORD"
         - sh scaffold-database.sh
       script: ./run-tests.sh
+    - stage: create-client
+      name: create-client
+      if: tag IS present
+      before_script:
+        - sudo snap alias dotnet-sdk.dotnet dotnet
+        - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
+        - sudo apt-get install -y nodejs
+      script:
+        - sh create-client.sh
 

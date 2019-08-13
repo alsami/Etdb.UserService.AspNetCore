@@ -93,11 +93,6 @@ namespace Etdb.UserService.Bootstrap.Extensions
         public static IServiceCollection ConfigureSwaggerGen(this IServiceCollection services,
             IWebHostEnvironment environment, OpenApiInfo openApiInfo, string title)
         {
-            if (!environment.IsAnyLocalDevelopment())
-            {
-                return services;
-            }
-
             services.AddMvcCore()
                 .AddApiExplorer();
 

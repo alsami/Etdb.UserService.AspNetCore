@@ -9,7 +9,6 @@ using Etdb.UserService.Authentication.Validator;
 using Etdb.UserService.Bootstrap.Extensions;
 using Etdb.UserService.Bootstrap.Tests.Extensions;
 using Etdb.UserService.Misc.Configuration;
-using Etdb.UserService.Services;
 using IdentityServer4.Contrib.Caching.Redis.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
