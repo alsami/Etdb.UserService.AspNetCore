@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
 namespace Etdb.UserService.Bootstrap.Extensions
@@ -13,5 +14,8 @@ namespace Etdb.UserService.Bootstrap.Extensions
 
         public static bool IsAzureDevelopment(this IWebHostEnvironment hostingEnvironment)
             => hostingEnvironment.EnvironmentName == "AzureDev";
+
+        public static bool IsClientGen(this IWebHostEnvironment hostEnvironment)
+            => hostEnvironment.EnvironmentName.Equals("ClientGen", StringComparison.InvariantCultureIgnoreCase);
     }
 }

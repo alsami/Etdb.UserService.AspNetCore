@@ -243,3 +243,6 @@ ModelManifest.xml
 
 # Rider Files
 .idea/
+
+# Swagger
+swagger.json

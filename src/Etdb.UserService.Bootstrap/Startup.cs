@@ -7,13 +7,13 @@ using Etdb.UserService.Authentication.Strategies;
 using Etdb.UserService.Bootstrap.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Repositories;
-using Etdb.UserService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 namespace Etdb.UserService.Bootstrap
 {
@@ -36,10 +36,31 @@ namespace Etdb.UserService.Bootstrap
 
         public void ConfigureServices(IServiceCollection services)
         {
+            var configEnvironment = this.configuration["ASPNETCORE:Environment"];
+
+            this.environment.EnvironmentName = string.IsNullOrWhiteSpace(configEnvironment)
+                ? this.environment.EnvironmentName
+                : configEnvironment;
+
+            Log.Logger.Information($"Environment:\n{this.environment.EnvironmentName}");
+
+            Log.Logger.Information($"Config:\n{(this.configuration as IConfigurationRoot)!.GetDebugView()}");
+
+            if (this.environment.IsClientGen())
+            {
+                services.ConfigureApiControllers()
+                    .ConfigureSwaggerGen(this.environment, new OpenApiInfo
+                    {
+                        Title = Startup.SwaggerDocDescription,
+                        Version = Startup.SwaggerDocVersion
+                    }, Startup.SwaggerDocVersion);
+
+                return;
+            }
+
             var allowedOrigins = this.configuration
                 .GetSection(nameof(AllowedOriginsConfiguration))
                 .Get<string[]>();
-
 
             var identityServerConfiguration =
                 this.configuration.GetSection(nameof(IdentityServerConfiguration))
@@ -73,6 +94,14 @@ namespace Etdb.UserService.Bootstrap
 
         public void Configure(IApplicationBuilder app)
         {
+            if (this.environment.IsClientGen())
+            {
+                app.SetupSwagger(this.environment, Startup.SwaggerDocJsonUri, Startup.SwaggerDocDescription)
+                    .UseConfiguredRouting();
+                
+                return;
+            }
+
             app.SetupSwagger(this.environment, Startup.SwaggerDocJsonUri, Startup.SwaggerDocDescription)
                 .SetupHsts(this.environment)
                 .SetupForwarding(this.environment)
@@ -88,6 +117,8 @@ namespace Etdb.UserService.Bootstrap
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
+            if (this.environment.IsClientGen()) return;
+
             containerBuilder.SetupDependencies(this.environment);
         }
     }

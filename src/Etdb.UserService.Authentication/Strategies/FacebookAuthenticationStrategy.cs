@@ -50,7 +50,7 @@ namespace Etdb.UserService.Authentication.Strategies
 
             var facebookUser = JsonConvert.DeserializeObject<FacebookUserProfile>(json, this.SerializeSettings);
 
-            var existingUser = await this.SearchForExistingUserAsync(facebookUser.Email);
+            var existingUser = await this.SearchForExistingUserAsync(facebookUser!.Email);
 
             if (existingUser != null)
             {
@@ -100,7 +100,7 @@ namespace Etdb.UserService.Authentication.Strategies
                     this.SerializeSettings);
 
             this.logger.LogError(
-                $"Facebook authentication failed with code {errorContainer.Error.Code} and message\n{errorContainer.Error.Message}!");
+                $"Facebook authentication failed with code {errorContainer!.Error.Code} and message\n{errorContainer.Error.Message}!");
 
             return new GrantValidationResult(TokenRequestErrors.InvalidRequest, errorContainer.Error.Message);
         }

@@ -45,7 +45,7 @@ namespace Etdb.UserService.Authentication.Strategies
             var googleProfile =
                 JsonConvert.DeserializeObject<GoogleUserProfile>(json, this.SerializeSettings);
 
-            var existingUser = await this.SearchForExistingUserAsync(googleProfile.Email);
+            var existingUser = await this.SearchForExistingUserAsync(googleProfile!.Email);
 
             if (existingUser != null)
             {
@@ -92,7 +92,7 @@ namespace Etdb.UserService.Authentication.Strategies
                     this.SerializeSettings);
 
             this.logger.LogError(
-                $"Google authentication failed with code {errorContainer.Error.Code} and message\n{errorContainer.Error.Message}!");
+                $"Google authentication failed with code {errorContainer!.Error.Code} and message\n{errorContainer.Error.Message}!");
 
             return new GrantValidationResult(TokenRequestErrors.InvalidRequest, errorContainer.Error.Message);
         }

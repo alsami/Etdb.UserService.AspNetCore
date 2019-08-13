@@ -6,7 +6,6 @@ using Autofac.Extensions.DependencyInjection;
 using Etdb.UserService.Bootstrap.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -27,7 +26,7 @@ namespace Etdb.UserService.Bootstrap
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webHostBuilder =>
                 {
-                    webHostBuilder.ConfigureServices(ConfigureService)
+                    webHostBuilder
                         .ConfigureLogging(ConfigureLogging)
                         .ConfigureAppConfiguration(ConfigureAppConfiguration)
                         .CaptureStartupErrors(true)
@@ -37,17 +36,6 @@ namespace Etdb.UserService.Bootstrap
                         .UseSerilog()
                         .UseKestrel();
                 });
-
-
-        private static void ConfigureService(WebHostBuilderContext context, IServiceCollection services)
-        {
-            var environment = context.HostingEnvironment;
-
-            environment.EnvironmentName = Environment.GetEnvironmentVariable("ASPNETCORE:Environment")
-                                          ?? Environment.GetEnvironmentVariable("ASPNETCORE__Environment")
-                                          ?? Environment.GetEnvironmentVariable("ASPNETCORE_Environment")
-                                          ?? Environments.Development;
-        }
 
         private static void ConfigureLogging(WebHostBuilderContext context, ILoggingBuilder _)
         {

@@ -1,0 +1,17 @@
+[Unit]
+Description=Etdb.UserService running with ASP.NET Core
+
+[Service]
+WorkingDirectory=/var/www/Etdb.UserService.AspNetCore
+ExecStart=/snap/dotnet-sdk/current/dotnet /var/www/Etdb.UserService.AspNetCore/Etdb.UserService.Bootstrap.dll
+Restart=always
+# Restart service after 10 seconds if the dotnet service crashes:
+RestartSec=10
+KillSignal=SIGINT
+SyslogIdentifier=dotnet-etdb-userservice-aspnetcore
+User=travis
+Environment=ASPNETCORE__ENVIRONMENT=ClientGen
+Environment=DOTNET__PRINT__TELEMETRY__MESSAGE=false
+
+[Install]
+WantedBy=multi-user.target
