@@ -49,7 +49,7 @@ namespace Etdb.UserService.Bootstrap
             if (this.environment.IsClientGen())
             {
                 services.ConfigureApiControllers()
-                    .ConfigureSwaggerGen(this.environment, new OpenApiInfo
+                    .ConfigureSwaggerGen( new OpenApiInfo
                     {
                         Title = Startup.SwaggerDocDescription,
                         Version = Startup.SwaggerDocVersion
@@ -82,12 +82,7 @@ namespace Etdb.UserService.Bootstrap
                 .ConfigureIdentityServerConfigurationOptions(this.configuration)
                 .ConfigureFileStoreOptions(this.configuration, this.environment)
                 .ConfigureCompression()
-                .ConfigureHttpClients()
-                .ConfigureSwaggerGen(this.environment, new OpenApiInfo
-                {
-                    Title = Startup.SwaggerDocDescription,
-                    Version = Startup.SwaggerDocVersion
-                }, Startup.SwaggerDocVersion);
+                .ConfigureHttpClients();
 
             services.AddHttpClient<IGoogleAuthenticationStrategy, GoogleAuthenticationStrategy>();
         }
@@ -96,14 +91,13 @@ namespace Etdb.UserService.Bootstrap
         {
             if (this.environment.IsClientGen())
             {
-                app.SetupSwagger(this.environment, Startup.SwaggerDocJsonUri, Startup.SwaggerDocDescription)
+                app.SetupSwagger(Startup.SwaggerDocJsonUri, Startup.SwaggerDocDescription)
                     .UseConfiguredRouting();
                 
                 return;
             }
 
-            app.SetupSwagger(this.environment, Startup.SwaggerDocJsonUri, Startup.SwaggerDocDescription)
-                .SetupHsts(this.environment)
+            app.SetupHsts(this.environment)
                 .SetupForwarding(this.environment)
                 .UseResponseCompression()
                 .UseCors(Startup.CorsPolicyName)

@@ -7,7 +7,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
 {
     public static class ApplicationBuilderExtensions
     {
-        public static IApplicationBuilder SetupSwagger(this IApplicationBuilder app, IWebHostEnvironment environment,
+        public static IApplicationBuilder SetupSwagger(this IApplicationBuilder app, 
             string jsonUri,
             string description)
         {
