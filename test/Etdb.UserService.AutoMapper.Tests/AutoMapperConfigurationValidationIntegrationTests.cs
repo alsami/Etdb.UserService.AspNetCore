@@ -4,7 +4,7 @@ using AutoMapper.Contrib.Autofac.DependencyInjection;
 using Etdb.UserService.AutoMapper.Profiles;
 using Xunit;
 
-namespace Etdb.UserService.Controllers.Tests
+namespace Etdb.UserService.AutoMapper.Tests
 {
     public class AutoMapperConfigurationValidationIntegrationTests
     {

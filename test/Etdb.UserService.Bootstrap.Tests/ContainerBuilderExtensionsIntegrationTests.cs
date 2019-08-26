@@ -16,7 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Moq;
 using Xunit;
 
-namespace Etdb.UserService.Controllers.Tests
+namespace Etdb.UserService.Bootstrap.Tests
 {
     public class ContainerBuilderExtensionsIntegrationTests
     {
@@ -30,7 +30,6 @@ namespace Etdb.UserService.Controllers.Tests
             webHostEnvironmentMock.Object.EnvironmentName = Environments.Development;
 
             containerBuilder.SetupDependencies(webHostEnvironmentMock.Object);
-
 
             var container = containerBuilder.Build();
 
