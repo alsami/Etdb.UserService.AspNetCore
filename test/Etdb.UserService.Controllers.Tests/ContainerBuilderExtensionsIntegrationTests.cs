@@ -16,7 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Moq;
 using Xunit;
 
-namespace Etdb.UserService.Bootstrap.Tests
+namespace Etdb.UserService.Controllers.Tests
 {
     public class ContainerBuilderExtensionsIntegrationTests
     {

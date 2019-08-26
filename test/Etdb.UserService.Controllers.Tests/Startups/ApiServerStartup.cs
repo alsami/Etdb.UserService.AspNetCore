@@ -4,7 +4,7 @@ using System.Net.Http;
 using Autofac;
 using Etdb.ServiceBase.Constants;
 using Etdb.UserService.Bootstrap.Extensions;
-using Etdb.UserService.Bootstrap.Tests.Extensions;
+using Etdb.UserService.Controllers.Tests.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
@@ -15,7 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Etdb.UserService.Bootstrap.Tests.Startups
+namespace Etdb.UserService.Controllers.Tests.Startups
 {
     public class ApiServerStartup
     {

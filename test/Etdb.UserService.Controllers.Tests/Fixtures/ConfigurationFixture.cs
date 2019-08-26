@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 
-namespace Etdb.UserService.Bootstrap.Tests.Fixtures
+namespace Etdb.UserService.Controllers.Tests.Fixtures
 {
     public class ConfigurationFixture
     {

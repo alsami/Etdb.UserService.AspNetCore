@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using Etdb.UserService.Bootstrap.Tests.Fixtures;
+using Etdb.UserService.Controllers.Tests.Fixtures;
 using Xunit;
 
-namespace Etdb.UserService.Bootstrap.Tests
+namespace Etdb.UserService.Controllers.Tests
 {
     public class DummyControllerTests : IClassFixture<TestServerFixture>
     {

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Etdb.UserService.Bootstrap.Tests.Extensions
+namespace Etdb.UserService.Controllers.Tests.Extensions
 {
     public static class ServiceCollectionExtensions
     {

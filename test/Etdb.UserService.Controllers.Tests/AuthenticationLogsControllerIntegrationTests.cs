@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Etdb.UserService.Bootstrap.Tests.Common;
-using Etdb.UserService.Bootstrap.Tests.Fixtures;
+using Etdb.UserService.Controllers.Tests.Common;
+using Etdb.UserService.Controllers.Tests.Fixtures;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Presentation.Authentication;
 using Etdb.UserService.Presentation.Users;
 using IdentityModel.Client;
 using Xunit;
 
-namespace Etdb.UserService.Bootstrap.Tests
+namespace Etdb.UserService.Controllers.Tests
 {
     public class AuthenticationLogsControllerIntegrationTests : ControllerIntegrationTests
     {

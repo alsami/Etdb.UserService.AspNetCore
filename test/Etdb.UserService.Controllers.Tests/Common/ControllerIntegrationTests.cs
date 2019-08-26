@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Etdb.UserService.Bootstrap.Tests.Fixtures;
+using Etdb.UserService.Controllers.Tests.Fixtures;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Presentation.Authentication;
@@ -14,7 +14,7 @@ using IdentityServer4.Contrib.AspNetCore.Testing.Services;
 using Microsoft.Extensions.Configuration;
 using Xunit;
 
-namespace Etdb.UserService.Bootstrap.Tests.Common
+namespace Etdb.UserService.Controllers.Tests.Common
 {
     public abstract class ControllerIntegrationTests : IClassFixture<ConfigurationFixture>,
         IClassFixture<TestServerFixture>

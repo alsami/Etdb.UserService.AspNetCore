@@ -4,15 +4,15 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Etdb.UserService.Bootstrap.Tests.Common;
-using Etdb.UserService.Bootstrap.Tests.Fixtures;
+using Etdb.UserService.Controllers.Tests.Common;
+using Etdb.UserService.Controllers.Tests.Fixtures;
 using Etdb.UserService.Presentation.Authentication;
 using Etdb.UserService.Presentation.Users;
 using IdentityModel.Client;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Etdb.UserService.Bootstrap.Tests
+namespace Etdb.UserService.Controllers.Tests
 {
     public class UsersControllerIntegrationTests : ControllerIntegrationTests
     {

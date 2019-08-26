@@ -7,7 +7,7 @@ using Etdb.UserService.Authentication.Configuration;
 using Etdb.UserService.Authentication.Services;
 using Etdb.UserService.Authentication.Validator;
 using Etdb.UserService.Bootstrap.Extensions;
-using Etdb.UserService.Bootstrap.Tests.Extensions;
+using Etdb.UserService.Controllers.Tests.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using IdentityServer4.Contrib.Caching.Redis.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -17,7 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Etdb.UserService.Bootstrap.Tests.Startups
+namespace Etdb.UserService.Controllers.Tests.Startups
 {
     public class IdentityServerStartup
     {

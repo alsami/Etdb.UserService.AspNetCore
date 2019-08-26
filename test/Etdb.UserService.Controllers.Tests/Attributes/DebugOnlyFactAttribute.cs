@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Xunit;
 
-namespace Etdb.UserService.Bootstrap.Tests.Attributes
+namespace Etdb.UserService.Controllers.Tests.Attributes
 {
     public class DebugOnlyFactAttribute : FactAttribute
     {

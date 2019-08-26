@@ -5,8 +5,8 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Etdb.UserService.Authentication.Structures;
-using Etdb.UserService.Bootstrap.Tests.Common;
-using Etdb.UserService.Bootstrap.Tests.Fixtures;
+using Etdb.UserService.Controllers.Tests.Common;
+using Etdb.UserService.Controllers.Tests.Fixtures;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Presentation.Authentication;
 using Moq;
@@ -14,7 +14,7 @@ using Moq.Protected;
 using Newtonsoft.Json;
 using Xunit;
 
-namespace Etdb.UserService.Bootstrap.Tests
+namespace Etdb.UserService.Controllers.Tests
 {
     public class AuthControllerIntegrationTests : ControllerIntegrationTests
     {
