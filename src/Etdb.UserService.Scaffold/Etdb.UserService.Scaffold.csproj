@@ -16,9 +16,4 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.0.0-preview8.19405.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.0.0-preview8.19405.4" />
   </ItemGroup>
-  <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
 </Project>

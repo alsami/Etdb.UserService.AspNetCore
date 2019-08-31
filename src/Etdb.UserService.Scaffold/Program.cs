@@ -1,4 +1,5 @@
-﻿using Etdb.ServiceBase.DocumentRepository.Abstractions;
+﻿using System;
+using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.UserService.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,11 +13,13 @@ namespace Etdb.UserService.Scaffold
 
         public static void Main(string[] _)
         {
+            Console.WriteLine("Building config");
             var configuration = new ConfigurationBuilder()
-                .AddEnvironmentVariables()
                 .AddUserSecrets(Program.UserSecretsId)
+                .AddEnvironmentVariables()
                 .Build();
 
+            Console.WriteLine("Configuring services");
             var service = new ServiceCollection();
 
             service.AddOptions();
@@ -26,10 +29,20 @@ namespace Etdb.UserService.Scaffold
                 configuration.GetSection(nameof(DocumentDbContextOptions)).Bind(options);
             });
 
+            Console.WriteLine("Building provider");
             var provider = service.BuildServiceProvider();
 
-            ContextScaffold.Scaffold(
-                new UserServiceDbContext(provider.GetService<IOptions<DocumentDbContextOptions>>()));
+            Console.WriteLine("Running scaffold");
+            try
+            {
+                ContextScaffold.Scaffold(
+                                new UserServiceDbContext(provider.GetService<IOptions<DocumentDbContextOptions>>()));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }
