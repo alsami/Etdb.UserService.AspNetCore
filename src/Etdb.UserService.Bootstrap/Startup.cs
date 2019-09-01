@@ -1,12 +1,10 @@
 ﻿using Autofac;
 using Etdb.ServiceBase.Constants;
-using Etdb.ServiceBase.DocumentRepository;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Configuration;
 using Etdb.UserService.Authentication.Strategies;
 using Etdb.UserService.Bootstrap.Extensions;
 using Etdb.UserService.Misc.Configuration;
-using Etdb.UserService.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
@@ -49,7 +47,7 @@ namespace Etdb.UserService.Bootstrap
             if (this.environment.IsClientGen())
             {
                 services.ConfigureApiControllers()
-                    .ConfigureSwaggerGen( new OpenApiInfo
+                    .ConfigureSwaggerGen(new OpenApiInfo
                     {
                         Title = Startup.SwaggerDocDescription,
                         Version = Startup.SwaggerDocVersion
@@ -93,7 +91,7 @@ namespace Etdb.UserService.Bootstrap
             {
                 app.SetupSwagger(Startup.SwaggerDocJsonUri, Startup.SwaggerDocDescription)
                     .UseConfiguredRouting();
-                
+
                 return;
             }
 
@@ -103,10 +101,6 @@ namespace Etdb.UserService.Bootstrap
                 .UseCors(Startup.CorsPolicyName)
                 .UseIdentityServer()
                 .UseConfiguredRouting();
-
-            var context = (UserServiceDbContext) app.ApplicationServices.GetRequiredService<DocumentDbContext>();
-
-            ContextScaffold.Scaffold(context);
         }
 
         public void ConfigureContainer(ContainerBuilder containerBuilder)

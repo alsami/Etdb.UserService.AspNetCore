@@ -1,5 +1,5 @@
 sudo: required
-dist: xenial
+dist: bionic
 language: csharp
 mono: none
 solution: Etdb.UserService.AspNetCore.sln
@@ -34,7 +34,7 @@ jobs:
         - sudo snap alias dotnet-sdk.dotnet dotnet
         - sh install_link_libgdiplus.sh
         - sh setup-mongodb-user.sh "$MONGODB_USERNAME" "$MONGODB_PASSWORD"
-        - sh scaffold-database.sh
+        - sh scaffold-db.sh
       script: ./run-tests.sh
     - stage: create-client
       name: create-client

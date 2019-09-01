@@ -3,10 +3,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Etdb.ServiceBase.Constants" Version="3.0.0-preview.4" />
-    <PackageReference Include="Etdb.ServiceBase.Cryptography" Version="3.0.0-preview.4" />
-    <PackageReference Include="Etdb.ServiceBase.DocumentRepository" Version="3.0.0-preview.4" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.0.0-preview8.19405.4" />
+    <PackageReference Include="Etdb.ServiceBase.Constants" Version="3.0.0-preview.5" />
+    <PackageReference Include="Etdb.ServiceBase.Cryptography" Version="3.0.0-preview.5" />
+    <PackageReference Include="Etdb.ServiceBase.DocumentRepository" Version="3.0.0-preview.5" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="3.0.0-preview9.19423.4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Extensions\Etdb.UserService.Extensions.csproj" />

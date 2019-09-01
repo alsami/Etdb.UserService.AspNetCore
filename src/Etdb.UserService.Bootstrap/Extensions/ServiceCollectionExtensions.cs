@@ -90,7 +90,8 @@ namespace Etdb.UserService.Bootstrap.Extensions
                 .Bind(options));
         }
 
-        public static IServiceCollection ConfigureSwaggerGen(this IServiceCollection services, OpenApiInfo openApiInfo, string title)
+        public static IServiceCollection ConfigureSwaggerGen(this IServiceCollection services, OpenApiInfo openApiInfo,
+            string title)
         {
             services.AddMvcCore()
                 .AddApiExplorer();

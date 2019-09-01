@@ -8,20 +8,19 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="IdentityServer4.Contrib.AspNetCore.Testing" Version="3.0.0-preview.0" />
+        <PackageReference Include="IdentityServer4.Contrib.AspNetCore.Testing" Version="3.0.0-preview.2" />
         <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
-        <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Analyzers" Version="3.0.0-preview3-19153-02" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.0.0-preview8.19405.7" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="3.0.0-preview9.19424.4" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
-        <PackageReference Include="Moq" Version="4.12.0" />
+        <PackageReference Include="Moq" Version="4.13.0" />
         <PackageReference Include="xunit" Version="2.4.1" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\Etdb.UserService.Bootstrap\Etdb.UserService.Bootstrap.csproj" />
-      <ProjectReference Include="..\..\src\Etdb.UserService.Scaffold\Etdb.UserService.Scaffold.csproj" />
     </ItemGroup>
 
     <ItemGroup>

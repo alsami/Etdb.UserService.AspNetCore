@@ -20,10 +20,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{EEC64864-F
 		publish-folder.sh = publish-folder.sh
 		readme.md = readme.md
 		run-tests.sh = run-tests.sh
-		scaffold-database.sh = scaffold-database.sh
 		setup-mongodb-user.sh = setup-mongodb-user.sh
 		create-client.sh = create-client.sh
 		etdb.userservice.aspnetcore.service = etdb.userservice.aspnetcore.service
+		scaffold-db.sh = scaffold-db.sh
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.AutoMapper", "src\Etdb.UserService.AutoMapper\Etdb.UserService.AutoMapper.csproj", "{404C19B7-D968-49A4-B89F-201407BE2892}"
@@ -46,8 +46,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Services.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Services", "src\Etdb.UserService.Services\Etdb.UserService.Services.csproj", "{D12DD739-089A-4D8A-9C08-AFB0F7AA560F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Scaffold", "src\Etdb.UserService.Scaffold\Etdb.UserService.Scaffold.csproj", "{D59A81CF-25EB-473A-9CF5-4A6A8C2EFC1D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Authentication.Abstractions", "src\Etdb.UserService.Authentication.Abstractions\Etdb.UserService.Authentication.Abstractions.csproj", "{2CF308C3-F0BB-4CF7-9650-C43AEA1299EC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Authentication", "src\Etdb.UserService.Authentication\Etdb.UserService.Authentication.csproj", "{B045A1B4-2763-43AD-9D89-558ADB377E7D}"
@@ -69,6 +67,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.AutoMapper.Tests", "test\Etdb.UserService.AutoMapper.Tests\Etdb.UserService.AutoMapper.Tests.csproj", "{01D403E6-CB2E-4F18-A3DC-56BB562F594C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Bootstrap.Tests", "test\Etdb.UserService.Bootstrap.Tests\Etdb.UserService.Bootstrap.Tests.csproj", "{61316E28-02D8-4FEC-BDD2-8CFE21355EC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Scaffolder", "src\Etdb.UserService.Scaffolder\Etdb.UserService.Scaffolder.csproj", "{1D2DD3A4-D7BD-4E29-BB6A-CBA963DEAEF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,10 +120,6 @@ Global
 		{D12DD739-089A-4D8A-9C08-AFB0F7AA560F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D12DD739-089A-4D8A-9C08-AFB0F7AA560F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D12DD739-089A-4D8A-9C08-AFB0F7AA560F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D59A81CF-25EB-473A-9CF5-4A6A8C2EFC1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D59A81CF-25EB-473A-9CF5-4A6A8C2EFC1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D59A81CF-25EB-473A-9CF5-4A6A8C2EFC1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D59A81CF-25EB-473A-9CF5-4A6A8C2EFC1D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2CF308C3-F0BB-4CF7-9650-C43AEA1299EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2CF308C3-F0BB-4CF7-9650-C43AEA1299EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CF308C3-F0BB-4CF7-9650-C43AEA1299EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -168,6 +164,10 @@ Global
 		{61316E28-02D8-4FEC-BDD2-8CFE21355EC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61316E28-02D8-4FEC-BDD2-8CFE21355EC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61316E28-02D8-4FEC-BDD2-8CFE21355EC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D2DD3A4-D7BD-4E29-BB6A-CBA963DEAEF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D2DD3A4-D7BD-4E29-BB6A-CBA963DEAEF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D2DD3A4-D7BD-4E29-BB6A-CBA963DEAEF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D2DD3A4-D7BD-4E29-BB6A-CBA963DEAEF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -184,7 +184,6 @@ Global
 		{EB3B5AEB-3D8B-4E15-BEC4-99DC46954959} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{79044B7C-AF8F-4393-8C3B-1CB92E024CD0} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{D12DD739-089A-4D8A-9C08-AFB0F7AA560F} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
-		{D59A81CF-25EB-473A-9CF5-4A6A8C2EFC1D} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{2CF308C3-F0BB-4CF7-9650-C43AEA1299EC} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{B045A1B4-2763-43AD-9D89-558ADB377E7D} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{F33A4B1B-6DB4-4CE5-80E2-B2D21A562D75} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
@@ -196,6 +195,7 @@ Global
 		{146B1A8F-1FF5-44EB-B760-6FF3D980C9C2} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{01D403E6-CB2E-4F18-A3DC-56BB562F594C} = {6D5EBCBA-FB78-425F-8D55-D13C11C9DCB7}
 		{61316E28-02D8-4FEC-BDD2-8CFE21355EC1} = {6D5EBCBA-FB78-425F-8D55-D13C11C9DCB7}
+		{1D2DD3A4-D7BD-4E29-BB6A-CBA963DEAEF4} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {39A620F8-72B1-4D11-8393-8263B92F8704}
