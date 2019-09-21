@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
@@ -15,10 +16,7 @@ namespace Etdb.UserService.Controllers.V1
     {
         private readonly IBus bus;
 
-        public UsersController(IBus bus)
-        {
-            this.bus = bus;
-        }
+        public UsersController(IBus bus) => this.bus = bus;
 
         [AllowAnonymous]
         [HttpGet("{id:Guid}")]
@@ -27,6 +25,15 @@ namespace Etdb.UserService.Controllers.V1
             var command = new UserLoadCommand(id);
 
             return this.bus.SendCommandAsync<UserLoadCommand, UserDto>(command, cancellationToken);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("search/{*userName}")]
+        public Task<IEnumerable<UserFlatDto>> FindAsync(CancellationToken cancellationToken, string userName)
+        {
+            var command = new UsersSearchCommand(userName);
+
+            return this.bus.SendCommandAsync<UsersSearchCommand, IEnumerable<UserFlatDto>>(command, cancellationToken);
         }
 
         [AllowAnonymous]

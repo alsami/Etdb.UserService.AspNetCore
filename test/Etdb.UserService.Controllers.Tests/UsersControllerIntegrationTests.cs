@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -62,6 +63,23 @@ namespace Etdb.UserService.Controllers.Tests
             Assert.False(JsonConvert
                 .DeserializeObject<UserNameAvailabilityDto>(await availabilityResponse.Content.ReadAsStringAsync())
                 .Available, "Response flag was expected to be set to false but is set to true!");
+        }
+        
+        [Fact]
+        public async Task UsersController_FindAsync_Valid_UserName_Succeeds()
+        {
+            var httpClient = this.TestServerFixture.ApiServer.CreateClient();
+
+            var registrationDto = CreateRandomRegistrationDto();
+            await RegisterAsync(registrationDto, httpClient);
+
+            var availabilityResponse =
+                await httpClient.GetAsync($"api/v1/users/search/{registrationDto.UserName.Substring(0, 5)}");
+
+            Assert.True(availabilityResponse.IsSuccessStatusCode,
+                "multi user-name search was expected to be successful!");
+
+            Assert.Single(await availabilityResponse.Content.ReadAsAsync<IEnumerable<UserFlatDto>>());
         }
 
         [Fact]

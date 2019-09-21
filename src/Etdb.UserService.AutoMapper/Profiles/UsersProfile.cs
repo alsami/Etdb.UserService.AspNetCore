@@ -13,6 +13,9 @@ namespace Etdb.UserService.AutoMapper.Profiles
             this.CreateMap<User, UserDto>()
                 .ConvertUsing<UserDtoTypeConverter>();
 
+            this.CreateMap<User, UserFlatDto>()
+                .ConvertUsing<UserFlatDtoTypeConverter>();
+
             this.CreateMap<UserRegisterDto, UserRegisterCommand>()
                 .ConvertUsing<UserRegisterCommandTypeConverter>();
         }
