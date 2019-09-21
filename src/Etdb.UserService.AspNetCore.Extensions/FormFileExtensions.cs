@@ -10,7 +10,7 @@ namespace Etdb.UserService.AspNetCore.Extensions
             var totalSize = file.Length;
             var fileBytes = new byte[file.Length];
 
-            using (var fileStream = file.OpenReadStream())
+            await using (var fileStream = file.OpenReadStream())
             {
                 var offset = 0;
 
