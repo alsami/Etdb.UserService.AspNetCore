@@ -65,7 +65,7 @@ namespace Etdb.UserService.Controllers.Tests.Startups
                 .ConfigureDocumentDbContextOptions(configuration)
                 .ConfigureIdentityServerConfigurationOptions(configuration)
                 .ConfigureFileStoreOptions(configuration, this.hostingEnvironment)
-                .ConfigureCompression();
+                .ConfigureResponseCompression();
         }
 
         public void Configure(IApplicationBuilder app)

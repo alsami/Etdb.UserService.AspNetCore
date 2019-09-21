@@ -39,11 +39,12 @@ namespace Etdb.UserService.Bootstrap.Extensions
             typeof(Startup)!.Assembly!.GetName()!.Name!.Replace(".dll", "").Replace(".exe", "");
 
 
-        public static IServiceCollection ConfigureCompression(this IServiceCollection services,
-            CompressionLevel level = CompressionLevel.Optimal)
+        public static IServiceCollection ConfigureResponseCompression(this IServiceCollection services,
+            CompressionLevel level = CompressionLevel.Fastest)
         {
             return services
                 .Configure<GzipCompressionProviderOptions>(options => options.Level = level)
+                .Configure<BrotliCompressionProviderOptions>(options => options.Level = level)
                 .AddResponseCompression(options =>
                 {
                     options.Providers.Add<BrotliCompressionProvider>();
@@ -52,6 +53,7 @@ namespace Etdb.UserService.Bootstrap.Extensions
                     {
                         "application/json",
                         "application/json; charset=utf-8",
+                        "image/*"
                     };
                 });
         }

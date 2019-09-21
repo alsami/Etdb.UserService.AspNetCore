@@ -79,7 +79,7 @@ namespace Etdb.UserService.Bootstrap
                 .ConfigureDocumentDbContextOptions(this.configuration)
                 .ConfigureIdentityServerConfigurationOptions(this.configuration)
                 .ConfigureFileStoreOptions(this.configuration, this.environment)
-                .ConfigureCompression()
+                .ConfigureResponseCompression()
                 .ConfigureHttpClients();
 
             services.AddHttpClient<IGoogleAuthenticationStrategy, GoogleAuthenticationStrategy>();

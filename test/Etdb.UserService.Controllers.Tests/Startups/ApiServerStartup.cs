@@ -53,7 +53,7 @@ namespace Etdb.UserService.Controllers.Tests.Startups
                 .ConfigureDocumentDbContextOptions(configuration)
                 .ConfigureIdentityServerConfigurationOptions(configuration)
                 .ConfigureFileStoreOptions(configuration, this.hostingEnvironment)
-                .ConfigureCompression();
+                .ConfigureResponseCompression();
 
             services.AddAuthentication(ApiServerStartup.AuthenticationSchema)
                 .AddIdentityServerAuthentication(options =>
