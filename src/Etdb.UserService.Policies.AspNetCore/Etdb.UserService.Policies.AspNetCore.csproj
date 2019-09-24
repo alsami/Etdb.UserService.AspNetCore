@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="3.0.0-rc.0" />
+    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="3.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
   </ItemGroup>
 

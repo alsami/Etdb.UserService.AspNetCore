@@ -4,13 +4,13 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="Etdb.ServiceBase.Cqrs" Version="3.0.0-rc.0" />
-    <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="3.0.0-rc.0" />
-    <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="3.0.0-rc.0" />
-    <PackageReference Include="Etdb.ServiceBase.Extensions" Version="3.0.0-rc.0" />
-    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="3.0.0-rc.0" />
+    <PackageReference Include="Etdb.ServiceBase.Cqrs" Version="3.0.0" />
+    <PackageReference Include="Etdb.ServiceBase.Cryptography.Abstractions" Version="3.0.0" />
+    <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="3.0.0" />
+    <PackageReference Include="Etdb.ServiceBase.Extensions" Version="3.0.0" />
+    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="3.0.0" />
     <PackageReference Include="IdentityModel" Version="4.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="3.0.0-rc1.19456.10" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Cqrs.Abstractions\Etdb.UserService.Cqrs.Abstractions.csproj" />
