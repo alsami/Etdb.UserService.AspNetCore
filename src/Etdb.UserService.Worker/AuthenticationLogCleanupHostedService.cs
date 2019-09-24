@@ -46,11 +46,11 @@ namespace Etdb.UserService.Worker
                             .ToString($"dd.MM.yyyy hh:mm:ss", DateTimeFormatInfo.InvariantInfo));
                     await Task.Delay(TimeSpan.FromHours(12), stoppingToken);
                 }
-                catch (Exception e)
+                catch (Exception exception) when (!(exception is TaskCanceledException))
                 {
                     this.logger.LogError(
                         "An error occured while sending command to clear older authentication-logs! Message:\n{message}",
-                        e.Message);
+                        exception.Message);
                 }
             }
 
