@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Threading;
 using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.ServiceBase.Filter;
@@ -23,6 +25,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
@@ -117,7 +120,8 @@ namespace Etdb.UserService.Bootstrap.Extensions
                     options.OutputFormatters.RemoveType<XmlSerializerOutputFormatter>();
                     options.InputFormatters.RemoveType<XmlSerializerInputFormatter>();
 
-                    var requireAuthenticatedUserPolicy = new AuthorizeFilter(new AuthorizationPolicyBuilder()
+                    var requireAuthenticatedUserPolicy = new AuthorizeFilter(
+                        new AuthorizationPolicyBuilder()
                         .RequireAuthenticatedUser()
                         .Build());
 
@@ -137,8 +141,11 @@ namespace Etdb.UserService.Bootstrap.Extensions
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-
-            return services;
+            
+            return services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
         }
 
         public static IServiceCollection ConfigureHttpClients(this IServiceCollection services)
