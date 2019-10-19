@@ -63,21 +63,20 @@ namespace Etdb.UserService.Controllers.V1
         }
 
         [HttpPost]
-        public async Task<IActionResult> UploadAsync(CancellationToken cancellationToken, Guid userId,
+        public async Task<IActionResult> UploadAsync(Guid userId,
             [FromForm] IFormFile file)
         {
             var command = new ProfileImageAddCommand(userId,
                 file.FileName,
                 new ContentType(file.ContentType), await file.ReadFileBytesAsync());
 
-            await this.bus.SendCommandAsync(command, cancellationToken);
+            await this.bus.SendCommandAsync(command);
 
             return this.NoContent();
         }
 
         [HttpPost("multiple")]
-        public async Task<IEnumerable<ProfileImageMetaInfoDto>> MultiUploadAsync(CancellationToken cancellationToken,
-            Guid userId, [FromForm] IEnumerable<IFormFile> files)
+        public async Task<IEnumerable<ProfileImageMetaInfoDto>> MultiUploadAsync(Guid userId, [FromForm] IEnumerable<IFormFile> files)
         {
             var extractTasks = files.Select(async file =>
                     new UploadImageMetaInfo(file.FileName,
@@ -90,26 +89,26 @@ namespace Etdb.UserService.Controllers.V1
             var command = new ProfileImagesAddCommand(userId, uploadImageMetaInfos);
 
             return await this.bus.SendCommandAsync<ProfileImagesAddCommand, IEnumerable<ProfileImageMetaInfoDto>>(
-                command, cancellationToken);
+                command);
         }
 
         [HttpPatch("{id:Guid}")]
-        public async Task<IActionResult> PrimaryImageAsync(CancellationToken cancellationToken, Guid userId, Guid id)
+        public async Task<IActionResult> PrimaryImageAsync(Guid userId, Guid id)
         {
             var command = new ProfileImageSetPrimaryCommand(id, userId);
 
-            await this.bus.SendCommandAsync(command, cancellationToken);
+            await this.bus.SendCommandAsync(command);
 
             return this.NoContent();
         }
 
         [HttpDelete("{id:Guid}", Name = RouteNames.ProfileImages.DeleteRoute)]
-        public async Task<IActionResult> RemoveAsync(CancellationToken cancellationToken, Guid userId,
+        public async Task<IActionResult> RemoveAsync(Guid userId,
             Guid id)
         {
             var command = new ProfileImageRemoveCommand(userId, id);
 
-            await this.bus.SendCommandAsync(command, cancellationToken);
+            await this.bus.SendCommandAsync(command);
 
             return this.NoContent();
         }

@@ -48,35 +48,35 @@ namespace Etdb.UserService.Controllers.V1
         }
 
         [HttpPatch("{id:Guid}/username/{*userName}")]
-        public async Task<IActionResult> UserNameChangeAsync(CancellationToken cancellationToken, Guid id,
+        public async Task<IActionResult> UserNameChangeAsync(Guid id,
             string userName)
         {
             var command = new UserNameChangeCommand(id, userName);
 
-            await this.bus.SendCommandAsync(command, cancellationToken);
+            await this.bus.SendCommandAsync(command);
 
             return this.NoContent();
         }
 
 
         [HttpPatch("{id:Guid}/password")]
-        public async Task<IActionResult> PasswordChangeAsync(CancellationToken cancellationToken, Guid id,
+        public async Task<IActionResult> PasswordChangeAsync(Guid id,
             [FromBody] UserPasswordChangeDto dto)
         {
             var command = new UserPasswordChangeCommand(id, dto.NewPassword, dto.CurrentPassword);
 
-            await this.bus.SendCommandAsync(command, cancellationToken);
+            await this.bus.SendCommandAsync(command);
 
             return this.NoContent();
         }
 
         [HttpPatch("{id:Guid}/profileinfo")]
-        public async Task<IActionResult> ProfileInfoChangeAsync(CancellationToken cancellationToken, Guid id,
+        public async Task<IActionResult> ProfileInfoChangeAsync(Guid id,
             [FromBody] UserProfileInfoChangeDto dto)
         {
             var command = new UserProfileInfoChangeCommand(id, dto.FirstName, dto.Name, dto.Biography);
 
-            await this.bus.SendCommandAsync(command, cancellationToken);
+            await this.bus.SendCommandAsync(command);
 
             return this.NoContent();
         }

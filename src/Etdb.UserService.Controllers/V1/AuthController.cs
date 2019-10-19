@@ -27,17 +27,14 @@ namespace Etdb.UserService.Controllers.V1
 
         [AllowAnonymous]
         [HttpPost("registration")]
-        public async Task<IActionResult> RegistrationAsync([FromBody] UserRegisterDto dto,
-            CancellationToken cancellationToken)
+        public async Task<IActionResult> RegistrationAsync([FromBody] UserRegisterDto dto)
         {
             if (!this.ModelState.IsValid)
-            {
                 throw this.ModelState.GenerateValidationException("User register request is invalid!");
-            }
 
             var command = this.mapper.Map<UserRegisterCommand>(dto);
 
-            await this.bus.SendCommandAsync<UserRegisterCommand, UserDto>(command, cancellationToken);
+            await this.bus.SendCommandAsync<UserRegisterCommand, UserDto>(command);
 
             return this.NoContent();
         }
