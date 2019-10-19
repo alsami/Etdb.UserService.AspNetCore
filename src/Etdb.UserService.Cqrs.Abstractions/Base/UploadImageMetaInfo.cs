@@ -1,3 +1,4 @@
+using System;
 using System.Net.Mime;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Base
@@ -8,13 +9,13 @@ namespace Etdb.UserService.Cqrs.Abstractions.Base
 
         public ContentType ContentType { get; }
 
-        public byte[] Bytes { get; }
+        public ReadOnlyMemory<byte> Image { get; }
 
-        public UploadImageMetaInfo(string name, ContentType contentType, byte[] bytes)
+        public UploadImageMetaInfo(string name, ContentType contentType, ReadOnlyMemory<byte> image)
         {
             this.Name = name;
             this.ContentType = contentType;
-            this.Bytes = bytes;
+            this.Image = image;
         }
     }
 }

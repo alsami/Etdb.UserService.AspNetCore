@@ -79,8 +79,11 @@ namespace Etdb.UserService.Controllers.V1
         public async Task<IEnumerable<ProfileImageMetaInfoDto>> MultiUploadAsync(CancellationToken cancellationToken,
             Guid userId, [FromForm] IEnumerable<IFormFile> files)
         {
-            var extractTasks = files.Select(async file => new UploadImageMetaInfo(file.FileName,
-                new ContentType(file.ContentType), await file.ReadFileBytesAsync()));
+            var extractTasks = files.Select(async file =>
+                    new UploadImageMetaInfo(file.FileName,
+                        new ContentType(file.ContentType),
+                        await file.ReadFileBytesAsync()))
+                .ToArray();
 
             var uploadImageMetaInfos = await Task.WhenAll(extractTasks);
 

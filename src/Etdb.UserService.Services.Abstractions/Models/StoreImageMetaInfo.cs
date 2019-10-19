@@ -1,10 +1,11 @@
+using System;
 using Etdb.UserService.Domain.Entities;
 
 namespace Etdb.UserService.Services.Abstractions.Models
 {
     public class StoreImageMetaInfo
     {
-        public StoreImageMetaInfo(ProfileImage profileImage, byte[] image)
+        public StoreImageMetaInfo(ProfileImage profileImage, ReadOnlyMemory<byte> image)
         {
             this.ProfileImage = profileImage;
             this.Image = image;
@@ -12,6 +13,6 @@ namespace Etdb.UserService.Services.Abstractions.Models
 
         public ProfileImage ProfileImage { get; }
 
-        public byte[] Image { get; }
+        public ReadOnlyMemory<byte> Image { get; }
     }
-}
+} 

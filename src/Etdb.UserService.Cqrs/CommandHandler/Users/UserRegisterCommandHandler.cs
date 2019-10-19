@@ -113,7 +113,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
                     command.ProfileImageAddCommand.FileName,
                     command.ProfileImageAddCommand.FileContentType.MediaType,
                     true),
-                command.ProfileImageAddCommand.FileBytes);
+                command.ProfileImageAddCommand.File.ToArray());
         }
 
         private static ICollection<Email> GenerateEmails(UserRegisterCommand command, AuthenticationProvider provider)

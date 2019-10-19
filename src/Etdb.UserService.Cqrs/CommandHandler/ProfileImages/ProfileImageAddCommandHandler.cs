@@ -45,7 +45,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
                 command.FileContentType.MediaType,
                 !user.ProfileImages.Any());
 
-            var profileImageMetaInfo = new StoreImageMetaInfo(profileImage, command.FileBytes);
+            var profileImageMetaInfo = new StoreImageMetaInfo(profileImage, command.File);
 
             await this.usersService.EditAsync(user, profileImageMetaInfo);
 

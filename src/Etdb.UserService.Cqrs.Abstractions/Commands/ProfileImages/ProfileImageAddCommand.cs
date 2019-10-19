@@ -6,12 +6,12 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages
 {
     public class ProfileImageAddCommand : IVoidCommand
     {
-        public ProfileImageAddCommand(Guid userId, string fileName, ContentType fileContentType, byte[] fileBytes)
+        public ProfileImageAddCommand(Guid userId, string fileName, ContentType fileContentType, ReadOnlyMemory<byte> file)
         {
             this.UserId = userId;
             this.FileName = fileName;
             this.FileContentType = fileContentType;
-            this.FileBytes = fileBytes;
+            this.File = file;
         }
 
 
@@ -21,6 +21,6 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages
 
         public ContentType FileContentType { get; }
 
-        public byte[] FileBytes { get; }
+        public ReadOnlyMemory<byte> File { get; }
     }
 }

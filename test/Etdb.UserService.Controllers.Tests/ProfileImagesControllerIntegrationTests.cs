@@ -25,7 +25,7 @@ namespace Etdb.UserService.Controllers.Tests
         {
             this.testOutputHelper = testOutputHelper;
             this.imageFilesBasePath =
-                Path.Combine(AppContext.BaseDirectory, "Files");
+                Path.Combine(AppContext.BaseDirectory, "SampleData");
         }
 
         [Fact]

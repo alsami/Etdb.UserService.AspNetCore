@@ -151,12 +151,12 @@ namespace Etdb.UserService.Services
                     compressionFactor, profileImageMetaInfo.Image.Length);
 
                 var compressed =
-                    this.imageCompressionService.Compress(profileImageMetaInfo.Image, mediaType, compressionFactor);
+                    this.imageCompressionService.Compress(profileImageMetaInfo.Image.ToArray(), mediaType, compressionFactor);
 
                 this.logger.LogInformation("Compressing image done. Compressed size: {size}", compressed.Length);
 
                 await this.fileService.StoreBinaryAsync(relativePath, profileImageMetaInfo.ProfileImage.Name,
-                    compressed);
+                    compressed.AsMemory());
 
                 user.AddProfileImage(profileImageMetaInfo.ProfileImage);
             });
