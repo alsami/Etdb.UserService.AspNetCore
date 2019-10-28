@@ -33,8 +33,7 @@ namespace Etdb.UserService.Bootstrap
                         .UseSetting(WebHostDefaults.DetailedErrorsKey, true.ToString())
                         .UseContentRoot(AppContext.BaseDirectory)
                         .UseStartup<Startup>()
-                        .UseSerilog()
-                        .UseKestrel();
+                        .UseSerilog();
                 });
 
         private static void ConfigureLogging(WebHostBuilderContext context, ILoggingBuilder _)
