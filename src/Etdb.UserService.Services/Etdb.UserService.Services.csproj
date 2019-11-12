@@ -9,11 +9,11 @@
     <ProjectReference Include="..\Etdb.UserService.Services.Abstractions\Etdb.UserService.Services.Abstractions.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="3.1.0" />
-    <PackageReference Include="IdentityModel" Version="4.0.0" />
+    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="3.3.0" />
+    <PackageReference Include="IdentityModel" Version="4.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="3.0.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.9.2" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.0" />
+    <PackageReference Include="MongoDB.Driver" Version="2.10.0" />
     <PackageReference Include="RedLock" Version="4.0.1" />
   </ItemGroup>
 </Project>

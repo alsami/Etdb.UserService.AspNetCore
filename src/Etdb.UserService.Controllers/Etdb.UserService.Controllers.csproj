@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="3.1.0" />
-    <PackageReference Include="Etdb.ServiceBase.Extensions" Version="3.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Analyzers" Version="3.0.0-preview3-19153-02" />
+    <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="3.3.0" />
+    <PackageReference Include="Etdb.ServiceBase.Extensions" Version="3.2.0" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.AspNetCore.Extensions\Etdb.UserService.AspNetCore.Extensions.csproj" />

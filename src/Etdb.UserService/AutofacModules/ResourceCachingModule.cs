@@ -1,7 +1,7 @@
 using System;
 using Autofac;
 using Elders.RedLock;
-using Etdb.UserService.Bootstrap.Extensions;
+using Etdb.UserService.Extensions;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Options;
 
-namespace Etdb.UserService.Bootstrap.AutofacModules
+namespace Etdb.UserService.AutofacModules
 {
     public class ResourceCachingModule : Module
     {

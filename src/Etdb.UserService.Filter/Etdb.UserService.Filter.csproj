@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="3.1.0" />
-    <PackageReference Include="IdentityModel" Version="4.0.0" />
+    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="3.3.0" />
+    <PackageReference Include="IdentityModel" Version="4.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>

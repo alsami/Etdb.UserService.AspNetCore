@@ -14,8 +14,8 @@ using Etdb.ServiceBase.Services;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Strategies;
+using Etdb.UserService.AutofacModules;
 using Etdb.UserService.AutoMapper.Profiles;
-using Etdb.UserService.Bootstrap.AutofacModules;
 using Etdb.UserService.Cqrs.CommandHandler.Users;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Repositories;
@@ -28,7 +28,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Hosting;
 
-namespace Etdb.UserService.Bootstrap.Extensions
+namespace Etdb.UserService.Extensions
 {
     public static class ContainerBuilderExtensions
     {

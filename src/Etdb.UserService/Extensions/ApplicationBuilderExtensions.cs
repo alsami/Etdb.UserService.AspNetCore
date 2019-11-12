@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.Hosting;
 
-namespace Etdb.UserService.Bootstrap.Extensions
+namespace Etdb.UserService.Extensions
 {
     public static class ApplicationBuilderExtensions
     {

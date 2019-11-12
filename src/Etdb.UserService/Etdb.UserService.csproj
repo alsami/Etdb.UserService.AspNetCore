@@ -1,36 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>Etdb_UserService</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="Autofac.Extensions.FluentBuilder" Version="2.0.1" />
     <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="2.0.0" />
-    <PackageReference Include="Etdb.ServiceBase.Constants" Version="3.1.0" />
-    <PackageReference Include="Etdb.ServiceBase.Filter" Version="3.1.0" />
-    <PackageReference Include="Etdb.ServiceBase.Services" Version="3.1.0" />
+    <PackageReference Include="Etdb.ServiceBase.Constants" Version="3.3.0" />
+    <PackageReference Include="Etdb.ServiceBase.Filter" Version="3.3.0" />
+    <PackageReference Include="Etdb.ServiceBase.Services" Version="3.3.0" />
     <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
-    <PackageReference Include="IdentityServer4.Contrib.Caching.Redis" Version="3.0.1" />
-    <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="3.0.1" />
-    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="3.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Analyzers" Version="3.0.0-preview3-19153-02" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="3.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3-beta1" />
-    <PackageReference Include="Serilog.AspNetCore" Version="3.1.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.2-dev-00823" />
-    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.1-dev-00771" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.0.0-rc3" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.0.0-rc3" />
+    <PackageReference Include="IdentityServer4.Contrib.Caching.Redis" Version="3.1.0" />
+    <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="3.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="3.1.1" />
+    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc5" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.0.0-rc5" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.0.0-rc5" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Etdb.UserService.AspNetCore.Policies\Etdb.UserService.AspNetCore.Policies.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Authentication\Etdb.UserService.Authentication.csproj" />
     <ProjectReference Include="..\Etdb.UserService.AutoMapper\Etdb.UserService.AutoMapper.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Controllers\Etdb.UserService.Controllers.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Cqrs\Etdb.UserService.Cqrs.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Filter\Etdb.UserService.Filter.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Misc\Etdb.UserService.Misc.csproj" />
-    <ProjectReference Include="..\Etdb.UserService.Policies.AspNetCore\Etdb.UserService.Policies.AspNetCore.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Repositories\Etdb.UserService.Repositories.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Services\Etdb.UserService.Services.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Worker\Etdb.UserService.Worker.csproj" />

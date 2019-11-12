@@ -19,6 +19,8 @@ using Etdb.UserService.Services.Abstractions;
 using Etdb.UserService.Services.Abstractions.Models;
 using FluentValidation.Results;
 
+#nullable enable
+
 namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {
     public class UserRegisterCommandHandler : IResponseCommandHandler<UserRegisterCommand, UserDto>

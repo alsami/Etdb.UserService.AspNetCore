@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Etdb.UserService.Policies.AspNetCore</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="3.3.0" />
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Etdb.UserService.AspNetCore.Extensions\Etdb.UserService.AspNetCore.Extensions.csproj" />
+  </ItemGroup>
+
+</Project>

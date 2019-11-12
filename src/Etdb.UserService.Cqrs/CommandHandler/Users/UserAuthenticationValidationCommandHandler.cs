@@ -12,6 +12,8 @@ using Etdb.UserService.Presentation.Authentication;
 using Etdb.UserService.Presentation.Enums;
 using Etdb.UserService.Services.Abstractions;
 
+#nullable enable
+
 namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {
     public class UserAuthenticationValidationCommandHandler :

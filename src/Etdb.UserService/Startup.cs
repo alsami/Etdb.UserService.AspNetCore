@@ -3,7 +3,7 @@ using Etdb.ServiceBase.Constants;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Configuration;
 using Etdb.UserService.Authentication.Strategies;
-using Etdb.UserService.Bootstrap.Extensions;
+using Etdb.UserService.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Serilog;
 
-namespace Etdb.UserService.Bootstrap
+namespace Etdb.UserService
 {
     public class Startup
     {

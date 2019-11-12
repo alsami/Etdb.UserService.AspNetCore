@@ -5,6 +5,8 @@ using Etdb.UserService.Repositories;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
+#nullable enable
+
 namespace Etdb.UserService.Scaffolder.Migrations
 {
     public class CollectionsFactory

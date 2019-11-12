@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "Etdb.UserService.Bootstrap": {
+    "Etdb.UserService": {
       "commandName": "Project",
       "launchBrowser": false,
       "environmentVariables": {

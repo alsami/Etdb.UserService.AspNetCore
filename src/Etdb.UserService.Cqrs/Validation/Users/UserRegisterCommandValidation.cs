@@ -6,6 +6,8 @@ using Etdb.UserService.Cqrs.Validation.Base;
 using Etdb.UserService.Services.Abstractions;
 using FluentValidation;
 
+#nullable enable
+
 namespace Etdb.UserService.Cqrs.Validation.Users
 {
     public class UserRegisterCommandValidation : UserNameCommandValidation<UserRegisterCommand>
