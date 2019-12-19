@@ -13,6 +13,7 @@ using Serilog.Sinks.SystemConsole.Themes;
 
 namespace Etdb.UserService
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class Program
     {
         private static readonly string LogPath = Path.Combine(AppContext.BaseDirectory, "Logs",
