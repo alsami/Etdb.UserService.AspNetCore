@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Authentication;
 using IdentityModel;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
+using MediatR;
 
 namespace Etdb.UserService.Authentication.Services
 {
     public class ProfileService : IProfileService
     {
-        private readonly IBus bus;
+        private readonly IMediator bus;
 
-        public ProfileService(IBus bus)
+        public ProfileService(IMediator bus)
         {
             this.bus = bus;
         }
@@ -31,7 +31,7 @@ namespace Etdb.UserService.Authentication.Services
             }
 
             var claims =
-                await this.bus.SendCommandAsync<ClaimsLoadCommand, IEnumerable<Claim>>(
+                await this.bus.Send<IEnumerable<Claim>>(
                     new ClaimsLoadCommand(userId));
 
             var enumeratedClaims = claims as Claim[] ?? claims.ToArray();

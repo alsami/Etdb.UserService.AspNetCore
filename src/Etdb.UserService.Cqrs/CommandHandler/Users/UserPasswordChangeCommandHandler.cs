@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
-using Etdb.ServiceBase.Cqrs.Abstractions.Validation;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Exceptions;
 using Etdb.ServiceBase.Extensions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Cqrs.Misc;
 using Etdb.UserService.Services.Abstractions;
+using FluentValidation;
 using MediatR;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {
-    public class UserPasswordChangeCommandHandler : IVoidCommandHandler<UserPasswordChangeCommand>
+    public class UserPasswordChangeCommandHandler : IRequestHandler<UserPasswordChangeCommand>
     {
-        private readonly ICommandValidation<UserPasswordChangeCommand> passwordChangeCommandValidation;
+        private readonly AbstractValidator<UserPasswordChangeCommand> passwordChangeCommandValidation;
         private readonly IUsersService usersService;
         private readonly IResourceLockingAdapter resourceLockingAdapter;
         private readonly IHasher hasher;
 
         public UserPasswordChangeCommandHandler(
-            ICommandValidation<UserPasswordChangeCommand> passwordChangeCommandValidation, IUsersService usersService,
+            AbstractValidator<UserPasswordChangeCommand> passwordChangeCommandValidation, IUsersService usersService,
             IHasher hasher, IResourceLockingAdapter resourceLockingAdapter)
         {
             this.passwordChangeCommandValidation = passwordChangeCommandValidation;
@@ -44,7 +43,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
                 throw WellknownExceptions.UserResourceLockException(existingUser.Id);
             }
 
-            var validationResult = await this.passwordChangeCommandValidation.ValidateCommandAsync(command);
+            var validationResult = await this.passwordChangeCommandValidation.ValidateAsync(command);
 
             if (!validationResult.IsValid)
             {

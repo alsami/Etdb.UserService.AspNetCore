@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Presentation.Users;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 {
-    public class UsersSearchCommand : IResponseCommand<IEnumerable<UserFlatDto>>
+    public class UsersSearchCommand : IRequest<IEnumerable<UserFlatDto>>
     {
         public string SearchTerm { get; }
 

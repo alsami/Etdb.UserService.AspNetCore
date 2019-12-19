@@ -4,8 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
-using Etdb.ServiceBase.Cqrs.Abstractions.Validation;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Exceptions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Emails;
@@ -17,26 +15,28 @@ using Etdb.UserService.Presentation.Users;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using Etdb.UserService.Services.Abstractions.Models;
+using FluentValidation;
 using FluentValidation.Results;
+using MediatR;
 
 #nullable enable
 
 namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {
-    public class UserRegisterCommandHandler : IResponseCommandHandler<UserRegisterCommand, UserDto>
+    public class UserRegisterCommandHandler : IRequestHandler<UserRegisterCommand, UserDto>
     {
         private readonly IUsersService usersService;
-        private readonly ICommandValidation<UserRegisterCommand> userRegisterCommandValidation;
-        private readonly ICommandValidation<EmailAddCommand> emailAddCommandValidation;
-        private readonly ICommandValidation<PasswordAddCommand> passwordCommandValidation;
+        private readonly AbstractValidator<UserRegisterCommand> userRegisterCommandValidation;
+        private readonly AbstractValidator<EmailAddCommand> emailAddCommandValidation;
+        private readonly AbstractValidator<PasswordAddCommand> passwordCommandValidation;
         private readonly ISecurityRolesRepository rolesRepository;
         private readonly IHasher hasher;
         private readonly IMapper mapper;
 
         public UserRegisterCommandHandler(IUsersService usersService,
-            ICommandValidation<UserRegisterCommand> userRegisterCommandValidation,
-            ICommandValidation<EmailAddCommand> emailAddCommandValidation,
-            ICommandValidation<PasswordAddCommand> passwordCommandValidation,
+            AbstractValidator<UserRegisterCommand> userRegisterCommandValidation,
+            AbstractValidator<EmailAddCommand> emailAddCommandValidation,
+            AbstractValidator<PasswordAddCommand> passwordCommandValidation,
             ISecurityRolesRepository rolesRepository, IHasher hasher, IMapper mapper)
         {
             this.usersService = usersService;
@@ -142,14 +142,14 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
         {
             var validationTasks = command.Emails
                 .Select(async emailAddCommand =>
-                    await this.emailAddCommandValidation.ValidateCommandAsync(emailAddCommand))
+                    await this.emailAddCommandValidation.ValidateAsync(emailAddCommand))
                 .ToList();
 
-            validationTasks.Add(this.userRegisterCommandValidation.ValidateCommandAsync(command));
+            validationTasks.Add(this.userRegisterCommandValidation.ValidateAsync(command));
 
             if (provider == AuthenticationProvider.UsernamePassword)
             {
-                validationTasks.Add(this.passwordCommandValidation.ValidateCommandAsync(command.PasswordAddCommand!));
+                validationTasks.Add(this.passwordCommandValidation.ValidateAsync(command.PasswordAddCommand!));
             }
 
             return await Task.WhenAll(validationTasks);

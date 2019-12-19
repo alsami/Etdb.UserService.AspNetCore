@@ -1,7 +1,6 @@
 using System;
 using Autofac;
 using Elders.RedLock;
-using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.DocumentRepository;
 using Etdb.ServiceBase.Services.Abstractions;
@@ -9,6 +8,7 @@ using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Services.Abstractions;
+using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -43,7 +43,7 @@ namespace Etdb.UserService.Bootstrap.Tests
             Assert.True(container.IsRegistered<IHasher>(), $"{nameof(IHasher)} not registered");
             Assert.True(container.IsRegistered<IFileService>(), $"{nameof(IFileService)} not registered");
             Assert.True(container.IsRegistered<DocumentDbContext>(), $"{nameof(DocumentDbContext)} not registered");
-            Assert.True(container.IsRegistered<IBus>(), $"{nameof(IBus)} not registered");
+            Assert.True(container.IsRegistered<IMediator>(), $"{nameof(IMediator)} not registered");
             Assert.True(container.IsRegistered<IHttpContextAccessor>(),
                 $"{nameof(IHttpContextAccessor)} not registered");
             Assert.True(container.IsRegistered<IGoogleAuthenticationStrategy>(),

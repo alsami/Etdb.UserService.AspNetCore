@@ -1,10 +1,10 @@
 using System;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Presentation.Users;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages
 {
-    public class ProfileImageResizedLoadCommand : IResponseCommand<FileDownloadInfoDto>
+    public class ProfileImageResizedLoadCommand : IRequest<FileDownloadInfoDto>
     {
         public ProfileImageResizedLoadCommand(Guid id, Guid userId, int dimensionX, int dimensionY)
         {

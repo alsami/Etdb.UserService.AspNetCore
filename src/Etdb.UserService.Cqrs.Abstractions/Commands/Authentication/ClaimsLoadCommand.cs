@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Security.Claims;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Authentication
 {
-    public class ClaimsLoadCommand : IResponseCommand<IEnumerable<Claim>>
+    public class ClaimsLoadCommand : IRequest<IEnumerable<Claim>>
     {
         public Guid Id { get; }
 

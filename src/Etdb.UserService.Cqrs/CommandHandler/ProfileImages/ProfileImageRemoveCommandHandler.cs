@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages;
 using Etdb.UserService.Cqrs.Misc;
@@ -14,7 +13,7 @@ using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
 {
-    public class ProfileImageRemoveCommandHandler : IVoidCommandHandler<ProfileImageRemoveCommand>
+    public class ProfileImageRemoveCommandHandler : IRequestHandler<ProfileImageRemoveCommand>
     {
         private readonly IUsersService usersService;
         private readonly IOptions<FilestoreConfiguration> fileStoreOptions;

@@ -2,15 +2,15 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.UserService.Cqrs.Abstractions.Commands.AuthenticationLogs;
 using Etdb.UserService.Cqrs.Misc;
 using Etdb.UserService.Presentation.Authentication;
 using Etdb.UserService.Services.Abstractions;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.AuthenticationLogs
 {
-    public class AuthenticationLogsForUserLoadCommandHandler : IResponseCommandHandler<
+    public class AuthenticationLogsForUserLoadCommandHandler : IRequestHandler<
         AuthenticationLogsForUserLoadCommand, IEnumerable<AuthenticationLogDto>>
     {
         private readonly IMapper mapper;

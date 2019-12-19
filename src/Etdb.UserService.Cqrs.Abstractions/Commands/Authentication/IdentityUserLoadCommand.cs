@@ -1,9 +1,9 @@
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Presentation.Authentication;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Authentication
 {
-    public class IdentityUserLoadCommand : IResponseCommand<IdentityUserDto>
+    public class IdentityUserLoadCommand : IRequest<IdentityUserDto>
     {
         public string AccessToken { get; }
 

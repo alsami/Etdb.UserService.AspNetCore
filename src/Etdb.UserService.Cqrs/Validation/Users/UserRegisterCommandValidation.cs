@@ -10,7 +10,7 @@ using FluentValidation;
 
 namespace Etdb.UserService.Cqrs.Validation.Users
 {
-    public class UserRegisterCommandValidation : UserNameCommandValidation<UserRegisterCommand>
+    public class UserRegisterCommandValidation : UserNameAbstractValidator<UserRegisterCommand>
     {
         public UserRegisterCommandValidation(IUsersService usersService) : base(usersService)
         {

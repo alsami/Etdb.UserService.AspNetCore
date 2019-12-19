@@ -1,9 +1,9 @@
 using System;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.AuthenticationLogs
 {
-    public class AuthenticationLogsCleanupCommand : IVoidCommand
+    public class AuthenticationLogsCleanupCommand : IRequest
     {
         public TimeSpan LogsOlderThanSpan { get; }
 

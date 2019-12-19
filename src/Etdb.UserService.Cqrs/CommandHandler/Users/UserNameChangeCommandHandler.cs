@@ -2,25 +2,24 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
-using Etdb.ServiceBase.Cqrs.Abstractions.Validation;
 using Etdb.ServiceBase.Exceptions;
 using Etdb.UserService.Cqrs.Abstractions.Base;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Cqrs.Misc;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Services.Abstractions;
+using FluentValidation;
 using MediatR;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {
-    public class UserNameChangeCommandHandler : IVoidCommandHandler<UserNameChangeCommand>
+    public class UserNameChangeCommandHandler : IRequestHandler<UserNameChangeCommand>
     {
-        private readonly ICommandValidation<UserNameChangeCommand> commandValidation;
+        private readonly AbstractValidator<UserNameChangeCommand> commandValidation;
         private readonly IUsersService usersService;
         private readonly IResourceLockingAdapter resourceLockingAdapter;
 
-        public UserNameChangeCommandHandler(ICommandValidation<UserNameChangeCommand> commandValidation,
+        public UserNameChangeCommandHandler(AbstractValidator<UserNameChangeCommand> commandValidation,
             IUsersService usersService, IResourceLockingAdapter resourceLockingAdapter)
         {
             this.commandValidation = commandValidation;
@@ -51,7 +50,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
         private async Task ValidateCommandAndThrowOnFailureAsync(UserNameChangeCommand command)
         {
-            var validationResult = await this.commandValidation.ValidateCommandAsync(command);
+            var validationResult = await this.commandValidation.ValidateAsync(command);
 
             if (validationResult.IsValid) return;
 

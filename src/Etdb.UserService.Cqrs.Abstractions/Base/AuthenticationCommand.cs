@@ -1,9 +1,9 @@
-﻿using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
-using Etdb.UserService.Presentation.Authentication;
+﻿using Etdb.UserService.Presentation.Authentication;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Base
 {
-    public abstract class AuthenticationCommand : IResponseCommand<AccessTokenDto>
+    public abstract class AuthenticationCommand : IRequest<AccessTokenDto>
     {
         public string ClientId { get; }
 

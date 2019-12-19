@@ -1,10 +1,9 @@
-﻿using Etdb.ServiceBase.Cqrs.Validation;
-using Etdb.UserService.Cqrs.Abstractions.Base;
+﻿using Etdb.UserService.Cqrs.Abstractions.Base;
 using FluentValidation;
 
 namespace Etdb.UserService.Cqrs.Validation.Base
 {
-    public abstract class PasswordCommandValidation<TPasswordCommand> : CommandValidation<TPasswordCommand>
+    public abstract class PasswordAbstractValidator<TPasswordCommand> : AbstractValidator<TPasswordCommand>
         where TPasswordCommand : PasswordCommand
     {
         protected virtual string PasswordTooShortMessage =>

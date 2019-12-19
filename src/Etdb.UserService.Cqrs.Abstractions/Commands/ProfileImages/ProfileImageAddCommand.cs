@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net.Mime;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages
 {
-    public class ProfileImageAddCommand : IVoidCommand
+    public class ProfileImageAddCommand : IRequest
     {
         public ProfileImageAddCommand(Guid userId, string fileName, ContentType fileContentType, ReadOnlyMemory<byte> file)
         {

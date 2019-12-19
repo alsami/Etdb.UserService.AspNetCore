@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Validation;
 using Etdb.UserService.Cqrs.Abstractions.Base;
 using Etdb.UserService.Services.Abstractions;
 using FluentValidation;
 
 namespace Etdb.UserService.Cqrs.Validation.Base
 {
-    public abstract class UserNameCommandValidation<TUserNameCommand> : CommandValidation<TUserNameCommand>
+    public abstract class UserNameAbstractValidator<TUserNameCommand> : AbstractValidator<TUserNameCommand>
         where TUserNameCommand : UserNameCommand
     {
         private readonly IUsersService usersService;
 
-        protected UserNameCommandValidation(IUsersService usersService)
+        protected UserNameAbstractValidator(IUsersService usersService)
         {
             this.usersService = usersService;
         }

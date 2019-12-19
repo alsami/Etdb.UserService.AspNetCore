@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Cqrs.Abstractions.Base;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Emails;
 using Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages;
 using Etdb.UserService.Presentation.Users;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 {
-    public class UserRegisterCommand : UserNameCommand, IResponseCommand<UserDto>
+    public class UserRegisterCommand : UserNameCommand, IRequest<UserDto>
     {
         public UserRegisterCommand(Guid id, string wantedUserName, string firstName, string name,
             ICollection<EmailAddCommand>? emails,

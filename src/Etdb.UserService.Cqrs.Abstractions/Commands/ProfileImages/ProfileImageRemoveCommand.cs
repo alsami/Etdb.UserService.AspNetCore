@@ -1,9 +1,9 @@
 ﻿using System;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages
 {
-    public class ProfileImageRemoveCommand : IVoidCommand
+    public class ProfileImageRemoveCommand : IRequest
     {
         public Guid UserId { get; }
         public Guid Id { get; }

@@ -4,17 +4,17 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Authentication;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using IdentityModel;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
 {
-    public class ClaimsLoadCommandHandler : IResponseCommandHandler<ClaimsLoadCommand, IEnumerable<Claim>>
+    public class ClaimsLoadCommandHandler : IRequestHandler<ClaimsLoadCommand, IEnumerable<Claim>>
     {
         private readonly IUsersService usersService;
         private readonly ISecurityRolesRepository rolesRepository;

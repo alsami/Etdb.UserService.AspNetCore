@@ -4,9 +4,6 @@ using Autofac;
 using Autofac.Core;
 using Autofac.Extensions.FluentBuilder;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
-using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
-using Etdb.ServiceBase.Cqrs.Abstractions.Validation;
-using Etdb.ServiceBase.Cqrs.Bus;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Cryptography.Hashing;
 using Etdb.ServiceBase.DocumentRepository.Abstractions;
@@ -22,6 +19,7 @@ using Etdb.UserService.Repositories;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
 using Etdb.UserService.Worker;
+using FluentValidation;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -45,14 +43,13 @@ namespace Etdb.UserService.Extensions
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypeAsSingleton<FileService, IFileService>()
                 .RegisterTypeAsSingleton<ImageCompressionService, IImageCompressionService>()
-                .RegisterTypeAsScoped<Bus, IBus>()
                 .RegisterTypeAsScoped<HttpContextAccessor, IHttpContextAccessor>()
                 .RegisterTypeAsScoped<GoogleAuthenticationStrategy, IGoogleAuthenticationStrategy>()
                 .RegisterTypeAsScoped<FacebookAuthenticationStrategy, IFacebookAuthenticationStrategy>()
                 .RegisterTypeAsScoped<UsersService, IUsersService>()
                 .RegisterTypeAsScoped<ApplicationUser, IApplicationUser>()
                 .RegisterTypeAsScoped<UserUrlFactory, IUserUrlFactory>()
-                .AddClosedTypeAsScoped(typeof(ICommandValidation<>),
+                .AddClosedTypeAsScoped(typeof(AbstractValidator<>),
                     new[] {typeof(UserRegisterCommandHandler).Assembly})
                 .AddClosedTypeAsScoped(typeof(IDocumentRepository<,>), new[] {typeof(UserServiceDbContext).Assembly});
 

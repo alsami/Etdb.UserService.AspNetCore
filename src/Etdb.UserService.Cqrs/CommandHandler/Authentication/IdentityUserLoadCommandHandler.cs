@@ -1,18 +1,18 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Authentication;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Misc.Exceptions;
 using Etdb.UserService.Presentation.Authentication;
 using Etdb.UserService.Services.Abstractions;
 using IdentityModel.Client;
+using MediatR;
 using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
 {
-    public class IdentityUserLoadCommandHandler : IResponseCommandHandler<IdentityUserLoadCommand, IdentityUserDto>
+    public class IdentityUserLoadCommandHandler : IRequestHandler<IdentityUserLoadCommand, IdentityUserDto>
     {
         private readonly IMapper mapper;
         private readonly IOptions<IdentityServerConfiguration> identityServerOptions;

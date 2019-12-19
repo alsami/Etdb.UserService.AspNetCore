@@ -1,14 +1,14 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Presentation.Users;
 using Etdb.UserService.Services.Abstractions;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {
     public class
-        UserNameAvailibilityCheckCommandHandler : IResponseCommandHandler<UserNameAvailabilityCheckCommand,
+        UserNameAvailibilityCheckCommandHandler : IRequestHandler<UserNameAvailabilityCheckCommand,
             UserNameAvailabilityDto>
     {
         private readonly IUsersService usersService;

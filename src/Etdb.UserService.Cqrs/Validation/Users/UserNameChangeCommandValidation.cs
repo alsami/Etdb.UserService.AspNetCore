@@ -4,7 +4,7 @@ using Etdb.UserService.Services.Abstractions;
 
 namespace Etdb.UserService.Cqrs.Validation.Users
 {
-    public class UserNameChangeCommandValidation : UserNameCommandValidation<UserNameChangeCommand>
+    public class UserNameChangeCommandValidation : UserNameAbstractValidator<UserNameChangeCommand>
     {
         public UserNameChangeCommandValidation(IUsersService usersService) : base(usersService)
         {

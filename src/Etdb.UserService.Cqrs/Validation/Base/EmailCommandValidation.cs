@@ -1,16 +1,15 @@
-﻿using Etdb.ServiceBase.Cqrs.Validation;
-using Etdb.UserService.Cqrs.Abstractions.Base;
+﻿using Etdb.UserService.Cqrs.Abstractions.Base;
 using Etdb.UserService.Services.Abstractions;
 using FluentValidation;
 
 namespace Etdb.UserService.Cqrs.Validation.Base
 {
-    public abstract class EmailCommandValidation<TEmailCommand> : CommandValidation<TEmailCommand>
+    public abstract class EmailAbstractValidator<TEmailCommand> : AbstractValidator<TEmailCommand>
         where TEmailCommand : EmailCommand
     {
         private readonly IUsersService usersService;
 
-        protected EmailCommandValidation(IUsersService usersService)
+        protected EmailAbstractValidator(IUsersService usersService)
         {
             this.usersService = usersService;
         }

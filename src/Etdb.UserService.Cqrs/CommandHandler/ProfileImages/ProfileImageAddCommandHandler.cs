@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Exceptions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages;
 using Etdb.UserService.Cqrs.Misc;
@@ -15,7 +14,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
 {
     // ReSharper disable once UnusedMember.Global
     public class
-        ProfileImageAddCommandHandler : IVoidCommandHandler<ProfileImageAddCommand>
+        ProfileImageAddCommandHandler : IRequestHandler<ProfileImageAddCommand>
     {
         private readonly IUsersService usersService;
         private readonly IResourceLockingAdapter resourceLockingAdapter;

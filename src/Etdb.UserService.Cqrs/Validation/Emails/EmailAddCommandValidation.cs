@@ -4,7 +4,7 @@ using Etdb.UserService.Services.Abstractions;
 
 namespace Etdb.UserService.Cqrs.Validation.Emails
 {
-    public class EmailAddCommandValidation : EmailCommandValidation<EmailAddCommand>
+    public class EmailAddCommandValidation : EmailAbstractValidator<EmailAddCommand>
     {
         public EmailAddCommandValidation(IUsersService usersService) : base(usersService)
         {

@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Cqrs.Abstractions.Base;
 using Etdb.UserService.Presentation.Users;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages
 {
-    public class ProfileImagesAddCommand : IResponseCommand<IEnumerable<ProfileImageMetaInfoDto>>
+    public class ProfileImagesAddCommand : IRequest<IEnumerable<ProfileImageMetaInfoDto>>
     {
         public Guid UserId { get; }
 

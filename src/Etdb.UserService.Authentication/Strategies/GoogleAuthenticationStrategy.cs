@@ -2,7 +2,6 @@ using System;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Structures;
@@ -12,6 +11,7 @@ using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Domain.Enums;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -24,7 +24,7 @@ namespace Etdb.UserService.Authentication.Strategies
 
         private static string UserProfileUrl => "https://www.googleapis.com/oauth2/v2/userinfo";
 
-        public GoogleAuthenticationStrategy(IBus bus, IExternalIdentityServerClient externalIdentityServerClient,
+        public GoogleAuthenticationStrategy(IMediator bus, IExternalIdentityServerClient externalIdentityServerClient,
             IHttpContextAccessor httpContextAccessor, ILogger<GoogleAuthenticationStrategy> logger) : base(bus,
             externalIdentityServerClient, httpContextAccessor)
         {

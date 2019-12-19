@@ -1,10 +1,10 @@
 ﻿using System;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Cqrs.Abstractions.Base;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 {
-    public class UserPasswordChangeCommand : PasswordCommand, IVoidCommand
+    public class UserPasswordChangeCommand : PasswordCommand, IRequest
     {
         public UserPasswordChangeCommand(Guid id, string newPassword, string currentPassword) : base(newPassword)
         {

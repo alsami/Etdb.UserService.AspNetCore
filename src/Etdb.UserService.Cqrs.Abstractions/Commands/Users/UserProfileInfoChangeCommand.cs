@@ -1,9 +1,9 @@
 ﻿using System;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 {
-    public class UserProfileInfoChangeCommand : IVoidCommand
+    public class UserProfileInfoChangeCommand : IRequest
     {
         public UserProfileInfoChangeCommand(Guid id, string firstName, string name, string biography)
         {

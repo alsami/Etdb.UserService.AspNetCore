@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Presentation.Authentication;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.AuthenticationLogs
 {
-    public class AuthenticationLogsForUserLoadCommand : IResponseCommand<IEnumerable<AuthenticationLogDto>>
+    public class AuthenticationLogsForUserLoadCommand : IRequest<IEnumerable<AuthenticationLogDto>>
     {
         public Guid UserId { get; }
 

@@ -2,17 +2,17 @@
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.UserService.Cqrs.Abstractions.Events.Authentication;
 using Etdb.UserService.Cqrs.Misc;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
+using MediatR;
 using Microsoft.Extensions.Logging;
 
 namespace Etdb.UserService.Cqrs.EventHandler.Users
 {
-    public class UserAuthenticatedEventHandler : IEventHandler<UserAuthenticatedEvent>
+    public class UserAuthenticatedEventHandler : INotificationHandler<UserAuthenticatedEvent>
     {
         private readonly IMapper mapper;
         private readonly ILogger<UserAuthenticatedEventHandler> logger;

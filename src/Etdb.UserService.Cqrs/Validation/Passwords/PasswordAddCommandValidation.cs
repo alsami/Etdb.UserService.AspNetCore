@@ -3,7 +3,7 @@ using Etdb.UserService.Cqrs.Validation.Base;
 
 namespace Etdb.UserService.Cqrs.Validation.Passwords
 {
-    public class PasswordAddCommandValidation : PasswordCommandValidation<PasswordAddCommand>
+    public class PasswordAddCommandValidation : PasswordAbstractValidator<PasswordAddCommand>
     {
         public PasswordAddCommandValidation()
         {

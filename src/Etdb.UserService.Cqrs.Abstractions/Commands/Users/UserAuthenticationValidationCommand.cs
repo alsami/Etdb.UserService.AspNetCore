@@ -1,10 +1,10 @@
 using System.Net;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Presentation.Authentication;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 {
-    public class UserAuthenticationValidationCommand : IResponseCommand<AuthenticationValidationDto>
+    public class UserAuthenticationValidationCommand : IRequest<AuthenticationValidationDto>
     {
         public string UserName { get; }
 

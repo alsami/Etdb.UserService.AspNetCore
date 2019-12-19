@@ -1,9 +1,9 @@
 ﻿using System;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Base
 {
-    public abstract class EmailCommand : IVoidCommand
+    public abstract class EmailCommand : IRequest
     {
         // ReSharper disable once UnassignedGetOnlyAutoProperty
         public Guid Id { get; }

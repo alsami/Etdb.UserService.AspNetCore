@@ -1,15 +1,15 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Exceptions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Presentation.Users;
 using Etdb.UserService.Services.Abstractions;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {
-    public class UserLoadCommandHandler : IResponseCommandHandler<UserLoadCommand, UserDto>
+    public class UserLoadCommandHandler : IRequestHandler<UserLoadCommand, UserDto>
     {
         private readonly IUsersService usersService;
         private readonly IMapper mapper;

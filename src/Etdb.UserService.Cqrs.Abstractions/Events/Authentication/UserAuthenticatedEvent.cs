@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net;
-using Etdb.ServiceBase.Cqrs.Abstractions.Messages;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Events.Authentication
 {
-    public class UserAuthenticatedEvent : IEvent
+    public class UserAuthenticatedEvent : INotification
     {
         public string AuthenticationLogType { get; }
 

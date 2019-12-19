@@ -4,8 +4,8 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
-using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Cqrs.Abstractions.Commands.AuthenticationLogs;
+using MediatR;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -34,10 +34,10 @@ namespace Etdb.UserService.Worker
                 {
                     using (var scope = this.lifetimeScope.BeginLifetimeScope())
                     {
-                        var bus = scope.Resolve<IBus>();
+                        var bus = scope.Resolve<IMediator>();
 
                         await bus
-                            .SendCommandAsync(new AuthenticationLogsCleanupCommand(TimeSpan.FromDays(5)),
+                            .Send(new AuthenticationLogsCleanupCommand(TimeSpan.FromDays(5)),
                                 stoppingToken);
                     }
 

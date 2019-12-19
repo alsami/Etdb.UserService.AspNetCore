@@ -1,12 +1,11 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
-using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.ServiceBase.Extensions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Authentication;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Presentation.Authentication;
 using Etdb.UserService.Presentation.Users;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,9 +16,9 @@ namespace Etdb.UserService.Controllers.V1
     public class AuthController : ControllerBase
     {
         private readonly IMapper mapper;
-        private readonly IBus bus;
+        private readonly IMediator bus;
 
-        public AuthController(IBus bus, IMapper mapper)
+        public AuthController(IMediator bus, IMapper mapper)
         {
             this.bus = bus;
             this.mapper = mapper;
@@ -34,7 +33,7 @@ namespace Etdb.UserService.Controllers.V1
 
             var command = this.mapper.Map<UserRegisterCommand>(dto);
 
-            await this.bus.SendCommandAsync<UserRegisterCommand, UserDto>(command);
+            await this.bus.Send<UserDto>(command);
 
             return this.NoContent();
         }
@@ -45,7 +44,7 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = this.mapper.Map<InternalAuthenticationCommand>(authenticationDto);
 
-            return this.bus.SendCommandAsync<InternalAuthenticationCommand, AccessTokenDto>(command);
+            return this.bus.Send<AccessTokenDto>(command);
         }
 
         [AllowAnonymous]
@@ -55,19 +54,19 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = this.mapper.Map<ExternalAuthenticationCommand>(authenticationDto);
 
-            return this.bus.SendCommandAsync<ExternalAuthenticationCommand, AccessTokenDto>(command);
+            return this.bus.Send<AccessTokenDto>(command);
         }
 
         [AllowAnonymous]
         [HttpGet("refresh-authentication/{refreshToken}/{clientId}/{authenticationProvider}")]
         public Task<AccessTokenDto> RefreshAuthenticationAsync(string refreshToken, string clientId,
             string authenticationProvider)
-            => this.bus.SendCommandAsync<RefreshAuthenticationCommand, AccessTokenDto>(
+            => this.bus.Send<AccessTokenDto>(
                 new RefreshAuthenticationCommand(refreshToken, clientId, authenticationProvider));
 
         [HttpGet("user-identity/{accessToken}")]
         public Task<IdentityUserDto> UserIdentityAsync(string accessToken)
-            => this.bus.SendCommandAsync<IdentityUserLoadCommand, IdentityUserDto>(
+            => this.bus.Send<IdentityUserDto>(
                 new IdentityUserLoadCommand(accessToken));
     }
 }

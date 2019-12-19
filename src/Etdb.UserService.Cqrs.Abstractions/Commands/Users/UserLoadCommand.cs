@@ -1,10 +1,10 @@
 ﻿using System;
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Presentation.Users;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 {
-    public class UserLoadCommand : IResponseCommand<UserDto>
+    public class UserLoadCommand : IRequest<UserDto>
     {
         public UserLoadCommand(Guid id)
         {

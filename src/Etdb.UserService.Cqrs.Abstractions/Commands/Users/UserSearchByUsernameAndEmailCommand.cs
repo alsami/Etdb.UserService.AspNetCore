@@ -1,9 +1,9 @@
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Presentation.Users;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 {
-    public class UserSearchByUsernameAndEmailCommand : IResponseCommand<UserDto>
+    public class UserSearchByUsernameAndEmailCommand : IRequest<UserDto>
     {
         public string UserNameOrEmail { get; }
 

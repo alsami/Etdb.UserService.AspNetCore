@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Authentication;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
@@ -11,6 +10,7 @@ using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Presentation.Users;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -19,11 +19,11 @@ namespace Etdb.UserService.Authentication.Strategies
 {
     public abstract class ExternalAuthenticationStrategyBase
     {
-        private readonly IBus bus;
+        private readonly IMediator bus;
         private readonly IHttpContextAccessor httpContextAccessor;
         protected readonly IExternalIdentityServerClient ExternalIdentityServerClient;
 
-        protected ExternalAuthenticationStrategyBase(IBus bus,
+        protected ExternalAuthenticationStrategyBase(IMediator bus,
             IExternalIdentityServerClient externalIdentityServerClient, IHttpContextAccessor httpContextAccessor)
         {
             this.bus = bus;
@@ -55,7 +55,7 @@ namespace Etdb.UserService.Authentication.Strategies
         {
             var userSearchCommand = new UserSearchByUsernameAndEmailCommand(emailAddress);
 
-            return await this.bus.SendCommandAsync<UserSearchByUsernameAndEmailCommand, UserDto>(userSearchCommand);
+            return await this.bus.Send< UserDto>(userSearchCommand);
         }
 
         protected async Task<GrantValidationResult> SuccessValidationResultAsync(UserDto user)
@@ -64,7 +64,7 @@ namespace Etdb.UserService.Authentication.Strategies
                 AuthenticationLogType.Succeeded, $"Authenticated using a {this.AuthenticationProvider} token"));
 
             var claims =
-                await this.bus.SendCommandAsync<ClaimsLoadCommand, IEnumerable<Claim>>(
+                await this.bus.Send<IEnumerable<Claim>>(
                     new ClaimsLoadCommand(user.Id));
 
             return new GrantValidationResult(user.Id.ToString(),
@@ -74,13 +74,13 @@ namespace Etdb.UserService.Authentication.Strategies
 
         protected async Task<UserDto> RegisterUserAsync(UserRegisterCommand command)
         {
-            var user = await this.bus.SendCommandAsync<UserRegisterCommand, UserDto>(command);
+            var user = await this.bus.Send<UserDto>(command);
 
             return user!;
         }
 
         protected Task PublishAuthenticationEvent(UserAuthenticatedEvent @event)
-            => this.bus.RaiseEventAsync(@event);
+            => this.bus.Publish(@event);
 
         protected UserAuthenticatedEvent CreateUserAuthenticatedEvent(UserDto user,
             AuthenticationLogType authenticationLogType, string? additionalInfo = null)

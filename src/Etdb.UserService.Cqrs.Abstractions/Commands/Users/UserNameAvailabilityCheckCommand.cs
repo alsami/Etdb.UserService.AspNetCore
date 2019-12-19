@@ -1,9 +1,9 @@
-using Etdb.ServiceBase.Cqrs.Abstractions.Commands;
 using Etdb.UserService.Presentation.Users;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Users
 {
-    public class UserNameAvailabilityCheckCommand : IResponseCommand<UserNameAvailabilityDto>
+    public class UserNameAvailabilityCheckCommand : IRequest<UserNameAvailabilityDto>
     {
         public string UserName { get; }
 

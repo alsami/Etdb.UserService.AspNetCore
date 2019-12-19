@@ -7,7 +7,7 @@ using FluentValidation;
 
 namespace Etdb.UserService.Cqrs.Validation.Passwords
 {
-    public class PasswordChangeCommandValidation : PasswordCommandValidation<UserPasswordChangeCommand>
+    public class PasswordChangeCommandValidation : PasswordAbstractValidator<UserPasswordChangeCommand>
     {
         private readonly IUsersService usersService;
         private readonly IHasher hasher;

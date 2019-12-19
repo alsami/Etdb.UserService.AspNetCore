@@ -4,15 +4,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Presentation.Users;
 using Etdb.UserService.Repositories.Abstractions;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {
-    public class UsersSearchCommandHandler : IResponseCommandHandler<UsersSearchCommand, IEnumerable<UserFlatDto>>
+    public class UsersSearchCommandHandler : IRequestHandler<UsersSearchCommand, IEnumerable<UserFlatDto>>
     {
         private readonly IMapper mapper;
         private readonly IUsersRepository usersRepository;

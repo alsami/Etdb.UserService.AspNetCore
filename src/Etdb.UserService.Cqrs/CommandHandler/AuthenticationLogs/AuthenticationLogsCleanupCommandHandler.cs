@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.UserService.Cqrs.Abstractions.Commands.AuthenticationLogs;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Repositories.Abstractions;
@@ -12,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.AuthenticationLogs
 {
-    public class AuthenticationLogsCleanupCommandHandler : IVoidCommandHandler<AuthenticationLogsCleanupCommand>
+    public class AuthenticationLogsCleanupCommandHandler : IRequestHandler<AuthenticationLogsCleanupCommand>
     {
         private readonly IUsersRepository usersRepository;
         private readonly IUsersService usersService;

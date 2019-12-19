@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Exceptions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages;
 using Etdb.UserService.Cqrs.Misc;
@@ -12,11 +11,12 @@ using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Presentation.Users;
 using Etdb.UserService.Services.Abstractions;
 using Etdb.UserService.Services.Abstractions.Models;
+using MediatR;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
 {
     public class
-        ProfileImagesAddCommandHandler : IResponseCommandHandler<ProfileImagesAddCommand,
+        ProfileImagesAddCommandHandler : IRequestHandler<ProfileImagesAddCommand,
             IEnumerable<ProfileImageMetaInfoDto>>
     {
         private readonly IUsersService usersService;

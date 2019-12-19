@@ -4,12 +4,12 @@ using System.Linq;
 using System.Net.Mime;
 using System.Threading;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.AspNetCore.Extensions;
 using Etdb.UserService.Cqrs.Abstractions.Base;
 using Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages;
 using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Presentation.Users;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +21,9 @@ namespace Etdb.UserService.Controllers.V1
     [Route("api/v1/users/{userId:Guid}/profileimages")]
     public class ProfileImagesController : ControllerBase
     {
-        private readonly IBus bus;
+        private readonly IMediator bus;
 
-        public ProfileImagesController(IBus bus)
+        public ProfileImagesController(IMediator bus)
         {
             this.bus = bus;
         }
@@ -34,7 +34,7 @@ namespace Etdb.UserService.Controllers.V1
             Guid userId)
         {
             var profileImageDownloadInfo =
-                await this.bus.SendCommandAsync<ProfileImageLoadCommand, FileDownloadInfoDto>(
+                await this.bus.Send(
                     new ProfileImageLoadCommand(id, userId), cancellationToken);
 
             return new FileContentResult(profileImageDownloadInfo!.File,
@@ -51,7 +51,7 @@ namespace Etdb.UserService.Controllers.V1
             Guid userId, int dimensionX = 1024, int dimensionY = 1024)
         {
             var profileImageDownloadInfo =
-                await this.bus.SendCommandAsync<ProfileImageResizedLoadCommand, FileDownloadInfoDto>(
+                await this.bus.Send<FileDownloadInfoDto>(
                     new ProfileImageResizedLoadCommand(id, userId, dimensionX, dimensionY), cancellationToken);
 
             return new FileContentResult(profileImageDownloadInfo!.File,
@@ -70,7 +70,7 @@ namespace Etdb.UserService.Controllers.V1
                 file.FileName,
                 new ContentType(file.ContentType), await file.ReadFileBytesAsync());
 
-            await this.bus.SendCommandAsync(command);
+            await this.bus.Send(command);
 
             return this.NoContent();
         }
@@ -88,7 +88,7 @@ namespace Etdb.UserService.Controllers.V1
 
             var command = new ProfileImagesAddCommand(userId, uploadImageMetaInfos);
 
-            return await this.bus.SendCommandAsync<ProfileImagesAddCommand, IEnumerable<ProfileImageMetaInfoDto>>(
+            return await this.bus.Send<IEnumerable<ProfileImageMetaInfoDto>>(
                 command);
         }
 
@@ -97,7 +97,7 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = new ProfileImageSetPrimaryCommand(id, userId);
 
-            await this.bus.SendCommandAsync(command);
+            await this.bus.Send(command);
 
             return this.NoContent();
         }
@@ -108,7 +108,7 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = new ProfileImageRemoveCommand(userId, id);
 
-            await this.bus.SendCommandAsync(command);
+            await this.bus.Send(command);
 
             return this.NoContent();
         }

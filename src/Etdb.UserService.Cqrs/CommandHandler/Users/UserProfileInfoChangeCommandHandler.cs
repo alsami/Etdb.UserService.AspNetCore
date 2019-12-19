@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Cqrs.Misc;
 using Etdb.UserService.Services.Abstractions;
@@ -9,7 +8,7 @@ using MediatR;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {
-    public class UserProfileInfoChangeCommandHandler : IVoidCommandHandler<UserProfileInfoChangeCommand>
+    public class UserProfileInfoChangeCommandHandler : IRequestHandler<UserProfileInfoChangeCommand>
     {
         private readonly IUsersService usersService;
         private readonly IResourceLockingAdapter resourceLockingAdapter;

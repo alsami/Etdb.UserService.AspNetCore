@@ -3,9 +3,9 @@
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Etdb.ServiceBase.Cqrs.Abstractions" Version="3.1.1" />
+    <ProjectReference Include="..\Etdb.UserService.Presentation\Etdb.UserService.Presentation.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Etdb.UserService.Presentation\Etdb.UserService.Presentation.csproj" />
+    <PackageReference Include="MediatR" Version="7.0.0" />
   </ItemGroup>
 </Project>

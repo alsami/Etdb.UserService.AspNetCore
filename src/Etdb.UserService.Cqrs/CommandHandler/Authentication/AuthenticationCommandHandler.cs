@@ -3,18 +3,18 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.UserService.Cqrs.Abstractions.Base;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Misc.Exceptions;
 using Etdb.UserService.Presentation.Authentication;
 using Etdb.UserService.Services.Abstractions;
 using IdentityModel.Client;
+using MediatR;
 using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
 {
-    public abstract class AuthenticationCommandHandler<TCommand> : IResponseCommandHandler<TCommand, AccessTokenDto>
+    public abstract class AuthenticationCommandHandler<TCommand> : IRequestHandler<TCommand, AccessTokenDto>
         where TCommand : AuthenticationCommand
     {
         private readonly IIdentityServerClient identityServerClient;

@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Domain.Enums;
 using IdentityServer4.Validation;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 
 namespace Etdb.UserService.Authentication.Strategies
@@ -12,7 +12,7 @@ namespace Etdb.UserService.Authentication.Strategies
     {
         private string UserProfileUrl => "https://api.twitter.com/1.1/account/verify_credentials.json";
 
-        public TwitterAuthenticationStrategy(IBus bus, IExternalIdentityServerClient externalIdentityServerClient,
+        public TwitterAuthenticationStrategy(IMediator bus, IExternalIdentityServerClient externalIdentityServerClient,
             IHttpContextAccessor httpContextAccessor) : base(bus, externalIdentityServerClient, httpContextAccessor)
         {
         }

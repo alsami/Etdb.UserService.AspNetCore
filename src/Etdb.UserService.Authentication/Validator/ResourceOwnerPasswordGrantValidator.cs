@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Authentication;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Domain.Enums;
@@ -9,6 +8,7 @@ using Etdb.UserService.Presentation.Authentication;
 using Etdb.UserService.Presentation.Enums;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 
 namespace Etdb.UserService.Authentication.Validator
@@ -19,9 +19,9 @@ namespace Etdb.UserService.Authentication.Validator
         private const string UserLockedOutError = "User locked out";
 
         private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly IBus bus;
+        private readonly IMediator bus;
 
-        public ResourceOwnerPasswordGrantValidator(IHttpContextAccessor httpContextAccessor, IBus bus)
+        public ResourceOwnerPasswordGrantValidator(IHttpContextAccessor httpContextAccessor, IMediator bus)
         {
             this.httpContextAccessor = httpContextAccessor;
             this.bus = bus;
@@ -33,13 +33,13 @@ namespace Etdb.UserService.Authentication.Validator
                 this.httpContextAccessor.HttpContext.Connection.RemoteIpAddress);
 
             var userAuthenticationValidation =
-                await this.bus.SendCommandAsync<UserAuthenticationValidationCommand, AuthenticationValidationDto>(
+                await this.bus.Send<AuthenticationValidationDto>(
                     command);
 
             if (userAuthenticationValidation!.IsValid)
             {
                 var claims =
-                    await this.bus.SendCommandAsync<ClaimsLoadCommand, IEnumerable<Claim>>(
+                    await this.bus.Send<IEnumerable<Claim>>(
                         new ClaimsLoadCommand(userAuthenticationValidation.UserId));
 
                 context.Result = new GrantValidationResult(userAuthenticationValidation.UserId.ToString(),

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Presentation.Users;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,9 +14,9 @@ namespace Etdb.UserService.Controllers.V1
     [Route("api/v1/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IBus bus;
+        private readonly IMediator bus;
 
-        public UsersController(IBus bus) => this.bus = bus;
+        public UsersController(IMediator bus) => this.bus = bus;
 
         [AllowAnonymous]
         [HttpGet("{id:Guid}")]
@@ -24,7 +24,7 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = new UserLoadCommand(id);
 
-            return this.bus.SendCommandAsync<UserLoadCommand, UserDto>(command, cancellationToken);
+            return this.bus.Send<UserDto>(command, cancellationToken);
         }
 
         [AllowAnonymous]
@@ -33,7 +33,7 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = new UsersSearchCommand(userName);
 
-            return this.bus.SendCommandAsync<UsersSearchCommand, IEnumerable<UserFlatDto>>(command, cancellationToken);
+            return this.bus.Send<IEnumerable<UserFlatDto>>(command, cancellationToken);
         }
 
         [AllowAnonymous]
@@ -43,7 +43,7 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = new UserNameAvailabilityCheckCommand(userName);
 
-            return this.bus.SendCommandAsync<UserNameAvailabilityCheckCommand, UserNameAvailabilityDto>(command,
+            return this.bus.Send<UserNameAvailabilityDto>(command,
                 cancellationToken);
         }
 
@@ -53,7 +53,7 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = new UserNameChangeCommand(id, userName);
 
-            await this.bus.SendCommandAsync(command);
+            await this.bus.Send(command);
 
             return this.NoContent();
         }
@@ -65,7 +65,7 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = new UserPasswordChangeCommand(id, dto.NewPassword, dto.CurrentPassword);
 
-            await this.bus.SendCommandAsync(command);
+            await this.bus.Send(command);
 
             return this.NoContent();
         }
@@ -76,7 +76,7 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = new UserProfileInfoChangeCommand(id, dto.FirstName, dto.Name, dto.Biography);
 
-            await this.bus.SendCommandAsync(command);
+            await this.bus.Send(command);
 
             return this.NoContent();
         }

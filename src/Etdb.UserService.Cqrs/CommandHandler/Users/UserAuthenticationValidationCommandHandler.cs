@@ -2,8 +2,6 @@
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Cqrs.Abstractions.Bus;
-using Etdb.ServiceBase.Cqrs.Abstractions.Handler;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Cqrs.Abstractions.Events.Authentication;
@@ -11,19 +9,20 @@ using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Presentation.Authentication;
 using Etdb.UserService.Presentation.Enums;
 using Etdb.UserService.Services.Abstractions;
+using MediatR;
 
 #nullable enable
 
 namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {
     public class UserAuthenticationValidationCommandHandler :
-        IResponseCommandHandler<UserAuthenticationValidationCommand, AuthenticationValidationDto>
+        IRequestHandler<UserAuthenticationValidationCommand, AuthenticationValidationDto>
     {
         private readonly IUsersService usersService;
         private readonly IHasher hasher;
-        private readonly IBus bus;
+        private readonly IMediator bus;
 
-        public UserAuthenticationValidationCommandHandler(IUsersService usersService, IHasher hasher, IBus bus)
+        public UserAuthenticationValidationCommandHandler(IUsersService usersService, IHasher hasher, IMediator bus)
         {
             this.usersService = usersService;
             this.hasher = hasher;
@@ -69,7 +68,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
         private Task PublishAuthenticationEvent(AuthenticationLogType authenticationLogType, Guid userId,
             IPAddress ipAddress,
             string? additionalInfo = null, CancellationToken cancellationToken = default)
-            => this.bus.RaiseEventAsync(
+            => this.bus.Publish(
                 new UserAuthenticatedEvent(authenticationLogType.ToString(), ipAddress, userId, DateTime.UtcNow,
                     additionalInfo),
                 cancellationToken);
