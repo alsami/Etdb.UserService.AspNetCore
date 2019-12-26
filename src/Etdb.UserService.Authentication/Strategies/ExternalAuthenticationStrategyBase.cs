@@ -55,7 +55,7 @@ namespace Etdb.UserService.Authentication.Strategies
         {
             var userSearchCommand = new UserSearchByUsernameAndEmailCommand(emailAddress);
 
-            return await this.bus.Send< UserDto>(userSearchCommand);
+            return await this.bus.Send<UserDto>(userSearchCommand);
         }
 
         protected async Task<GrantValidationResult> SuccessValidationResultAsync(UserDto user)
