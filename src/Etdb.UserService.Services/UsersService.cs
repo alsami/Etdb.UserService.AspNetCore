@@ -50,9 +50,7 @@ namespace Etdb.UserService.Services
         public async Task EditAsync(User user, params StoreImageMetaInfo[] storeImageMetaInfos)
         {
             if (storeImageMetaInfos.Any())
-            {
                 await this.StoreProfileImagesAsync(user, storeImageMetaInfos);
-            }
 
             await this.usersRepository.EditAsync(user);
         }

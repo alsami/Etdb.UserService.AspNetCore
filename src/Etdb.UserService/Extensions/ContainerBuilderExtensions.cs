@@ -38,7 +38,7 @@ namespace Etdb.UserService.Extensions
                     .AddAutoMapper(typeof(UsersProfile).Assembly))
                 .ApplyModule(new DocumentDbContextModule(hostingEnvironment))
                 .ApplyModule(new ResourceCachingModule(hostingEnvironment))
-                .RegisterResolver(ExternalAuthenticationStrategyResolver)
+                .RegisterResolver(ContainerBuilderExtensions.ExternalAuthenticationStrategyResolver)
                 .RegisterTypeAsSingleton<ActionContextAccessor, IActionContextAccessor>()
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
                 .RegisterTypeAsSingleton<FileService, IFileService>()
@@ -52,6 +52,8 @@ namespace Etdb.UserService.Extensions
                 .AddClosedTypeAsScoped(typeof(AbstractValidator<>),
                     new[] {typeof(UserRegisterCommandHandler).Assembly})
                 .AddClosedTypeAsScoped(typeof(IDocumentRepository<,>), new[] {typeof(UserServiceDbContext).Assembly});
+
+            builder.ApplyModule<AzureServiceBusModule>();
 
             if (!hostingEnvironment.IsAnyLocalDevelopment()) return;
 

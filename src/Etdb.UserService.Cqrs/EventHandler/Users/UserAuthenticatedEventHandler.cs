@@ -18,21 +18,25 @@ namespace Etdb.UserService.Cqrs.EventHandler.Users
         private readonly ILogger<UserAuthenticatedEventHandler> logger;
         private readonly IUsersRepository usersRepository;
         private readonly IResourceLockingAdapter resourceLockingAdapter;
+        private readonly IMessageProducerAdapter messageProducerAdapter;
 
         public UserAuthenticatedEventHandler(IUsersRepository usersRepository,
             IResourceLockingAdapter resourceLockingAdapter, IMapper mapper,
-            ILogger<UserAuthenticatedEventHandler> logger)
+            ILogger<UserAuthenticatedEventHandler> logger, IMessageProducerAdapter messageProducerAdapter)
         {
             this.usersRepository = usersRepository;
             this.resourceLockingAdapter = resourceLockingAdapter;
             this.mapper = mapper;
             this.logger = logger;
+            this.messageProducerAdapter = messageProducerAdapter;
         }
 
         public async Task Handle(UserAuthenticatedEvent @event, CancellationToken cancellationToken)
         {
             try
             {
+                await this.messageProducerAdapter.ProduceAsync(@event, MessageType.UserAuthenticated);
+                
                 var user = await this.usersRepository.FindAsync(@event.UserId);
 
                 if (!await this.resourceLockingAdapter.LockAsync(user!.Id, TimeSpan.FromSeconds(30)))

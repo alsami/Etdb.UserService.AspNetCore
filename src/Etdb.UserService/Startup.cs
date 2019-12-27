@@ -25,6 +25,7 @@ namespace Etdb.UserService
         private const string SwaggerDocJsonUri = "/swagger/v1/swagger.json";
         private const string CorsPolicyName = "AllowAll";
         private const string AuthenticationSchema = "Bearer";
+        private const string AzureServiceBusConnectionString = "AzureServiceBus";
 
         public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
@@ -67,6 +68,9 @@ namespace Etdb.UserService
             var redisCacheOptions =
                 this.configuration.GetSection(nameof(RedisCacheOptions))
                     .Get<RedisCacheOptions>();
+
+            services.Configure<AzureServiceBusConfiguration>(options =>
+                options.ConnectionString = this.configuration.GetConnectionString(Startup.AzureServiceBusConnectionString));
 
             services
                 .ConfigureCors(this.environment, allowedOrigins, Startup.CorsPolicyName)

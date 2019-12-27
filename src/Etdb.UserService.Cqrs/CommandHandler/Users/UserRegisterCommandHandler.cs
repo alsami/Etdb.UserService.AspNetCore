@@ -8,6 +8,7 @@ using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Exceptions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Emails;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
+using Etdb.UserService.Cqrs.Abstractions.Events.Users;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Misc.Constants;
@@ -32,12 +33,13 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
         private readonly ISecurityRolesRepository rolesRepository;
         private readonly IHasher hasher;
         private readonly IMapper mapper;
+        private readonly IMediator mediator;
 
         public UserRegisterCommandHandler(IUsersService usersService,
             AbstractValidator<UserRegisterCommand> userRegisterCommandValidation,
             AbstractValidator<EmailAddCommand> emailAddCommandValidation,
             AbstractValidator<PasswordAddCommand> passwordCommandValidation,
-            ISecurityRolesRepository rolesRepository, IHasher hasher, IMapper mapper)
+            ISecurityRolesRepository rolesRepository, IHasher hasher, IMapper mapper, IMediator mediator)
         {
             this.usersService = usersService;
             this.userRegisterCommandValidation = userRegisterCommandValidation;
@@ -46,6 +48,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             this.rolesRepository = rolesRepository;
             this.hasher = hasher;
             this.mapper = mapper;
+            this.mediator = mediator;
         }
 
         public async Task<UserDto> Handle(UserRegisterCommand command, CancellationToken cancellationToken)
@@ -69,6 +72,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             var (user, profileImageMetaInfos) = await this.GenerateUserAsync(command, provider);
 
             await this.usersService.AddAsync(user, profileImageMetaInfos.ToArray());
+
+            await this.mediator.Publish(new UserRegisteredEvent(user.Id, user.UserName, user.RegisteredSince), cancellationToken);
 
             return this.mapper.Map<UserDto>(user);
         }
