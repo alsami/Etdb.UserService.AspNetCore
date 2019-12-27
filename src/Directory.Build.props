@@ -5,6 +5,6 @@
         <Copyright>2019©Sami Al Khatib</Copyright>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>git://github.com/alsami/etdb-userservice-aspnet-core</RepositoryUrl>
+        <RepositoryUrl>git://github.com/entertainment-database/Etdb.UserService.AspNetCore</RepositoryUrl>
     </PropertyGroup>
 </Project>
