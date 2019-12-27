@@ -70,7 +70,8 @@ namespace Etdb.UserService.Controllers.Tests.Fixtures
 
         private static void ConfigureLogger(WebHostBuilderContext _, LoggerConfiguration loggerConfiguration)
         {
-            loggerConfiguration.MinimumLevel.Debug()
+            loggerConfiguration
+                .MinimumLevel.Error()
                 .Enrich.FromLogContext()
                 .WriteTo.Console(
                     outputTemplate:
