@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
-namespace Etdb.UserService.Filter.Exception
+namespace Etdb.UserService.AspNetCore.Filter
 {
     public class IdentityServerExceptionFilter : IExceptionFilter
     {

@@ -25,12 +25,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUi" Version="5.0.0-rc5" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Etdb.UserService.AspNetCore.Policies\Etdb.UserService.AspNetCore.Policies.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Authentication\Etdb.UserService.Authentication.csproj" />
     <ProjectReference Include="..\Etdb.UserService.AutoMapper\Etdb.UserService.AutoMapper.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Controllers\Etdb.UserService.Controllers.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Cqrs\Etdb.UserService.Cqrs.csproj" />
-    <ProjectReference Include="..\Etdb.UserService.Filter\Etdb.UserService.Filter.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Misc\Etdb.UserService.Misc.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Repositories\Etdb.UserService.Repositories.csproj" />
     <ProjectReference Include="..\Etdb.UserService.Services\Etdb.UserService.Services.csproj" />

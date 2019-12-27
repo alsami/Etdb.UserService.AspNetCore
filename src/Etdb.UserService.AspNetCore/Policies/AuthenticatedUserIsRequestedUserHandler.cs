@@ -4,7 +4,7 @@ using Etdb.UserService.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Etdb.UserService.Policies.AspNetCore.Users
+namespace Etdb.UserService.AspNetCore.Policies
 {
     public class AuthenticatedUserIsRequestedUserHandler : IAuthorizationHandler
     {
@@ -25,9 +25,7 @@ namespace Etdb.UserService.Policies.AspNetCore.Users
                 return Task.CompletedTask;
 
             if (this.applicationUser.Id != userId)
-            {
                 context.Fail();
-            }
 
             return Task.CompletedTask;
         }
