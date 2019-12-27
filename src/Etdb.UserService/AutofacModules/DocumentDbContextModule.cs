@@ -6,6 +6,7 @@ using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Repositories;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
@@ -13,9 +14,9 @@ namespace Etdb.UserService.AutofacModules
 {
     public class DocumentDbContextModule : Module
     {
-        private readonly IWebHostEnvironment hostingEnvironment;
+        private readonly IHostEnvironment hostingEnvironment;
 
-        public DocumentDbContextModule(IWebHostEnvironment hostingEnvironment)
+        public DocumentDbContextModule(IHostEnvironment hostingEnvironment)
         {
             this.hostingEnvironment = hostingEnvironment ?? throw new ArgumentNullException(nameof(hostingEnvironment));
         }

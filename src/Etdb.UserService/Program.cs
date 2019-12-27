@@ -40,7 +40,7 @@ namespace Etdb.UserService
             var environment = context.HostingEnvironment;
 
             configuration
-                .MinimumLevel.Is(environment.IsAnyLocalDevelopment() ? LogEventLevel.Debug : LogEventLevel.Information)
+                .MinimumLevel.Is(environment.IsAnyDevelopment() ? LogEventLevel.Debug : LogEventLevel.Information)
                 .Enrich.FromLogContext()
                 .WriteTo.RollingFile(Program.LogPath)
                 .WriteTo.Console(

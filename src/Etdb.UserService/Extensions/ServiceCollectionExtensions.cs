@@ -63,7 +63,7 @@ namespace Etdb.UserService.Extensions
         {
             return services.Configure<FilestoreConfiguration>(options =>
             {
-                if (environment.IsDevelopment() || environment.IsLocalDevelopment() || environment.IsAzureDevelopment())
+                if (environment.IsAnyDevelopment() || environment.IsAzureDevelopment())
                 {
                     options.ImagePath = Path.Combine(environment.ContentRootPath,
                         ServiceCollectionExtensions.FilesLocalSubPath);
@@ -119,8 +119,8 @@ namespace Etdb.UserService.Extensions
 
                     var requireAuthenticatedUserPolicy = new AuthorizeFilter(
                         new AuthorizationPolicyBuilder()
-                        .RequireAuthenticatedUser()
-                        .Build());
+                            .RequireAuthenticatedUser()
+                            .Build());
 
                     options.Filters.Add(requireAuthenticatedUserPolicy);
 
@@ -138,7 +138,7 @@ namespace Etdb.UserService.Extensions
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-            
+
             return services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
@@ -166,7 +166,7 @@ namespace Etdb.UserService.Extensions
                     builder.AllowAnyHeader()
                         .AllowAnyMethod();
 
-                    if (environment.IsAnyLocalDevelopment())
+                    if (environment.IsAnyDevelopment())
                     {
                         builder.AllowAnyOrigin();
                         return;

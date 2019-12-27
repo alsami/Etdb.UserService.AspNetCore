@@ -10,7 +10,7 @@ namespace Etdb.UserService.Cqrs.Abstractions.Events.Authentication
             string? additionalInfo)
         {
             this.AuthenticationLogType = authenticationLogType;
-            this.IpAddress = ipAddress.ToString();
+            this.IpAddress = ipAddress?.ToString() ?? "127.0.0.1";
             this.UserId = userId;
             this.LoggedAt = loggedAt;
             this.AdditionalInfo = additionalInfo;

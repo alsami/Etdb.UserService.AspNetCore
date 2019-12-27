@@ -6,6 +6,7 @@ using Autofac.Extensions.DependencyInjection;
 using Etdb.UserService.Controllers.Tests.Startups;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Serilog;
@@ -16,12 +17,6 @@ namespace Etdb.UserService.Controllers.Tests.Fixtures
 {
     public class TestServerFixture
     {
-        public TestServer ApiServer { get; private set; }
-
-        public TestServer IdentityServer { get; private set; }
-
-        public Mock<HttpMessageHandler> ExternalIdentityHttpMessageHandlerMock { get; private set; }
-
         public TestServerFixture()
         {
             this.ExternalIdentityHttpMessageHandlerMock = new Mock<HttpMessageHandler>();
@@ -29,38 +24,58 @@ namespace Etdb.UserService.Controllers.Tests.Fixtures
             this.Initialize();
         }
 
+        public TestServer ApiServer { get; private set; }
+
+        public TestServer IdentityServer { get; private set; }
+
+        public Mock<HttpMessageHandler> ExternalIdentityHttpMessageHandlerMock { get; }
+
         private void Initialize()
         {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .Enrich.FromLogContext()
-                .WriteTo.RollingFile(Path.Combine(AppContext.BaseDirectory, "Logs",
-                    $"{Assembly.GetExecutingAssembly().GetName().Name}.log"))
-                .WriteTo.Console(
-                    outputTemplate:
-                    "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
-                    theme: AnsiConsoleTheme.Literate, restrictedToMinimumLevel: LogEventLevel.Error)
-                .CreateLogger();
-
             this.IdentityServer = new TestServer(new WebHostBuilder()
-                .UseSerilog()
                 .ConfigureServices(sp =>
                 {
                     sp.AddSingleton(this.ExternalIdentityHttpMessageHandlerMock.Object);
                     sp.AddAutofac();
                 })
+                .ConfigureAppConfiguration(ConfigureAppConfiguration)
+                .UseEnvironment("CI")
+                .UseSerilog(TestServerFixture.ConfigureLogger)
                 .UseStartup<IdentityServerStartup>()
                 .UseContentRoot(AppContext.BaseDirectory));
 
             this.ApiServer = new TestServer(new WebHostBuilder()
-                .UseSerilog()
                 .ConfigureServices((context, services) =>
                 {
                     services.AddSingleton(this.IdentityServer);
                     services.AddAutofac();
                 })
+                .ConfigureAppConfiguration(ConfigureAppConfiguration)
+                .UseEnvironment("CI")
+                .UseSerilog(TestServerFixture.ConfigureLogger)
                 .UseStartup<ApiServerStartup>()
                 .UseContentRoot(AppContext.BaseDirectory));
+        }
+
+        private void ConfigureAppConfiguration(WebHostBuilderContext _, IConfigurationBuilder builder)
+        {
+            builder.Sources.Clear();
+
+            builder.SetBasePath(AppContext.BaseDirectory);
+
+            builder.AddJsonFile("appsettings.Development.json", false)
+                .AddEnvironmentVariables()
+                .AddUserSecrets("Etdb_UserService");
+        }
+
+        private static void ConfigureLogger(WebHostBuilderContext _, LoggerConfiguration loggerConfiguration)
+        {
+            loggerConfiguration.MinimumLevel.Debug()
+                .Enrich.FromLogContext()
+                .WriteTo.Console(
+                    outputTemplate:
+                    "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
+                    theme: AnsiConsoleTheme.Literate);
         }
     }
 }

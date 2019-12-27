@@ -18,7 +18,7 @@ namespace Etdb.UserService.Extensions
 
         public static IApplicationBuilder SetupHsts(this IApplicationBuilder app, IWebHostEnvironment environment)
         {
-            return environment.IsAnyLocalDevelopment() ? app : app.UseHsts();
+            return environment.IsAnyDevelopment() ? app : app.UseHsts();
         }
 
         public static IApplicationBuilder SetupForwarding(this IApplicationBuilder app, IWebHostEnvironment environment)

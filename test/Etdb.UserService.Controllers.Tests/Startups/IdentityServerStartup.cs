@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Net.Http;
+﻿using System.Net.Http;
 using Autofac;
 using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Authentication.Configuration;
@@ -23,30 +21,31 @@ namespace Etdb.UserService.Controllers.Tests.Startups
     {
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly HttpMessageHandler httpMessageHandler;
+        private readonly IConfiguration configuration;
+        
+        private const string AzureServiceBusConnectionString = "AzureServiceBus";
 
-        public IdentityServerStartup(IWebHostEnvironment hostingEnvironment, HttpMessageHandler httpMessageHandler)
+        public IdentityServerStartup(IWebHostEnvironment hostingEnvironment, HttpMessageHandler httpMessageHandler, IConfiguration configuration)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.httpMessageHandler = httpMessageHandler;
+            this.configuration = configuration;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile(Path.Combine(AppContext.BaseDirectory, "appsettings.Development.json"))
-                .AddEnvironmentVariables()
-                .AddUserSecrets("Etdb_UserService")
-                .Build();
-
-            var identityServerConfiguration = configuration
+            var identityServerConfiguration = this.configuration
                 .GetSection(nameof(IdentityServerConfiguration))
                 .Get<IdentityServerConfiguration>();
 
-            var redisCacheOptions = configuration
+            var redisCacheOptions = this.configuration
                 .GetSection(nameof(RedisCacheOptions))
                 .Get<RedisCacheOptions>();
+            
+            services.Configure<AzureServiceBusConfiguration>(options =>
+                options.ConnectionString = this.configuration.GetConnectionString(IdentityServerStartup.AzureServiceBusConnectionString));
 
-            this.hostingEnvironment.EnvironmentName = Environments.Development;
+            // this.hostingEnvironment.EnvironmentName = Environments.Development;
 
             services
                 .ConfigureApiControllers()
@@ -61,10 +60,10 @@ namespace Etdb.UserService.Controllers.Tests.Startups
                 .AddDistributedRedisCache(redisCacheOptions.Configuration, redisCacheOptions.InstanceName);
 
             services.ConfigureAuthorizationPolicies()
-                .ConfigureDistributedCaching(configuration)
-                .ConfigureDocumentDbContextOptions(configuration)
-                .ConfigureIdentityServerConfigurationOptions(configuration)
-                .ConfigureFileStoreOptions(configuration, this.hostingEnvironment)
+                .ConfigureDistributedCaching(this.configuration)
+                .ConfigureDocumentDbContextOptions(this.configuration)
+                .ConfigureIdentityServerConfigurationOptions(this.configuration)
+                .ConfigureFileStoreOptions(this.configuration, this.hostingEnvironment)
                 .ConfigureResponseCompression();
         }
 

@@ -21,7 +21,6 @@ using Etdb.UserService.Services.Abstractions;
 using Etdb.UserService.Worker;
 using FluentValidation;
 using MediatR.Extensions.Autofac.DependencyInjection;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Hosting;
@@ -31,13 +30,14 @@ namespace Etdb.UserService.Extensions
     public static class ContainerBuilderExtensions
     {
         public static void SetupDependencies(this ContainerBuilder containerBuilder,
-            IWebHostEnvironment hostingEnvironment)
+            IHostEnvironment hostingEnvironment)
         {
             var builder = new AutofacFluentBuilder(containerBuilder
                     .AddMediatR(typeof(UserRegisterCommandHandler).Assembly)
                     .AddAutoMapper(typeof(UsersProfile).Assembly))
                 .ApplyModule(new DocumentDbContextModule(hostingEnvironment))
                 .ApplyModule(new ResourceCachingModule(hostingEnvironment))
+                .ApplyModule(new AzureServiceBusModule(hostingEnvironment))
                 .RegisterResolver(ContainerBuilderExtensions.ExternalAuthenticationStrategyResolver)
                 .RegisterTypeAsSingleton<ActionContextAccessor, IActionContextAccessor>()
                 .RegisterTypeAsSingleton<Hasher, IHasher>()
@@ -53,9 +53,7 @@ namespace Etdb.UserService.Extensions
                     new[] {typeof(UserRegisterCommandHandler).Assembly})
                 .AddClosedTypeAsScoped(typeof(IDocumentRepository<,>), new[] {typeof(UserServiceDbContext).Assembly});
 
-            builder.ApplyModule<AzureServiceBusModule>();
-
-            if (!hostingEnvironment.IsAnyLocalDevelopment()) return;
+            if (!hostingEnvironment.IsAnyDevelopment()) return;
 
             builder.RegisterTypeAsTransient<AuthenticationLogCleanupHostedService, IHostedService>();
         }

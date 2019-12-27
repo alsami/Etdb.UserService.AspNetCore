@@ -10,6 +10,7 @@ env:
     - DocumentDbContextOptions__DatabaseName="Etdb_UserService_Dev_Testing"
     - RedisCacheOptions__Configuration="${RedisConnection}"
     - RedisCacheOptions__InstanceName="Etdb_UserService_Travis"
+    - ASPNETCORE__ENVIRONMENT="CI"
 stages:
   - build
   - test
