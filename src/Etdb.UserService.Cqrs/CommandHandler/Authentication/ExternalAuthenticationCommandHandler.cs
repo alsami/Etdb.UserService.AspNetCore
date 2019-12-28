@@ -37,8 +37,9 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
                 {
                     {ExternalAuthenticationCommandHandler.TokenKey, command.Token},
                     {ExternalAuthenticationCommandHandler.ProviderKey, command.AuthenticationProvider},
-                    {ExternalAuthenticationCommandHandler.ScopeKey, string.Join(" ", identityClient.Scopes)}
-                }
+                    {ExternalAuthenticationCommandHandler.ScopeKey, string.Join(" ", identityClient.Scopes)},
+                    {"IpAddress", command.IpAddress.ToString()}
+                },
             }, cancellationToken);
     }
 }

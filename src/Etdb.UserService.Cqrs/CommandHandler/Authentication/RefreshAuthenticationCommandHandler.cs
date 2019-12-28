@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Authentication;
@@ -25,7 +26,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
                 Address = discoveryResponse.TokenEndpoint,
                 RefreshToken = command.RefreshToken,
                 ClientId = identityClient.Id,
-                ClientSecret = identityClient.Secret
+                ClientSecret = identityClient.Secret,
             }, cancellationToken);
     }
 }

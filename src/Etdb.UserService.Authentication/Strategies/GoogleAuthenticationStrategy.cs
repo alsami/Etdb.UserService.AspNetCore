@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -33,7 +34,7 @@ namespace Etdb.UserService.Authentication.Strategies
 
         protected override AuthenticationProvider AuthenticationProvider => AuthenticationProvider.Google;
 
-        public async Task<GrantValidationResult> AuthenticateAsync(string token)
+        public async Task<GrantValidationResult> AuthenticateAsync(IPAddress ipAddress, string token)
         {
             var response =
                 await this.ExternalIdentityServerClient.Client.GetAsync($"{UserProfileUrl}?access_token={token}");
@@ -50,10 +51,10 @@ namespace Etdb.UserService.Authentication.Strategies
             if (existingUser != null)
             {
                 if (this.AreSignInProvidersEqual(existingUser))
-                    return await this.SuccessValidationResultAsync(existingUser);
+                    return await this.SuccessValidationResultAsync(existingUser, ipAddress);
 
                 await this.PublishAuthenticationEvent(this.CreateUserAuthenticatedEvent(existingUser,
-                    AuthenticationLogType.Failed,
+                    AuthenticationLogType.Failed, ipAddress,
                     $"User is already registered using provider {existingUser.AuthenticationProvider}"));
 
                 return this.NotEqualSignInProviderResult;
@@ -63,7 +64,7 @@ namespace Etdb.UserService.Authentication.Strategies
 
             var registeredUser = await this.RegisterUserAsync(command);
 
-            return await this.SuccessValidationResultAsync(registeredUser);
+            return await this.SuccessValidationResultAsync(registeredUser, ipAddress);
         }
 
         private static async Task<UserRegisterCommand> CreateCommandAsync(HttpClient client,

@@ -18,20 +18,20 @@ namespace Etdb.UserService.Extensions
 
         public static IApplicationBuilder SetupHsts(this IApplicationBuilder app, IWebHostEnvironment environment)
         {
-            return environment.IsAnyDevelopment() ? app : app.UseHsts();
+            return environment.IsAnyDevelopment() 
+                ? app
+                : app.UseHsts()
+                    .UseHttpsRedirection();
         }
 
         public static IApplicationBuilder SetupForwarding(this IApplicationBuilder app, IWebHostEnvironment environment)
         {
-            if (environment.IsDevelopment())
-            {
-                return app;
-            }
-
-            return app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });
+            return environment.IsDevelopment() 
+                ? app 
+                : app.UseForwardedHeaders(new ForwardedHeadersOptions
+                {
+                    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+                });
         }
 
         public static void UseConfiguredRouting(this IApplicationBuilder app)

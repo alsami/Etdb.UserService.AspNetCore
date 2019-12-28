@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;
@@ -35,7 +36,7 @@ namespace Etdb.UserService.Authentication.Strategies
             this.logger = logger;
         }
 
-        public async Task<GrantValidationResult> AuthenticateAsync(string token)
+        public async Task<GrantValidationResult> AuthenticateAsync(IPAddress ipAddress, string token)
         {
             var url = new StringBuilder(UserProfileUrl)
                 .Append($"?access_token={token}")
@@ -55,10 +56,10 @@ namespace Etdb.UserService.Authentication.Strategies
             if (existingUser != null)
             {
                 if (this.AreSignInProvidersEqual(existingUser))
-                    return await this.SuccessValidationResultAsync(existingUser);
+                    return await this.SuccessValidationResultAsync(existingUser, ipAddress);
 
                 await this.PublishAuthenticationEvent(this.CreateUserAuthenticatedEvent(existingUser,
-                    AuthenticationLogType.Failed,
+                    AuthenticationLogType.Failed, ipAddress,
                     $"User is already registered using provider {existingUser.AuthenticationProvider}"));
 
                 return this.NotEqualSignInProviderResult;
@@ -68,7 +69,7 @@ namespace Etdb.UserService.Authentication.Strategies
 
             var registeredUser = await this.RegisterUserAsync(command);
 
-            return await this.SuccessValidationResultAsync(registeredUser);
+            return await this.SuccessValidationResultAsync(registeredUser, ipAddress);
         }
 
         private async Task<UserRegisterCommand> CreateCommandAsync(HttpClient client, FacebookUserProfile facebookUser)

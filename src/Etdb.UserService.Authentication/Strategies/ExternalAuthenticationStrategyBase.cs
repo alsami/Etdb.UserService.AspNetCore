@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Etdb.UserService.Authentication.Abstractions.Services;
@@ -55,16 +56,16 @@ namespace Etdb.UserService.Authentication.Strategies
         {
             var userSearchCommand = new UserSearchByUsernameAndEmailCommand(emailAddress);
 
-            return await this.bus.Send<UserDto>(userSearchCommand);
+            return await this.bus.Send(userSearchCommand);
         }
 
-        protected async Task<GrantValidationResult> SuccessValidationResultAsync(UserDto user)
+        protected async Task<GrantValidationResult> SuccessValidationResultAsync(UserDto user, IPAddress ipAddress)
         {
             await this.PublishAuthenticationEvent(this.CreateUserAuthenticatedEvent(user,
-                AuthenticationLogType.Succeeded, $"Authenticated using a {this.AuthenticationProvider} token"));
+                AuthenticationLogType.Succeeded, ipAddress, $"Authenticated using a {this.AuthenticationProvider} token"));
 
             var claims =
-                await this.bus.Send<IEnumerable<Claim>>(
+                await this.bus.Send(
                     new ClaimsLoadCommand(user.Id));
 
             return new GrantValidationResult(user.Id.ToString(),
@@ -74,7 +75,7 @@ namespace Etdb.UserService.Authentication.Strategies
 
         protected async Task<UserDto> RegisterUserAsync(UserRegisterCommand command)
         {
-            var user = await this.bus.Send<UserDto>(command);
+            var user = await this.bus.Send(command);
 
             return user!;
         }
@@ -83,9 +84,9 @@ namespace Etdb.UserService.Authentication.Strategies
             => this.bus.Publish(@event);
 
         protected UserAuthenticatedEvent CreateUserAuthenticatedEvent(UserDto user,
-            AuthenticationLogType authenticationLogType, string? additionalInfo = null)
+            AuthenticationLogType authenticationLogType, IPAddress ipAddress, string? additionalInfo = null)
             => new UserAuthenticatedEvent(authenticationLogType.ToString(),
-                this.httpContextAccessor.HttpContext.Connection.RemoteIpAddress, user.Id,
+                ipAddress, user.Id,
                 DateTime.UtcNow, additionalInfo);
     }
 }

@@ -1,3 +1,4 @@
+using System.Net;
 using System.Threading.Tasks;
 using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
@@ -21,9 +22,6 @@ namespace Etdb.UserService.Authentication.Strategies
         // ReSharper disable once UnusedMember.Local
         protected override AuthenticationProvider AuthenticationProvider => AuthenticationProvider.Twitter;
 
-        public Task<GrantValidationResult> AuthenticateAsync(string token)
-        {
-            throw new System.NotImplementedException();
-        }
+        public Task<GrantValidationResult> AuthenticateAsync(IPAddress ipAddress, string token) => throw new System.NotImplementedException();
     }
 }

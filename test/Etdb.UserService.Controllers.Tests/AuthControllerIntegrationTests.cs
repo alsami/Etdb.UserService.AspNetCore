@@ -13,17 +13,20 @@ using Moq;
 using Moq.Protected;
 using Newtonsoft.Json;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Etdb.UserService.Controllers.Tests
 {
     public class AuthControllerIntegrationTests : ControllerIntegrationTests
     {
         private const string SendAsyncMethodName = "SendAsync";
+        private readonly ITestOutputHelper testOutputHelper;
 
         public AuthControllerIntegrationTests(ConfigurationFixture configurationFixture,
-            TestServerFixture testServerFixture) :
+            TestServerFixture testServerFixture, ITestOutputHelper testOutputHelper) :
             base(configurationFixture, testServerFixture)
         {
+            this.testOutputHelper = testOutputHelper;
         }
 
         [Fact]
@@ -80,14 +83,19 @@ namespace Etdb.UserService.Controllers.Tests
             var registerDto = await RegisterAssertedAsync(httpClient);
 
             var tokenResponse = await this.GetTokenAsync(registerDto);
+            
+            Assert.False(tokenResponse.IsError, tokenResponse.Error ?? tokenResponse.ErrorDescription);
 
             var identityUserLoadResponse = await LoadIdentityUserAsync(tokenResponse.AccessToken, httpClient);
 
+            var responseContent = await identityUserLoadResponse.Content.ReadAsStringAsync();
+
+            this.testOutputHelper.WriteLine(responseContent);
+            
             Assert.Equal(HttpStatusCode.OK, identityUserLoadResponse.StatusCode);
 
             var userProfileDto =
-                JsonConvert.DeserializeObject<IdentityUserDto>(
-                    await identityUserLoadResponse.Content.ReadAsStringAsync());
+                JsonConvert.DeserializeObject<IdentityUserDto>(responseContent);
 
             Assert.Equal(registerDto.UserName, userProfileDto.UserName);
         }
@@ -354,7 +362,7 @@ namespace Etdb.UserService.Controllers.Tests
             var externalAuthenticationResponseOne =
                 await httpClient.PostAsJsonAsync("api/v1/auth/external-authentication", authenticationDto);
 
-            Assert.True(externalAuthenticationResponseOne.IsSuccessStatusCode);
+            Assert.True(externalAuthenticationResponseOne.IsSuccessStatusCode, await externalAuthenticationResponseOne.Content.ReadAsStringAsync());
 
             var externalAuthenticationResponseTwo =
                 await httpClient.PostAsJsonAsync("api/v1/auth/external-authentication", authenticationDto);

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Authentication;
@@ -10,6 +11,7 @@ using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace Etdb.UserService.Authentication.Validator
 {
@@ -18,28 +20,26 @@ namespace Etdb.UserService.Authentication.Validator
         private const string InvalidUserOrPasswordError = "Invalid user or password";
         private const string UserLockedOutError = "User locked out";
 
-        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IMediator bus;
 
-        public ResourceOwnerPasswordGrantValidator(IHttpContextAccessor httpContextAccessor, IMediator bus)
+        public ResourceOwnerPasswordGrantValidator(IMediator bus)
         {
-            this.httpContextAccessor = httpContextAccessor;
             this.bus = bus;
         }
 
         public async Task ValidateAsync(ResourceOwnerPasswordValidationContext context)
         {
             var command = new UserAuthenticationValidationCommand(context.UserName, context.Password,
-                this.httpContextAccessor.HttpContext.Connection.RemoteIpAddress);
+                IPAddress.Parse(context.Request.Raw.Get("IpAddress") ?? "127.0.0.1"));
 
             var userAuthenticationValidation =
-                await this.bus.Send<AuthenticationValidationDto>(
+                await this.bus.Send(
                     command);
 
             if (userAuthenticationValidation!.IsValid)
             {
                 var claims =
-                    await this.bus.Send<IEnumerable<Claim>>(
+                    await this.bus.Send(
                         new ClaimsLoadCommand(userAuthenticationValidation.UserId));
 
                 context.Result = new GrantValidationResult(userAuthenticationValidation.UserId.ToString(),

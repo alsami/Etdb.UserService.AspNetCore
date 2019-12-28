@@ -1,4 +1,5 @@
-﻿using Etdb.UserService.Cqrs.Abstractions.Base;
+﻿using System.Net;
+using Etdb.UserService.Cqrs.Abstractions.Base;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Commands.Authentication
 {

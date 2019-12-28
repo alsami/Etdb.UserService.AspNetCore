@@ -31,7 +31,7 @@ namespace Etdb.UserService.Authentication.Services
             }
 
             var claims =
-                await this.bus.Send<IEnumerable<Claim>>(
+                await this.bus.Send(
                     new ClaimsLoadCommand(userId));
 
             var enumeratedClaims = claims as Claim[] ?? claims.ToArray();

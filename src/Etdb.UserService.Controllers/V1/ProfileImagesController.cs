@@ -52,7 +52,7 @@ namespace Etdb.UserService.Controllers.V1
             Guid userId, int dimensionX = 1024, int dimensionY = 1024)
         {
             var profileImageDownloadInfo =
-                await this.bus.Send<FileDownloadInfoDto>(
+                await this.bus.Send(
                     new ProfileImageResizedLoadCommand(id, userId, dimensionX, dimensionY), cancellationToken);
 
             return new FileContentResult(profileImageDownloadInfo!.File,
@@ -89,7 +89,7 @@ namespace Etdb.UserService.Controllers.V1
 
             var command = new ProfileImagesAddCommand(userId, uploadImageMetaInfos);
 
-            return await this.bus.Send<IEnumerable<ProfileImageMetaInfoDto>>(
+            return await this.bus.Send(
                 command);
         }
 

@@ -2,6 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>Etdb_UserService</UserSecretsId>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />

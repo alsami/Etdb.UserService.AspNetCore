@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Authentication;
@@ -30,7 +31,11 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
                 Scope = string.Join(" ", identityClient.Scopes),
                 UserName = command.Username,
                 Password = command.Password,
-                Address = discoveryResponse.TokenEndpoint
+                Address = discoveryResponse.TokenEndpoint,
+                Parameters = new Dictionary<string, string>
+                {
+                    {"IpAddress", command.IpAddress.ToString()}
+                }
             }, cancellationToken);
     }
 }

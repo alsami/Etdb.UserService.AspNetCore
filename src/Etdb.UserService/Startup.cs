@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Net;
+using Autofac;
 using Etdb.ServiceBase.Constants;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Configuration;
@@ -7,6 +8,7 @@ using Etdb.UserService.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -99,8 +101,9 @@ namespace Etdb.UserService
                 return;
             }
 
-            app.SetupHsts(this.environment)
+            app
                 .SetupForwarding(this.environment)
+                .SetupHsts(this.environment)
                 .UseResponseCompression()
                 .UseCors(Startup.CorsPolicyName)
                 .UseIdentityServer()

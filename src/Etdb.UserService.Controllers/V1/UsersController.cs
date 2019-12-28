@@ -24,7 +24,7 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = new UserLoadCommand(id);
 
-            return this.bus.Send<UserDto>(command, cancellationToken);
+            return this.bus.Send(command, cancellationToken);
         }
 
         [AllowAnonymous]
@@ -33,7 +33,7 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = new UsersSearchCommand(userName);
 
-            return this.bus.Send<IEnumerable<UserFlatDto>>(command, cancellationToken);
+            return this.bus.Send(command, cancellationToken);
         }
 
         [AllowAnonymous]
@@ -43,7 +43,7 @@ namespace Etdb.UserService.Controllers.V1
         {
             var command = new UserNameAvailabilityCheckCommand(userName);
 
-            return this.bus.Send<UserNameAvailabilityDto>(command,
+            return this.bus.Send(command,
                 cancellationToken);
         }
 
