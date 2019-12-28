@@ -8,13 +8,21 @@ using Newtonsoft.Json;
 
 namespace Etdb.UserService.Services
 {
-    public class AzureServiceBusMessageProducerAdapter : IMessageProducerAdapter
+    public class AzureServiceBusMessageProducerAdapter : IMessageProducerAdapter, IAsyncDisposable
     {
         private readonly Func<MessageType, IMessageSender> messageSenderComposer;
+        private IMessageSender messageSender;
 
         public AzureServiceBusMessageProducerAdapter(Func<MessageType, IMessageSender> messageSenderComposer)
         {
             this.messageSenderComposer = messageSenderComposer;
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (this.messageSender == null) return;
+
+            await this.messageSender?.CloseAsync();
         }
 
         public async Task ProduceAsync<TMessage>(TMessage message, MessageType messageType) where TMessage : class
@@ -25,11 +33,9 @@ namespace Etdb.UserService.Services
 
             var sendableMessage = new Message(bytes);
 
-            var sender = this.messageSenderComposer(messageType);
+            this.messageSender = this.messageSenderComposer(messageType);
 
-            await sender.SendAsync(sendableMessage);
-
-            await sender.CloseAsync();
+            await this.messageSender.SendAsync(sendableMessage);
         }
     }
 }
