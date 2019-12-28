@@ -14,6 +14,7 @@ namespace Etdb.UserService.Authentication.Configuration
                 new ApiResource(ServiceNames.StorageService),
                 new ApiResource(ServiceNames.MessagingService),
                 new ApiResource(ServiceNames.IndexService),
+                new ApiResource(ServiceNames.ReportingService),
             };
         }
     }
