@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -15,46 +16,55 @@ namespace Etdb.UserService.Cqrs.EventHandler.Users
     public class UserAuthenticatedEventHandler : INotificationHandler<UserAuthenticatedEvent>
     {
         private readonly IMapper mapper;
-        private readonly ILogger<UserAuthenticatedEventHandler> logger;
         private readonly IUsersRepository usersRepository;
         private readonly IResourceLockingAdapter resourceLockingAdapter;
         private readonly IMessageProducerAdapter messageProducerAdapter;
 
         public UserAuthenticatedEventHandler(IUsersRepository usersRepository,
-            IResourceLockingAdapter resourceLockingAdapter, IMapper mapper,
-            ILogger<UserAuthenticatedEventHandler> logger, IMessageProducerAdapter messageProducerAdapter)
+            IResourceLockingAdapter resourceLockingAdapter, IMapper mapper, IMessageProducerAdapter messageProducerAdapter)
         {
             this.usersRepository = usersRepository;
             this.resourceLockingAdapter = resourceLockingAdapter;
             this.mapper = mapper;
-            this.logger = logger;
             this.messageProducerAdapter = messageProducerAdapter;
         }
 
         public async Task Handle(UserAuthenticatedEvent @event, CancellationToken cancellationToken)
         {
-            try
+            await this.messageProducerAdapter.ProduceAsync(@event, MessageType.UserAuthenticated);
+
+            var user = await this.usersRepository.FindAsync(@event.UserId);
+
+            if (!await this.resourceLockingAdapter.LockAsync(user!.Id, TimeSpan.FromSeconds(30)))
+                throw WellknownExceptions.UserResourceLockException(user.Id);
+
+            var authenticationLog = this.mapper.Map<AuthenticationLog>(@event);
+
+            if (!user.AuthenticationLogs.Any())
             {
-                await this.messageProducerAdapter.ProduceAsync(@event, MessageType.UserAuthenticated);
-                
-                var user = await this.usersRepository.FindAsync(@event.UserId);
-
-                if (!await this.resourceLockingAdapter.LockAsync(user!.Id, TimeSpan.FromSeconds(30)))
-                {
-                    throw WellknownExceptions.UserResourceLockException(user.Id);
-                }
-
-                var signInLog = this.mapper.Map<AuthenticationLog>(@event);
-                user.AddAuthenticationLog(signInLog);
-
+                user.AddAuthenticationLog(authenticationLog);
                 await this.usersRepository.EditAsync(user);
-
                 await this.resourceLockingAdapter.UnlockAsync(user.Id);
+                return;
             }
-            catch (Exception exception)
+
+            var mostRecentAuthenticationLog = user.AuthenticationLogs.OrderByDescending(log => log.LoggedAt).Last();
+
+            if (mostRecentAuthenticationLog.IpAddress !=
+                authenticationLog.IpAddress)
             {
-                this.logger.LogError(exception, exception.Message);
+                user.AddAuthenticationLog(authenticationLog);
+                await this.usersRepository.EditAsync(user);
+                await this.resourceLockingAdapter.UnlockAsync(user.Id);
+
+                return;
             }
+
+            user.RemoveAuthenticationLogs(log => log.Id == mostRecentAuthenticationLog.Id);
+            user.AddAuthenticationLog(authenticationLog);
+            await this.usersRepository.EditAsync(user);
+            
+            await this.resourceLockingAdapter.UnlockAsync(user.Id);
         }
     }
 }
