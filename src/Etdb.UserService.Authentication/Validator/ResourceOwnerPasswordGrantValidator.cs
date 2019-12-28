@@ -1,17 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using System.Security.Claims;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Authentication;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Domain.Enums;
-using Etdb.UserService.Presentation.Authentication;
 using Etdb.UserService.Presentation.Enums;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 
 namespace Etdb.UserService.Authentication.Validator
 {

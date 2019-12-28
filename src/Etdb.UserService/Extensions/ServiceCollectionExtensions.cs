@@ -3,7 +3,6 @@ using System.IO.Compression;
 using System.Threading;
 using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.ServiceBase.Filter;
-using Etdb.UserService.AspNetCore;
 using Etdb.UserService.AspNetCore.Filter;
 using Etdb.UserService.AspNetCore.Policies;
 using Etdb.UserService.Authentication.Abstractions.Services;

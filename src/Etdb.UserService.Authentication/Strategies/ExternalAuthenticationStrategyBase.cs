@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Authentication;

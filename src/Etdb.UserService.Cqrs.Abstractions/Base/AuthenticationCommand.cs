@@ -1,6 +1,4 @@
-﻿using System.Net;
-using System.Text;
-using Etdb.UserService.Presentation.Authentication;
+﻿using Etdb.UserService.Presentation.Authentication;
 using MediatR;
 
 namespace Etdb.UserService.Cqrs.Abstractions.Base

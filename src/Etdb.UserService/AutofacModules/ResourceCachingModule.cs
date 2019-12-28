@@ -4,7 +4,6 @@ using Elders.RedLock;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Caching.StackExchangeRedis;

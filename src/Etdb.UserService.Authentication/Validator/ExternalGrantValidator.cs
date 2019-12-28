@@ -1,12 +1,10 @@
 using System;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Domain.Enums;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
-using Microsoft.Extensions.Logging;
 
 namespace Etdb.UserService.Authentication.Validator
 {

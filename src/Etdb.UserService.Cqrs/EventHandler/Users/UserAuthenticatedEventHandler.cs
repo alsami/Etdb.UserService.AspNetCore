@@ -9,7 +9,6 @@ using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using MediatR;
-using Microsoft.Extensions.Logging;
 
 namespace Etdb.UserService.Cqrs.EventHandler.Users
 {
