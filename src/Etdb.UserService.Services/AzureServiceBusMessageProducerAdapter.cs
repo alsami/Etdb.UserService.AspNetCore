@@ -11,7 +11,7 @@ namespace Etdb.UserService.Services
     public class AzureServiceBusMessageProducerAdapter : IMessageProducerAdapter, IAsyncDisposable
     {
         private readonly Func<MessageType, IMessageSender> messageSenderComposer;
-        private IMessageSender messageSender;
+        private IMessageSender? messageSender;
 
         public AzureServiceBusMessageProducerAdapter(Func<MessageType, IMessageSender> messageSenderComposer)
         {
@@ -22,7 +22,7 @@ namespace Etdb.UserService.Services
         {
             if (this.messageSender == null) return;
 
-            await this.messageSender?.CloseAsync();
+            await this.messageSender.CloseAsync();
         }
 
         public async Task ProduceAsync<TMessage>(TMessage message, MessageType messageType) where TMessage : class

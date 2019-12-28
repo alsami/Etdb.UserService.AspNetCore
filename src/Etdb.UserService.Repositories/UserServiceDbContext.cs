@@ -17,24 +17,10 @@ namespace Etdb.UserService.Repositories
 
         public sealed override void Configure()
         {
-            UseImmutableConvention();
-            UseCamelCaseConvention();
-            UseIgnoreNullValuesConvention();
-            UseEnumStringRepresentation();
-        }
-
-        private static void UseIgnoreNullValuesConvention()
-        {
-            ConventionRegistry.Register(nameof(IgnoreIfDefaultConvention),
-                new ConventionPack {new IgnoreIfDefaultConvention(true)}, _ => true);
-        }
-
-        private static void UseEnumStringRepresentation()
-        {
-            ConventionRegistry.Register(nameof(EnumRepresentationConvention), new ConventionPack
-            {
-                new EnumRepresentationConvention(BsonType.String)
-            }, _ => true);
+            MongoDbConventions.UseImmutableConvention();
+            MongoDbConventions.UseCamelCaseConvention();
+            MongoDbConventions.UseIgnoreNullValuesConvention();
+            MongoDbConventions.UseEnumStringRepresentation();
         }
     }
 }

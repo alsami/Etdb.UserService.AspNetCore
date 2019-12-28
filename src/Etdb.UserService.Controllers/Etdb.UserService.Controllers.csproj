@@ -4,8 +4,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
-    <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="3.4.0" />
-    <PackageReference Include="Etdb.ServiceBase.Extensions" Version="3.4.0" />
+    <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="3.5.0" />
+    <PackageReference Include="Etdb.ServiceBase.Extensions" Version="3.5.0" />
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
   <ItemGroup>
