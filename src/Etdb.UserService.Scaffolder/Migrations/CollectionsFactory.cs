@@ -5,8 +5,6 @@ using Etdb.UserService.Repositories;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-#nullable enable
-
 namespace Etdb.UserService.Scaffolder.Migrations
 {
     public class CollectionsFactory
@@ -17,7 +15,6 @@ namespace Etdb.UserService.Scaffolder.Migrations
         {
             $"{nameof(User).ToLower()}s",
             $"{nameof(SecurityRole).ToLower()}s",
-            $"{nameof(AuthenticationLog).ToLower()}s",
         };
 
         public CollectionsFactory(UserServiceDbContext context)
