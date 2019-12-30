@@ -6,6 +6,7 @@ using Autofac.Extensions.FluentBuilder;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Cryptography.Hashing;
+using Etdb.ServiceBase.DocumentRepository;
 using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.ServiceBase.Services;
 using Etdb.ServiceBase.Services.Abstractions;
@@ -51,7 +52,7 @@ namespace Etdb.UserService.Extensions
                 .RegisterTypeAsScoped<UserUrlFactory, IUserUrlFactory>()
                 .AddClosedTypeAsScoped(typeof(AbstractValidator<>),
                     new[] {typeof(UserRegisterCommandHandler).Assembly})
-                .AddClosedTypeAsScoped(typeof(IDocumentRepository<,>), new[] {typeof(UserServiceDbContext).Assembly});
+                .AddClosedTypeAsScoped(typeof(GenericDocumentRepository<,>), new[] {typeof(UserServiceDbContext).Assembly});
 
             if (!hostingEnvironment.IsAnyDevelopment()) return;
 
