@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
-using Etdb.UserService.Cqrs.Abstractions.Events.Authentication;
+using Etdb.UserService.Cqrs.Abstractions.Events.Users;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Presentation.Authentication;
 using Etdb.UserService.Presentation.Enums;
@@ -44,7 +44,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
             if (!passwordIsValid)
             {
-                await this.PublishAuthenticationEvent(AuthenticationLogType.Failed, user.Id, command.IpAddress,
+                await this.PublishAuthenticationEvent(user.Id,  user.UserName, AuthenticationLogType.Failed, command.IpAddress,
                     "Given password is invalid!",
                     cancellationToken);
 
@@ -56,7 +56,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
                 return FailedAuthentication(AuthenticationFailure.LockedOut);
             }
 
-            await this.PublishAuthenticationEvent(AuthenticationLogType.Succeeded, user.Id, command.IpAddress,
+            await this.PublishAuthenticationEvent(user.Id, user.UserName, AuthenticationLogType.Succeeded, command.IpAddress,
                 cancellationToken: cancellationToken);
 
             return new AuthenticationValidationDto(true, userId: user.Id);
@@ -65,11 +65,13 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
         private static AuthenticationValidationDto FailedAuthentication(AuthenticationFailure authenticationFailure)
             => new AuthenticationValidationDto(false, authenticationFailure);
 
-        private Task PublishAuthenticationEvent(AuthenticationLogType authenticationLogType, Guid userId,
+        private Task PublishAuthenticationEvent(
+            Guid userId, string userName,
+            AuthenticationLogType authenticationLogType,
             IPAddress ipAddress,
             string? additionalInfo = null, CancellationToken cancellationToken = default)
             => this.bus.Publish(
-                new UserAuthenticatedEvent(authenticationLogType.ToString(), ipAddress, userId, DateTime.UtcNow,
+                new UserAuthenticatedEvent(userId, userName, authenticationLogType.ToString(), ipAddress , DateTime.UtcNow,
                     additionalInfo),
                 cancellationToken);
     }

@@ -1,6 +1,6 @@
 ﻿using System;
 using AutoMapper;
-using Etdb.UserService.Cqrs.Abstractions.Events.Authentication;
+using Etdb.UserService.Cqrs.Abstractions.Events.Users;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.Enums;
 

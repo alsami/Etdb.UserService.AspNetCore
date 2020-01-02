@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Etdb.UserService.AutoMapper.Converters;
-using Etdb.UserService.Cqrs.Abstractions.Events.Authentication;
+using Etdb.UserService.Cqrs.Abstractions.Events.Users;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Presentation.Authentication;
 

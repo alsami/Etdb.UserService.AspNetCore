@@ -26,8 +26,8 @@ namespace Etdb.UserService.Authentication.Strategies
         private static string UserProfileUrl => "https://www.googleapis.com/oauth2/v2/userinfo";
 
         public GoogleAuthenticationStrategy(IMediator bus, IExternalIdentityServerClient externalIdentityServerClient,
-            IHttpContextAccessor httpContextAccessor, ILogger<GoogleAuthenticationStrategy> logger) : base(bus,
-            externalIdentityServerClient, httpContextAccessor)
+            ILogger<GoogleAuthenticationStrategy> logger) : base(bus,
+            externalIdentityServerClient)
         {
             this.logger = logger;
         }

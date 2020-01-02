@@ -13,8 +13,7 @@ namespace Etdb.UserService.Authentication.Strategies
     {
         private string UserProfileUrl => "https://api.twitter.com/1.1/account/verify_credentials.json";
 
-        public TwitterAuthenticationStrategy(IMediator bus, IExternalIdentityServerClient externalIdentityServerClient,
-            IHttpContextAccessor httpContextAccessor) : base(bus, externalIdentityServerClient, httpContextAccessor)
+        public TwitterAuthenticationStrategy(IMediator bus, IExternalIdentityServerClient externalIdentityServerClient) : base(bus, externalIdentityServerClient)
         {
         }
 

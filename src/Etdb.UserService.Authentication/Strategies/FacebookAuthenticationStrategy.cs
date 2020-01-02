@@ -30,8 +30,8 @@ namespace Etdb.UserService.Authentication.Strategies
         protected override AuthenticationProvider AuthenticationProvider => AuthenticationProvider.Facebook;
 
         public FacebookAuthenticationStrategy(IMediator bus, IExternalIdentityServerClient externalIdentityServerClient,
-            IHttpContextAccessor httpContextAccessor, ILogger<FacebookAuthenticationStrategy> logger) : base(bus,
-            externalIdentityServerClient, httpContextAccessor)
+            ILogger<FacebookAuthenticationStrategy> logger) : base(bus,
+            externalIdentityServerClient)
         {
             this.logger = logger;
         }

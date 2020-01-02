@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Authentication;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
-using Etdb.UserService.Cqrs.Abstractions.Events.Authentication;
+using Etdb.UserService.Cqrs.Abstractions.Events.Users;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Presentation.Users;
 using IdentityServer4.Models;
@@ -19,15 +19,13 @@ namespace Etdb.UserService.Authentication.Strategies
     public abstract class ExternalAuthenticationStrategyBase
     {
         private readonly IMediator bus;
-        private readonly IHttpContextAccessor httpContextAccessor;
         protected readonly IExternalIdentityServerClient ExternalIdentityServerClient;
 
         protected ExternalAuthenticationStrategyBase(IMediator bus,
-            IExternalIdentityServerClient externalIdentityServerClient, IHttpContextAccessor httpContextAccessor)
+            IExternalIdentityServerClient externalIdentityServerClient)
         {
             this.bus = bus;
             this.ExternalIdentityServerClient = externalIdentityServerClient;
-            this.httpContextAccessor = httpContextAccessor;
         }
 
         protected abstract AuthenticationProvider AuthenticationProvider { get; }
@@ -83,8 +81,7 @@ namespace Etdb.UserService.Authentication.Strategies
 
         protected UserAuthenticatedEvent CreateUserAuthenticatedEvent(UserDto user,
             AuthenticationLogType authenticationLogType, IPAddress ipAddress, string? additionalInfo = null)
-            => new UserAuthenticatedEvent(authenticationLogType.ToString(),
-                ipAddress, user.Id,
-                DateTime.UtcNow, additionalInfo);
+            => new UserAuthenticatedEvent(user.Id, user.UserName, authenticationLogType.ToString(),
+                ipAddress, DateTime.UtcNow, additionalInfo);
     }
 }
