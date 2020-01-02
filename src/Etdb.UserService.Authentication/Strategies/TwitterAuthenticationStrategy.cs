@@ -5,7 +5,6 @@ using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Domain.Enums;
 using IdentityServer4.Validation;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 
 namespace Etdb.UserService.Authentication.Strategies
 {

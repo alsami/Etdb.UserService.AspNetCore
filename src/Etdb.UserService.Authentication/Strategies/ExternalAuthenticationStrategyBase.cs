@@ -10,7 +10,6 @@ using Etdb.UserService.Presentation.Users;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 

@@ -7,7 +7,6 @@ using AutoMapper.Contrib.Autofac.DependencyInjection;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Cryptography.Hashing;
 using Etdb.ServiceBase.DocumentRepository;
-using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.ServiceBase.Services;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
