@@ -12,4 +12,4 @@ In order to run the tests, following user-secrets must be set and a redis- and m
 
 `dotnet user-secrets set "DocumentDbContextOptions:DatabaseName" "Your-Db-Name" --id "Etdb_UserService"`
 
-`dotnet user-secrets set "ConnectionStrings:AzureServiceBus" "Endpoint=<ServiceBusAddress>/;SharedAccessKeyName=<AccessKeyName>;SharedAccessKey=<key> --id "Etdb_UserService"
+`dotnet user-secrets set "ConnectionStrings:AzureServiceBus" "Endpoint=<ServiceBusAddress>/;SharedAccessKeyName=<AccessKeyName>;SharedAccessKey=<key> --id "Etdb_UserService"`
