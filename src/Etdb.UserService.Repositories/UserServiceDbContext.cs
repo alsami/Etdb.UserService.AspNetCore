@@ -1,17 +1,15 @@
-﻿using Etdb.ServiceBase.DocumentRepository;
-using Etdb.ServiceBase.DocumentRepository.Abstractions;
-using Microsoft.Extensions.Options;
+﻿using System;
+using Etdb.ServiceBase.DocumentRepository;
 using MongoDB.Driver;
 
 namespace Etdb.UserService.Repositories
 {
     public class UserServiceDbContext : DocumentDbContext
     {
-        public UserServiceDbContext(IOptions<DocumentDbContextOptions> options) : base(options)
-            => this.Configure();
-
-        public UserServiceDbContext(MongoClientSettings settings, string databaseName) : base(settings, databaseName)
-            => this.Configure();
+        public UserServiceDbContext(Func<IMongoDatabase> databaseComposer) : base(databaseComposer)
+        {
+            this.Configure();
+        }
 
         public sealed override void Configure()
         {

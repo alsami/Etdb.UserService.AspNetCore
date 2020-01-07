@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
 using Etdb.UserService.Autofac.Extensions;
-using Etdb.UserService.Extensions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;

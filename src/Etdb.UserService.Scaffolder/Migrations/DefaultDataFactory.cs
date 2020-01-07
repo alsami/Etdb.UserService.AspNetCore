@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
+using Etdb.ServiceBase.DocumentRepository;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Repositories;
@@ -12,10 +13,10 @@ namespace Etdb.UserService.Scaffolder.Migrations
 {
     public class DefaultDataFactory
     {
-        private readonly UserServiceDbContext context;
+        private readonly DocumentDbContext context;
         private readonly IHasher hasher;
 
-        public DefaultDataFactory(UserServiceDbContext context, IHasher hasher)
+        public DefaultDataFactory(DocumentDbContext context, IHasher hasher)
         {
             this.context = context;
             this.hasher = hasher;

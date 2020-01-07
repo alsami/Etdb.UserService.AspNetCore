@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using Etdb.ServiceBase.DocumentRepository;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Repositories;
 using MongoDB.Bson;
@@ -9,7 +10,7 @@ namespace Etdb.UserService.Scaffolder.Migrations
 {
     public class CollectionsFactory
     {
-        private readonly UserServiceDbContext context;
+        private readonly DocumentDbContext context;
 
         private static readonly string[] Collections =
         {
@@ -17,7 +18,7 @@ namespace Etdb.UserService.Scaffolder.Migrations
             $"{nameof(SecurityRole).ToLower()}s",
         };
 
-        public CollectionsFactory(UserServiceDbContext context)
+        public CollectionsFactory(DocumentDbContext context)
             => this.context = context;
 
         public async Task CreateCollectionsAsync()

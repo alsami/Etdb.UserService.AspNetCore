@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
-export scaffold_path=src/Etdb.UserService.Scaffolder/Etdb.UserService.Scaffolder.csproj
-export dll_path=src/Etdb.UserService.Scaffolder/bin/Debug/netcoreapp3.1/Etdb.UserService.Scaffolder.dll
-echo running context scaffold
-dotnet build ${scaffold_path}
-dotnet ${dll_path}
+
+publish() {
+    dotnet publish -o publish src/Etdb.UserService.Scaffolder 
+}
+
+execute() {
+    ./publish/Etdb.UserService.Scaffolder 
+}
+
+publish
+execute
