@@ -9,6 +9,7 @@ using Etdb.UserService.Authentication.Abstractions.Services;
 using Etdb.UserService.Authentication.Configuration;
 using Etdb.UserService.Authentication.Services;
 using Etdb.UserService.Authentication.Validator;
+using Etdb.UserService.Autofac.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Services;

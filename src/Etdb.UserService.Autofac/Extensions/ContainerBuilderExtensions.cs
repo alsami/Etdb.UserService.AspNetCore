@@ -11,28 +11,27 @@ using Etdb.ServiceBase.Services;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Strategies;
-using Etdb.UserService.AutofacModules;
+using Etdb.UserService.Autofac.Modules;
 using Etdb.UserService.AutoMapper.Profiles;
 using Etdb.UserService.Cqrs.CommandHandler.Users;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Repositories;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
-using Etdb.UserService.Worker;
 using FluentValidation;
 using MediatR.Extensions.Autofac.DependencyInjection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Hosting;
 
-namespace Etdb.UserService.Extensions
+namespace Etdb.UserService.Autofac.Extensions
 {
     public static class ContainerBuilderExtensions
     {
         public static void SetupDependencies(this ContainerBuilder containerBuilder,
             IHostEnvironment hostingEnvironment)
         {
-            var builder = new AutofacFluentBuilder(containerBuilder
+            new AutofacFluentBuilder(containerBuilder
                     .AddMediatR(typeof(UserRegisterCommandHandler).Assembly)
                     .AddAutoMapper(typeof(UsersProfile).Assembly))
                 .ApplyModule(new DocumentDbContextModule(hostingEnvironment))
@@ -52,10 +51,6 @@ namespace Etdb.UserService.Extensions
                 .AddClosedTypeAsScoped(typeof(AbstractValidator<>),
                     new[] {typeof(UserRegisterCommandHandler).Assembly})
                 .AddClosedTypeAsScoped(typeof(GenericDocumentRepository<,>), new[] {typeof(UserServiceDbContext).Assembly});
-
-            if (!hostingEnvironment.IsAnyDevelopment()) return;
-
-            builder.RegisterTypeAsTransient<AuthenticationLogCleanupHostedService, IHostedService>();
         }
 
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Hosting;
 
-namespace Etdb.UserService.Extensions
+namespace Etdb.UserService.Autofac.Extensions
 {
     public static class HostingEnvironmentExtensions
     {

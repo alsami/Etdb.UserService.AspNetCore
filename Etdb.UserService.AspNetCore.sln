@@ -59,13 +59,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Controller
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.AspNetCore", "src\Etdb.UserService.AspNetCore\Etdb.UserService.AspNetCore.csproj", "{1488DD0F-FD96-486B-A975-B428EC2DC73C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Etdb.UserService.Worker", "src\Etdb.UserService.Worker\Etdb.UserService.Worker.csproj", "{146B1A8F-1FF5-44EB-B760-6FF3D980C9C2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.AutoMapper.Tests", "test\Etdb.UserService.AutoMapper.Tests\Etdb.UserService.AutoMapper.Tests.csproj", "{01D403E6-CB2E-4F18-A3DC-56BB562F594C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Tests", "test\Etdb.UserService.Tests\Etdb.UserService.Tests.csproj", "{61316E28-02D8-4FEC-BDD2-8CFE21355EC1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Autofac.Tests", "test\Etdb.UserService.Autofac.Tests\Etdb.UserService.Autofac.Tests.csproj", "{61316E28-02D8-4FEC-BDD2-8CFE21355EC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Scaffolder", "src\Etdb.UserService.Scaffolder\Etdb.UserService.Scaffolder.csproj", "{1D2DD3A4-D7BD-4E29-BB6A-CBA963DEAEF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etdb.UserService.Autofac", "src\Etdb.UserService.Autofac\Etdb.UserService.Autofac.csproj", "{D2CAFFF4-03FB-474C-82C1-0E52882309C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -141,10 +141,6 @@ Global
 		{1488DD0F-FD96-486B-A975-B428EC2DC73C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1488DD0F-FD96-486B-A975-B428EC2DC73C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1488DD0F-FD96-486B-A975-B428EC2DC73C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{146B1A8F-1FF5-44EB-B760-6FF3D980C9C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{146B1A8F-1FF5-44EB-B760-6FF3D980C9C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{146B1A8F-1FF5-44EB-B760-6FF3D980C9C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{146B1A8F-1FF5-44EB-B760-6FF3D980C9C2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{01D403E6-CB2E-4F18-A3DC-56BB562F594C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{01D403E6-CB2E-4F18-A3DC-56BB562F594C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01D403E6-CB2E-4F18-A3DC-56BB562F594C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -157,6 +153,10 @@ Global
 		{1D2DD3A4-D7BD-4E29-BB6A-CBA963DEAEF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D2DD3A4-D7BD-4E29-BB6A-CBA963DEAEF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D2DD3A4-D7BD-4E29-BB6A-CBA963DEAEF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2CAFFF4-03FB-474C-82C1-0E52882309C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2CAFFF4-03FB-474C-82C1-0E52882309C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2CAFFF4-03FB-474C-82C1-0E52882309C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2CAFFF4-03FB-474C-82C1-0E52882309C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -179,10 +179,10 @@ Global
 		{68162009-82DF-4296-860E-50C531238D89} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{6C7189E2-BADF-43D5-9451-CC91069A694F} = {6D5EBCBA-FB78-425F-8D55-D13C11C9DCB7}
 		{1488DD0F-FD96-486B-A975-B428EC2DC73C} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
-		{146B1A8F-1FF5-44EB-B760-6FF3D980C9C2} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 		{01D403E6-CB2E-4F18-A3DC-56BB562F594C} = {6D5EBCBA-FB78-425F-8D55-D13C11C9DCB7}
 		{61316E28-02D8-4FEC-BDD2-8CFE21355EC1} = {6D5EBCBA-FB78-425F-8D55-D13C11C9DCB7}
 		{1D2DD3A4-D7BD-4E29-BB6A-CBA963DEAEF4} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
+		{D2CAFFF4-03FB-474C-82C1-0E52882309C2} = {83A52767-022B-4B6A-BE3E-D6D6CFF89B79}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {39A620F8-72B1-4D11-8393-8263B92F8704}

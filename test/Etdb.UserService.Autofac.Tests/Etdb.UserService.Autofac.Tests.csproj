@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Etdb.UserService\Etdb.UserService.csproj" />
+    <ProjectReference Include="..\..\src\Etdb.UserService.Autofac\Etdb.UserService.Autofac.csproj" />
   </ItemGroup>
 
 </Project>

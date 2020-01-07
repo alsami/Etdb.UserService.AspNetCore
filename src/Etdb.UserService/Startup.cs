@@ -3,6 +3,7 @@ using Etdb.ServiceBase.Constants;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
 using Etdb.UserService.Authentication.Configuration;
 using Etdb.UserService.Authentication.Strategies;
+using Etdb.UserService.Autofac.Extensions;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using Microsoft.AspNetCore.Builder;

@@ -1,6 +1,6 @@
 using System;
 using Autofac;
-using Etdb.UserService.Extensions;
+using Etdb.UserService.Autofac.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
@@ -8,7 +8,7 @@ using Microsoft.Azure.ServiceBus.Core;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
-namespace Etdb.UserService.AutofacModules
+namespace Etdb.UserService.Autofac.Modules
 {
     public class AzureServiceBusModule : Module
     {

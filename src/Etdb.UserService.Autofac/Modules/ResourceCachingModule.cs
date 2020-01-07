@@ -1,7 +1,7 @@
 using System;
 using Autofac;
 using Elders.RedLock;
-using Etdb.UserService.Extensions;
+using Etdb.UserService.Autofac.Extensions;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
 using Microsoft.Extensions.Caching.Distributed;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
-namespace Etdb.UserService.AutofacModules
+namespace Etdb.UserService.Autofac.Modules
 {
     public class ResourceCachingModule : Module
     {

@@ -5,6 +5,7 @@ using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.DocumentRepository;
 using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
+using Etdb.UserService.Autofac.Extensions;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Services.Abstractions;

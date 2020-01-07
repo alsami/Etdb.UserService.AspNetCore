@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using Autofac;
 using Etdb.ServiceBase.Constants;
+using Etdb.UserService.Autofac.Extensions;
 using Etdb.UserService.Controllers.Tests.Extensions;
 using Etdb.UserService.Extensions;
 using Etdb.UserService.Misc.Configuration;

@@ -3,13 +3,13 @@ using System.Security.Authentication;
 using Autofac;
 using Etdb.ServiceBase.DocumentRepository;
 using Etdb.ServiceBase.DocumentRepository.Abstractions;
-using Etdb.UserService.Extensions;
+using Etdb.UserService.Autofac.Extensions;
 using Etdb.UserService.Repositories;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace Etdb.UserService.AutofacModules
+namespace Etdb.UserService.Autofac.Modules
 {
     public class DocumentDbContextModule : Module
     {
