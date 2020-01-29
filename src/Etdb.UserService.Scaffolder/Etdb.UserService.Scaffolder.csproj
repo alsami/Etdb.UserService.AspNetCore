@@ -11,10 +11,10 @@
     <ProjectReference Include="..\Etdb.UserService.Repositories\Etdb.UserService.Repositories.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Autofac.Extensions.FluentBuilder" Version="2.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.1" />
     <PackageReference Include="Moq" Version="4.13.1" />
-    <PackageReference Include="Serilog.Extensions.Autofac.DependencyInjection" Version="1.4.0" />
+    <PackageReference Include="Serilog.Extensions.Autofac.DependencyInjection" Version="2.0.0" />
   </ItemGroup>
 </Project>
