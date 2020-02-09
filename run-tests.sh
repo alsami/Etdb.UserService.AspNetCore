@@ -1,13 +1,2 @@
 #!/usr/bin/env bash
-for d in test/*; 
-    do 
-        if [[ ${d} == *.Tests ]]; then
-            cd ${d} 
-            dotnet test
-            if [[ ${?} != 0  ]]
-            then
-                exit -1
-            fi
-            cd ../../;
-        fi 
-done
+dotnet test --configuration Release --nologo -p:CollectCoverage=true -p:Threshold=0 -p:ThresholdType=line -p:ThresholdStat=total

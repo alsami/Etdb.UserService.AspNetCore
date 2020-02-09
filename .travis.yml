@@ -19,7 +19,7 @@ jobs:
   include:
     - stage: build
       name: build solution
-      script: dotnet restore && dotnet build
+      script: dotnet build -c Release
     - stage: test
       name: run-tests
       services:
