@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Etdb.ServiceBase.Domain.Abstractions.Documents;
 using Etdb.UserService.Domain.Base;
 using Etdb.UserService.Domain.Enums;
 using Newtonsoft.Json;
@@ -9,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Etdb.UserService.Domain.Entities
 {
-    public class User : GuidDocument
+    public class User : IDocument<Guid>
     {
         private const int MaxFailedLoginCount = 3;
         
@@ -19,8 +20,9 @@ namespace Etdb.UserService.Domain.Entities
             IEnumerable<Email> emails,
             AuthenticationProvider authenticationProvider = AuthenticationProvider.UsernamePassword,
             string? password = null, byte[]? salt = null, IEnumerable<ProfileImage>? profileImages = null,
-            IEnumerable<AuthenticationLog>? authenticationLogs = null) : base(id)
+            IEnumerable<AuthenticationLog>? authenticationLogs = null)
         {
+            this.Id = id;
             this.UserName = userName;
             this.FirstName = firstName;
             this.Name = name;
@@ -34,6 +36,8 @@ namespace Etdb.UserService.Domain.Entities
             this.Emails = emails?.ToList() ?? new List<Email>();
             this.RoleIds = roleIds?.ToList() ?? new List<Guid>();
         }
+        
+        public Guid Id { get; private set; }
 
         public string UserName { get; private set; }
 

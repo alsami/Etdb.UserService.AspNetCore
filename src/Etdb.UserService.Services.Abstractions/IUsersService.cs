@@ -18,7 +18,5 @@ namespace Etdb.UserService.Services.Abstractions
         Task<User?> FindByUserNameAsync(string userName);
 
         Task<User?> FindByUserNameOrEmailAsync(string userNameOrEmail);
-
-        Email FindEmailAddress(string emailAddress);
     }
 }

@@ -16,6 +16,7 @@ using Etdb.UserService.AutoMapper.Profiles;
 using Etdb.UserService.Cqrs.CommandHandler.Users;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Repositories;
+using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
 using FluentValidation;
@@ -46,6 +47,7 @@ namespace Etdb.UserService.Autofac.Extensions
                 .RegisterTypeAsScoped<GoogleAuthenticationStrategy, IGoogleAuthenticationStrategy>()
                 .RegisterTypeAsScoped<FacebookAuthenticationStrategy, IFacebookAuthenticationStrategy>()
                 .RegisterTypeAsScoped<UsersService, IUsersService>()
+                .RegisterTypeAsScoped<UsersCachingRepository, IUsersRepository>()
                 .RegisterTypeAsScoped<ApplicationUser, IApplicationUser>()
                 .RegisterTypeAsScoped<UserUrlFactory, IUserUrlFactory>()
                 .AddClosedTypeAsScoped(typeof(AbstractValidator<>),

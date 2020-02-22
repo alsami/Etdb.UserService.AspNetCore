@@ -75,16 +75,6 @@ namespace Etdb.UserService.Services
             return this.usersRepository.FindAsync(UserOrEmailEqualsExpression(userNameOrEmail));
         }
 
-        public Email FindEmailAddress(string emailAddress)
-        {
-            var email = this.usersRepository
-                .Query()
-                .SelectMany(user => user.Emails)
-                .FirstOrDefault(EmailEqualsExpression(emailAddress));
-
-            return email;
-        }
-
         private Task StoreProfileImagesAsync(User user, IEnumerable<StoreImageMetaInfo> profileImageMetaInfos)
         {
             var storeTasks = profileImageMetaInfos.Select(async profileImageMetaInfo =>
@@ -125,11 +115,6 @@ namespace Etdb.UserService.Services
         private static Expression<Func<User, bool>> UserNameEqualsExpression(string userName)
         {
             return user => user.UserName.ToLower() == userName.ToLower();
-        }
-
-        private static Expression<Func<Email, bool>> EmailEqualsExpression(string emailAddress)
-        {
-            return email => email.Address.ToLower() == emailAddress.ToLower();
         }
 
         private static Expression<Func<User, bool>> UserOrEmailEqualsExpression(string userNameOrEmail)

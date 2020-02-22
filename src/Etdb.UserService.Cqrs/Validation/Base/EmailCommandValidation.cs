@@ -1,4 +1,5 @@
 ﻿using Etdb.UserService.Cqrs.Abstractions.Base;
+using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using FluentValidation;
 
@@ -7,11 +8,11 @@ namespace Etdb.UserService.Cqrs.Validation.Base
     public abstract class EmailAbstractValidator<TEmailCommand> : AbstractValidator<TEmailCommand>
         where TEmailCommand : EmailCommand
     {
-        private readonly IUsersService usersService;
+        private readonly IUsersRepository usersRepository;
 
-        protected EmailAbstractValidator(IUsersService usersService)
+        protected EmailAbstractValidator(IUsersRepository usersRepository)
         {
-            this.usersService = usersService;
+            this.usersRepository = usersRepository;
         }
 
         protected void RegisterEmailRules()
@@ -30,9 +31,9 @@ namespace Etdb.UserService.Cqrs.Validation.Base
 
         private bool CheckEmailAvailibility(EmailCommand command)
         {
-            var email = this.usersService.FindEmailAddress(command.Address);
+            var email = this.usersRepository.FindEmailAddress(command.Address);
 
-            return email == null || email.Id == command.Id;
+            return email is null || email.Id == command.Id;
         }
     }
 }
