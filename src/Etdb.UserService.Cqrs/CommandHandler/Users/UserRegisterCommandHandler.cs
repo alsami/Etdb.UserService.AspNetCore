@@ -78,7 +78,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             return this.mapper.Map<UserDto>(user);
         }
 
-        private async Task<(User, IEnumerable<StoreImageMetaInfo>)> GenerateUserAsync(UserRegisterCommand command,
+        private async Task<(User, IEnumerable<StorableImage>)> GenerateUserAsync(UserRegisterCommand command,
             AuthenticationProvider provider)
         {
             var emails = GenerateEmails(command, provider);
@@ -88,7 +88,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             var profileImageMetaInfo = GenerateProfileImageMetaInfoWhenAvailable(command);
 
             var profileImageMetaInfos = profileImageMetaInfo == null
-                ? Array.Empty<StoreImageMetaInfo>()
+                ? Array.Empty<StorableImage>()
                 : new[] {profileImageMetaInfo};
 
             if (provider != AuthenticationProvider.UsernamePassword)
@@ -111,11 +111,11 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             return (userFromInternalAuthentication, profileImageMetaInfos);
         }
 
-        private static StoreImageMetaInfo? GenerateProfileImageMetaInfoWhenAvailable(UserRegisterCommand command)
+        private static StorableImage? GenerateProfileImageMetaInfoWhenAvailable(UserRegisterCommand command)
         {
             if (command.ProfileImageAddCommand == null) return null;
 
-            return new StoreImageMetaInfo(ProfileImage.Create(Guid.NewGuid(),
+            return new StorableImage(ProfileImage.Create(Guid.NewGuid(),
                     command.Id,
                     command.ProfileImageAddCommand.FileName,
                     command.ProfileImageAddCommand.FileContentType.MediaType,

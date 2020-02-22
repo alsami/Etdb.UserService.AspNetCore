@@ -17,22 +17,9 @@ namespace Etdb.UserService.Services
             this.linkGenerator = linkGenerator;
         }
 
-
-        public string GenerateUrlWithChildIdParameter<TUserChild>(TUserChild child, string route)
-            where TUserChild : UserChildDocument
-        {
-            var url = linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext, route, new
-            {
-                userId = child.UserId,
-                id = child.Id,
-            });
-
-            return url;
-        }
-
         public string GenerateUrl(User user, string route)
         {
-            var url = linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext, route, new
+            var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext, route, new
             {
                 userId = user.Id,
             });

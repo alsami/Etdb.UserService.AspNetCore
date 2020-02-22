@@ -18,10 +18,9 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
     {
         private readonly IUsersService usersService;
         private readonly ISecurityRolesRepository rolesRepository;
-        private readonly IUserUrlFactory profileImageUrlFactory;
+        private readonly IProfileImageUrlFactory profileImageUrlFactory;
 
-        public ClaimsLoadCommandHandler(ISecurityRolesRepository rolesRepository, IUsersService usersService,
-            IUserUrlFactory profileImageUrlFactory)
+        public ClaimsLoadCommandHandler(ISecurityRolesRepository rolesRepository, IUsersService usersService, IProfileImageUrlFactory profileImageUrlFactory)
         {
             this.rolesRepository = rolesRepository;
             this.usersService = usersService;
@@ -80,9 +79,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
                                 user.ProfileImages.First();
 
                 claims.Add(new Claim(JwtClaimTypes.Picture,
-                    this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(
-                        usedImage,
-                        RouteNames.ProfileImages.LoadResizedRoute)));
+                    this.profileImageUrlFactory.GetResizeUrl(usedImage)));
             }
 
             claims.Add(new Claim(JwtClaimTypes.IdentityProvider, user.AuthenticationProvider.ToString()));

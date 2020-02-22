@@ -52,7 +52,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
                         imageMetaInfo.ContentType.MediaType,
                         !user.ProfileImages.Any() && index == 0);
 
-                    var storeImageMetaInfo = new StoreImageMetaInfo(profileImage, imageMetaInfo.Image);
+                    var storeImageMetaInfo = new StorableImage(profileImage, imageMetaInfo.Image);
 
                     return (profileImage, storeImageMetaInfo);
                 })

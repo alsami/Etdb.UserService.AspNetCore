@@ -8,19 +8,17 @@ namespace Etdb.UserService.AutoMapper.Converters
 {
     public class ProfileImageConverter : ITypeConverter<ProfileImage, ProfileImageMetaInfoDto>
     {
-        private readonly IUserUrlFactory profileImageUrlFactory;
+        private readonly IProfileImageUrlFactory profileImageUrlFactory;
 
-        public ProfileImageConverter(IUserUrlFactory profileImageUrlFactory) =>
+        public ProfileImageConverter(IProfileImageUrlFactory profileImageUrlFactory) =>
             this.profileImageUrlFactory = profileImageUrlFactory;
 
         public ProfileImageMetaInfoDto Convert(ProfileImage source, ProfileImageMetaInfoDto destination,
             ResolutionContext context)
             => new ProfileImageMetaInfoDto(source.Id,
-                this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(source, RouteNames.ProfileImages.LoadRoute),
-                this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(source,
-                    RouteNames.ProfileImages.LoadResizedRoute),
-                this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(source,
-                    RouteNames.ProfileImages.DeleteRoute),
+                this.profileImageUrlFactory.GenerateUrl(source),
+                this.profileImageUrlFactory.GetResizeUrl(source),
+                this.profileImageUrlFactory.GetDeleteUrl(source),
                 source.IsPrimary, source.CreatedAt);
     }
 }

@@ -113,7 +113,7 @@ namespace Etdb.UserService
         {
             if (this.environment.IsClientGen()) return;
 
-            containerBuilder.SetupDependencies(this.environment);
+            containerBuilder.SetupDependencies(this.environment, this.configuration);
         }
     }
 }

@@ -10,11 +10,11 @@ namespace Etdb.UserService.AutoMapper.Converters
 {
     public class UserDtoTypeConverter : ITypeConverter<User, UserDto>
     {
-        private readonly IUserUrlFactory profileImageUrlFactory;
+        private readonly IProfileImageUrlFactory profileImageUrlFactory;
 
         private readonly IUserUrlFactory authenticationLogUrlFactory;
 
-        public UserDtoTypeConverter(IUserUrlFactory profileImageUrlFactory,
+        public UserDtoTypeConverter(IProfileImageUrlFactory profileImageUrlFactory,
             IUserUrlFactory authenticationLogUrlFactory)
         {
             this.profileImageUrlFactory = profileImageUrlFactory;
@@ -27,12 +27,9 @@ namespace Etdb.UserService.AutoMapper.Converters
                 .OrderByDescending(image => image.CreatedAt)
                 .Select(image =>
                     new ProfileImageMetaInfoDto(image.Id,
-                        this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(image,
-                            RouteNames.ProfileImages.LoadRoute),
-                        this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(image,
-                            RouteNames.ProfileImages.LoadResizedRoute),
-                        this.profileImageUrlFactory.GenerateUrlWithChildIdParameter(image,
-                            RouteNames.ProfileImages.DeleteRoute),
+                        this.profileImageUrlFactory.GenerateUrl(image),
+                        this.profileImageUrlFactory.GetResizeUrl(image),
+                        this.profileImageUrlFactory.GetDeleteUrl(image),
                         image.IsPrimary, image.CreatedAt))
                 .ToArray();
 

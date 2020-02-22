@@ -3,9 +3,9 @@ using Etdb.UserService.Domain.Entities;
 
 namespace Etdb.UserService.Services.Abstractions.Models
 {
-    public class StoreImageMetaInfo
+    public class StorableImage
     {
-        public StoreImageMetaInfo(ProfileImage profileImage, ReadOnlyMemory<byte> image)
+        public StorableImage(ProfileImage profileImage, ReadOnlyMemory<byte> image)
         {
             this.ProfileImage = profileImage;
             this.Image = image;
