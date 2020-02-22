@@ -183,7 +183,9 @@ namespace Etdb.UserService.Extensions
             IWebHostEnvironment environment)
         {
             var identityServerBuilder = services.AddIdentityServer(options =>
-                    options.Authentication.CookieAuthenticationScheme = ServiceCollectionExtensions.CookieName)
+                    {
+                        options.Authentication.CookieAuthenticationScheme = ServiceCollectionExtensions.CookieName;
+                    })
                 .AddDeveloperSigningCredential()
                 .AddInMemoryIdentityResources(IdentityResourceConfiguration.GetIdentityResource())
                 .AddInMemoryApiResources(ApiResourceConfiguration.GetApiResource())
@@ -213,6 +215,7 @@ namespace Etdb.UserService.Extensions
                 {
                     options.Authority = authority;
                     options.RequireHttpsMetadata = environment.IsProduction();
+                    options.IntrospectionDiscoveryPolicy.RequireHttps = environment.IsProduction();
                     options.ApiName = apiName;
                 });
 
