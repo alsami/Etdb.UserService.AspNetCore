@@ -14,7 +14,7 @@ env:
 stages:
   - build
   - test
-  - create_client
+  - publish
 jobs:
   include:
     - stage: build
@@ -30,12 +30,13 @@ jobs:
         - sh setup-mongodb-user.sh "$MONGODB_USERNAME" "$MONGODB_PASSWORD"
         - sh scaffold-db.sh
       script: ./run-tests.sh
-    - stage: create-client
-      name: create-client
+    - stage: publish
+      name: publish
       if: tag IS present
+      services:
+        - docker
       before_script:
-        - curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
-        - sudo apt-get install -y nodejs
+        - docker login -u ${REGISTRY_USER} -p ${REGISTRY_PASSWORD} ${REGISTRY}
       script:
-        - sh create-client.sh
+        - ./publish-docker.sh
 
