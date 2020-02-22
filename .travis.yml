@@ -15,6 +15,7 @@ stages:
   - build
   - test
   - publish
+  - deploy
 jobs:
   include:
     - stage: build
@@ -39,4 +40,13 @@ jobs:
         - docker login -u ${REGISTRY_USER} -p ${REGISTRY_PASSWORD} ${REGISTRY}
       script:
         - ./publish-docker.sh
-
+    - stage: deploy
+      name: deploy
+      if: tag IS present
+      addons:
+        apt:
+          update: true
+      before_script:
+        - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+      script:
+        - ./deploy-app.sh
