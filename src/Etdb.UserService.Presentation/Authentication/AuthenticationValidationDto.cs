@@ -19,8 +19,7 @@ namespace Etdb.UserService.Presentation.Authentication
             this.UserId = userId.GetValueOrDefault();
         }
 
-        public AuthenticationValidationDto()
-        {
-        }
+        public static AuthenticationValidationDto FailedAuthentication(AuthenticationFailure authenticationFailure)
+            => new AuthenticationValidationDto(false, authenticationFailure);
     }
 }

@@ -19,12 +19,11 @@ namespace Etdb.UserService.Services
     // ReSharper disable SpecifyStringComparison
     public class UsersService : IUsersService
     {
-        private readonly IUsersRepository usersRepository;
         private readonly IFileService fileService;
         private readonly IOptions<FilestoreConfiguration> fileStoreOptions;
         private readonly IImageCompressionService imageCompressionService;
         private readonly ILogger<UsersService> logger;
-        private const int MaxFailedLoginCount = 3;
+        private readonly IUsersRepository usersRepository;
 
         public UsersService(IUsersRepository usersRepository, IFileService fileService,
             IOptions<FilestoreConfiguration> fileStoreOptions, IImageCompressionService imageCompressionService,
@@ -39,10 +38,7 @@ namespace Etdb.UserService.Services
 
         public async Task AddAsync(User user, params StoreImageMetaInfo[] storeImageMetaInfos)
         {
-            if (storeImageMetaInfos.Any())
-            {
-                await this.StoreProfileImagesAsync(user, storeImageMetaInfos);
-            }
+            if (storeImageMetaInfos.Any()) await this.StoreProfileImagesAsync(user, storeImageMetaInfos);
 
             await this.usersRepository.AddAsync(user);
         }
@@ -55,51 +51,14 @@ namespace Etdb.UserService.Services
             await this.usersRepository.EditAsync(user);
         }
 
-        public Task EditAsync(User user) => this.usersRepository.EditAsync(user);
-
-        public Task<User?> FindByIdAsync(Guid id) => this.usersRepository.FindAsync(id);
-
-        public async Task<bool> IsUserLocked(Guid id)
+        public Task EditAsync(User user)
         {
-            var user = await this.usersRepository.FindAsync(id);
+            return this.usersRepository.EditAsync(user);
+        }
 
-            if (user!.AuthenticationProvider != AuthenticationProvider.UsernamePassword)
-            {
-                return false;
-            }
-
-            if (user.AuthenticationLogs == null)
-            {
-                return false;
-            }
-
-            var authenticationLogs = user.AuthenticationLogs
-                .OrderByDescending(log => log.LoggedAt)
-                .ToArray();
-
-            if (authenticationLogs.Length < UsersService.MaxFailedLoginCount ||
-                authenticationLogs.FirstOrDefault(authenticationLog =>
-                    authenticationLog.AuthenticationLogType == AuthenticationLogType.Succeeded) != null)
-            {
-                return false;
-            }
-
-            var foundFailedLoginsInARow = 0;
-
-            foreach (var signInLog in authenticationLogs)
-            {
-                if (signInLog.AuthenticationLogType != AuthenticationLogType.Failed)
-                {
-                    foundFailedLoginsInARow = 0;
-                    continue;
-                }
-
-                foundFailedLoginsInARow++;
-
-                if (foundFailedLoginsInARow == UsersService.MaxFailedLoginCount) break;
-            }
-
-            return foundFailedLoginsInARow == UsersService.MaxFailedLoginCount;
+        public Task<User?> FindByIdAsync(Guid id)
+        {
+            return this.usersRepository.FindAsync(id);
         }
 
         public Task<User?> FindByUserNameAsync(string userName)
@@ -143,13 +102,14 @@ namespace Etdb.UserService.Services
                     ? "image/jpeg"
                     : profileImageMetaInfo.ProfileImage.MediaType;
 
-                var compressionFactor = profileImageMetaInfo.Image.Length > (1024 * 10) ? 25L : 50L;
+                var compressionFactor = profileImageMetaInfo.Image.Length > 1024 * 10 ? 25L : 50L;
 
                 this.logger.LogInformation("Compressing image with factory {compressionFactor}. Current size: {size}",
                     compressionFactor, profileImageMetaInfo.Image.Length);
 
                 var compressed =
-                    this.imageCompressionService.Compress(profileImageMetaInfo.Image.ToArray(), mediaType, compressionFactor);
+                    this.imageCompressionService.Compress(profileImageMetaInfo.Image.ToArray(), mediaType,
+                        compressionFactor);
 
                 this.logger.LogInformation("Compressing image done. Compressed size: {size}", compressed.Length);
 
@@ -162,14 +122,21 @@ namespace Etdb.UserService.Services
             return Task.WhenAll(storeTasks);
         }
 
-        private static Expression<Func<User, bool>> UserNameEqualsExpression(string userName) =>
-            user => user.UserName.ToLower() == userName.ToLower();
+        private static Expression<Func<User, bool>> UserNameEqualsExpression(string userName)
+        {
+            return user => user.UserName.ToLower() == userName.ToLower();
+        }
 
-        private static Expression<Func<Email, bool>> EmailEqualsExpression(string emailAddress) =>
-            email => email.Address.ToLower() == emailAddress.ToLower();
+        private static Expression<Func<Email, bool>> EmailEqualsExpression(string emailAddress)
+        {
+            return email => email.Address.ToLower() == emailAddress.ToLower();
+        }
 
-        private static Expression<Func<User, bool>> UserOrEmailEqualsExpression(string userNameOrEmail) => user =>
-            user.UserName.ToLower() == userNameOrEmail.ToLower() ||
-            user.Emails.Any(email => email.Address.ToLower() == userNameOrEmail.ToLower());
+        private static Expression<Func<User, bool>> UserOrEmailEqualsExpression(string userNameOrEmail)
+        {
+            return user =>
+                user.UserName.ToLower() == userNameOrEmail.ToLower() ||
+                user.Emails.Any(email => email.Address.ToLower() == userNameOrEmail.ToLower());
+        }
     }
 }

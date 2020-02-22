@@ -15,8 +15,6 @@ namespace Etdb.UserService.Services.Abstractions
 
         Task<User?> FindByIdAsync(Guid id);
 
-        Task<bool> IsUserLocked(Guid id);
-
         Task<User?> FindByUserNameAsync(string userName);
 
         Task<User?> FindByUserNameOrEmailAsync(string userNameOrEmail);

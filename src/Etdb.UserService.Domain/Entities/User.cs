@@ -11,6 +11,8 @@ namespace Etdb.UserService.Domain.Entities
 {
     public class User : GuidDocument
     {
+        private const int MaxFailedLoginCount = 3;
+        
         [JsonConstructor]
         private User(Guid id, string userName, string? firstName, string? name, string? biography,
             DateTime registeredSince, IEnumerable<Guid> roleIds,
@@ -95,6 +97,38 @@ namespace Etdb.UserService.Domain.Entities
             copy.Remove(image);
 
             this.ProfileImages = copy;
+        }
+
+        public bool IsLocked()
+        {
+            if (this.AuthenticationProvider != AuthenticationProvider.UsernamePassword) return false;
+
+            if (this.AuthenticationLogs == null) return false;
+
+            if (this.AuthenticationLogs.Count < MaxFailedLoginCount) return false;
+
+            var orderedDescendingAuthenticationLogs = this.AuthenticationLogs
+                .OrderByDescending(log => log.LoggedAt)
+                .ToArray();
+
+            if (orderedDescendingAuthenticationLogs.First().AuthenticationLogType == AuthenticationLogType.Succeeded) return false;
+
+            var foundFailedLoginsInARow = 0;
+
+            foreach (var signInLog in orderedDescendingAuthenticationLogs)
+            {
+                if (signInLog.AuthenticationLogType != AuthenticationLogType.Failed)
+                {
+                    foundFailedLoginsInARow--;
+                    continue;
+                }
+
+                foundFailedLoginsInARow++;
+
+                if (foundFailedLoginsInARow == MaxFailedLoginCount) break;
+            }
+
+            return foundFailedLoginsInARow == MaxFailedLoginCount;
         }
 
         public static User Create(Guid id, string userName, string? firstName, string? name, string? biography,
