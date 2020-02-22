@@ -212,7 +212,7 @@ namespace Etdb.UserService.Extensions
                 .AddIdentityServerAuthentication(options =>
                 {
                     options.Authority = authority;
-                    options.RequireHttpsMetadata = environment.IsProduction() || environment.IsAzureDevelopment();
+                    options.RequireHttpsMetadata = environment.IsProduction();
                     options.ApiName = apiName;
                 });
 
