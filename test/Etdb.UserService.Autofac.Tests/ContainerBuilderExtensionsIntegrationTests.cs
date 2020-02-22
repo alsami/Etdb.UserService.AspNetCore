@@ -34,12 +34,8 @@ namespace Etdb.UserService.Bootstrap.Tests
             var container = containerBuilder.Build();
 
             Assert.True(container.IsRegistered<IRedisLockManager>(), $"{nameof(IRedisLockManager)} not registered");
-            Assert.True(container.IsRegistered<IExternalAuthenticationStrategy>(),
-                $"{nameof(IExternalAuthenticationStrategy)} not registered");
             Assert.True(container.IsRegistered<IUserUrlFactory>(),
                 $"{nameof(IUserUrlFactory)} not registered");
-            Assert.True(container.IsRegistered<IActionContextAccessor>(),
-                $"{nameof(IActionContextAccessor)} not registered");
             Assert.True(container.IsRegistered<IHasher>(), $"{nameof(IHasher)} not registered");
             Assert.True(container.IsRegistered<IFileService>(), $"{nameof(IFileService)} not registered");
             Assert.True(container.IsRegistered<DocumentDbContext>(), $"{nameof(DocumentDbContext)} not registered");
