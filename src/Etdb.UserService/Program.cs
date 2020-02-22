@@ -40,13 +40,16 @@ namespace Etdb.UserService
             var environment = context.HostingEnvironment;
 
             configuration
-                .MinimumLevel.Is(environment.IsAnyDevelopment() ? LogEventLevel.Debug : LogEventLevel.Information)
+                .MinimumLevel.Is(environment.IsAnyDevelopment() ? LogEventLevel.Verbose : LogEventLevel.Warning)
                 .Enrich.FromLogContext()
-                .WriteTo.RollingFile(Program.LogPath)
                 .WriteTo.Console(
                     outputTemplate:
                     "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}",
                     theme: AnsiConsoleTheme.Literate);
+
+            if (context.HostingEnvironment.IsAzureDevelopment()) return;
+
+            configuration.WriteTo.RollingFile(Program.LogPath);
         }
 
         private static void ConfigureAppConfiguration(WebHostBuilderContext context, IConfigurationBuilder builder)
