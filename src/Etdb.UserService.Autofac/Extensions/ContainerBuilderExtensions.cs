@@ -48,6 +48,7 @@ namespace Etdb.UserService.Autofac.Extensions
                 .RegisterTypeAsScoped<FacebookAuthenticationStrategy, IFacebookAuthenticationStrategy>()
                 .RegisterTypeAsScoped<UsersService, IUsersService>()
                 .RegisterTypeAsScoped<UsersCachingRepository, IUsersRepository>()
+                .RegisterTypeAsScoped<SecurityRolesRepository, ISecurityRolesRepository>()
                 .RegisterTypeAsScoped<ApplicationUser, IApplicationUser>()
                 .RegisterTypeAsScoped<UserUrlFactory, IUserUrlFactory>()
                 .AddClosedTypeAsScoped(typeof(AbstractValidator<>),
