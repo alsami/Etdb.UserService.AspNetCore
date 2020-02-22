@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Hosting;
 
 namespace Etdb.UserService.Extensions
@@ -27,12 +28,15 @@ namespace Etdb.UserService.Extensions
 
         public static IApplicationBuilder SetupForwarding(this IApplicationBuilder app, IWebHostEnvironment environment)
         {
-            return environment.IsDevelopment() 
-                ? app 
-                : app.UseForwardedHeaders(new ForwardedHeadersOptions
-                {
-                    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-                });
+            var forwardOptions = new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+            };
+            
+            forwardOptions.KnownNetworks.Clear();
+            forwardOptions.KnownProxies.Clear();
+            
+            return app.UseForwardedHeaders(forwardOptions);
         }
 
         public static void UseConfiguredRouting(this IApplicationBuilder app)

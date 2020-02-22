@@ -101,11 +101,11 @@ namespace Etdb.UserService
             }
 
             app
-                .SetupForwarding(this.environment)
                 .SetupHsts(this.environment)
                 .UseResponseCompression()
                 .UseCors(Startup.CorsPolicyName)
                 .UseIdentityServer()
+                .SetupForwarding(this.environment)
                 .UseConfiguredRouting();
         }
 
