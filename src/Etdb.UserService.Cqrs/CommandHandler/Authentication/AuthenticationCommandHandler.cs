@@ -37,7 +37,14 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
             var client = this.identityServerClient.Client;
 
             var discoveryDocument =
-                await client.GetDiscoveryDocumentAsync(this.identityServerOptions.Value.Authority, cancellationToken);
+                await client.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+                {
+                    Policy = new DiscoveryPolicy
+                    {
+                        Authority = this.identityServerOptions.Value.Authority,
+                        RequireHttps = false
+                    }
+                }, cancellationToken);
 
             if (discoveryDocument.IsError)
             {
