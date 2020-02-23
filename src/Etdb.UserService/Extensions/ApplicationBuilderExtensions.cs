@@ -7,7 +7,7 @@ namespace Etdb.UserService.Extensions
 {
     public static class ApplicationBuilderExtensions
     {
-        public static IApplicationBuilder SetupSwagger(this IApplicationBuilder app,
+        public static IApplicationBuilder UseConfiguredSwagger(this IApplicationBuilder app,
             string jsonUri,
             string description)
         {
@@ -16,7 +16,7 @@ namespace Etdb.UserService.Extensions
                 .UseSwaggerUI(action => action.SwaggerEndpoint(jsonUri, description));
         }
 
-        public static IApplicationBuilder SetupHsts(this IApplicationBuilder app, IWebHostEnvironment environment)
+        public static IApplicationBuilder UseConfiguredHsts(this IApplicationBuilder app, IWebHostEnvironment environment)
         {
             return environment.IsAnyDevelopment()
                 ? app
@@ -24,13 +24,15 @@ namespace Etdb.UserService.Extensions
                     .UseHttpsRedirection();
         }
 
-        public static IApplicationBuilder SetupForwarding(this IApplicationBuilder app, IWebHostEnvironment environment)
+        public static IApplicationBuilder UseConfigureForwarding(this IApplicationBuilder app, IWebHostEnvironment environment)
         {
             var forwardOptions = new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
             };
 
+            // TODO: check if this is really required
+            // https://stackoverflow.com/questions/51143761/asp-net-core-docker-https-on-azure-app-service-containers
             forwardOptions.KnownNetworks.Clear();
             forwardOptions.KnownProxies.Clear();
 

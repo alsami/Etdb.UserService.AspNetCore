@@ -95,18 +95,18 @@ namespace Etdb.UserService
         {
             if (this.environment.IsClientGen())
             {
-                app.SetupSwagger(Startup.SwaggerDocJsonUri, Startup.SwaggerDocDescription)
+                app.UseConfiguredSwagger(Startup.SwaggerDocJsonUri, Startup.SwaggerDocDescription)
                     .UseConfiguredRouting();
 
                 return;
             }
 
             app
-                .SetupHsts(this.environment)
+                .UseConfiguredHsts(this.environment)
                 .UseResponseCompression()
                 .UseCors(Startup.CorsPolicyName)
                 .UseIdentityServer()
-                .SetupForwarding(this.environment)
+                .UseConfigureForwarding(this.environment)
                 .UseConfiguredRouting();
         }
 
