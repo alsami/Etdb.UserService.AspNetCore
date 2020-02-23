@@ -11,6 +11,7 @@ using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Cqrs.Abstractions.Events.Users;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.Enums;
+using Etdb.UserService.Domain.ValueObjects;
 using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Presentation.Users;
 using Etdb.UserService.Repositories.Abstractions;
@@ -101,12 +102,13 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             }
 
             var salt = this.hasher.GenerateSalt();
+            var hash = this.hasher.CreateSaltedHash(command.PasswordAddCommand!.NewPassword, salt);
 
             var userFromInternalAuthentication = User.Create(command.Id, command.WantedUserName, command.FirstName,
                 command.Name,
                 null,
                 DateTime.UtcNow, roles, emails,
-                password: this.hasher.CreateSaltedHash(command.PasswordAddCommand!.NewPassword, salt), salt: salt);
+                hashedPassword: new HashedPassword(hash, salt));
 
             return (userFromInternalAuthentication, profileImageMetaInfos);
         }

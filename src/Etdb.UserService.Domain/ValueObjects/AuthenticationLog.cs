@@ -2,7 +2,7 @@
 using Etdb.UserService.Domain.Enums;
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
-namespace Etdb.UserService.Domain.Entities
+namespace Etdb.UserService.Domain.ValueObjects
 {
     public class AuthenticationLog
     {

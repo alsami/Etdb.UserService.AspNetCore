@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Etdb.ServiceBase.Domain.Abstractions.Documents;
 using Etdb.UserService.Domain.Enums;
+using Etdb.UserService.Domain.ValueObjects;
 using Newtonsoft.Json;
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
@@ -18,7 +19,7 @@ namespace Etdb.UserService.Domain.Entities
             DateTime registeredSince, IEnumerable<Guid> roleIds,
             IEnumerable<Email> emails,
             AuthenticationProvider authenticationProvider = AuthenticationProvider.UsernamePassword,
-            string? password = null, byte[]? salt = null, IEnumerable<ProfileImage>? profileImages = null,
+            HashedPassword? hashedPassword = null, IEnumerable<ProfileImage>? profileImages = null,
             IEnumerable<AuthenticationLog>? authenticationLogs = null)
         {
             this.Id = id;
@@ -28,8 +29,7 @@ namespace Etdb.UserService.Domain.Entities
             this.Biography = biography;
             this.RegisteredSince = registeredSince;
             this.AuthenticationProvider = authenticationProvider;
-            this.Password = password;
-            this.Salt = salt;
+            this.HashedPassword = hashedPassword;
             this.ProfileImages = profileImages?.ToList() ?? new List<ProfileImage>();
             this.AuthenticationLogs = authenticationLogs?.ToList() ?? new List<AuthenticationLog>();
             this.Emails = emails?.ToList() ?? new List<Email>();
@@ -50,9 +50,7 @@ namespace Etdb.UserService.Domain.Entities
 
         public AuthenticationProvider AuthenticationProvider { get; private set; }
 
-        public string? Password { get; private set; }
-
-        public byte[]? Salt { get; private set; }
+        public HashedPassword? HashedPassword { get; private set; }
 
         public IReadOnlyCollection<ProfileImage> ProfileImages { get; private set; }
 
@@ -138,23 +136,21 @@ namespace Etdb.UserService.Domain.Entities
             DateTime registeredSince, IEnumerable<Guid> roleIds,
             IEnumerable<Email> emails,
             AuthenticationProvider authenticationProvider = AuthenticationProvider.UsernamePassword,
-            string? password = null, byte[]? salt = null, IEnumerable<ProfileImage>? profileImages = null,
+            HashedPassword? hashedPassword = null, IEnumerable<ProfileImage>? profileImages = null,
             IEnumerable<AuthenticationLog>? authenticationLogs = null) => new User(id, userName, firstName, name,
-            biography, registeredSince, roleIds, emails, authenticationProvider, password, salt, profileImages,
+            biography, registeredSince, roleIds, emails, authenticationProvider, hashedPassword, profileImages,
             authenticationLogs);
 
         public User MutateUserName(string userName) => Create(this.Id, userName, this.FirstName, this.Name,
-            this.Biography, this.RegisteredSince, this.RoleIds, this.Emails, this.AuthenticationProvider, this.Password,
-            this.Salt, this.ProfileImages, this.AuthenticationLogs);
+            this.Biography, this.RegisteredSince, this.RoleIds, this.Emails, this.AuthenticationProvider, this.HashedPassword, this.ProfileImages, this.AuthenticationLogs);
 
         public User MutateProfileInfo(string firstName, string name, string biography)
             => Create(this.Id, this.UserName, firstName, name, biography, this.RegisteredSince, this.RoleIds,
-                this.Emails, this.AuthenticationProvider, this.Password,
-                this.Salt, this.ProfileImages, this.AuthenticationLogs);
+                this.Emails, this.AuthenticationProvider, this.HashedPassword, this.ProfileImages, this.AuthenticationLogs);
 
-        public User MutateCredentials(string password, byte[] salte)
+        public User MutateCredentials(HashedPassword hashedPassword)
             => Create(this.Id, this.UserName, this.FirstName, this.Name, this.Biography, this.RegisteredSince,
-                this.RoleIds, this.Emails, this.AuthenticationProvider, password, salte, this.ProfileImages,
+                this.RoleIds, this.Emails, this.AuthenticationProvider, hashedPassword, this.ProfileImages,
                 this.AuthenticationLogs);
     }
 }

@@ -6,6 +6,7 @@ using AutoMapper;
 using Etdb.UserService.Cqrs.Abstractions.Events.Users;
 using Etdb.UserService.Cqrs.Misc;
 using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Domain.ValueObjects;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using MediatR;

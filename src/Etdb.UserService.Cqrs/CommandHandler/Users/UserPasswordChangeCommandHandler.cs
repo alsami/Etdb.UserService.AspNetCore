@@ -6,6 +6,7 @@ using Etdb.ServiceBase.Exceptions;
 using Etdb.ServiceBase.Extensions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Users;
 using Etdb.UserService.Cqrs.Misc;
+using Etdb.UserService.Domain.ValueObjects;
 using Etdb.UserService.Services.Abstractions;
 using FluentValidation;
 using MediatR;
@@ -43,7 +44,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
                 throw WellknownExceptions.UserResourceLockException(existingUser.Id);
             }
 
-            var validationResult = await this.passwordChangeCommandValidation.ValidateAsync(command);
+            var validationResult = await this.passwordChangeCommandValidation.ValidateAsync(command, cancellationToken);
 
             if (!validationResult.IsValid)
             {
@@ -54,9 +55,10 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             }
 
             var salt = this.hasher.GenerateSalt();
+            var hash = this.hasher.CreateSaltedHash(command.NewPassword, salt);
 
             var updatedUser =
-                existingUser.MutateCredentials(this.hasher.CreateSaltedHash(command.NewPassword, salt), salt);
+                existingUser.MutateCredentials(new HashedPassword(hash, salt));
 
             await this.usersService.EditAsync(updatedUser);
 

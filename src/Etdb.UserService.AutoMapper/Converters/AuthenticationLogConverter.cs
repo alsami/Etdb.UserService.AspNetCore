@@ -3,6 +3,7 @@ using AutoMapper;
 using Etdb.UserService.Cqrs.Abstractions.Events.Users;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.Enums;
+using Etdb.UserService.Domain.ValueObjects;
 
 namespace Etdb.UserService.AutoMapper.Converters
 {

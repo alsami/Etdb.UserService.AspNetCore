@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.DocumentRepository;
 using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Domain.ValueObjects;
 using Etdb.UserService.Misc.Constants;
 using MongoDB.Driver;
 
@@ -39,12 +40,14 @@ namespace Etdb.UserService.Scaffolder.Migrations
             var salt = this.hasher.GenerateSalt();
 
             var adminGuid = Guid.NewGuid();
+            
+            var hashedPassword = new HashedPassword(this.hasher.CreateSaltedHash("12345678", salt), salt);
 
             adminUser = User.Create(adminGuid, "admin", null, null, null,
                 DateTime.UtcNow,
                 roles.Select(role => role.Id).ToArray(),
                 new List<Email> {new Email(Guid.NewGuid(), adminGuid, "admin@etdb.com", true, false)},
-                password: this.hasher.CreateSaltedHash("1234", salt), salt: salt);
+                hashedPassword: hashedPassword);
 
             await usersCollection.InsertOneAsync(adminUser);
         }

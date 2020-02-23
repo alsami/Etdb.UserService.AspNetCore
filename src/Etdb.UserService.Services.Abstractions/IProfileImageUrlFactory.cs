@@ -1,4 +1,5 @@
 using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Domain.ValueObjects;
 
 namespace Etdb.UserService.Services.Abstractions
 {

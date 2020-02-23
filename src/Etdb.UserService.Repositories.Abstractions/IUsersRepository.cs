@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Domain.ValueObjects;
 
 namespace Etdb.UserService.Repositories.Abstractions
 {

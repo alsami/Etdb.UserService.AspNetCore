@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
-namespace Etdb.UserService.Domain.Entities
+namespace Etdb.UserService.Domain.ValueObjects
 {
     public class ProfileImage
     {

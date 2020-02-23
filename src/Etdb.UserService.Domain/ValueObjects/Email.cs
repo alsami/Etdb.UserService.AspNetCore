@@ -3,7 +3,7 @@ using Etdb.ServiceBase.Domain.Abstractions.Documents;
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
-namespace Etdb.UserService.Domain.Entities
+namespace Etdb.UserService.Domain.ValueObjects
 {
     public class Email : IDocument<Guid>
     {

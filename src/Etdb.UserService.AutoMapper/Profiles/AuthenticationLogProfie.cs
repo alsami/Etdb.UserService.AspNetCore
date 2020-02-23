@@ -2,6 +2,7 @@
 using Etdb.UserService.AutoMapper.Converters;
 using Etdb.UserService.Cqrs.Abstractions.Events.Users;
 using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Domain.ValueObjects;
 using Etdb.UserService.Presentation.Authentication;
 
 namespace Etdb.UserService.AutoMapper.Profiles

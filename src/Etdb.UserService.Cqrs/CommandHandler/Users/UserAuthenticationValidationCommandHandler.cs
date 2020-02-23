@@ -36,7 +36,9 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             if (user is null)
                 return AuthenticationValidationDto.FailedAuthentication(AuthenticationFailure.Unavailable);
 
-            var passwordIsValid = this.hasher.CreateSaltedHash(command.Password, user.Salt!) == user.Password;
+            var hashed = this.hasher.CreateSaltedHash(command.Password, user.HashedPassword!.Salt);
+
+            var passwordIsValid = hashed == user.HashedPassword.Password;
 
             if (!passwordIsValid)
             {
