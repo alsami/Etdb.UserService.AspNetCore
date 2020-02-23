@@ -3,8 +3,16 @@ using MongoDB.Bson.Serialization.Conventions;
 
 namespace Etdb.UserService.Repositories.Conventions
 {
-    public static class MongoDbConventions
+    internal static class MongoDbConventions
     {
+        public static void UseGuidIdConvetion()
+        {
+            ConventionRegistry.Register(nameof(GuidIdConvention), new ConventionPack
+            {
+                new GuidIdConvention()
+            }, _ => true);
+        }
+
         public static void UseImmutableConvention()
         {
             ConventionRegistry.Register(nameof(ImmutableTypeClassMapConvention), new ConventionPack

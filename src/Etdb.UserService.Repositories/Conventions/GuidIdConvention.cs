@@ -5,7 +5,7 @@ using MongoDB.Bson.Serialization.IdGenerators;
 
 namespace Etdb.UserService.Repositories.Conventions
 {
-    public class GuidIdConvention : ConventionBase, IPostProcessingConvention
+    internal class GuidIdConvention : ConventionBase, IPostProcessingConvention
     {
         public void PostProcess(BsonClassMap classMap)
         {

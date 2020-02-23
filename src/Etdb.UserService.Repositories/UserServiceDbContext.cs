@@ -10,21 +10,18 @@ namespace Etdb.UserService.Repositories
         public UserServiceDbContext(Func<IMongoDatabase> databaseComposer)
         {
             this.Database = databaseComposer();
-            this.Configure();
+            Configure();
         }
 
         public IMongoDatabase Database { get; }
 
-        private void Configure()
+        private static void Configure()
         {
+            MongoDbConventions.UseGuidIdConvetion();
             MongoDbConventions.UseImmutableConvention();
             MongoDbConventions.UseCamelCaseConvention();
             MongoDbConventions.UseIgnoreNullValuesConvention();
             MongoDbConventions.UseEnumStringRepresentation();
-            ConventionRegistry.Register(nameof(GuidIdConvention), new ConventionPack
-            {
-                new GuidIdConvention()
-            }, _ => true);
         }
     }
 }
