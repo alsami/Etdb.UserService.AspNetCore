@@ -57,7 +57,8 @@ namespace Etdb.UserService.Authentication.Strategies
         protected async Task<GrantValidationResult> SuccessValidationResultAsync(UserDto user, IPAddress ipAddress)
         {
             await this.PublishAuthenticationEvent(this.CreateUserAuthenticatedEvent(user,
-                AuthenticationLogType.Succeeded, ipAddress, $"Authenticated using a {this.AuthenticationProvider} token"));
+                AuthenticationLogType.Succeeded, ipAddress,
+                $"Authenticated using a {this.AuthenticationProvider} token"));
 
             var claims =
                 await this.bus.Send(

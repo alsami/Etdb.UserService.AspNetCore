@@ -6,8 +6,8 @@ namespace Etdb.UserService.Autofac.Extensions
     public static class HostingEnvironmentExtensions
     {
         public static bool IsAnyDevelopment(this IHostEnvironment hostingEnvironment)
-            => hostingEnvironment.IsLocalDevelopment() || 
-               hostingEnvironment.IsDevelopment() || 
+            => hostingEnvironment.IsLocalDevelopment() ||
+               hostingEnvironment.IsDevelopment() ||
                hostingEnvironment.IsContinousIntegration();
 
         public static bool IsLocalDevelopment(this IHostEnvironment hostingEnvironment)
@@ -15,7 +15,7 @@ namespace Etdb.UserService.Autofac.Extensions
 
         public static bool IsAnyAzure(this IHostEnvironment hostEnvironment)
             => hostEnvironment.IsAzureDevelopment();
-        
+
         public static bool IsAzureDevelopment(this IHostEnvironment hostingEnvironment)
             => hostingEnvironment.EnvironmentName == "AzureDev";
 

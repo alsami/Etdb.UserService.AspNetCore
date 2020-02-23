@@ -17,36 +17,39 @@ namespace Etdb.UserService.Services
             this.httpContextAccessor = httpContextAccessor;
             this.linkGenerator = linkGenerator;
         }
-        
+
         public string GenerateUrl(ProfileImage profileImage, Guid userId)
         {
-            var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext, RouteNames.ProfileImages.LoadRoute, new
-            {
-                userId,
-                id = profileImage.Id,
-            });
+            var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext,
+                RouteNames.ProfileImages.LoadRoute, new
+                {
+                    userId,
+                    id = profileImage.Id,
+                });
 
             return url;
         }
-        
+
         public string GetResizeUrl(ProfileImage profileImage, Guid userId)
         {
-            var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext, RouteNames.ProfileImages.LoadResizedRoute, new
-            {
-                userId,
-                id = profileImage.Id,
-            });
+            var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext,
+                RouteNames.ProfileImages.LoadResizedRoute, new
+                {
+                    userId,
+                    id = profileImage.Id,
+                });
 
             return url;
         }
-        
+
         public string GetDeleteUrl(ProfileImage profileImage, Guid userId)
         {
-            var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext, RouteNames.ProfileImages.DeleteRoute, new
-            {
-                userId,
-                id = profileImage.Id,
-            });
+            var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext,
+                RouteNames.ProfileImages.DeleteRoute, new
+                {
+                    userId,
+                    id = profileImage.Id,
+                });
 
             return url;
         }

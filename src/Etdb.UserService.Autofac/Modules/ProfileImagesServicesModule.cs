@@ -19,27 +19,29 @@ namespace Etdb.UserService.Autofac.Modules
             this.configuration = configuration;
         }
 
-        protected override void Load(ContainerBuilder builder)        {
+        protected override void Load(ContainerBuilder builder)
+        {
             if (!this.hostEnvironment.IsAnyAzure())
             {
                 builder.RegisterType<FileProfileImageStorageService>()
                     .As<IProfileImageStorageService>()
                     .InstancePerLifetimeScope();
-            
+
                 builder.RegisterType<ProfileImageUrlFactory>()
                     .As<IProfileImageUrlFactory>()
                     .InstancePerLifetimeScope();
 
                 return;
             }
-            
-            builder.Register(_ => new BlobServiceClient(this.configuration!.GetConnectionString("AzureProfileImagesContainer")))
+
+            builder.Register(_ =>
+                    new BlobServiceClient(this.configuration!.GetConnectionString("AzureProfileImagesContainer")))
                 .InstancePerLifetimeScope();
-            
+
             builder.RegisterType<AzureProfileImageStorageService>()
                 .As<IProfileImageStorageService>()
                 .InstancePerLifetimeScope();
-            
+
             builder.RegisterType<AzureProfileImageUrlFactory>()
                 .As<IProfileImageUrlFactory>()
                 .InstancePerLifetimeScope();

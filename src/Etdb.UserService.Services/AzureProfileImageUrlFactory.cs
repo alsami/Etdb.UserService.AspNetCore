@@ -15,13 +15,14 @@ namespace Etdb.UserService.Services
         private readonly BlobServiceClient blobServiceClient;
         private const string ContainerName = "profileimages";
 
-        public AzureProfileImageUrlFactory(IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator, BlobServiceClient blobServiceClient)
+        public AzureProfileImageUrlFactory(IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator,
+            BlobServiceClient blobServiceClient)
         {
             this.httpContextAccessor = httpContextAccessor;
             this.linkGenerator = linkGenerator;
             this.blobServiceClient = blobServiceClient;
         }
-        
+
         public string GenerateUrl(ProfileImage profileImage, Guid userId)
         {
             var containerClient = this.blobServiceClient.GetBlobContainerClient(ContainerName);
@@ -36,14 +37,15 @@ namespace Etdb.UserService.Services
 
         public string GetResizeUrl(ProfileImage profileImage, Guid userId)
             => this.GenerateUrl(profileImage, userId);
-        
+
         public string GetDeleteUrl(ProfileImage profileImage, Guid userId)
         {
-            var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext, RouteNames.ProfileImages.DeleteRoute, new
-            {
-                userId,
-                id = profileImage.Id,
-            });
+            var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext,
+                RouteNames.ProfileImages.DeleteRoute, new
+                {
+                    userId,
+                    id = profileImage.Id,
+                });
 
             return url;
         }

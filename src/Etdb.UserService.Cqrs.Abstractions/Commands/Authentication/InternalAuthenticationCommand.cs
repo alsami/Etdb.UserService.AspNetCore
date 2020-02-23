@@ -7,7 +7,7 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands.Authentication
     {
         public string Username { get; }
         public string Password { get; }
-        
+
         public IPAddress IpAddress { get; }
 
         public InternalAuthenticationCommand(string username, string password, string clientId,

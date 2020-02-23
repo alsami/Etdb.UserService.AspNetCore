@@ -6,8 +6,8 @@ using Autofac.Extensions.DependencyInjection;
 using Autofac.Extensions.FluentBuilder;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Cryptography.Hashing;
-using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.UserService.Autofac.Modules;
+using Etdb.UserService.Repositories;
 using Etdb.UserService.Scaffolder.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,10 +22,10 @@ namespace Etdb.UserService.Scaffolder
     {
         private const string UserSecretsId = "Etdb_UserService";
 
-        public static async Task  Main(string[] args)
+        public static async Task Main(string[] args)
         {
             using var host = BuildHost(args);
-            
+
             var scaffolder = host.Services.GetRequiredService<DatabaseScaffolder>();
 
             await scaffolder.ScaffoldAsync();
@@ -60,7 +60,7 @@ namespace Etdb.UserService.Scaffolder
 
             environmentMock.Setup(env => env.EnvironmentName)
                 .Returns("Development");
-            
+
             new AutofacFluentBuilder(
                     builder.RegisterSerilog(Path.Combine(AppContext.BaseDirectory, "UserServiceScaffold.log")))
                 .RegisterTypeAsSingleton<Hasher, IHasher>()

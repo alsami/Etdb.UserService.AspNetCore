@@ -24,7 +24,7 @@ namespace Etdb.UserService.Domain.ValueObjects
         public Guid Id { get; private set; }
 
         public DateTime CreatedAt { get; private set; }
-        
+
         public string Name { get; private set; }
 
         public string OriginalName { get; private set; }

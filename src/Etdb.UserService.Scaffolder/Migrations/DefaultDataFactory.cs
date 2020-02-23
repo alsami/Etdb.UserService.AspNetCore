@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
-using Etdb.ServiceBase.DocumentRepository;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.ValueObjects;
 using Etdb.UserService.Misc.Constants;
+using Etdb.UserService.Repositories;
 using MongoDB.Driver;
 
 namespace Etdb.UserService.Scaffolder.Migrations
 {
     public class DefaultDataFactory
     {
-        private readonly DocumentDbContext context;
+        private readonly UserServiceDbContext context;
         private readonly IHasher hasher;
 
-        public DefaultDataFactory(DocumentDbContext context, IHasher hasher)
+        public DefaultDataFactory(UserServiceDbContext context, IHasher hasher)
         {
             this.context = context;
             this.hasher = hasher;
@@ -40,7 +40,7 @@ namespace Etdb.UserService.Scaffolder.Migrations
             var salt = this.hasher.GenerateSalt();
 
             var adminGuid = Guid.NewGuid();
-            
+
             var hashedPassword = new HashedPassword(this.hasher.CreateSaltedHash("12345678", salt), salt);
 
             adminUser = User.Create(adminGuid, "admin", null, null, null,

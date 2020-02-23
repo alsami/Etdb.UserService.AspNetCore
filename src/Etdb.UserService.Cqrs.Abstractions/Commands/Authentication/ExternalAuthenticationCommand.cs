@@ -15,6 +15,5 @@ namespace Etdb.UserService.Cqrs.Abstractions.Commands.Authentication
             this.Token = token;
             this.IpAddress = ipAddress ?? IPAddress.Parse("127.0.0.1");
         }
-
     }
 }

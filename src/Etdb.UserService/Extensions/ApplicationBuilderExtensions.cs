@@ -18,7 +18,7 @@ namespace Etdb.UserService.Extensions
 
         public static IApplicationBuilder SetupHsts(this IApplicationBuilder app, IWebHostEnvironment environment)
         {
-            return environment.IsAnyDevelopment() 
+            return environment.IsAnyDevelopment()
                 ? app
                 : app.UseHsts()
                     .UseHttpsRedirection();
@@ -30,10 +30,10 @@ namespace Etdb.UserService.Extensions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
             };
-            
+
             forwardOptions.KnownNetworks.Clear();
             forwardOptions.KnownProxies.Clear();
-            
+
             return app.UseForwardedHeaders(forwardOptions);
         }
 

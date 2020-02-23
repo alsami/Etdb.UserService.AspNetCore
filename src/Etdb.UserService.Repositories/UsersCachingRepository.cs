@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.DocumentRepository;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.ValueObjects;
 using Etdb.UserService.Extensions;
@@ -17,9 +16,9 @@ namespace Etdb.UserService.Repositories
     {
         private const string CollectionName = "users";
         private readonly IDistributedCache cache;
-        private readonly DocumentDbContext context;
+        private readonly UserServiceDbContext context;
 
-        public UsersCachingRepository(DocumentDbContext context, IDistributedCache cache)
+        public UsersCachingRepository(UserServiceDbContext context, IDistributedCache cache)
         {
             this.context = context;
             this.cache = cache;
@@ -90,7 +89,7 @@ namespace Etdb.UserService.Repositories
 
             return users;
         }
-        
+
         public Email? FindEmailAddress(string emailAddress)
         {
             var email = this.context.Database.GetCollection<User>(CollectionName)
@@ -100,7 +99,7 @@ namespace Etdb.UserService.Repositories
 
             return email;
         }
-        
+
         private static Expression<Func<Email, bool>> EmailEqualsExpression(string emailAddress)
         {
             return email => email.Address.ToLower() == emailAddress.ToLower();

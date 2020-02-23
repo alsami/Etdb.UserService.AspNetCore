@@ -22,10 +22,11 @@ namespace Etdb.UserService.Controllers.Tests.Startups
         private readonly IWebHostEnvironment hostingEnvironment;
         private readonly HttpMessageHandler httpMessageHandler;
         private readonly IConfiguration configuration;
-        
+
         private const string AzureServiceBusConnectionString = "AzureServiceBus";
 
-        public IdentityServerStartup(IWebHostEnvironment hostingEnvironment, HttpMessageHandler httpMessageHandler, IConfiguration configuration)
+        public IdentityServerStartup(IWebHostEnvironment hostingEnvironment, HttpMessageHandler httpMessageHandler,
+            IConfiguration configuration)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.httpMessageHandler = httpMessageHandler;
@@ -41,9 +42,10 @@ namespace Etdb.UserService.Controllers.Tests.Startups
             var redisCacheOptions = this.configuration
                 .GetSection(nameof(RedisCacheOptions))
                 .Get<RedisCacheOptions>();
-            
+
             services.Configure<AzureServiceBusConfiguration>(options =>
-                options.ConnectionString = this.configuration.GetConnectionString(IdentityServerStartup.AzureServiceBusConnectionString));
+                options.ConnectionString =
+                    this.configuration.GetConnectionString(IdentityServerStartup.AzureServiceBusConnectionString));
 
             // this.hostingEnvironment.EnvironmentName = Environments.Development;
 

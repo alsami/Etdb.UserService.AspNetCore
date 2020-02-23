@@ -20,7 +20,8 @@ namespace Etdb.UserService.Cqrs.EventHandler.Users
         private readonly IMessageProducerAdapter messageProducerAdapter;
 
         public UserAuthenticatedEventHandler(IUsersRepository usersRepository,
-            IResourceLockingAdapter resourceLockingAdapter, IMapper mapper, IMessageProducerAdapter messageProducerAdapter)
+            IResourceLockingAdapter resourceLockingAdapter, IMapper mapper,
+            IMessageProducerAdapter messageProducerAdapter)
         {
             this.usersRepository = usersRepository;
             this.resourceLockingAdapter = resourceLockingAdapter;
@@ -42,7 +43,7 @@ namespace Etdb.UserService.Cqrs.EventHandler.Users
             user.AddAuthenticationLog(authenticationLog);
 
             await this.usersRepository.EditAsync(user);
-            
+
             await this.resourceLockingAdapter.UnlockAsync(user.Id);
         }
     }

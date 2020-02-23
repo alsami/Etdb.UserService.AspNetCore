@@ -1,22 +1,22 @@
 ﻿using System;
-using Etdb.ServiceBase.DocumentRepository;
-using MongoDB.Bson.Serialization;
+using Etdb.UserService.Repositories.Conventions;
 using MongoDB.Bson.Serialization.Conventions;
-using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Driver;
 
 namespace Etdb.UserService.Repositories
 {
-    public class UserServiceDbContext : DocumentDbContext
+    public class UserServiceDbContext
     {
-        public UserServiceDbContext(Func<IMongoDatabase> databaseComposer) : base(databaseComposer)
+        public UserServiceDbContext(Func<IMongoDatabase> databaseComposer)
         {
+            this.Database = databaseComposer();
             this.Configure();
         }
 
-        public sealed override void Configure()
+        public IMongoDatabase Database { get; }
+
+        private void Configure()
         {
-            
             MongoDbConventions.UseImmutableConvention();
             MongoDbConventions.UseCamelCaseConvention();
             MongoDbConventions.UseIgnoreNullValuesConvention();
@@ -25,15 +25,6 @@ namespace Etdb.UserService.Repositories
             {
                 new GuidIdConvention()
             }, _ => true);
-        }
-    }
-    
-    public class GuidIdConvention : ConventionBase, IPostProcessingConvention {
-        public void PostProcess(BsonClassMap classMap) {
-            var idMap = classMap.IdMemberMap;
-            if (idMap == null || idMap.MemberName != "Id" || idMap.MemberType != typeof(Guid)) return;
-            
-            idMap.SetIdGenerator(new GuidGenerator());
         }
     }
 }

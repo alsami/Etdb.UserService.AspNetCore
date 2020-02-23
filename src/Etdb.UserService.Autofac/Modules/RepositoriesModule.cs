@@ -11,7 +11,7 @@ namespace Etdb.UserService.Autofac.Modules
             builder.RegisterType<UsersCachingRepository>()
                 .As<IUsersRepository>()
                 .InstancePerLifetimeScope();
-                
+
             builder.RegisterType<SecurityRolesRepository>()
                 .As<ISecurityRolesRepository>()
                 .InstancePerLifetimeScope();

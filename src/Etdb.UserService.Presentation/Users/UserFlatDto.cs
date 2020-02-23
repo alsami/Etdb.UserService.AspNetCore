@@ -11,8 +11,10 @@ namespace Etdb.UserService.Presentation.Users
         public string? ImageUrl { get; set; }
 
         public DateTime RegisteredAt { get; set; }
-        
-        public UserFlatDto() {}
+
+        public UserFlatDto()
+        {
+        }
 
         public UserFlatDto(Guid guid, string userName, string? imageUrl, DateTime registeredAt)
         {

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Security.Authentication;
 using Autofac;
-using Etdb.ServiceBase.DocumentRepository;
-using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.UserService.Autofac.Extensions;
 using Etdb.UserService.Repositories;
 using Microsoft.Extensions.Hosting;
@@ -19,14 +17,13 @@ namespace Etdb.UserService.Autofac.Modules
         {
             this.hostEnvironment = hostEnvironment;
         }
-        
+
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<UserServiceDbContext>()
-                .As<DocumentDbContext>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
-            
+
             builder.Register<Func<IMongoDatabase>>(componentContext =>
                 {
                     return () =>
@@ -42,7 +39,7 @@ namespace Etdb.UserService.Autofac.Modules
                                 EnabledSslProtocols = SslProtocols.Tls12
                             };
                         }
-                        
+
                         var client = new MongoClient(settings);
 
                         return client.GetDatabase(options.Value.DatabaseName);

@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.IO.Compression;
 using System.Threading;
-using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.ServiceBase.Filter;
 using Etdb.UserService.AspNetCore.Filter;
 using Etdb.UserService.AspNetCore.Policies;
@@ -12,6 +11,7 @@ using Etdb.UserService.Authentication.Validator;
 using Etdb.UserService.Autofac.Extensions;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Misc.Constants;
+using Etdb.UserService.Repositories;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
 using IdentityServer4.Contrib.Caching.Redis.Extensions;
@@ -182,9 +182,9 @@ namespace Etdb.UserService.Extensions
             IWebHostEnvironment environment)
         {
             var identityServerBuilder = services.AddIdentityServer(options =>
-                    {
-                        options.Authentication.CookieAuthenticationScheme = ServiceCollectionExtensions.CookieName;
-                    })
+                {
+                    options.Authentication.CookieAuthenticationScheme = ServiceCollectionExtensions.CookieName;
+                })
                 .AddDeveloperSigningCredential()
                 .AddInMemoryIdentityResources(IdentityResourceConfiguration.GetIdentityResource())
                 .AddInMemoryApiResources(ApiResourceConfiguration.GetApiResource())

@@ -18,4 +18,4 @@ namespace Etdb.UserService.Services.Abstractions.Models
 
         public ReadOnlyMemory<byte> Image { get; }
     }
-} 
+}

@@ -29,7 +29,7 @@ namespace Etdb.UserService.Autofac.Modules
 
                 return;
             }
-            
+
             builder.RegisterType<AzureServiceBusMessageProducerAdapter>()
                 .As<IMessageProducerAdapter>()
                 .InstancePerLifetimeScope();
@@ -43,7 +43,7 @@ namespace Etdb.UserService.Autofac.Modules
                     {
                         var options = innerContext.Resolve<IOptions<AzureServiceBusConfiguration>>();
 
-                            return messageType switch
+                        return messageType switch
                         {
                             MessageType.UserRegistered => new MessageSender(options.Value.ConnectionString,
                                 options.Value.UserRegisteredTopic),

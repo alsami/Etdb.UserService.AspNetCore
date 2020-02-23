@@ -19,7 +19,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
         private readonly ISecurityRolesRepository rolesRepository;
         private readonly IProfileImageUrlFactory profileImageUrlFactory;
 
-        public ClaimsLoadCommandHandler(ISecurityRolesRepository rolesRepository, IUsersService usersService, IProfileImageUrlFactory profileImageUrlFactory)
+        public ClaimsLoadCommandHandler(ISecurityRolesRepository rolesRepository, IUsersService usersService,
+            IProfileImageUrlFactory profileImageUrlFactory)
         {
             this.rolesRepository = rolesRepository;
             this.usersService = usersService;

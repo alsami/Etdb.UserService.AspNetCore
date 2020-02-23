@@ -64,7 +64,7 @@ namespace Etdb.UserService.Controllers.Tests
                 .DeserializeObject<UserNameAvailabilityDto>(await availabilityResponse.Content.ReadAsStringAsync())
                 .Available, "Response flag was expected to be set to false but is set to true!");
         }
-        
+
         [Fact]
         public async Task UsersController_FindAsync_Valid_UserName_Succeeds()
         {

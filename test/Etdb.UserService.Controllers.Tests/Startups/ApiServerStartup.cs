@@ -24,10 +24,11 @@ namespace Etdb.UserService.Controllers.Tests.Startups
         private readonly TestServer identityTestServer;
 
         private readonly IConfiguration configuration;
-        
+
         private const string AzureServiceBusConnectionString = "AzureServiceBus";
 
-        public ApiServerStartup(IWebHostEnvironment hostingEnvironment, TestServer identityTestServer, IConfiguration configuration)
+        public ApiServerStartup(IWebHostEnvironment hostingEnvironment, TestServer identityTestServer,
+            IConfiguration configuration)
         {
             this.hostingEnvironment = hostingEnvironment;
             this.identityTestServer = identityTestServer;
@@ -39,9 +40,10 @@ namespace Etdb.UserService.Controllers.Tests.Startups
             var identityServerConfiguration = this.configuration
                 .GetSection(nameof(IdentityServerConfiguration))
                 .Get<IdentityServerConfiguration>();
-            
+
             services.Configure<AzureServiceBusConfiguration>(options =>
-                options.ConnectionString = this.configuration.GetConnectionString(ApiServerStartup.AzureServiceBusConnectionString));
+                options.ConnectionString =
+                    this.configuration.GetConnectionString(ApiServerStartup.AzureServiceBusConnectionString));
 
             // this.hostingEnvironment.EnvironmentName = Environments.Development;
 

@@ -76,7 +76,8 @@ namespace Etdb.UserService.Controllers.V1
         }
 
         [HttpPost("multiple")]
-        public async Task<IEnumerable<ProfileImageMetaInfoDto>> MultiUploadAsync(Guid userId, [FromForm] IEnumerable<IFormFile> files)
+        public async Task<IEnumerable<ProfileImageMetaInfoDto>> MultiUploadAsync(Guid userId,
+            [FromForm] IEnumerable<IFormFile> files)
         {
             var extractTasks = files.Select(async file =>
                     new UploadImageMetaInfo(file.FileName,

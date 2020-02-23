@@ -1,16 +1,16 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.DocumentRepository;
 using Etdb.UserService.Domain.Entities;
+using Etdb.UserService.Repositories;
 using MongoDB.Driver;
 
 namespace Etdb.UserService.Scaffolder.Migrations
 {
     public class IndicesFactory
     {
-        private readonly DocumentDbContext context;
+        private readonly UserServiceDbContext context;
 
-        public IndicesFactory(DocumentDbContext context)
+        public IndicesFactory(UserServiceDbContext context)
             => this.context = context;
 
         public async Task CreateIndicesAsync()
@@ -33,10 +33,10 @@ namespace Etdb.UserService.Scaffolder.Migrations
 
             var emailIndex = new IndexKeysDefinitionBuilder<User>()
                 .Ascending(user => user.Emails);
-            
+
             var authenticationLog = new IndexKeysDefinitionBuilder<User>()
                 .Ascending(user => user.AuthenticationLogs);
-            
+
             var profileImageIndex = new IndexKeysDefinitionBuilder<User>()
                 .Ascending(user => user.ProfileImages);
 

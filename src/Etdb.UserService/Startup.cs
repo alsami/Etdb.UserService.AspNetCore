@@ -71,7 +71,8 @@ namespace Etdb.UserService
                     .Get<RedisCacheOptions>();
 
             services.Configure<AzureServiceBusConfiguration>(options =>
-                options.ConnectionString = this.configuration.GetConnectionString(Startup.AzureServiceBusConnectionString));
+                options.ConnectionString =
+                    this.configuration.GetConnectionString(Startup.AzureServiceBusConnectionString));
 
             services
                 .ConfigureCors(this.environment, allowedOrigins, Startup.CorsPolicyName)

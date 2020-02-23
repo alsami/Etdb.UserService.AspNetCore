@@ -6,7 +6,8 @@ namespace Etdb.UserService.Cqrs.Abstractions.Events.Users
 {
     public class UserAuthenticatedEvent : INotification
     {
-        public UserAuthenticatedEvent(Guid userId, string userName, string authenticationLogType, IPAddress ipAddress,  DateTime loggedAt,
+        public UserAuthenticatedEvent(Guid userId, string userName, string authenticationLogType, IPAddress ipAddress,
+            DateTime loggedAt,
             string? additionalInfo = null)
         {
             this.UserId = userId;
@@ -16,7 +17,7 @@ namespace Etdb.UserService.Cqrs.Abstractions.Events.Users
             this.LoggedAt = loggedAt;
             this.AdditionalInfo = additionalInfo;
         }
-        
+
         public Guid UserId { get; }
 
         public string UserName { get; }

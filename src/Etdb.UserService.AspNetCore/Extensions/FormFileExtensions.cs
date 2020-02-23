@@ -8,7 +8,7 @@ namespace Etdb.UserService.AspNetCore.Extensions
     {
         public static async ValueTask<ReadOnlyMemory<byte>> ReadFileBytesAsync(this IFormFile file)
         {
-            var fileBytes = new Memory<byte>(new byte[file.Length]) ;
+            var fileBytes = new Memory<byte>(new byte[file.Length]);
 
             await using (var fileStream = file.OpenReadStream())
             {

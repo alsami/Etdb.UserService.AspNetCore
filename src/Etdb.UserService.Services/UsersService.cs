@@ -13,7 +13,6 @@ namespace Etdb.UserService.Services
     // ReSharper disable SpecifyStringComparison
     public class UsersService : IUsersService
     {
-
         private readonly IUsersRepository usersRepository;
         private readonly IProfileImageStorageService profileImageStorageService;
 

@@ -83,7 +83,7 @@ namespace Etdb.UserService.Controllers.Tests
             var registerDto = await RegisterAssertedAsync(httpClient);
 
             var tokenResponse = await this.GetTokenAsync(registerDto);
-            
+
             Assert.False(tokenResponse.IsError, tokenResponse.Error ?? tokenResponse.ErrorDescription);
 
             var identityUserLoadResponse = await LoadIdentityUserAsync(tokenResponse.AccessToken, httpClient);
@@ -91,7 +91,7 @@ namespace Etdb.UserService.Controllers.Tests
             var responseContent = await identityUserLoadResponse.Content.ReadAsStringAsync();
 
             this.testOutputHelper.WriteLine(responseContent);
-            
+
             Assert.Equal(HttpStatusCode.OK, identityUserLoadResponse.StatusCode);
 
             var userProfileDto =
@@ -362,7 +362,8 @@ namespace Etdb.UserService.Controllers.Tests
             var externalAuthenticationResponseOne =
                 await httpClient.PostAsJsonAsync("api/v1/auth/external-authentication", authenticationDto);
 
-            Assert.True(externalAuthenticationResponseOne.IsSuccessStatusCode, await externalAuthenticationResponseOne.Content.ReadAsStringAsync());
+            Assert.True(externalAuthenticationResponseOne.IsSuccessStatusCode,
+                await externalAuthenticationResponseOne.Content.ReadAsStringAsync());
 
             var externalAuthenticationResponseTwo =
                 await httpClient.PostAsJsonAsync("api/v1/auth/external-authentication", authenticationDto);

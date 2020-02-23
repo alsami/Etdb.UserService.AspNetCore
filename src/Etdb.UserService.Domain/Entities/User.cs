@@ -13,7 +13,7 @@ namespace Etdb.UserService.Domain.Entities
     public class User : IDocument<Guid>
     {
         private const int MaxFailedLoginCount = 3;
-        
+
         [JsonConstructor]
         private User(Guid id, string userName, string? firstName, string? name, string? biography,
             DateTime registeredSince, IEnumerable<Guid> roleIds,
@@ -35,7 +35,7 @@ namespace Etdb.UserService.Domain.Entities
             this.Emails = emails?.ToList() ?? new List<Email>();
             this.RoleIds = roleIds?.ToList() ?? new List<Guid>();
         }
-        
+
         public Guid Id { get; private set; }
 
         public string UserName { get; private set; }
@@ -63,7 +63,7 @@ namespace Etdb.UserService.Domain.Entities
         public void AddAuthenticationLog(AuthenticationLog authenticationLog)
         {
             var shadowCopy = this.AuthenticationLogs.ToList();
-            
+
             if (!shadowCopy.Any())
             {
                 shadowCopy.Add(authenticationLog);
@@ -90,7 +90,7 @@ namespace Etdb.UserService.Domain.Entities
 
             shadowCopy.Remove(mostRecentAuthenticationLog);
             shadowCopy.Add(authenticationLog);
-            
+
             this.AuthenticationLogs = shadowCopy.ToList();
         }
 
@@ -139,7 +139,8 @@ namespace Etdb.UserService.Domain.Entities
                 .OrderByDescending(log => log.LoggedAt)
                 .ToArray();
 
-            if (orderedDescendingAuthenticationLogs.First().AuthenticationLogType == AuthenticationLogType.Succeeded) return false;
+            if (orderedDescendingAuthenticationLogs.First().AuthenticationLogType ==
+                AuthenticationLogType.Succeeded) return false;
 
             var foundFailedLoginsInARow = 0;
 
@@ -169,11 +170,13 @@ namespace Etdb.UserService.Domain.Entities
             authenticationLogs);
 
         public User MutateUserName(string userName) => Create(this.Id, userName, this.FirstName, this.Name,
-            this.Biography, this.RegisteredSince, this.RoleIds, this.Emails, this.AuthenticationProvider, this.HashedPassword, this.ProfileImages, this.AuthenticationLogs);
+            this.Biography, this.RegisteredSince, this.RoleIds, this.Emails, this.AuthenticationProvider,
+            this.HashedPassword, this.ProfileImages, this.AuthenticationLogs);
 
         public User MutateProfileInfo(string firstName, string name, string biography)
             => Create(this.Id, this.UserName, firstName, name, biography, this.RegisteredSince, this.RoleIds,
-                this.Emails, this.AuthenticationProvider, this.HashedPassword, this.ProfileImages, this.AuthenticationLogs);
+                this.Emails, this.AuthenticationProvider, this.HashedPassword, this.ProfileImages,
+                this.AuthenticationLogs);
 
         public User MutateCredentials(HashedPassword hashedPassword)
             => Create(this.Id, this.UserName, this.FirstName, this.Name, this.Biography, this.RegisteredSince,

@@ -8,7 +8,8 @@ namespace Etdb.UserService.Scaffolder.Migrations
         private readonly IndicesFactory indicesFactory;
         private readonly DefaultDataFactory defaultDataFactory;
 
-        public DatabaseScaffolder(CollectionsFactory collectionsFactory, IndicesFactory indicesFactory, DefaultDataFactory defaultDataFactory)
+        public DatabaseScaffolder(CollectionsFactory collectionsFactory, IndicesFactory indicesFactory,
+            DefaultDataFactory defaultDataFactory)
         {
             this.collectionsFactory = collectionsFactory;
             this.indicesFactory = indicesFactory;

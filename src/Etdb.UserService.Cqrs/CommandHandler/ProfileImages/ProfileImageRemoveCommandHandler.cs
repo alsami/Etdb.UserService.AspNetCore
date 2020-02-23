@@ -29,7 +29,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
 
             if (user == null) throw WellknownExceptions.UserNotFoundException();
 
-            if (!await this.resourceLockingAdapter.LockAsync(user.Id, TimeSpan.FromSeconds(30))) throw WellknownExceptions.UserResourceLockException(user.Id);
+            if (!await this.resourceLockingAdapter.LockAsync(user.Id, TimeSpan.FromSeconds(30)))
+                throw WellknownExceptions.UserResourceLockException(user.Id);
 
             var imageToDelete = user.ProfileImages.FirstOrDefault(image => image.Id == command.Id);
 

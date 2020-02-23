@@ -18,7 +18,9 @@ namespace Etdb.UserService.Services
         private readonly IImageCompressionService imageCompressionService;
         private readonly ILogger<UsersService> logger;
 
-        public FileProfileImageStorageService(IFileService fileService, IOptions<FilestoreConfiguration> fileStoreOptions, IImageCompressionService imageCompressionService, ILogger<UsersService> logger)
+        public FileProfileImageStorageService(IFileService fileService,
+            IOptions<FilestoreConfiguration> fileStoreOptions, IImageCompressionService imageCompressionService,
+            ILogger<UsersService> logger)
         {
             this.fileService = fileService;
             this.fileStoreOptions = fileStoreOptions;
@@ -54,8 +56,9 @@ namespace Etdb.UserService.Services
 
         public Task RemoveAsync(ProfileImage profileImage, Guid userId)
         {
-            this.fileService.DeleteBinary(Path.Combine(this.fileStoreOptions.Value.ImagePath, userId.ToString()), profileImage.Name);
-            
+            this.fileService.DeleteBinary(Path.Combine(this.fileStoreOptions.Value.ImagePath, userId.ToString()),
+                profileImage.Name);
+
             return Task.CompletedTask;
         }
     }

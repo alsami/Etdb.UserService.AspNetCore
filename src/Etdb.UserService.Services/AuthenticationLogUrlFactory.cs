@@ -16,13 +16,14 @@ namespace Etdb.UserService.Services
             this.httpContextAccessor = httpContextAccessor;
             this.linkGenerator = linkGenerator;
         }
-        
+
         public string GenerateLoadAllUrl(Guid userId)
         {
-            var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext, RouteNames.AuthenticationLogs.LoadAllRoute, new
-            {
-                userId
-            });
+            var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext,
+                RouteNames.AuthenticationLogs.LoadAllRoute, new
+                {
+                    userId
+                });
 
             return url;
         }

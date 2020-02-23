@@ -57,7 +57,7 @@ namespace Etdb.UserService.Controllers.V1
             [FromBody] ExternalAuthenticationDto authenticationDto)
         {
             var command = this.mapper.Map<ExternalAuthenticationCommand>(authenticationDto);
-            
+
             return this.bus.Send(command);
         }
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.DocumentRepository;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Repositories.Abstractions;
 using MongoDB.Driver;
@@ -11,9 +10,9 @@ namespace Etdb.UserService.Repositories
     public class SecurityRolesRepository : ISecurityRolesRepository
     {
         private const string CollectionName = "securityroles";
-        private readonly DocumentDbContext context;
+        private readonly UserServiceDbContext context;
 
-        public SecurityRolesRepository(DocumentDbContext context)
+        public SecurityRolesRepository(UserServiceDbContext context)
         {
             this.context = context;
         }

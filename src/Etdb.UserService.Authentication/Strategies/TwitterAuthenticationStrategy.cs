@@ -12,7 +12,8 @@ namespace Etdb.UserService.Authentication.Strategies
     {
         private string UserProfileUrl => "https://api.twitter.com/1.1/account/verify_credentials.json";
 
-        public TwitterAuthenticationStrategy(IMediator bus, IExternalIdentityServerClient externalIdentityServerClient) : base(bus, externalIdentityServerClient)
+        public TwitterAuthenticationStrategy(IMediator bus, IExternalIdentityServerClient externalIdentityServerClient)
+            : base(bus, externalIdentityServerClient)
         {
         }
 
@@ -20,6 +21,7 @@ namespace Etdb.UserService.Authentication.Strategies
         // ReSharper disable once UnusedMember.Local
         protected override AuthenticationProvider AuthenticationProvider => AuthenticationProvider.Twitter;
 
-        public Task<GrantValidationResult> AuthenticateAsync(IPAddress ipAddress, string token) => throw new System.NotImplementedException();
+        public Task<GrantValidationResult> AuthenticateAsync(IPAddress ipAddress, string token) =>
+            throw new System.NotImplementedException();
     }
 }

@@ -18,6 +18,7 @@ namespace Etdb.UserService.AutoMapper.Converters
 
         public ExternalAuthenticationCommand Convert(ExternalAuthenticationDto source,
             ExternalAuthenticationCommand destination, ResolutionContext context) =>
-            new ExternalAuthenticationCommand(source.ClientId, source.Token, source.Provider, this.httpContextAccessor?.HttpContext.Connection.RemoteIpAddress);
+            new ExternalAuthenticationCommand(source.ClientId, source.Token, source.Provider,
+                this.httpContextAccessor?.HttpContext.Connection.RemoteIpAddress);
     }
 }

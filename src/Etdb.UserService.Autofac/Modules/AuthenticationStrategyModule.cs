@@ -17,7 +17,7 @@ namespace Etdb.UserService.Autofac.Modules
             builder.RegisterType<FacebookAuthenticationStrategy>()
                 .As<IFacebookAuthenticationStrategy>()
                 .InstancePerLifetimeScope();
-            
+
             builder.Register<Func<AuthenticationProvider, IExternalAuthenticationStrategy>>(outerComponentContext =>
             {
                 var innerComponent = outerComponentContext.Resolve<IComponentContext>();

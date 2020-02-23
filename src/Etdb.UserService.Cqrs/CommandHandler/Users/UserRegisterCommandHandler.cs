@@ -129,7 +129,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
         private static IEnumerable<Email> GenerateEmails(UserRegisterCommand command, AuthenticationProvider provider)
         {
             var emails = command.Emails
-                .Select(email => new Email(email.Id, email.Address, email.IsPrimary, provider != AuthenticationProvider.UsernamePassword))
+                .Select(email => new Email(email.Id, email.Address, email.IsPrimary,
+                    provider != AuthenticationProvider.UsernamePassword))
                 .ToArray();
 
             return emails;

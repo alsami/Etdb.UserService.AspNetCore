@@ -17,7 +17,8 @@ namespace Etdb.UserService.AutoMapper.Converters
 
         public UserFlatDto Convert(User source, UserFlatDto destination, ResolutionContext context)
         {
-            var selectedImage = source.ProfileImages.FirstOrDefault(image => image.IsPrimary) ?? source.ProfileImages.FirstOrDefault();
+            var selectedImage = source.ProfileImages.FirstOrDefault(image => image.IsPrimary) ??
+                                source.ProfileImages.FirstOrDefault();
 
             return new UserFlatDto(source.Id, source.UserName, selectedImage != null
                 ? this.userUrlFactory.GetResizeUrl(selectedImage, source.Id)

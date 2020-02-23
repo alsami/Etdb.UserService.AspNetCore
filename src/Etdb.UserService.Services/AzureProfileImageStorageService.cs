@@ -29,7 +29,7 @@ namespace Etdb.UserService.Services
                 containerClient.GetBlobClient($"{storableImage.UserId}/{storableImage.ProfileImage.Name}");
 
             await using var memoryStream = new MemoryStream(storableImage.Image.ToArray());
-            
+
             await blobClient.UploadAsync(memoryStream, new BlobHttpHeaders
             {
                 ContentType = storableImage.ProfileImage.MediaType
@@ -39,7 +39,7 @@ namespace Etdb.UserService.Services
         public async Task RemoveAsync(ProfileImage profileImage, Guid userId)
         {
             var containerClient = this.blobServiceClient.GetBlobContainerClient(ContainerName);
-            
+
             var blobClient =
                 containerClient.GetBlobClient($"{userId}/{profileImage.Name}");
 

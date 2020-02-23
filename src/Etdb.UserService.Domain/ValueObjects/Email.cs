@@ -16,7 +16,7 @@ namespace Etdb.UserService.Domain.ValueObjects
         }
 
         public Guid Id { get; private set; }
-        
+
         public string Address { get; private set; }
 
         public bool IsPrimary { get; private set; }
