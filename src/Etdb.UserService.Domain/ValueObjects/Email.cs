@@ -1,11 +1,11 @@
 ﻿using System;
-using Etdb.ServiceBase.Domain.Abstractions.Documents;
-
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 
 namespace Etdb.UserService.Domain.ValueObjects
 {
-    public class Email : IDocument<Guid>
+    public class Email
     {
         public Email(Guid id, string address, bool isPrimary, bool isExternal)
         {
@@ -21,8 +21,6 @@ namespace Etdb.UserService.Domain.ValueObjects
 
         public bool IsPrimary { get; private set; }
 
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public bool IsExternal { get; private set; }
     }
 }

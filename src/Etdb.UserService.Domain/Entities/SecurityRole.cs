@@ -1,10 +1,9 @@
 ﻿using System;
-using Etdb.ServiceBase.Domain.Abstractions.Documents;
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 namespace Etdb.UserService.Domain.Entities
 {
-    public class SecurityRole : IDocument<Guid>
+    public class SecurityRole
     {
         public SecurityRole(Guid id, string name)
         {

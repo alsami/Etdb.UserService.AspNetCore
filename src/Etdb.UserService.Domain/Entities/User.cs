@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Etdb.ServiceBase.Domain.Abstractions.Documents;
 using Etdb.UserService.Domain.Enums;
 using Etdb.UserService.Domain.ValueObjects;
 using Newtonsoft.Json;
@@ -10,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Etdb.UserService.Domain.Entities
 {
-    public class User : IDocument<Guid>
+    public class User
     {
         private const int MaxFailedLoginCount = 3;
 
