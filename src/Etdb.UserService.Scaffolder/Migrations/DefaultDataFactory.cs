@@ -46,7 +46,7 @@ namespace Etdb.UserService.Scaffolder.Migrations
             adminUser = User.Create(adminGuid, "admin", null, null, null,
                 DateTime.UtcNow,
                 roles.Select(role => role.Id).ToArray(),
-                new List<Email> {new Email(Guid.NewGuid(), "admin@etdb.com", true, false)},
+                new List<Email> {Email.Create(Guid.NewGuid(), "admin@etdb.com", true)},
                 hashedPassword: hashedPassword);
 
             await usersCollection.InsertOneAsync(adminUser);
