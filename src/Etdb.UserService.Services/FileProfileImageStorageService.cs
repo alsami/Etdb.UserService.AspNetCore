@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.Services.Abstractions;
-using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.ValueObjects;
 using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Services.Abstractions;

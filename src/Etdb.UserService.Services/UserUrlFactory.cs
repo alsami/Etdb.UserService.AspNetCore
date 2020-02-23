@@ -1,5 +1,4 @@
 using Etdb.UserService.Domain.Entities;
-using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Services.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;

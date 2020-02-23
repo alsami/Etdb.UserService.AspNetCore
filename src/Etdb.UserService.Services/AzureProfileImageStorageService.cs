@@ -3,7 +3,6 @@ using System.IO;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.ValueObjects;
 using Etdb.UserService.Services.Abstractions;
 using Etdb.UserService.Services.Abstractions.Models;

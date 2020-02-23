@@ -1,6 +1,5 @@
 using System;
 using Azure.Storage.Blobs;
-using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.ValueObjects;
 using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Services.Abstractions;

@@ -6,12 +6,11 @@ namespace Etdb.UserService.Domain.ValueObjects
 {
     public class AuthenticationLog
     {
-        public AuthenticationLog(Guid id, Guid userId, DateTime loggedAt, AuthenticationLogType authenticationLogType,
+        public AuthenticationLog(Guid id, DateTime loggedAt, AuthenticationLogType authenticationLogType,
             string? ipAddress,
             string? additionalInformation)
         {
             this.Id = id;
-            this.UserId = userId;
             this.LoggedAt = loggedAt;
             this.AuthenticationLogType = authenticationLogType;
             this.IpAddress = ipAddress;
@@ -19,8 +18,6 @@ namespace Etdb.UserService.Domain.ValueObjects
         }
 
         public Guid Id { get; private set; }
-        
-        public Guid UserId { get; private set; }
 
         public DateTime LoggedAt { get; private set; }
 
