@@ -1,3 +1,4 @@
+using System;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Services.Abstractions;
@@ -6,22 +7,22 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Etdb.UserService.Services
 {
-    public class UserUrlFactory : IUserUrlFactory
+    public class AuthenticationLogUrlFactory : IAuthenticationLogUrlFactory
     {
         private readonly IHttpContextAccessor httpContextAccessor;
         private readonly LinkGenerator linkGenerator;
 
-        public UserUrlFactory(IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator)
+        public AuthenticationLogUrlFactory(IHttpContextAccessor httpContextAccessor, LinkGenerator linkGenerator)
         {
             this.httpContextAccessor = httpContextAccessor;
             this.linkGenerator = linkGenerator;
         }
-
-        public string GenerateUrl(User user, string route)
+        
+        public string GenerateLoadAllUrl(Guid userId)
         {
-            var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext, route, new
+            var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext, RouteNames.AuthenticationLogs.LoadAllRoute, new
             {
-                userId = user.Id,
+                userId
             });
 
             return url;

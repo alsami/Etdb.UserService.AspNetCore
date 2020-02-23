@@ -1,6 +1,5 @@
 using AutoMapper;
 using Etdb.UserService.Domain.Entities;
-using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Presentation.Users;
 using Etdb.UserService.Services.Abstractions;
 

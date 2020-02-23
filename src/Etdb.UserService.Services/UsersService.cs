@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Domain.Entities;
-using Etdb.UserService.Domain.Enums;
-using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using Etdb.UserService.Services.Abstractions.Models;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Services
 {

@@ -1,7 +1,6 @@
 ﻿using Etdb.UserService.Cqrs.Abstractions.Commands.Emails;
 using Etdb.UserService.Cqrs.Validation.Base;
 using Etdb.UserService.Repositories.Abstractions;
-using Etdb.UserService.Services.Abstractions;
 
 namespace Etdb.UserService.Cqrs.Validation.Emails
 {

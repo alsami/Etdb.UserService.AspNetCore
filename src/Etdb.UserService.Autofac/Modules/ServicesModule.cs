@@ -3,8 +3,6 @@ using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Cryptography.Hashing;
 using Etdb.ServiceBase.Services;
 using Etdb.ServiceBase.Services.Abstractions;
-using Etdb.UserService.Authentication.Abstractions.Strategies;
-using Etdb.UserService.Authentication.Strategies;
 using Etdb.UserService.Services;
 using Etdb.UserService.Services.Abstractions;
 using Microsoft.AspNetCore.Http;
@@ -31,14 +29,6 @@ namespace Etdb.UserService.Autofac.Modules
                 .As<IHttpContextAccessor>()
                 .InstancePerLifetimeScope();
 
-            builder.RegisterType<GoogleAuthenticationStrategy>()
-                .As<IGoogleAuthenticationStrategy>()
-                .InstancePerLifetimeScope();
-
-            builder.RegisterType<FacebookAuthenticationStrategy>()
-                .As<IFacebookAuthenticationStrategy>()
-                .InstancePerLifetimeScope();
-
             builder.RegisterType<UsersService>()
                 .As<IUsersService>()
                 .InstancePerLifetimeScope();
@@ -49,6 +39,10 @@ namespace Etdb.UserService.Autofac.Modules
 
             builder.RegisterType<UserUrlFactory>()
                 .As<IUserUrlFactory>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<AuthenticationLogUrlFactory>()
+                .As<IAuthenticationLogUrlFactory>()
                 .InstancePerLifetimeScope();
         }
     }

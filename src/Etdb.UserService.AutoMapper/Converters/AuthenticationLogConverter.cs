@@ -12,7 +12,7 @@ namespace Etdb.UserService.AutoMapper.Converters
             ResolutionContext context)
             => new AuthenticationLog(Guid.NewGuid(), source.UserId, source.LoggedAt,
                 (AuthenticationLogType) Enum.Parse(typeof(AuthenticationLogType), source.AuthenticationLogType),
-                source.IpAddress?.ToString(),
+                source.IpAddress,
                 source.AdditionalInfo);
     }
 }

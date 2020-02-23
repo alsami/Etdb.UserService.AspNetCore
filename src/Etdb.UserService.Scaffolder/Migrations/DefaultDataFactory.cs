@@ -6,7 +6,6 @@ using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.DocumentRepository;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Misc.Constants;
-using Etdb.UserService.Repositories;
 using MongoDB.Driver;
 
 namespace Etdb.UserService.Scaffolder.Migrations

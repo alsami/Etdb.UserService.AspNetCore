@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using Etdb.UserService.Domain.Base;
 using Newtonsoft.Json;
 
 // ReSharper disable MemberCanBePrivate.Global
@@ -8,13 +7,15 @@ using Newtonsoft.Json;
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 namespace Etdb.UserService.Domain.Entities
 {
-    public class ProfileImage : UserChildDocument
+    public class ProfileImage
     {
         [JsonConstructor]
         private ProfileImage(Guid id, Guid userId, DateTime createdAt, string name, string originalName,
             string mediaType,
-            bool isPrimary) : base(id, userId)
+            bool isPrimary)
         {
+            this.Id = id;
+            this.UserId = userId;
             this.CreatedAt = createdAt;
             this.Name = name;
             this.OriginalName = originalName;
@@ -22,7 +23,11 @@ namespace Etdb.UserService.Domain.Entities
             this.IsPrimary = isPrimary;
         }
 
-        public DateTime CreatedAt { get; }
+        public Guid Id { get; private set; }
+
+        public Guid UserId { get; private set; }
+
+        public DateTime CreatedAt { get; private set; }
         public string Name { get; private set; }
 
         public string OriginalName { get; private set; }
@@ -31,16 +36,27 @@ namespace Etdb.UserService.Domain.Entities
 
         public bool IsPrimary { get; private set; }
 
-        public string SubPath() => this.UserId.ToString();
-
-        public string RelativePath() => Path.Combine(this.SubPath(), this.Name);
-
-        public ProfileImage MutatePrimaryState(bool primary) => new ProfileImage(this.Id, this.UserId, this.CreatedAt,
-            this.Name,
-            this.OriginalName, this.MediaType, primary);
+        public ProfileImage MutatePrimaryState(bool primary)
+        {
+            return new ProfileImage(this.Id, this.UserId, this.CreatedAt,
+                this.Name,
+                this.OriginalName, this.MediaType, primary);
+        }
 
         public static ProfileImage Create(Guid id, Guid userId, string originalName, string mediaType, bool isPrimary)
-            => new ProfileImage(id, userId, DateTime.UtcNow, $"{userId}_{originalName}_{DateTime.UtcNow.Ticks}",
+        {
+            return new ProfileImage(id, userId, DateTime.UtcNow, $"{userId}_{originalName}_{DateTime.UtcNow.Ticks}",
                 originalName, mediaType, isPrimary);
+        }
+
+        public string SubPath()
+        {
+            return this.UserId.ToString();
+        }
+
+        public string RelativePath()
+        {
+            return Path.Combine(this.SubPath(), this.Name);
+        }
     }
 }

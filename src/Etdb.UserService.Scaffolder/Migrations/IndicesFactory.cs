@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.DocumentRepository;
 using Etdb.UserService.Domain.Entities;
-using Etdb.UserService.Repositories;
 using MongoDB.Driver;
 
 namespace Etdb.UserService.Scaffolder.Migrations

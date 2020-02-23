@@ -1,15 +1,11 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.Services.Abstractions;
 using Etdb.UserService.Cqrs.Abstractions.Commands.ProfileImages;
 using Etdb.UserService.Cqrs.Misc;
-using Etdb.UserService.Misc.Configuration;
 using Etdb.UserService.Services.Abstractions;
 using MediatR;
-using Microsoft.Extensions.Options;
 
 namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
 {

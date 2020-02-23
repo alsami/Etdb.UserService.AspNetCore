@@ -8,7 +8,6 @@ using Etdb.ServiceBase.Cryptography.Abstractions.Hashing;
 using Etdb.ServiceBase.Cryptography.Hashing;
 using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.UserService.Autofac.Modules;
-using Etdb.UserService.Repositories;
 using Etdb.UserService.Scaffolder.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

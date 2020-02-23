@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Etdb.UserService.Cqrs.Abstractions.Commands.Authentication;
 using Etdb.UserService.Domain.Entities;
-using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Repositories.Abstractions;
 using Etdb.UserService.Services.Abstractions;
 using IdentityModel;

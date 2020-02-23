@@ -2,7 +2,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Etdb.ServiceBase.DocumentRepository;
 using Etdb.UserService.Domain.Entities;
-using Etdb.UserService.Repositories;
 using MongoDB.Bson;
 using MongoDB.Driver;
 

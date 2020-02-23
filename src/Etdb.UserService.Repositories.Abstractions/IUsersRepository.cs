@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using Etdb.ServiceBase.DocumentRepository.Abstractions;
 using Etdb.UserService.Domain.Entities;
 
 namespace Etdb.UserService.Repositories.Abstractions

@@ -1,6 +1,7 @@
 using System;
 using Autofac;
 using Etdb.UserService.Authentication.Abstractions.Strategies;
+using Etdb.UserService.Authentication.Strategies;
 using Etdb.UserService.Domain.Enums;
 
 namespace Etdb.UserService.Autofac.Modules
@@ -9,6 +10,14 @@ namespace Etdb.UserService.Autofac.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterType<GoogleAuthenticationStrategy>()
+                .As<IGoogleAuthenticationStrategy>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<FacebookAuthenticationStrategy>()
+                .As<IFacebookAuthenticationStrategy>()
+                .InstancePerLifetimeScope();
+            
             builder.Register<Func<AuthenticationProvider, IExternalAuthenticationStrategy>>(outerComponentContext =>
             {
                 var innerComponent = outerComponentContext.Resolve<IComponentContext>();

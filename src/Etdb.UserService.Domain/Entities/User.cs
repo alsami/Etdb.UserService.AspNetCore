@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Etdb.ServiceBase.Domain.Abstractions.Documents;
-using Etdb.UserService.Domain.Base;
 using Etdb.UserService.Domain.Enums;
 using Newtonsoft.Json;
 

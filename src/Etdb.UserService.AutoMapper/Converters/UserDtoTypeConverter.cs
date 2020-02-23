@@ -12,10 +12,10 @@ namespace Etdb.UserService.AutoMapper.Converters
     {
         private readonly IProfileImageUrlFactory profileImageUrlFactory;
 
-        private readonly IUserUrlFactory authenticationLogUrlFactory;
+        private readonly IAuthenticationLogUrlFactory authenticationLogUrlFactory;
 
         public UserDtoTypeConverter(IProfileImageUrlFactory profileImageUrlFactory,
-            IUserUrlFactory authenticationLogUrlFactory)
+            IAuthenticationLogUrlFactory authenticationLogUrlFactory)
         {
             this.profileImageUrlFactory = profileImageUrlFactory;
             this.authenticationLogUrlFactory = authenticationLogUrlFactory;
@@ -42,7 +42,7 @@ namespace Etdb.UserService.AutoMapper.Converters
                 source.AuthenticationProvider != AuthenticationProvider.UsernamePassword,
                 null,
                 profileImageMetaInfos,
-                this.authenticationLogUrlFactory.GenerateUrl(source, RouteNames.AuthenticationLogs.LoadAllRoute)
+                this.authenticationLogUrlFactory.GenerateLoadAllUrl(source.Id)
             );
         }
     }

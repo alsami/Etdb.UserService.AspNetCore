@@ -1,6 +1,5 @@
 ﻿using System;
 using Etdb.ServiceBase.Domain.Abstractions.Documents;
-using Etdb.UserService.Domain.Base;
 
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Local
 namespace Etdb.UserService.Domain.Entities
