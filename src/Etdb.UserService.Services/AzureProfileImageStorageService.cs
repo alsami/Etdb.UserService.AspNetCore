@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
@@ -26,7 +27,7 @@ namespace Etdb.UserService.Services
             await containerClient.CreateIfNotExistsAsync(PublicAccessType.Blob);
 
             var blobClient =
-                containerClient.GetBlobClient($"{storableImage.ProfileImage.UserId}/{storableImage.ProfileImage.Name}");
+                containerClient.GetBlobClient($"{storableImage.UserId}/{storableImage.ProfileImage.Name}");
 
             await using var memoryStream = new MemoryStream(storableImage.Image.ToArray());
             
@@ -36,12 +37,12 @@ namespace Etdb.UserService.Services
             });
         }
 
-        public async Task RemoveAsync(ProfileImage profileImage)
+        public async Task RemoveAsync(ProfileImage profileImage, Guid userId)
         {
             var containerClient = this.blobServiceClient.GetBlobContainerClient(ContainerName);
             
             var blobClient =
-                containerClient.GetBlobClient($"{profileImage.UserId}/{profileImage.Name}");
+                containerClient.GetBlobClient($"{userId}/{profileImage.Name}");
 
             await blobClient.DeleteAsync();
         }

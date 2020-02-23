@@ -23,26 +23,26 @@ namespace Etdb.UserService.Services
             this.blobServiceClient = blobServiceClient;
         }
         
-        public string GenerateUrl(ProfileImage profileImage)
+        public string GenerateUrl(ProfileImage profileImage, Guid userId)
         {
             var containerClient = this.blobServiceClient.GetBlobContainerClient(ContainerName);
 
             var blobClient =
-                containerClient.GetBlobClient($"{profileImage.UserId}/{profileImage.Name}");
+                containerClient.GetBlobClient($"{userId}/{profileImage.Name}");
 
             var uri = new Uri(containerClient.Uri, blobClient.Uri.AbsolutePath);
 
             return uri.AbsoluteUri;
         }
 
-        public string GetResizeUrl(ProfileImage profileImage)
-            => this.GenerateUrl(profileImage);
+        public string GetResizeUrl(ProfileImage profileImage, Guid userId)
+            => this.GenerateUrl(profileImage, userId);
         
-        public string GetDeleteUrl(ProfileImage profileImage)
+        public string GetDeleteUrl(ProfileImage profileImage, Guid userId)
         {
             var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext, RouteNames.ProfileImages.DeleteRoute, new
             {
-                userId = profileImage.UserId,
+                userId,
                 id = profileImage.Id,
             });
 

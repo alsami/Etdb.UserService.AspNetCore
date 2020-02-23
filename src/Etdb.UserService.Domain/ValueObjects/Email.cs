@@ -7,10 +7,9 @@ namespace Etdb.UserService.Domain.ValueObjects
 {
     public class Email : IDocument<Guid>
     {
-        public Email(Guid id, Guid userId, string address, bool isPrimary, bool isExternal)
+        public Email(Guid id, string address, bool isPrimary, bool isExternal)
         {
             this.Id = id;
-            this.UserId = userId;
             this.Address = address;
             this.IsPrimary = isPrimary;
             this.IsExternal = isExternal;
@@ -18,8 +17,6 @@ namespace Etdb.UserService.Domain.ValueObjects
 
         public Guid Id { get; private set; }
         
-        public Guid UserId { get; private set; }
-
         public string Address { get; private set; }
 
         public bool IsPrimary { get; private set; }

@@ -44,7 +44,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
                 throw new ResourceNotFoundException("The requested profile-image was not found!");
 
             var binary = await this.fileService.ReadBinaryAsync(
-                Path.Combine(this.fileStoreOptions.Value.ImagePath, wantedImage.RelativePath()));
+                Path.Combine(this.fileStoreOptions.Value.ImagePath, user.Id.ToString(), wantedImage.Name));
 
             var thumbnailBinary = this.imageCompressionService.Resize(binary,
                 wantedImage.MediaType == "image/*" ? "image/jpeg" : wantedImage.MediaType, command.DimensionX,

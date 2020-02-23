@@ -2,7 +2,6 @@ using System.Linq;
 using AutoMapper;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.Enums;
-using Etdb.UserService.Misc.Constants;
 using Etdb.UserService.Presentation.Users;
 using Etdb.UserService.Services.Abstractions;
 
@@ -27,9 +26,9 @@ namespace Etdb.UserService.AutoMapper.Converters
                 .OrderByDescending(image => image.CreatedAt)
                 .Select(image =>
                     new ProfileImageMetaInfoDto(image.Id,
-                        this.profileImageUrlFactory.GenerateUrl(image),
-                        this.profileImageUrlFactory.GetResizeUrl(image),
-                        this.profileImageUrlFactory.GetDeleteUrl(image),
+                        this.profileImageUrlFactory.GenerateUrl(image, source.Id),
+                        this.profileImageUrlFactory.GetResizeUrl(image, source.Id),
+                        this.profileImageUrlFactory.GetDeleteUrl(image, source.Id),
                         image.IsPrimary, image.CreatedAt))
                 .ToArray();
 

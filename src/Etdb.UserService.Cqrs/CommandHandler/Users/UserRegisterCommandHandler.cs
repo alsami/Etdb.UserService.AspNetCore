@@ -27,14 +27,14 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 {
     public class UserRegisterCommandHandler : IRequestHandler<UserRegisterCommand, UserDto>
     {
-        private readonly IUsersService usersService;
-        private readonly AbstractValidator<UserRegisterCommand> userRegisterCommandValidation;
         private readonly AbstractValidator<EmailAddCommand> emailAddCommandValidation;
-        private readonly AbstractValidator<PasswordAddCommand> passwordCommandValidation;
-        private readonly ISecurityRolesRepository rolesRepository;
         private readonly IHasher hasher;
         private readonly IMapper mapper;
         private readonly IMediator mediator;
+        private readonly AbstractValidator<PasswordAddCommand> passwordCommandValidation;
+        private readonly ISecurityRolesRepository rolesRepository;
+        private readonly AbstractValidator<UserRegisterCommand> userRegisterCommandValidation;
+        private readonly IUsersService usersService;
 
         public UserRegisterCommandHandler(IUsersService usersService,
             AbstractValidator<UserRegisterCommand> userRegisterCommandValidation,
@@ -74,7 +74,8 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
 
             await this.usersService.AddAsync(user, profileImageMetaInfos.ToArray());
 
-            await this.mediator.Publish(new UserRegisteredEvent(user.Id, user.UserName, user.RegisteredSince), cancellationToken);
+            await this.mediator.Publish(new UserRegisteredEvent(user.Id, user.UserName, user.RegisteredSince),
+                cancellationToken);
 
             return this.mapper.Map<UserDto>(user);
         }
@@ -117,7 +118,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
         {
             if (command.ProfileImageAddCommand == null) return null;
 
-            return new StorableImage(ProfileImage.Create(Guid.NewGuid(),
+            return new StorableImage(command.Id, ProfileImage.Create(Guid.NewGuid(),
                     command.Id,
                     command.ProfileImageAddCommand.FileName,
                     command.ProfileImageAddCommand.FileContentType.MediaType,
@@ -125,12 +126,14 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
                 command.ProfileImageAddCommand.File.ToArray());
         }
 
-        private static ICollection<Email> GenerateEmails(UserRegisterCommand command, AuthenticationProvider provider)
-            => command
-                .Emails
-                .Select(email => new Email(email.Id, command.Id, email.Address, email.IsPrimary,
-                    provider != AuthenticationProvider.UsernamePassword))
+        private static IEnumerable<Email> GenerateEmails(UserRegisterCommand command, AuthenticationProvider provider)
+        {
+            var emails = command.Emails
+                .Select(email => new Email(email.Id, email.Address, email.IsPrimary, provider != AuthenticationProvider.UsernamePassword))
                 .ToArray();
+
+            return emails;
+        }
 
         private async Task<ICollection<Guid>> GenerateRoleIdsAsync()
         {
@@ -155,9 +158,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Users
             validationTasks.Add(this.userRegisterCommandValidation.ValidateAsync(command));
 
             if (provider == AuthenticationProvider.UsernamePassword)
-            {
                 validationTasks.Add(this.passwordCommandValidation.ValidateAsync(command.PasswordAddCommand!));
-            }
 
             return await Task.WhenAll(validationTasks);
         }

@@ -6,11 +6,14 @@ namespace Etdb.UserService.Services.Abstractions.Models
 {
     public class StorableImage
     {
-        public StorableImage(ProfileImage profileImage, ReadOnlyMemory<byte> image)
+        public StorableImage(Guid userId, ProfileImage profileImage, ReadOnlyMemory<byte> image)
         {
+            this.UserId = userId;
             this.ProfileImage = profileImage;
             this.Image = image;
         }
+
+        public Guid UserId { get; }
 
         public ProfileImage ProfileImage { get; }
 

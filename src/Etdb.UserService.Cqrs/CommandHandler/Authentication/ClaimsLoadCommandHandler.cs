@@ -78,7 +78,7 @@ namespace Etdb.UserService.Cqrs.CommandHandler.Authentication
                                 user.ProfileImages.First();
 
                 claims.Add(new Claim(JwtClaimTypes.Picture,
-                    this.profileImageUrlFactory.GetResizeUrl(usedImage)));
+                    this.profileImageUrlFactory.GetResizeUrl(usedImage, user.Id)));
             }
 
             claims.Add(new Claim(JwtClaimTypes.IdentityProvider, user.AuthenticationProvider.ToString()));

@@ -10,12 +10,11 @@ namespace Etdb.UserService.Domain.ValueObjects
     public class ProfileImage
     {
         [JsonConstructor]
-        private ProfileImage(Guid id, Guid userId, DateTime createdAt, string name, string originalName,
+        private ProfileImage(Guid id, DateTime createdAt, string name, string originalName,
             string mediaType,
             bool isPrimary)
         {
             this.Id = id;
-            this.UserId = userId;
             this.CreatedAt = createdAt;
             this.Name = name;
             this.OriginalName = originalName;
@@ -25,9 +24,8 @@ namespace Etdb.UserService.Domain.ValueObjects
 
         public Guid Id { get; private set; }
 
-        public Guid UserId { get; private set; }
-
         public DateTime CreatedAt { get; private set; }
+        
         public string Name { get; private set; }
 
         public string OriginalName { get; private set; }
@@ -38,25 +36,15 @@ namespace Etdb.UserService.Domain.ValueObjects
 
         public ProfileImage MutatePrimaryState(bool primary)
         {
-            return new ProfileImage(this.Id, this.UserId, this.CreatedAt,
+            return new ProfileImage(this.Id, this.CreatedAt,
                 this.Name,
                 this.OriginalName, this.MediaType, primary);
         }
 
         public static ProfileImage Create(Guid id, Guid userId, string originalName, string mediaType, bool isPrimary)
         {
-            return new ProfileImage(id, userId, DateTime.UtcNow, $"{userId}_{originalName}_{DateTime.UtcNow.Ticks}",
+            return new ProfileImage(id, DateTime.UtcNow, $"{userId}_{originalName}_{DateTime.UtcNow.Ticks}",
                 originalName, mediaType, isPrimary);
-        }
-
-        public string SubPath()
-        {
-            return this.UserId.ToString();
-        }
-
-        public string RelativePath()
-        {
-            return Path.Combine(this.SubPath(), this.Name);
         }
     }
 }

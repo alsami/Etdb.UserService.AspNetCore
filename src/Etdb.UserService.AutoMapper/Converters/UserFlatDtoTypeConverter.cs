@@ -20,7 +20,7 @@ namespace Etdb.UserService.AutoMapper.Converters
             var selectedImage = source.ProfileImages.FirstOrDefault(image => image.IsPrimary) ?? source.ProfileImages.FirstOrDefault();
 
             return new UserFlatDto(source.Id, source.UserName, selectedImage != null
-                ? this.userUrlFactory.GetResizeUrl(selectedImage)
+                ? this.userUrlFactory.GetResizeUrl(selectedImage, source.Id)
                 : null, source.RegisteredSince);
         }
     }

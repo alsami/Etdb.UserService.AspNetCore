@@ -30,9 +30,9 @@ namespace Etdb.UserService.Services
         public async Task StoreAsync(StorableImage storableImage)
         {
             var relativePath = Path.Combine(this.fileStoreOptions.Value.ImagePath,
-                storableImage.ProfileImage.UserId.ToString());
+                storableImage.UserId.ToString());
 
-            await this.RemoveAsync(storableImage.ProfileImage);
+            await this.RemoveAsync(storableImage.ProfileImage, storableImage.UserId);
 
             var mediaType = storableImage.ProfileImage.MediaType == "image/*"
                 ? "image/jpeg"
@@ -53,10 +53,9 @@ namespace Etdb.UserService.Services
                 compressed.AsMemory());
         }
 
-        public Task RemoveAsync(ProfileImage profileImage)
+        public Task RemoveAsync(ProfileImage profileImage, Guid userId)
         {
-            this.fileService.DeleteBinary(Path.Combine(this.fileStoreOptions.Value.ImagePath, profileImage.SubPath()),
-                profileImage.Name);
+            this.fileService.DeleteBinary(Path.Combine(this.fileStoreOptions.Value.ImagePath, userId.ToString()), profileImage.Name);
             
             return Task.CompletedTask;
         }

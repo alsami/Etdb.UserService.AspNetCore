@@ -25,23 +25,23 @@ namespace Etdb.UserService.Cqrs.CommandHandler.ProfileImages
 
         public async Task<Unit> Handle(ProfileImageRemoveCommand command, CancellationToken cancellationToken)
         {
-            var existingUser = await this.usersService.FindByIdAsync(command.UserId);
+            var user = await this.usersService.FindByIdAsync(command.UserId);
 
-            if (existingUser == null) throw WellknownExceptions.UserNotFoundException();
+            if (user == null) throw WellknownExceptions.UserNotFoundException();
 
-            if (!await this.resourceLockingAdapter.LockAsync(existingUser.Id, TimeSpan.FromSeconds(30))) throw WellknownExceptions.UserResourceLockException(existingUser.Id);
+            if (!await this.resourceLockingAdapter.LockAsync(user.Id, TimeSpan.FromSeconds(30))) throw WellknownExceptions.UserResourceLockException(user.Id);
 
-            var imageToDelete = existingUser.ProfileImages.FirstOrDefault(image => image.Id == command.Id);
+            var imageToDelete = user.ProfileImages.FirstOrDefault(image => image.Id == command.Id);
 
             if (imageToDelete == null) throw WellknownExceptions.ProfileImageNotFoundException();
 
-            await this.profileImageStorageService.RemoveAsync(imageToDelete);
+            await this.profileImageStorageService.RemoveAsync(imageToDelete, user.Id);
 
-            existingUser.RemoveProfimeImage(image => image.Id == command.Id);
+            user.RemoveProfimeImage(image => image.Id == command.Id);
 
-            await this.usersService.EditAsync(existingUser);
+            await this.usersService.EditAsync(user);
 
-            await this.resourceLockingAdapter.UnlockAsync(existingUser.Id);
+            await this.resourceLockingAdapter.UnlockAsync(user.Id);
 
             return Unit.Value;
         }

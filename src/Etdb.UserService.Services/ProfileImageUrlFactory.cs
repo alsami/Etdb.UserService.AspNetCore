@@ -1,3 +1,4 @@
+using System;
 using Etdb.UserService.Domain.Entities;
 using Etdb.UserService.Domain.ValueObjects;
 using Etdb.UserService.Misc.Constants;
@@ -18,33 +19,33 @@ namespace Etdb.UserService.Services
             this.linkGenerator = linkGenerator;
         }
         
-        public string GenerateUrl(ProfileImage profileImage)
+        public string GenerateUrl(ProfileImage profileImage, Guid userId)
         {
             var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext, RouteNames.ProfileImages.LoadRoute, new
             {
-                userId = profileImage.UserId,
+                userId,
                 id = profileImage.Id,
             });
 
             return url;
         }
         
-        public string GetResizeUrl(ProfileImage profileImage)
+        public string GetResizeUrl(ProfileImage profileImage, Guid userId)
         {
             var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext, RouteNames.ProfileImages.LoadResizedRoute, new
             {
-                userId = profileImage.UserId,
+                userId,
                 id = profileImage.Id,
             });
 
             return url;
         }
         
-        public string GetDeleteUrl(ProfileImage profileImage)
+        public string GetDeleteUrl(ProfileImage profileImage, Guid userId)
         {
             var url = this.linkGenerator.GetUriByName(this.httpContextAccessor.HttpContext, RouteNames.ProfileImages.DeleteRoute, new
             {
-                userId = profileImage.UserId,
+                userId,
                 id = profileImage.Id,
             });
 
