@@ -47,7 +47,16 @@ namespace Etdb.UserService.Cqrs.EventHandler.Users
                 return;
             }
 
-            var mostRecentAuthenticationLog = user.AuthenticationLogs.OrderByDescending(log => log.LoggedAt).Last();
+            var mostRecentAuthenticationLog = user.AuthenticationLogs.OrderByDescending(log => log.LoggedAt).First();
+
+            if (mostRecentAuthenticationLog.AuthenticationLogType != authenticationLog.AuthenticationLogType)
+            {
+                user.AddAuthenticationLog(authenticationLog);
+                await this.usersRepository.EditAsync(user);
+                await this.resourceLockingAdapter.UnlockAsync(user.Id);
+
+                return;
+            }
 
             if (mostRecentAuthenticationLog.IpAddress !=
                 authenticationLog.IpAddress)
