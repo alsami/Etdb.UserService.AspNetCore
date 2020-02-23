@@ -6,7 +6,7 @@
 
     <ItemGroup>
         <FrameworkReference Include="Microsoft.AspNetCore.App" />
-        <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="3.5.0" />
+        <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="4.0.0" />
     </ItemGroup>
 
     <ItemGroup>

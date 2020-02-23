@@ -102,6 +102,7 @@ namespace Etdb.UserService.Repositories
 
         private static Expression<Func<Email, bool>> EmailEqualsExpression(string emailAddress)
         {
+            // ReSharper disable once SpecifyStringComparison
             return email => email.Address.ToLower() == emailAddress.ToLower();
         }
     }

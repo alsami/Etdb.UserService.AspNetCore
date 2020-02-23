@@ -15,7 +15,7 @@ namespace Etdb.UserService.Domain.ValueObjects
             this.IsExternal = isExternal;
         }
 
-        public Guid Id { get; private set; }
+        public Guid Id { get; }
 
         public string Address { get; private set; }
 

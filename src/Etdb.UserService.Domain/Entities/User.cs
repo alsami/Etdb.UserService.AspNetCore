@@ -16,7 +16,7 @@ namespace Etdb.UserService.Domain.Entities
         [JsonConstructor]
         private User(Guid id, string userName, string? firstName, string? name, string? biography,
             DateTime registeredSince, IEnumerable<Guid> roleIds,
-            IEnumerable<Email> emails,
+            IEnumerable<Email>? emails,
             AuthenticationProvider authenticationProvider = AuthenticationProvider.UsernamePassword,
             HashedPassword? hashedPassword = null, IEnumerable<ProfileImage>? profileImages = null,
             IEnumerable<AuthenticationLog>? authenticationLogs = null)
