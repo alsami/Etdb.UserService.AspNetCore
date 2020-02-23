@@ -63,8 +63,35 @@ namespace Etdb.UserService.Domain.Entities
         public void AddAuthenticationLog(AuthenticationLog authenticationLog)
         {
             var shadowCopy = this.AuthenticationLogs.ToList();
+            
+            if (!shadowCopy.Any())
+            {
+                shadowCopy.Add(authenticationLog);
+                this.AuthenticationLogs = shadowCopy.ToList();
+                return;
+            }
+
+            var mostRecentAuthenticationLog = shadowCopy.OrderByDescending(log => log.LoggedAt).First();
+
+            if (mostRecentAuthenticationLog.AuthenticationLogType != authenticationLog.AuthenticationLogType)
+            {
+                shadowCopy.Add(authenticationLog);
+                this.AuthenticationLogs = shadowCopy.ToList();
+                return;
+            }
+
+            if (mostRecentAuthenticationLog.IpAddress !=
+                authenticationLog.IpAddress)
+            {
+                shadowCopy.Add(authenticationLog);
+                this.AuthenticationLogs = shadowCopy.ToList();
+                return;
+            }
+
+            shadowCopy.Remove(mostRecentAuthenticationLog);
             shadowCopy.Add(authenticationLog);
-            this.AuthenticationLogs = shadowCopy;
+            
+            this.AuthenticationLogs = shadowCopy.ToList();
         }
 
         public void RemoveAuthenticationLogs(Predicate<AuthenticationLog> predicate)

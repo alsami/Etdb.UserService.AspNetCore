@@ -39,37 +39,8 @@ namespace Etdb.UserService.Cqrs.EventHandler.Users
 
             var authenticationLog = this.mapper.Map<AuthenticationLog>(@event);
 
-            if (!user.AuthenticationLogs.Any())
-            {
-                user.AddAuthenticationLog(authenticationLog);
-                await this.usersRepository.EditAsync(user);
-                await this.resourceLockingAdapter.UnlockAsync(user.Id);
-                return;
-            }
-
-            var mostRecentAuthenticationLog = user.AuthenticationLogs.OrderByDescending(log => log.LoggedAt).First();
-
-            if (mostRecentAuthenticationLog.AuthenticationLogType != authenticationLog.AuthenticationLogType)
-            {
-                user.AddAuthenticationLog(authenticationLog);
-                await this.usersRepository.EditAsync(user);
-                await this.resourceLockingAdapter.UnlockAsync(user.Id);
-
-                return;
-            }
-
-            if (mostRecentAuthenticationLog.IpAddress !=
-                authenticationLog.IpAddress)
-            {
-                user.AddAuthenticationLog(authenticationLog);
-                await this.usersRepository.EditAsync(user);
-                await this.resourceLockingAdapter.UnlockAsync(user.Id);
-
-                return;
-            }
-
-            user.RemoveAuthenticationLogs(log => log.Id == mostRecentAuthenticationLog.Id);
             user.AddAuthenticationLog(authenticationLog);
+
             await this.usersRepository.EditAsync(user);
             
             await this.resourceLockingAdapter.UnlockAsync(user.Id);

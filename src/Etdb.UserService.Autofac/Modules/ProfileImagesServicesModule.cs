@@ -19,8 +19,7 @@ namespace Etdb.UserService.Autofac.Modules
             this.configuration = configuration;
         }
 
-        protected override void Load(ContainerBuilder builder)
-        {
+        protected override void Load(ContainerBuilder builder)        {
             if (!this.hostEnvironment.IsAnyAzure())
             {
                 builder.RegisterType<FileProfileImageStorageService>()
