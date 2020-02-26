@@ -10,7 +10,7 @@ function authenticate() {
 
 function set_container() {
     echo updating container to version ${TRAVIS_TAG}
-    az webapp config container set -c "${REGISTRY}/etdb.userservice:${TRAVIS_TAG}" -r https://${REGISTRY}.azurecr.io -u ${REGISTRY_USER} -p "${REGISTRY_PASSWORD}" -n ${ETDB_SERVICE_NAME} -g ${ETDB_RESOURCE_NAME}
+    az webapp config container set -c "${REGISTRY}/etdb.userservice:${TRAVIS_TAG}" -r https://${REGISTRY} -u ${REGISTRY_USER} -p "${REGISTRY_PASSWORD}" -n ${ETDB_SERVICE_NAME} -g ${ETDB_RESOURCE_NAME}
 }
 
 function restart_app() {
