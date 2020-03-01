@@ -25,7 +25,7 @@ jobs:
       name: run-tests
       services:
         - mongodb
-        - redis-server
+        - redis
       before_script:
         - sh install_link_libgdiplus.sh
         - sh setup-mongodb-user.sh "$MONGODB_USERNAME" "$MONGODB_PASSWORD"
