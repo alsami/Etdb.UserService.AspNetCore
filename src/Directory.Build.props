@@ -2,7 +2,7 @@
     <PropertyGroup>
         <LangVersion>8.0</LangVersion>
         <Nullable>enable</Nullable>
-        <Copyright>2019©Sami Al Khatib</Copyright>
+        <Copyright>2020©Sami Al Khatib</Copyright>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>git://github.com/entertainment-database/Etdb.UserService.AspNetCore</RepositoryUrl>
