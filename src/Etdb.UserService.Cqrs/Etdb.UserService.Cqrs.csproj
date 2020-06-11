@@ -8,8 +8,8 @@
     <PackageReference Include="Etdb.ServiceBase.Exceptions" Version="4.0.0" />
     <PackageReference Include="Etdb.ServiceBase.Extensions" Version="4.0.0" />
     <PackageReference Include="Etdb.ServiceBase.Services.Abstractions" Version="4.0.0" />
-    <PackageReference Include="IdentityModel" Version="4.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.2" />
+    <PackageReference Include="IdentityModel" Version="4.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.5" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Etdb.UserService.Cqrs.Abstractions\Etdb.UserService.Cqrs.Abstractions.csproj" />

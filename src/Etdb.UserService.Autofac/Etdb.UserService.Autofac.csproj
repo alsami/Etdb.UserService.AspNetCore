@@ -8,7 +8,7 @@
         <PackageReference Include="AutoMapper.Contrib.Autofac.DependencyInjection" Version="3.1.0" />
         <PackageReference Include="MediatR.Extensions.Autofac.DependencyInjection" Version="5.1.0" />
         <PackageReference Include="Etdb.ServiceBase.Services" Version="4.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.2" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.5" />
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
         <PackageReference Include="IdentityServer4.Contrib.Caching.Redis" Version="3.1.1" />
     </ItemGroup>
